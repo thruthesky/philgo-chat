@@ -1,8 +1,7 @@
-These are Cordova resources. You can replace icon.png and splash.png and run
-`ionic cordova resources` to generate custom icons and splash screens for your
-app. See `ionic cordova resources --help` for details.
+# PhilGo Chat
 
-Cordova reference documentation:
+## reference
 
-- Icons: https://cordova.apache.org/docs/en/latest/config_ref/images.html
-- Splash Screens: https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-splashscreen/
+### Firechat
+
+* See [firechat](https://firechat.firebaseapp.com/) to know how chat app should be.

@@ -8,11 +8,15 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { PhilGoApiModule, PhilGoApiService } from './modules/philgo-api-v3/philgo-api.module';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [
+    BrowserModule, IonicModule.forRoot(), AppRoutingModule,
+    PhilGoApiModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,
@@ -20,4 +24,12 @@ import { AppRoutingModule } from './app-routing.module';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(philgo: PhilGoApiService) {
+    philgo.setServerUrl('https://local.philgo.com/api.php');
+    /**
+     * Philgo API file server url. Must end with 'indx.php'.
+     */
+    philgo.setFileServerUrl('https://local.philgo.com/index.php');
+  }
+}
