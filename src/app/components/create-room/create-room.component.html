@@ -1,0 +1,23 @@
+<h2>Create a chat room</h2>
+
+
+
+<ion-list>
+  <ion-item>
+    <ion-label position="floating">Name</ion-label>
+    <ion-input name="name" [(ngModel)]="form.name" (keyup.enter)="onSubmit()"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Description</ion-label>
+    <ion-input name="description" type="type" [(ngModel)]="form.description" (keyup.enter)="onSubmit()"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-button type="button" (click)="onSubmit()">
+      <ion-label>
+        Create
+      </ion-label>
+      <ion-icon name="send"></ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-list>
+

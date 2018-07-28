@@ -9,6 +9,20 @@
       <ion-content>
         <ion-list>
           <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/">
+              <ion-label>
+                <ion-text>
+                  Home
+                </ion-text>
+              </ion-label>
+            </ion-item>
+            <ion-item routerLink="/rooms">
+              <ion-label>
+                <ion-text>
+                  Rooms
+                </ion-text>
+              </ion-label>
+            </ion-item>
             <ion-item routerLink="/register">
               <ion-label>
                 <ion-text>
@@ -16,10 +30,17 @@
                 </ion-text>
               </ion-label>
             </ion-item>
-            <ion-item>
+            <ion-item routerLink="/login">
               <ion-label>
                 <ion-text>
                   Login
+                </ion-text>
+              </ion-label>
+            </ion-item>
+            <ion-item (click)="onClickLogout()">
+              <ion-label>
+                <ion-text>
+                  Logout
                 </ion-text>
               </ion-label>
             </ion-item>
