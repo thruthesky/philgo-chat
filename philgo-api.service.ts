@@ -13,6 +13,12 @@ export const DELETED = 'Deleted';
 
 interface ApiOptionalRequest {
     method?: string;
+    idx?: string;
+    session_id?: string;
+}
+export interface ApiRequest {
+    method: string;
+    idx_member?: string;
     session_id?: string;
 }
 export interface ApiLoginRequest extends ApiOptionalRequest {
@@ -35,10 +41,10 @@ export interface ApiProfileUpdateRequest extends ApiOptionalRequest {
     mobile: string;
 }
 
-interface ApiResponse {
+export interface ApiResponse {
     code: number;
     message?: string;
-    data: any;
+    data?: any;             // all the data goes here.
 }
 export interface ApiErrorResponse {
     code: number;
@@ -47,16 +53,13 @@ export interface ApiErrorResponse {
 interface ApiVersionResponse {
     version: string;
 }
-export interface ApiCurrencyResponse {
-    php: string;
-    usd: string;
-}
 
-export interface ApiCurrencyResponse {
+
+export interface ApiCurrencyResponse extends ApiResponse {
     php: string;
     usd: string;
 }
-export interface ApiProfileResponse {
+export interface ApiProfileResponse extends ApiResponse {
     idx: string;
     id: string;
     email: string;
@@ -121,7 +124,7 @@ interface ApiVoteResponse extends ApiVersion2Response {
     bad: string;
 }
 
-export interface ApiFileUploadResponse {
+export interface ApiFileUploadResponse extends ApiResponse {
     idx: number;
     name: string; // file name
     path: string; // relative file path on server
@@ -364,6 +367,26 @@ export interface ApiCommentEditResponse extends ApiVersion2Response {
     post: ApiComment;
 }
 
+/**
+ * Chat interface
+ *
+ */
+
+export interface ApiChatRoomCreateRequest extends ApiRequest {
+    name: string;
+    description: string;
+}
+
+export interface ApiChatRoomCreateResponse extends ApiResponse {
+    data: {
+        idx?: number;
+    };
+}
+
+
+/**
+ * PhilGoApiService
+ */
 @Injectable()
 export class PhilGoApiService {
     static serverUrl = '';
@@ -430,6 +453,8 @@ export class PhilGoApiService {
      *      data['session_id'] - user session id
      *      data['route'] - route
      *
+     * @return
+     *      - 에러가 있으면 { code: number, message: string } 으로 Observable 이 리턴된다.
      */
     post(data): Observable<any> {
         this.validatePost(data);
@@ -554,9 +579,18 @@ export class PhilGoApiService {
                 this.test(re.usd === void 0, 'No USD currency');
             }, e => console.log(e));
      */
+    query(method: string, data?): Observable<any>;
     query<R>(method: string, data?): Observable<R>;
     query<D, R>(method: string, data: D): Observable<R>;
     query<DATA, RESPONSE>(method: string, data?: DATA): Observable<RESPONSE> {
+        const idx = this.idx();
+        const sessionId = this.getSessionId();
+        if ( idx ) {
+            data['idx_member'] = idx;
+        }
+        if (sessionId) {
+            data['session_id'] = this.getSessionId();
+        }
         data['method'] = method;
         return this.post(data);
     }
@@ -697,6 +731,7 @@ export class PhilGoApiService {
 
     /**
      * logout by deleting login information from localStorage.
+     * It does not really logs out bu connecting backend.
      */
     logout() {
         localStorage.removeItem(SESSION_ID);
@@ -712,7 +747,7 @@ export class PhilGoApiService {
      * @param user User information
      */
     private saveUserInformation(user: ApiUserInformation) {
-        console.log('saveuserInformation: user: ', user);
+        // console.log('saveuserInformation: user: ', user);
         localStorage.setItem(SESSION_ID, user.session_id);
         localStorage.setItem(ID, user.id);
         localStorage.setItem(NICKNAME, user.nickname);
@@ -742,7 +777,7 @@ export class PhilGoApiService {
      */
     idx(): number {
         const re = localStorage.getItem(IDX_MEMBER);
-        if ( re ) {
+        if (re) {
             return parseInt(re, 10);
         } else {
             return 0;
@@ -1113,6 +1148,15 @@ export class PhilGoApiService {
             idx: idx
         };
         return this.queryVersion2(req);
+    }
+
+
+    /**
+     * Chat methods
+     */
+
+    chatCreateRoom(option: ApiChatRoomCreateRequest): Observable<ApiChatRoomCreateResponse> {
+        return this.query('chatCreateRoom', option);
     }
 
 }
