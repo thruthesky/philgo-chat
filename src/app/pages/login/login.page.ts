@@ -32,7 +32,7 @@ export class LoginPage implements OnInit {
         this.router.navigateByUrl('/');
     }, e => {
         this.loader.submit = false;
-        this.a.toast( e.message );
+        this.a.toast( e );
     });
     return false;
   }

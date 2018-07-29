@@ -8,11 +8,23 @@ import { Component, OnInit } from '@angular/core';
 export class RoomsPage implements OnInit {
 
   show = {
-    mode: 'createRoom'
+    createRoom: false
   };
   constructor() { }
 
   ngOnInit() {
   }
 
+
+  onCancelCreateRoom() {
+    console.log('show.createRoom = false');
+    this.show.createRoom = false;
+  }
+
+  onClickMyRooms() {
+
+  }
+  onClickAllRooms() {
+
+  }
 }

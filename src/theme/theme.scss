@@ -1,0 +1,7 @@
+ion-toast {
+    &.error {
+        .toast-container {
+            background-color: rgb(141, 0, 0);
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ApiChatRoomCreateRequest, PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.service';
 import { AppService } from '../../providers/app.service';
 
@@ -10,6 +10,7 @@ import { AppService } from '../../providers/app.service';
 export class CreateRoomComponent implements OnInit {
 
   form: ApiChatRoomCreateRequest = <any>{};
+  @Output() cancel = new EventEmitter<any>();
   constructor(
     public philgo: PhilGoApiService,
     public a: AppService
@@ -28,8 +29,15 @@ export class CreateRoomComponent implements OnInit {
   }
 
   onSubmit() {
-    this.philgo.chatCreateRoom(this.form).subscribe(res => {
+    this.philgo.chatRoomCreate(this.form).subscribe(res => {
       console.log('create: ', res);
-    }, e => this.a.toast(e.message));
+    }, e => {
+      this.a.toast(e);
+    });
+  }
+  onCancel() {
+    // console.log('onCancel: ');
+    this.cancel.emit();
   }
 }
+

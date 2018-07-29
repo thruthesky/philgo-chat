@@ -10,85 +10,33 @@
 <ion-content padding>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button color="primary">My Rooms</ion-button>
-      <ion-button>All Rooms</ion-button>
-      <ion-button (click)=" show.mode = 'createRoom' ">Create a Room</ion-button>
+      <ion-button color="primary" (click)=" onClickMyRooms() ">My Rooms</ion-button>
+      <ion-button (click)=" onClickAllRooms() ">All Rooms</ion-button>
+      <ion-button (click)=" show.createRoom = true ">Create a Room</ion-button>
     </ion-buttons>
   </ion-toolbar>
+  <hr>
   <ion-toolbar>
     <ion-searchbar></ion-searchbar>
   </ion-toolbar>
 
-  <app-create-room *ngIf=" show.mode == 'createRoom' "></app-create-room>
+  <app-create-room *ngIf=" show.createRoom " (cancel)=" onCancelCreateRoom() "></app-create-room>
 
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
-  <h1>hi</h1>
+  @todo my room 에서 내가 마지막으로 채팅한 방 목록 5개.<br>
+@todo my room 에서 내 방의 마지막으로 채팅이 있는 방들 중 가장 최근 5개.<br>
+
+@todo footer 에 최근 채팅을 방이름 - 채팅 으로 보여 줄 것.
+
+
+
+  <app-rooms-component></app-rooms-component>
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>
+      채팅 메세지입니다 - 방이름
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>
