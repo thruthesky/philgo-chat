@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>room</ion-title>
+    <ion-title>
+      <ion-spinner *ngIf=" ! roomInfo.name "></ion-spinner>
+      <div *ngIf=" roomInfo.name ">{{ roomInfo.name }}</div>
+    </ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -8,7 +11,34 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-scroll #ionScroll>
+    <div class="messages" *ngIf=" messages.length ">
+      <div class="message" *ngFor=" let message of messages ">
 
+        <div class="other" text-left *ngIf="message.idx_member != philgo.idx(); ">
+          <div class="">
+            <div class="photo" *ngIf=" message.photoUrl ">
+              <img src="{{ message.photoUrl }}">
+            </div>
+            <div class="text">
+              <span class="name">{{message.name}}</span>
+              <span class="date fs-xl">{{message.stamp | date:'short'}}</span>
+              <p text-wrap>{{message.message}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="my" text-right *ngIf="message.idx_member == philgo.idx(); ">
+          <div class="right-bubble">
+            <span class="name">Me</span>
+            <span class="date fs-xl">{{ message.stamp | date:'short'}}</span>
+            <p text-wrap>{{message.message}}</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </ion-scroll>
 </ion-content>
 
 <ion-footer>
