@@ -371,7 +371,20 @@ export interface ApiCommentEditResponse extends ApiVersion2Response {
  * Chat interface
  *
  */
-
+export interface ApiChatRoom {
+    idx: number;
+    idx_member: string;
+    name: string;
+    description: string;
+    stamp_create: number;
+}
+export interface ApiChatMessage {
+    idx: number;
+    idx_chat_room: number;
+    idx_member: number;
+    message: string;
+    stamp: number;
+}
 export interface ApiChatRoomCreateRequest extends ApiRequest {
     name: string;
     description: string;
@@ -382,6 +395,10 @@ export interface ApiChatRoomCreateResponse extends ApiResponse {
         idx?: number;
     };
 }
+export interface ApiChatRoomListResponse extends ApiResponse {
+    data: Array<ApiChatRoom>;
+}
+
 
 
 /**
@@ -571,6 +588,7 @@ export class PhilGoApiService {
      * 상황: Generic 을 사용하는데, 파라메타가 optional 이라서 처치 곤란. 그래서 Overloading 을 사용.
      * 먼저, Overloading implementation 을 메소드 definition 바로 위에 올려야 한다.
      *
+     * @return 'data' 부분만 리턴한다.
      * @example
         this.api.query<ApiCurrencyResponse>('exchangeRate', ...);
         this.api.query<ApiCurrencyRequest, ApiCurrencyResponse>('exchangeRate', { currency: 'php' })
@@ -583,6 +601,9 @@ export class PhilGoApiService {
     query<R>(method: string, data?): Observable<R>;
     query<D, R>(method: string, data: D): Observable<R>;
     query<DATA, RESPONSE>(method: string, data?: DATA): Observable<RESPONSE> {
+        if ( data === void 0 || ! data ) {
+            data = <any>{};
+        }
         const idx = this.idx();
         const sessionId = this.getSessionId();
         if ( idx ) {
@@ -1154,9 +1175,24 @@ export class PhilGoApiService {
     /**
      * Chat methods
      */
+    /**
+     * Create a chat room
+     */
+    chatRoomCreate(option: ApiChatRoomCreateRequest): Observable<ApiChatRoomCreateResponse> {
+        return this.query('chatRoomCreate', option);
+    }
+    /**
+     * Get chat room list. It includes my own chat rooms.
+     */
+    chatRoomList(): Observable<Array<ApiChatRoom>> {
+        return this.query('chatRoomList');
+    }
 
-    chatCreateRoom(option: ApiChatRoomCreateRequest): Observable<ApiChatRoomCreateResponse> {
-        return this.query('chatCreateRoom', option);
+    /**
+     * Get chat room list. It includes my own chat rooms.
+     */
+    chatMessageSend(form: ApiChatMessage): Observable<ApiChatMessage> {
+        return this.query('chatMessageSend', form);
     }
 
 }
