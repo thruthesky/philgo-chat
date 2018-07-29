@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, NgZone, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppService } from '../../providers/app.service';
 import { PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.module';
 import { ApiChatMessage, ApiChatRoomInfo, } from '../../modules/philgo-api-v3/philgo-api.service';
 import { ActivatedRoute } from '@angular/router';
+import { ActionSheetController } from '@ionic/angular';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class RoomPage implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private ngZone: NgZone,
+    public actionSheetController: ActionSheetController,
     public a: AppService,
     public philgo: PhilGoApiService
   ) {
@@ -65,8 +66,42 @@ export class RoomPage implements OnInit {
     this.philgo.chatMessageSend(this.form).subscribe(res => {
       console.log('message sent: ', res);
       this.form.message = '';
-      this.messages.push( res );
+      this.messages.push(res);
       this.scroll();
     }, e => this.a.toast(e));
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Albums',
+      buttons: [{
+        text: 'Leave Chat Room',
+        role: 'destructive',
+        icon: 'trash',
+        handler: () => {
+          console.log('Delete clicked');
+        }
+      }, {
+        text: 'Share',
+        icon: 'share',
+        handler: () => {
+          console.log('Share clicked');
+        }
+      }, {
+        text: 'Favorite',
+        icon: 'heart',
+        handler: () => {
+          console.log('Favorite clicked');
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 }

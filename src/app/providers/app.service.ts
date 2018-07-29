@@ -1,10 +1,27 @@
 import { Injectable } from '@angular/core';
 import { ToastController } from '../../../node_modules/@ionic/angular';
 
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyA1X3vpzSpUk_JHCbNjEwQe1-pduF0Enqs',
+  authDomain: 'philgo-64b1a.firebaseapp.com',
+  databaseURL: 'https://philgo-64b1a.firebaseio.com',
+  projectId: 'philgo-64b1a',
+  storageBucket: 'philgo-64b1a.appspot.com',
+  messagingSenderId: '675064809117'
+};
+import * as firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/messaging';
+firebase.initializeApp(firebaseConfig);
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
+
+  db: firebase.database.Reference = firebase.database().ref('/');
 
   constructor(
     readonly toastController: ToastController
@@ -33,21 +50,21 @@ export class AppService {
    *    <ion-toast class="error errorNO"> will be added in class.
    *    Normally error code is like -1234, so, the error class will be 'error error-1324'
    */
-  async toast( o: any) {
+  async toast(o: any) {
     console.log('o: ', o);
-    if ( typeof o === 'string' ) {
+    if (typeof o === 'string') {
       console.log('o is tring');
       o = {
         message: o
       };
     }
-    if ( o.closeButtonText === void 0 ) {
+    if (o.closeButtonText === void 0) {
       o.closeButtonText = 'Close';
     }
-    if ( o.duration === void 0 ) {
+    if (o.duration === void 0) {
       o.duration = 10000;
     }
-    if ( typeof o.code !== void 0 && o.code ) {
+    if (typeof o.code !== void 0 && o.code) {
       o.cssClass = `error error${o.code}`;
     }
     o.showCloseButton = true;

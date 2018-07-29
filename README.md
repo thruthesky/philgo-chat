@@ -2,12 +2,16 @@
 
 ## TODO
 
+* firebase 에 php sdk 로 실시간으로 채팅 저장까지 했음. 나의 모든 방에 .on() 으로 해야한다. .off() 는 방 나가기를 클릭했을 때만 한다.
+
 * no google, facebook login in chat app itself.
   * for philgo login user, they can use chat. meaning, they can login with google in philgo and can use chat.
 
 * user primary photo file upload and chat photo upload.
   * do it with capacitor file upload.
   * use phone camera to upload file.
+
+* 기본적으로 내가 속한 모든 채팅 방에 다 listen 해야한다. 그래서 톡이 있으면 메인이나 푸시로 알려주어야 한다.
 
 * 채팅에 파일 첨부는 file.philgo.com 에 새로운 코드를 만들어서 할 것.
 * 자유게시판, 질문답변 게시판의 하나의 글을 자동으로 채팅방으로 생성되게 할 것.
