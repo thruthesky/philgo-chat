@@ -13,7 +13,7 @@ export const DELETED = 'Deleted';
 
 interface ApiOptionalRequest {
     method?: string;
-    idx?: string;
+    idx?: any;
     session_id?: string;
 }
 export interface ApiRequest {
@@ -382,6 +382,8 @@ export interface ApiChatMessage {
     idx: number;
     idx_chat_room: number;
     idx_member: number;
+    name: string;
+    photoUrl: string;
     message: string;
     stamp: number;
 }
@@ -390,16 +392,19 @@ export interface ApiChatRoomCreateRequest extends ApiRequest {
     description: string;
 }
 
-export interface ApiChatRoomCreateResponse extends ApiResponse {
-    data: {
-        idx?: number;
-    };
-}
-export interface ApiChatRoomListResponse extends ApiResponse {
-    data: Array<ApiChatRoom>;
+export interface ApiChatRoomCreateResponse {
+    idx?: number;
 }
 
 
+
+export interface ApiChatRoomInfoRequest extends ApiOptionalRequest {
+    idx: any;
+}
+
+export interface ApiChatRoomInfo extends ApiChatRoom {
+    messages: Array<ApiChatMessage>;
+}
 
 /**
  * PhilGoApiService
@@ -588,7 +593,9 @@ export class PhilGoApiService {
      * 상황: Generic 을 사용하는데, 파라메타가 optional 이라서 처치 곤란. 그래서 Overloading 을 사용.
      * 먼저, Overloading implementation 을 메소드 definition 바로 위에 올려야 한다.
      *
-     * @return 'data' 부분만 리턴한다.
+     * @param data - 입력 파라메타에서 data 는 항상 객체여야 한다. string 이나 number 이면 안된다.
+     *
+     * @return Philgo API 응답 중에서 'data' 부분만 리턴한다.
      * @example
         this.api.query<ApiCurrencyResponse>('exchangeRate', ...);
         this.api.query<ApiCurrencyRequest, ApiCurrencyResponse>('exchangeRate', { currency: 'php' })
@@ -601,12 +608,12 @@ export class PhilGoApiService {
     query<R>(method: string, data?): Observable<R>;
     query<D, R>(method: string, data: D): Observable<R>;
     query<DATA, RESPONSE>(method: string, data?: DATA): Observable<RESPONSE> {
-        if ( data === void 0 || ! data ) {
+        if (data === void 0 || !data) {
             data = <any>{};
         }
         const idx = this.idx();
         const sessionId = this.getSessionId();
-        if ( idx ) {
+        if (idx) {
             data['idx_member'] = idx;
         }
         if (sessionId) {
@@ -1186,6 +1193,12 @@ export class PhilGoApiService {
      */
     chatRoomList(): Observable<Array<ApiChatRoom>> {
         return this.query('chatRoomList');
+    }
+    /**
+     * Get a chat room info. Only 1.
+     */
+    chatRoomInfo(data: ApiChatRoomInfoRequest): Observable<ApiChatRoomInfo> {
+        return this.query('chatRoomInfo', data);
     }
 
     /**
