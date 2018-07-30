@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { RoomsComponent } from '../../components/rooms/rooms.component';
 
 @Component({
   selector: 'app-rooms',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RoomsPage implements OnInit {
 
+  @ViewChild('appRoomsComponent') appRoomsComponent: RoomsComponent;
   show = {
     createRoom: false
   };
@@ -22,9 +24,9 @@ export class RoomsPage implements OnInit {
   }
 
   onClickMyRooms() {
-
+    this.appRoomsComponent.loadMyChatRoomList();
   }
   onClickAllRooms() {
-
+    this.appRoomsComponent.loadChatRoomList();
   }
 }

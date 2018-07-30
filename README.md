@@ -4,6 +4,8 @@
 
 * firebase 에 php sdk 로 실시간으로 채팅 저장까지 했음. 나의 모든 방에 .on() 으로 해야한다. .off() 는 방 나가기를 클릭했을 때만 한다.
 
+* 챗 메세지 쓰기 할 때, 시간이 걸리므로, 로더를 표시하고, 임의의 값을 전달하고 그 값을 전달 받을 것. 값이 돌아오고 성공하면, 해당 메세지는 성공.
+
 * no google, facebook login in chat app itself.
   * for philgo login user, they can use chat. meaning, they can login with google in philgo and can use chat.
 
@@ -19,6 +21,12 @@
   * 글 쓴이가 채팅방 종료 할 수 있음.
 
 * 로그인을 하지 않아도, 방에 들어 갈 수 있다. 단, 쪽지 전송은 방 생성 등은, 로그인을 해야만 한다.
+
+* 채팅방에서 읽이 않은 메세지 구현
+  * Ionic Badge 로 표시.
+  * 먼저 채팅방에서 읽은 맨 마지막 메세지의 글 번호를 기록한다.
+  * 방 목록을 할 때, "각 방의 마지막 메세지 확인 글 번호" 다음 부터의 총 메세지 수를 구하면 된다.
+  * 그리고 실시간으로 메세지가 오면 수를 증가시키면 된다.
 
 * push notificatoin for app
   * https://beta.ionicframework.com/docs/native/firebase-messaging

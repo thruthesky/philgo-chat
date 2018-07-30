@@ -1,18 +1,36 @@
+body {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
 .fs-xl {
     font-size: .5em;
-}.fs-sm {
+}
+
+.fs-sm {
     font-size: .75em;
 }
+
 .p-1 {
     padding: .25em;
 }
+
 .p-2 {
     padding: .5em;
 }
+
 ion-toast {
     &.error {
         .toast-container {
             background-color: rgb(141, 0, 0);
+        }
+    }
+    &.new-chat-message {
+        .toast-container {
+            background-color: rgb(226, 212, 108);
+            .toast-message {
+                color: black;
+            }
         }
     }
 }

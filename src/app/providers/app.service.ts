@@ -1,5 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { ToastController } from '../../../node_modules/@ionic/angular';
+import * as firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/messaging';
+import { ApiChatRoom, ApiChatMessage, PhilGoApiService } from '../modules/philgo-api-v3/philgo-api.service';
+import { Subject } from 'rxjs';
+
 
 
 const firebaseConfig = {
@@ -10,9 +16,6 @@ const firebaseConfig = {
   storageBucket: 'philgo-64b1a.appspot.com',
   messagingSenderId: '675064809117'
 };
-import * as firebase from 'firebase/app';
-import 'firebase/database';
-import 'firebase/messaging';
 firebase.initializeApp(firebaseConfig);
 
 
@@ -23,8 +26,14 @@ export class AppService {
 
   db: firebase.database.Reference = firebase.database().ref('/');
 
+  listeningRooms: Array<ApiChatRoom> = [];
+  currentRoomNo = 0;
+
+  newMessageOnCurrentRoom = new Subject<ApiChatMessage>();
   constructor(
-    readonly toastController: ToastController
+    private readonly ngZone: NgZone,
+    private readonly toastController: ToastController,
+    private readonly philgo: PhilGoApiService
   ) { }
 
   version(): string {
@@ -72,4 +81,86 @@ export class AppService {
     const toast = await this.toastController.create(o);
     toast.present();
   }
+
+  /**
+   * Show a message on top of app.
+   *
+   * Use this method to display a chat message on top of the app when the user is not in the chat room of the message.
+   *
+   * @desc This method should not invoked when
+   *    - if it's my message.
+   *    - i am in the room of the chat message.
+   *
+   * @param o This value is comming from firebase.on( '/chat/room/.../last-message', => snapshot.
+   *    so, this has be defaut,
+   *  {
+   *    idx: api_chat_message.idx,
+   *    idx_chat_room: api_chat_room.idx,
+   *    idx_member: sf_member.idx,
+   *    message: message to show,
+   *    name: name of the user.
+   *    photoUrl: photo url of the user.
+   *    stamp: of the message.
+   *  }
+   */
+  async toastMessage(o: any) {
+    console.log('o: ', o);
+    if (!o) {
+      return;
+    }
+    if (o.closeButtonText === void 0) {
+      o.closeButtonText = 'Close';
+    }
+    if (o.duration === void 0) {
+      o.duration = 10000;
+    }
+    o.cssClass = 'new-chat-message';
+    o.position = 'top';
+    o.showCloseButton = false;
+    console.log('o: ', o);
+    const toast = await this.toastController.create(o);
+    toast.present();
+  }
+
+  render(ms = 10) {
+    setTimeout(() => {
+      this.ngZone.run(() => { });
+    }, ms);
+  }
+
+  listenMyRooms(rooms: Array<ApiChatRoom>) {
+    const event = 'value';
+    if (!rooms) {
+      return;
+    }
+    /**
+     * Off(remove) all the event of old listening rooms.
+     */
+    for (const room of this.listeningRooms) {
+      console.log('Off: ', room.name);
+      this.db.child(`/chat/rooms/${room.idx}/last-message`).off(event, room['off']);
+    }
+    /**
+     * listen to my rooms
+     */
+    for (const room of rooms) {
+      console.log('On: ', room.name);
+      this.db.child(`/chat/rooms/${room.idx}/last-message`).on(event, snapshot => {
+        const message: ApiChatMessage = snapshot.val();
+        // console.log('AppService::listennMyRooms() got message: ', message);
+
+        if (this.philgo.isMyChatMessage(message)) {
+          return;
+        }
+        if (this.philgo.isMyCurrentChatRoomMessage(this.currentRoomNo, message)) {
+          console.log('AppService::listenMyRooms():: got current room message. next()', message);
+          this.newMessageOnCurrentRoom.next(message);
+          return;
+        }
+        this.toastMessage(snapshot.val());
+      });
+    }
+  }
+
+
 }
