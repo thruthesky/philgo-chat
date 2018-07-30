@@ -379,13 +379,14 @@ export interface ApiChatRoom {
     stamp_create: number;
 }
 export interface ApiChatMessage {
-    idx: number;
-    idx_chat_room: number;
-    idx_member: number;
+    idx: string;
+    idx_chat_room: string;
+    idx_member: string;
     name: string;
     photoUrl: string;
     message: string;
     stamp: number;
+    retvar?: any; // client session token string or any value. it can be anything. it will be returned from server.
 }
 export interface ApiChatRoomCreateRequest extends ApiRequest {
     name: string;
@@ -398,11 +399,11 @@ export interface ApiChatRoomCreateResponse {
 
 
 
-export interface ApiChatRoomInfoRequest extends ApiOptionalRequest {
+export interface ApiChatRoomEnterRequest extends ApiOptionalRequest {
     idx: any;
 }
 
-export interface ApiChatRoomInfo extends ApiChatRoom {
+export interface ApiChatRoomEnter extends ApiChatRoom {
     messages: Array<ApiChatMessage>;
 }
 
@@ -502,6 +503,7 @@ export class PhilGoApiService {
                 }
             }),
             catchError(e => {
+                console.log('PhilGoApiService::post() => catchError()');
                 // console.log('catchError: ', e);
                 /**
                  * PhilGo API 의 에러이면 그대로 Observable Error 를 리턴한다.
@@ -1194,11 +1196,15 @@ export class PhilGoApiService {
     chatRoomList(): Observable<Array<ApiChatRoom>> {
         return this.query('chatRoomList');
     }
+    chatMyRoomList(): Observable<Array<ApiChatRoom>> {
+
+        return this.query('chatRoomMyList');
+    }
     /**
      * Get a chat room info. Only 1.
      */
-    chatRoomInfo(data: ApiChatRoomInfoRequest): Observable<ApiChatRoomInfo> {
-        return this.query('chatRoomInfo', data);
+    chatRoomEnter(data: ApiChatRoomEnterRequest): Observable<ApiChatRoomEnter> {
+        return this.query('chatRoomEnter', data);
     }
 
     /**
@@ -1208,5 +1214,21 @@ export class PhilGoApiService {
         return this.query('chatMessageSend', form);
     }
 
+
+    /**
+     * Returns true if the input 'message' is my message.
+     * @param message chat message
+     */
+    isMyChatMessage(message: ApiChatMessage) {
+        return message && message.idx_member && message.idx_member === this.idx().toString();
+    }
+    /**
+     * Returns true if the input 'message' is belong to the room that I am in right now.
+     * @param currentRoomNo currentRoomNo
+     * @param message chat message
+     */
+    isMyCurrentChatRoomMessage(currentRoomNo: number, message: ApiChatMessage) {
+        return message && message.idx_chat_room && message.idx_chat_room === currentRoomNo.toString();
+    }
 }
 
