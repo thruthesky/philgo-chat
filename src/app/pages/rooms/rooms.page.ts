@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { RoomsComponent } from '../../components/rooms/rooms.component';
+import { Router } from '@angular/router';
+import { ApiChatRoom } from '../../modules/philgo-api-v3/philgo-api.service';
 
 @Component({
   selector: 'app-rooms',
@@ -12,7 +14,9 @@ export class RoomsPage implements OnInit {
   show = {
     createRoom: false
   };
-  constructor() {
+  constructor(
+    private router: Router
+  ) {
     console.log('RoomsPage::constructor()');
   }
 
@@ -31,4 +35,11 @@ export class RoomsPage implements OnInit {
   onClickAllRooms() {
     this.appRoomsComponent.loadChatRoomList();
   }
+
+  // onEnterRoom(room: ApiChatRoom) {
+  //   this.appRoomsComponent.loadMyChatRoomList(() => {
+  //     console.log(`Entering a room from all page list.`);
+  //     // this.router.navigateByUrl(`/room/${room.idx}`);
+  //   });
+  // }
 }

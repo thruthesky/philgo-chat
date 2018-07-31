@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AppService } from '../../providers/app.service';
 import { PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.module';
-import { ApiChatMessage, ApiChatRoomEnter } from '../../modules/philgo-api-v3/philgo-api.service';
+import { ApiChatMessage, ApiChatRoomEnter, ApiChatRoom } from '../../modules/philgo-api-v3/philgo-api.service';
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 
@@ -90,6 +90,9 @@ export class RoomPage implements OnInit, OnDestroy {
             this.roomInfo = res;
             this.messages = this.roomInfo.messages.reverse();
             this.scroll();
+            const room: ApiChatRoom = <any>this.roomInfo;
+            delete room['messages'];
+            this.a.addRoomToListen(room);
           }, e => this.a.toast(e));
         } else {
           this.a.toast('Chat room number was not provided.');

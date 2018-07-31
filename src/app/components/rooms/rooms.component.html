@@ -1,5 +1,7 @@
 <ion-list *ngIf=" rooms.length ">
-  <ion-item *ngFor="let room of rooms" routerLink="/room/{{ room.idx }}">
+    <!-- <ion-item *ngFor="let room of rooms" (click)="enter.emit(room)"> -->
+        <ion-item *ngFor="let room of rooms" (click)="onClickRoom(room)">
+  <!-- <ion-item *ngFor="let room of rooms" routerLink="/room/{{ room.idx }}"> -->
     <ion-label>{{ room.name }}</ion-label>
     <ion-text>{{ room.description }}</ion-text>
   </ion-item>
