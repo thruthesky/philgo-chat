@@ -26,10 +26,14 @@ ion-toast {
         }
     }
     &.new-chat-message {
+        margin-top: 3.6em;
         .toast-container {
-            background-color: rgb(226, 212, 108);
+            background-color: rgb(252, 249, 230);
             .toast-message {
                 color: black;
+            }
+            .toast-button {
+                color: blue;
             }
         }
     }

@@ -60,7 +60,7 @@ export class AppService {
    *    Normally error code is like -1234, so, the error class will be 'error error-1324'
    */
   async toast(o: any) {
-    console.log('o: ', o);
+    // console.log('o: ', o);
     if (typeof o === 'string') {
       console.log('o is tring');
       o = {
@@ -77,7 +77,7 @@ export class AppService {
       o.cssClass = `error error${o.code}`;
     }
     o.showCloseButton = true;
-    console.log('o: ', o);
+    // console.log('o: ', o);
     const toast = await this.toastController.create(o);
     toast.present();
   }
@@ -112,11 +112,11 @@ export class AppService {
       o.closeButtonText = 'Close';
     }
     if (o.duration === void 0) {
-      o.duration = 10000;
+      o.duration = 100000;
     }
     o.cssClass = 'new-chat-message';
     o.position = 'top';
-    o.showCloseButton = false;
+    o.showCloseButton = true;
     console.log('o: ', o);
     const toast = await this.toastController.create(o);
     toast.present();
@@ -128,7 +128,7 @@ export class AppService {
     }, ms);
   }
 
-  listenMyRooms(rooms: Array<ApiChatRoom>) {
+  async listenMyRooms(rooms: Array<ApiChatRoom>) {
     const event = 'value';
     if (!rooms) {
       return;
@@ -138,14 +138,15 @@ export class AppService {
      */
     for (const room of this.listeningRooms) {
       console.log('Off: ', room.name);
-      this.db.child(`/chat/rooms/${room.idx}/last-message`).off(event, room['off']);
+      await this.db.child(`/chat/rooms/${room.idx}/last-message`).off(event, room['off']);
     }
+    this.listeningRooms = [];
     /**
      * listen to my rooms
      */
     for (const room of rooms) {
       console.log('On: ', room.name);
-      this.db.child(`/chat/rooms/${room.idx}/last-message`).on(event, snapshot => {
+      room['off'] = this.db.child(`/chat/rooms/${room.idx}/last-message`).on(event, snapshot => {
         const message: ApiChatMessage = snapshot.val();
         // console.log('AppService::listennMyRooms() got message: ', message);
 
@@ -159,6 +160,7 @@ export class AppService {
         }
         this.toastMessage(snapshot.val());
       });
+      this.listeningRooms.push(room);
     }
   }
 

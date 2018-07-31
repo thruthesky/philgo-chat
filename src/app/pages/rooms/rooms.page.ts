@@ -12,7 +12,9 @@ export class RoomsPage implements OnInit {
   show = {
     createRoom: false
   };
-  constructor() { }
+  constructor() {
+    console.log('RoomsPage::constructor()');
+  }
 
   ngOnInit() {
   }
