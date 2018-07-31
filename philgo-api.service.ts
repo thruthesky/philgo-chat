@@ -381,7 +381,7 @@ export interface ApiChatRoom {
 export interface ApiChatMessage {
     idx: string;
     idx_chat_room: string;
-    idx_member: string;
+    idx_member: any;
     name: string;
     photoUrl: string;
     message: string;
