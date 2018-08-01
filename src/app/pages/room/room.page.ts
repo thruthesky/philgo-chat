@@ -174,6 +174,7 @@ export class RoomPage implements OnInit, OnDestroy {
             ]
           });
 
+          // 여기서 부터.
           await alert.present();
 
           const re = await alert.onDidDismiss();
