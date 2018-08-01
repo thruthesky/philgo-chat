@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { RoomsComponent } from '../../components/rooms/rooms.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ApiChatRoom } from '../../modules/philgo-api-v3/philgo-api.service';
+import { ApiChatRoom, PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.service';
+import { AppService } from '../../providers/app.service';
 
 @Component({
   selector: 'app-rooms',
@@ -11,12 +12,16 @@ import { ApiChatRoom } from '../../modules/philgo-api-v3/philgo-api.service';
 export class RoomsPage implements OnInit, OnDestroy {
 
   @ViewChild('appRoomsComponent') appRoomsComponent: RoomsComponent;
+
+  title = '';
   show = {
     searchBox: false
   };
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public philgo: PhilGoApiService,
+    public a: AppService
   ) {
     console.log('RoomsPage::constructor()');
   }
@@ -36,10 +41,18 @@ export class RoomsPage implements OnInit, OnDestroy {
     });
     this.activatedRoute.data.subscribe(data => {
       console.log('data: ', data);
-      if (data.mode === 'all') {
+      /**
+       * When user is not logged in, he can only see all rooms.
+       */
+      if (this.philgo.isLoggedOut()) {
+        this.a.toast('Please login in');
         this.initAllRooms();
       } else {
-        this.initMyRooms();
+        if (data.mode === 'all') {
+          this.initAllRooms();
+        } else {
+          this.initMyRooms();
+        }
       }
     });
   }
@@ -49,10 +62,12 @@ export class RoomsPage implements OnInit, OnDestroy {
 
 
   initMyRooms() {
+    this.title = 'My Rooms';
     this.show.searchBox = false;
     this.appRoomsComponent.loadMyChatRoomList();
   }
   initAllRooms() {
+    this.title = 'All Rooms';
     this.show.searchBox = true;
     this.appRoomsComponent.loadChatRoomList();
   }

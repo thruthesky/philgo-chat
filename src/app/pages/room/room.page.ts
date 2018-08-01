@@ -153,45 +153,44 @@ export class RoomPage implements OnInit, OnDestroy {
         handler: async () => {
           console.log('Room leave clicked');
 
-
           const alert = await this.alertController.create({
-            header: 'Confirm!',
-            message: 'Message <strong>text</strong>!!!',
+            header: 'Leave',
+            message: 'Do you want to leave this room?',
             buttons: [
               {
-                text: 'Cancel',
-                role: 'cancel',
+                text: 'No',
+                role: 'no',
                 cssClass: 'secondary',
                 handler: (blah) => {
                   console.log('Confirm Cancel: blah');
                 }
               }, {
-                text: 'Okay',
+                text: 'Yes',
+                role: 'yes',
                 handler: () => {
                   console.log('Confirm Okay');
                 }
               }
             ]
           });
-
-          // 여기서 부터.
-          await alert.present();
-
+          alert.present();
           const re = await alert.onDidDismiss();
+          console.log('result of present: ', re.role);
 
-          console.log('result of present: ', re);
+          if ( re.role === 'no' ) {
+            return;
+          }
 
-
-          // this.philgo.chatRoomLeave(this.roomInfo.idx).subscribe(res => {
-          //   console.log('You have successfully left the room: ', res.name);
-          //   this.router.navigateByUrl('/my-rooms');
-          // }, e => {
-          //   if (e.code !== void 0 && e.code === ERROR_CHAT_NOT_IN_THAT_ROOM) {
-          //     this.router.navigateByUrl('/my-rooms');
-          //   } else {
-          //     this.a.toast(e);
-          //   }
-          // });
+          this.philgo.chatRoomLeave(this.roomInfo.idx).subscribe(res => {
+            console.log('You have successfully left the room: ', res.name);
+            this.router.navigateByUrl('/my-rooms');
+          }, e => {
+            if (e.code !== void 0 && e.code === ERROR_CHAT_NOT_IN_THAT_ROOM) {
+              this.router.navigateByUrl('/my-rooms');
+            } else {
+              this.a.toast(e);
+            }
+          });
         }
       },
       // {
@@ -205,7 +204,8 @@ export class RoomPage implements OnInit, OnDestroy {
         text: 'Favorite',
         icon: 'heart',
         handler: () => {
-          console.log('Favorite clicked');
+          console.log('favorite clicked');
+          this.a.toast('This room has added as favorite');
         }
       }, {
         text: 'Cancel',
