@@ -22,24 +22,16 @@ export class RoomsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('RoomsComponent::ngOnInit()');
-    // this.loadChatRoomList();
-    this.loadMyChatRoomList();
+    // this.loadMyChatRoomList();
   }
   ngOnDestroy() {
     console.log('RoomsComponent::ngOnDestroy()');
   }
 
-  ionViewWillEnter() {
-    console.log('RoomsComponent::ionViewWillEnter()');
-  }
-
-  ionViewDidEnter() {
-    console.log('RoomsComponent::ionViewDidEnter()');
-  }
 
   loadMyChatRoomList(callback?) {
     this.philgo.chatMyRoomList().subscribe(res => {
-      console.log('my room list: ', res);
+      // console.log('my room list: ', res);
       this.rooms = res;
       this.a.listenMyRooms(this.rooms).then(() => {
         if (callback) {
@@ -54,8 +46,8 @@ export class RoomsComponent implements OnInit, OnDestroy {
       this.rooms = res;
     }, e => this.a.toast(e));
   }
-  onClickRoom(room: ApiChatRoom) {
-    this.a.addRoomToListen(room);
-    this.router.navigateByUrl(`/room/${room.idx}`);
-  }
+  // onClickRoom(room: ApiChatRoom) {
+  //   this.a.addRoomToListen(room);
+  //   this.router.navigateByUrl(`/room/${room.idx}`);
+  // }
 }

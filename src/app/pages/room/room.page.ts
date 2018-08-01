@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AppService } from '../../providers/app.service';
 import { PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.module';
-import { ApiChatMessage, ApiChatRoomEnter, ApiChatRoom } from '../../modules/philgo-api-v3/philgo-api.service';
-import { ActivatedRoute } from '@angular/router';
-import { ActionSheetController } from '@ionic/angular';
+import {
+  ApiChatMessage, ApiChatRoomEnter, ApiChatRoom, CHAT_STATUS_ENTER, ERROR_CHAT_NOT_IN_THAT_ROOM
+} from '../../modules/philgo-api-v3/philgo-api.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActionSheetController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-room',
@@ -21,8 +23,10 @@ export class RoomPage implements OnInit, OnDestroy {
 
   subscriptionNewMessage = null;
   constructor(
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     public actionSheetController: ActionSheetController,
+    private alertController: AlertController,
     public a: AppService,
     public philgo: PhilGoApiService
   ) {
@@ -39,42 +43,49 @@ export class RoomPage implements OnInit, OnDestroy {
     }
     console.log(' ===> Going to subscribe new message event!');
     this.subscriptionNewMessage = a.newMessageOnCurrentRoom.subscribe(message => {
-      console.log(' ==> RoomPage::constructor() => Got new message in the room: you should see it on chat box.', message);
-      this.messages.push(message);
-      this.scroll();
-      // this.a.render();
-      // console.log('all message', this.messages);
+      console.log(` ==> RoomPage::constructor() => Got new message in ${this.roomInfo.name} : you should see it on chat box.`,
+        message, CHAT_STATUS_ENTER, this.philgo.myIdx());
+      this.displayMessage(message);
     });
   }
 
   ngOnInit() {
-
+    console.log('   ===> RoomPage::ngOnInit()');
   }
 
   ngOnDestroy() {
+    console.log('   ===> RoomPage::ngOnDestroy()');
     this.leaveRoom();
   }
 
   ionViewDidEnter() {
-    // console.log('ion did enter');
+    console.log('   ===> RoomPage::ionViewDidEnter()');
     this.messages = [];
     this.loadChatRoomEnter();
   }
   ionViewWillLeave() {
-    // console.log('RoomPage::ionViewWillLeave()');
-    this.leaveRoom();
+    console.log('   ===> RoomPage::ionViewWillLeave()');
+    // this.leaveRoom();
   }
 
+  test() {
+    for (let i = 0; i < 100; i++) {
+      this.form.message = 'message No. ' + i;
+      console.log('sending message: ', i);
+      this.onClickSendMessage();
+    }
+
+  }
   leaveRoom() {
     if (this.messages && this.messages.length) {
       this.messages = [];
     }
     this.a.currentRoomNo = 0;
-    // if (this.subscriptionNewMessage) {
-    //   console.log(' ==> New message unsubscribed !!');
-    //   this.subscriptionNewMessage.unsubscribe();
-    //   this.subscriptionNewMessage = null;
-    // }
+    if (this.subscriptionNewMessage) {
+      console.log(' ==> New message unsubscribed !!');
+      this.subscriptionNewMessage.unsubscribe();
+      this.subscriptionNewMessage = null;
+    }
   }
 
   loadChatRoomEnter() {
@@ -88,11 +99,15 @@ export class RoomPage implements OnInit, OnDestroy {
           this.philgo.chatRoomEnter({ idx: this.form.idx_chat_room }).subscribe(res => {
             // console.log('info: ', res);
             this.roomInfo = res;
-            this.messages = this.roomInfo.messages.reverse();
+            if (this.roomInfo.messages && this.roomInfo.messages.length) {
+              this.roomInfo.messages.reverse().map(v => this.displayMessage(v));
+            }
+            // this.messages = this.roomInfo.messages.reverse();
             this.scroll();
             const room: ApiChatRoom = <any>this.roomInfo;
             delete room['messages'];
             this.a.addRoomToListen(room);
+            // this.test();
           }, e => this.a.toast(e));
         } else {
           this.a.toast('Chat room number was not provided.');
@@ -108,6 +123,7 @@ export class RoomPage implements OnInit, OnDestroy {
 
   onClickSendMessage() {
     if (!this.form.message) {
+      console.log('empty form.message. return');
       return;
     }
     console.log('form: ', this.form);
@@ -129,21 +145,62 @@ export class RoomPage implements OnInit, OnDestroy {
 
   async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
-      header: 'Albums',
+      header: 'Options',
       buttons: [{
         text: 'Leave Chat Room',
         role: 'destructive',
         icon: 'trash',
-        handler: () => {
-          console.log('Delete clicked');
+        handler: async () => {
+          console.log('Room leave clicked');
+
+
+          const alert = await this.alertController.create({
+            header: 'Confirm!',
+            message: 'Message <strong>text</strong>!!!',
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                cssClass: 'secondary',
+                handler: (blah) => {
+                  console.log('Confirm Cancel: blah');
+                }
+              }, {
+                text: 'Okay',
+                handler: () => {
+                  console.log('Confirm Okay');
+                }
+              }
+            ]
+          });
+
+          await alert.present();
+
+          const re = await alert.onDidDismiss();
+
+          console.log('result of present: ', re);
+
+
+          // this.philgo.chatRoomLeave(this.roomInfo.idx).subscribe(res => {
+          //   console.log('You have successfully left the room: ', res.name);
+          //   this.router.navigateByUrl('/my-rooms');
+          // }, e => {
+          //   if (e.code !== void 0 && e.code === ERROR_CHAT_NOT_IN_THAT_ROOM) {
+          //     this.router.navigateByUrl('/my-rooms');
+          //   } else {
+          //     this.a.toast(e);
+          //   }
+          // });
         }
-      }, {
-        text: 'Share',
-        icon: 'share',
-        handler: () => {
-          console.log('Share clicked');
-        }
-      }, {
+      },
+      // {
+      //   text: 'Share',
+      //   icon: 'share',
+      //   handler: () => {
+      //     console.log('Share clicked');
+      //   }
+      // },
+      {
         text: 'Favorite',
         icon: 'heart',
         handler: () => {
@@ -159,6 +216,15 @@ export class RoomPage implements OnInit, OnDestroy {
       }]
     });
     await actionSheet.present();
+  }
+
+  displayMessage(message: ApiChatMessage) {
+    if (message.status === CHAT_STATUS_ENTER && message.idx_member === this.philgo.myIdx()) {
+      // if it's a greeting message for my entering, then no need to show it to myself.
+    } else {
+      this.messages.push(message);
+      this.scroll();
+    }
   }
 }
 

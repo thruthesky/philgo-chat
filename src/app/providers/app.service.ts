@@ -3,7 +3,9 @@ import { ToastController } from '../../../node_modules/@ionic/angular';
 import * as firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/messaging';
-import { ApiChatRoom, ApiChatMessage, PhilGoApiService } from '../modules/philgo-api-v3/philgo-api.service';
+import {
+  ApiChatRoom, ApiChatMessage, PhilGoApiService, CHAT_STATUS_ENTER, CHAT_STATUS_LEAVE
+} from '../modules/philgo-api-v3/philgo-api.service';
 import { Subject } from 'rxjs';
 
 
@@ -32,7 +34,7 @@ export class AppService {
   newMessageOnCurrentRoom = new Subject<ApiChatMessage>();
 
 
-  private firebaseEvent: any = 'value';
+  private firebaseEvent: firebase.database.EventType = 'value';
   constructor(
     private readonly ngZone: NgZone,
     private readonly toastController: ToastController,
@@ -115,7 +117,7 @@ export class AppService {
       o.closeButtonText = 'Close';
     }
     if (o.duration === void 0) {
-      o.duration = 100000;
+      o.duration = 7000;
     }
     o.cssClass = 'new-chat-message';
     o.position = 'top';
@@ -162,6 +164,18 @@ export class AppService {
   /**
    * It listens new messages of my rooms.
    *
+   * @description This may be called in many ways.
+   *    - When user first visit my rooms page after app booted. Which means, my rooms page is at the bottom of navigation stack.
+   *        In this case, when user visit all rooms page and visit back to my rooms page, this method will be called.
+   *    - Whenever user visit my rooms page when my rooms page is not on the bottom of navigation stack.
+   *        It needs to delete all my room and add new ones.
+   *
+   * @todo Re-consider to
+   *    - Add listening on only the rooms that are not listened.
+   *    - Delete listening of the rooms that are not my rooms.
+   *
+   *    But it may also be reasonable to refresh all the listeners somehow I feel like the app shold refresh it.
+   *
    * @param rooms my rooms
    */
   async listenMyRooms(rooms: Array<ApiChatRoom>) {
@@ -172,7 +186,7 @@ export class AppService {
      * Off(remove) all the event of old listening rooms.
      */
     for (const room of this.listeningRooms) {
-      console.log('Off: ', room.name);
+      // console.log('Off: ', room.name);
       await this.db.child(`/chat/rooms/${room.idx}/last-message`).off(this.firebaseEvent, room['off']);
     }
     this.listeningRooms = [];
@@ -193,7 +207,7 @@ export class AppService {
    * @param room chat room
    */
   listenRoom(room: ApiChatRoom) {
-    console.log('On: ', room.name);
+    // console.log('On: ', room.name);
     room['off'] = this.db.child(`/chat/rooms/${room.idx}/last-message`).on(this.firebaseEvent, snapshot => {
       const message: ApiChatMessage = snapshot.val();
 
@@ -201,7 +215,7 @@ export class AppService {
        * Don't toast if I am opening rooms page for the first time of app running.
        */
       if (room['firstOpenning'] === void 0) {
-        console.log(`First time visiting on Rooms page. Do not toast for the first visit only. room: ${room.name}.`);
+        // console.log(`First time visiting on Rooms page. Do not toast for the first visit only. room: ${room.name}.`);
         room['firstOpenning'] = true;
         return;
       }
@@ -210,7 +224,8 @@ export class AppService {
         console.log('No chat message in the chat room. just return');
         return;
       }
-      console.log(`AppService::listennMyRooms() got message in ${room.name} : `, message);
+
+      // console.log(`AppService::listennMyRooms() got message in ${room.name} : `, message, ' at ', snapshot.ref.parent.key);
 
       /**
        * Don't toast if it's my message.
@@ -226,7 +241,16 @@ export class AppService {
         this.newMessageOnCurrentRoom.next(message);
         return;
       }
-      this.toastMessage(snapshot.val());
+
+      /**
+       * If the message is one of my rooms' message and If I am not in the room, show it as a toast except
+       *    If the message is not for enter or leave.
+       */
+      if (message.status === CHAT_STATUS_ENTER || message.status === CHAT_STATUS_LEAVE) {
+        console.log('User is entering or leaving. No toast!!');
+        return;
+      }
+      this.toastMessage(message);
     });
     this.listeningRooms.push(room);
   }

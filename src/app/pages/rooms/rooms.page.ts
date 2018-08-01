@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { RoomsComponent } from '../../components/rooms/rooms.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ApiChatRoom } from '../../modules/philgo-api-v3/philgo-api.service';
 
 @Component({
@@ -8,32 +8,60 @@ import { ApiChatRoom } from '../../modules/philgo-api-v3/philgo-api.service';
   templateUrl: './rooms.page.html',
   styleUrls: ['./rooms.page.scss'],
 })
-export class RoomsPage implements OnInit {
+export class RoomsPage implements OnInit, OnDestroy {
 
   @ViewChild('appRoomsComponent') appRoomsComponent: RoomsComponent;
   show = {
-    createRoom: false
+    searchBox: false
   };
   constructor(
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
     console.log('RoomsPage::constructor()');
   }
 
   ngOnInit() {
+    console.log('  ==> RoomsPage::ngOnInit()');
+  }
+
+  ngOnDestroy() {
+    console.log('  ===> RoomsPage::ngOnDestroy()');
+  }
+
+  ionViewDidEnter() {
+    console.log('  ===> RoomsPage::ionViewDidEnter()');
+    this.activatedRoute.paramMap.subscribe(params => {
+      console.log('params: ', params);
+    });
+    this.activatedRoute.data.subscribe(data => {
+      console.log('data: ', data);
+      if (data.mode === 'all') {
+        this.initAllRooms();
+      } else {
+        this.initMyRooms();
+      }
+    });
+  }
+  ionViewWillLeave() {
+    console.log('   ===> RoomsPage::ionViewWillLeave()');
   }
 
 
-  onCancelCreateRoom() {
-    console.log('show.createRoom = false');
-    this.show.createRoom = false;
+  initMyRooms() {
+    this.show.searchBox = false;
+    this.appRoomsComponent.loadMyChatRoomList();
+  }
+  initAllRooms() {
+    this.show.searchBox = true;
+    this.appRoomsComponent.loadChatRoomList();
   }
 
   onClickMyRooms() {
-    this.appRoomsComponent.loadMyChatRoomList();
+    this.initMyRooms();
   }
   onClickAllRooms() {
-    this.appRoomsComponent.loadChatRoomList();
+    this.initAllRooms();
   }
 
   // onEnterRoom(room: ApiChatRoom) {

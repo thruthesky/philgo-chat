@@ -2,53 +2,27 @@
 
 ## TODO
 
-* bug:
-  채팅을 하면,  ==> RoomPage::constructor() => Got new message in the room: you should see it on chat box.  메세지가
-    너무 많이 콘솔로그에 나옴.
-    여러 방을 옮기면 특히 많이 나옴.
-
-* 채팅방 개설한 후 자동으로 방으로 들어 갈 것.
 * 내가 들어가 있는 방은 전체 목록에서 보여주지 말 것.
-* 전체 방 목록에서 클릭하고 방에 들어가면 listen 이 안됨. 왜냐하면, listen 을 안했기 때문이다.
-* 채팅방 검색이 안 됨.
-* 방나가기 기능.
-  * 방으로 들어가서, 메뉴에서 방 나가기 버튼을 클릭해야 함.
-  * 카톡 처럼 채팅창 엽에 [+] 버튼을 둘 것. 전송 버튼은 사실 필요하나?
 
-* 필고 로그인 연계
-  * 필고에서 메뉴로 session id 를 전달해서 로그인을 할 수 있도록 한다.
-  * for philgo login user, they can use chat. meaning, they can login with google in philgo and can use chat.
+* 북마크에 추가한 채팅방이 맨 위로, 그 다음으로 읽지지 않은 채팅방들 목록, 그 다음으로 무작위 나머지 목록.
 
-* user primary photo file upload uses philgo file server.
+* 방 별 새 메세지 개 수, 인원수
+  api_chat_my_room 에 각 방별로 맨 마지막에 확인한 메세지의 idx 를 적어야, 새 메세지 개수를 구 할 수 있다.
+
+* 채팅방에서 메시지가 오면(읽으면), 해당 idx 를 api_chat_my_room.idx_last_read 에 기록해서, 내가 특정 방에서 몇 번째 메시지 까지 읽었는지 기록한다.
+  * 이를 통해서, 특정 방에 총 몇개의 새로운 메시지가 있는지 알 수 있다.
+
+
+
+* 채팅방 채팅 메세지 검색.
+
+* 파일 업로드
+  * 사용자 사진은 필고 파일 서버를 그대로 이용.
   * 실제 테스트 환경에서 테스트를 해 봐야 한다.
 
-* while chat photo upload uses DO volumn.
-  * 파일 업로드를 가장 단하게 [DO Valume 추가와 Wordpress API](https://docs.google.com/document/d/1mJrvlq_TxH_t9K0_32mgjJW29djeoWY40261jHVYXjc/edit#heading=h.o1vnfl7avheq) 로 한다.
+  * 채팅 파일은 가장 단하게 [DO Valume 추가와 Wordpress API](https://docs.google.com/document/d/1mJrvlq_TxH_t9K0_32mgjJW29djeoWY40261jHVYXjc/edit#heading=h.o1vnfl7avheq) 로 한다.
   * do it with capacitor file upload.
   * use phone camera to upload file.
-
-* @done 기본적으로 내가 속한 모든 채팅 방을 다 listen 한다. 그래서 톡이 있으면 메인이나 푸시로 알려준다.
-
-
-* 새 메세지 알림 토스트
-  * [->] 클릭하면 해당 채팅방으로 가기
-  * 또는 [x] 표시 클릭하면 닫기.
-  * 그런데, toast 는 닫기만 할 수 있다.
-
-* 새 메세지 소리 알림 옵션
-
-* rooms 페이지에 읽지 않은 메세지 표시. ( 각 채팅방 별 읽지 않은 메세지 구현 )
-  * Ionic Badge 로 표시.
-  * 먼저 채팅방에서 읽은 맨 마지막 메세지의 글 번호를 기록한다.
-  * 방 목록을 할 때, "각 방의 마지막 메세지 확인 글 번호" 다음 부터의 총 메세지 수를 구하면 된다.
-  * 그리고 실시간으로 메세지가 오면 수를 증가시키면 된다.
-  * 총 읽지 않은 메세지의 수를 메뉴 맨 상단에 표시한다.
-
-* 북마크에 추가한 채팅방이 맨 위로, 그 다음으로 읽지 않은 채팅방들 목록, 그 다음으로 무작위 나머지 목록.
-
-* 로그인을 하지 않아도, 방에 들어 갈 수 있다. 단, 쪽지 전송은 방 생성 등은, 로그인을 해야만 한다.
-
-* Ionic 앱 개발.
 
 * push notificatoin for web and app
   * https://beta.ionicframework.com/docs/native/firebase-messaging
@@ -57,9 +31,38 @@
   * api_chat_push_tokens 테이블을 만들어서 각 사용자별 모든 push token 을 관리한다.
   * 모든 사용자는 전체 토픽에 참여를 해서, 공지를 할 수 있도록 한다.
   
-* platform 을 통해서 cordova 인지 아닌지를 분별한다.
+* Ionic 앱 개발. ( push 부터 먼저 마무리 하고, wrapping 해서 마무리 할 것. )
 
-* @done My rooms 는 내 방만 가져오고
+* 필고 메뉴 연계 (PWA 에서)
+  * 필고에서 메뉴로 session id 를 전달해서 로그인을 할 수 있도록 한다.
+  * for philgo login user, they can use chat. meaning, they can login with google in philgo and can use chat.
+
+
+* @re-consider 무조건 로비 부터 먼저 방문을 하도록 한다. 플래그 변수를 두어서 처리를 한다.
+  * 방부터 먼저 들어가면, 로비를 계속 초기화 해야 한다.
+
+* @re-consider 메시지 별로 몇명이 읽었는지는 채팅 방의 메시지 목록에서 실시간 업데이트가 되어야 의미가 있다.
+  * socket.io 를 구현하면 DB 와 연동을 해야해서 문제다.
+  * Firebase 로 하면, 비싸 질 수 있지만, value_changed 이벤트로 최소한의 필드만 받을 수 있도록 해야 한다.
+
+## Todo later after publish
+
+* rooms 페이지에 읽지 않은 메세지 표시. ( 각 채팅방 별 읽지 않은 메세지 구현 )
+  * Ionic Badge 로 표시.
+  * 먼저 채팅방에서 읽은 맨 마지막 메세지의 글 번호를 기록한다.
+  * 방 목록을 할 때, "각 방의 마지막 메세지 확인 글 번호" 다음 부터의 총 메세지 수를 구하면 된다.
+  * 그리고 실시간으로 메세지가 오면 수를 증가시키면 된다.
+  * 총 읽지 않은 메세지의 수를 메뉴 맨 상단에 표시한다.
+
+* 새 메세지 알림 토스트 클릭시 방 이동
+  * [->] 클릭하면 해당 채팅방으로 가기
+  * 또는 [x] 표시 클릭하면 닫기.
+  * 그런데, toast 는 닫기만 할 수 있다.
+
+* 카톡 처럼 채팅창 엽에 [+] 버튼을 둘 것. 전송 버튼은 사실 필요하나?
+
+* 새 메세지 소리 알림 옵션
+
 * All rooms 는 기본적으로 사용자 수가 많은 3백 개의 방을 가져오고 나머지는 검색하도록 한다.
 
 * 필고 홈페이지 공개 옵션. 더 많은 사용자가 볼 수 있고. 더 많은 채팅 유저를 확 볼 수 있음.
@@ -78,5 +81,34 @@
 * 방 홍보 기능. 포인트로 하며 1 포인트당 1 뷰를 필고 홈페이지에 함.
 
 * 백그라운드 설정을 할 수 있도록 할 것. 특히, 제목 부분에 방 이름 대신 이미지로 할 수 있도록 할 것.
+
+## Done and Finished list
+
+* @done 로그인을 하지 않아도, 방에 들어 갈 수 있다. 단, 쪽지 전송은 방 생성 등은, 로그인을 해야만 한다.
+
+* @ok Race condition test.
+  * 확실히 테스트를 해 보지는 않았지만, 100 개의 메세지를 루프로 돌려본 결과 오류가 없이모두 전달 되는 것 같았다.
+  * Firebase readtime database 에 1개의 node 에 update 만으로 새로운 채팅 메세지를 알림하는데,
+    동시에 여러명이서 정말 동시에 채팅해도, 잘 되는가?
+    웹브라우저에서 /room/3?test=run 와 같이 입력하면, 1부터 1천까지 데이터를 전송하고 올바로 받았는지 확인을 한다.
+    즉, 자신의 웹브라우저에서 자신의 대화만 체크를 하는 것이다.
+    서로 다른 컴퓨터 또는 동일한 컴퓨터에서 서로 다른 브라우저로 테스트를 한다.
+
+* @done My rooms 는 내 방만 가져오고
+
+* @done 기본적으로 내가 속한 모든 채팅 방을 다 listen 한다. 그래서 톡이 있으면 메인이나 푸시로 알려준다.
+
+* @done 채팅방 개설한 후 자동으로 방으로 들어 갈 것.
+
+
+* @done my rooms | all rooms | create room 을 메뉴로 옮김.
+* @done seaerch box all rooms 에만 보여 줌.
+* @done 방나가기 기능.
+  * 방으로 들어가서, 메뉴에서 방 나가기 버튼을 클릭해야 함.
+* @done 누가 들어오고 나가면, 그 방 안에 사람만 안내. 메세지에 특별한 옵션을 지정해야 함.
+
+* @done 마지막 사용자가 방을 나가면, 방을 삭제한다.
+* @done 전체 방 목록에서 클릭하고 방에 들어가거나, 직접 방에 들어가도, 각 방에서 enter 를 하고 각 방의 새로운 메시지를 listen 한다.
+
 
 ## 필리핀 단톡방 운영

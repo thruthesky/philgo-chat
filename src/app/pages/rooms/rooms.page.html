@@ -8,29 +8,11 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button color="primary" (click)=" onClickMyRooms() ">My Rooms</ion-button>
-      <ion-button (click)=" onClickAllRooms() ">All Rooms</ion-button>
-      <ion-button (click)=" show.createRoom = true ">Create a Room</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-  <hr>
-  <ion-toolbar>
+
+  <ion-toolbar *ngIf="show.searchBox">
     <ion-searchbar></ion-searchbar>
   </ion-toolbar>
 
-  <app-create-room *ngIf=" show.createRoom " (cancel)=" onCancelCreateRoom() "></app-create-room>
-
-
-  <app-rooms-component #appRoomsComponent (enter)=" onEnterRoom( $event ) "></app-rooms-component>
+  <app-rooms-component #appRoomsComponent></app-rooms-component>
 
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-title>
-      채팅 메세지입니다 - 방이름
-    </ion-title>
-  </ion-toolbar>
-</ion-footer>
