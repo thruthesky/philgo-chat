@@ -10,6 +10,10 @@ export const NICKNAME = 'nickname';
 export const IDX_MEMBER = 'idx_member';
 export const DELETED = 'Deleted';
 
+export const CHAT_STATUS_ENTER = 'E';
+export const CHAT_STATUS_LEAVE = 'L';
+
+export const ERROR_CHAT_NOT_IN_THAT_ROOM = '-530';
 
 interface ApiOptionalRequest {
     method?: string;
@@ -372,20 +376,21 @@ export interface ApiCommentEditResponse extends ApiVersion2Response {
  *
  */
 export interface ApiChatRoom {
-    idx: number;
+    idx: string;
     idx_member: string;
     name: string;
     description: string;
-    stamp_create: number;
+    stamp_create: string;
 }
 export interface ApiChatMessage {
     idx: string;
     idx_chat_room: string;
-    idx_member: any;
+    idx_member: string;
     name: string;
     photoUrl: string;
     message: string;
-    stamp: number;
+    stamp: string;
+    status: string; // char 1 byte.
     retvar?: any; // client session token string or any value. it can be anything. it will be returned from server.
 }
 export interface ApiChatRoomCreateRequest extends ApiRequest {
@@ -394,13 +399,17 @@ export interface ApiChatRoomCreateRequest extends ApiRequest {
 }
 
 export interface ApiChatRoomCreateResponse {
-    idx?: number;
+    idx?: string;
 }
 
 
 
 export interface ApiChatRoomEnterRequest extends ApiOptionalRequest {
-    idx: any;
+    idx: string;
+}
+
+export interface ApiChatRoomLeaveRequest extends ApiOptionalRequest {
+    idx: string;
 }
 
 export interface ApiChatRoomEnter extends ApiChatRoom {
@@ -801,17 +810,29 @@ export class PhilGoApiService {
         return this.idx();
     }
     /**
+     * @deprecated use myIdx();
+     *
+     */
+    idx(): number {
+        const idx = this.myIdx();
+        if (isNaN(<any>idx)) {
+            return 0;
+        } else {
+            return parseInt(idx, 10);
+        }
+    }
+    /**
+     *
      * Returns login user idx
      *
      * If user has not logged in, it returns 0.
+     *
+     * @return string
+     *      It returns login user's idx as 'string'.
+     *      If the user didn't logged in, 'null' will be returned.
      */
-    idx(): number {
-        const re = localStorage.getItem(IDX_MEMBER);
-        if (re) {
-            return parseInt(re, 10);
-        } else {
-            return 0;
-        }
+    myIdx(): string {
+        return localStorage.getItem(IDX_MEMBER);
     }
     /**
      * Returns true if the user has logged in already.
@@ -1205,6 +1226,12 @@ export class PhilGoApiService {
      */
     chatRoomEnter(data: ApiChatRoomEnterRequest): Observable<ApiChatRoomEnter> {
         return this.query('chatRoomEnter', data);
+    }
+    chatRoomLeave(idx: string): Observable<ApiChatRoom> {
+        const data: ApiChatRoomLeaveRequest = {
+            idx: idx
+        };
+        return this.query('chatRoomLeave', data);
     }
 
     /**
