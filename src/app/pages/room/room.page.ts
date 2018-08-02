@@ -46,6 +46,8 @@ export class RoomPage implements OnInit, OnDestroy {
       console.log(` ==> RoomPage::constructor() => Got new message in ${this.roomInfo.name} : you should see it on chat box.`,
         message, CHAT_STATUS_ENTER, this.philgo.myIdx());
       this.displayMessage(message);
+      this.updateLastRead(message.idx);
+      // this.updateLastRead();
     });
   }
 
@@ -99,14 +101,19 @@ export class RoomPage implements OnInit, OnDestroy {
           this.philgo.chatRoomEnter({ idx: this.form.idx_chat_room }).subscribe(res => {
             // console.log('info: ', res);
             this.roomInfo = res;
+            let idx_message_last_read = '';
             if (this.roomInfo.messages && this.roomInfo.messages.length) {
-              this.roomInfo.messages.reverse().map(v => this.displayMessage(v));
+              this.roomInfo.messages.reverse().map(v => {
+                this.displayMessage(v);
+                idx_message_last_read = v.idx;
+              });
             }
             // this.messages = this.roomInfo.messages.reverse();
             this.scroll();
             const room: ApiChatRoom = <any>this.roomInfo;
             delete room['messages'];
             this.a.addRoomToListen(room);
+            this.updateLastRead(idx_message_last_read);
             // this.test();
           }, e => this.a.toast(e));
         } else {
@@ -143,7 +150,12 @@ export class RoomPage implements OnInit, OnDestroy {
     }, e => this.a.toast(e));
   }
 
-  async presentActionSheet() {
+  async presentRoomOptions() {
+
+    let favoriteText = 'Favorite';
+    if (this.roomInfo.favorite === 'Y') {
+      favoriteText = 'Remove from Favorite';
+    }
     const actionSheet = await this.actionSheetController.create({
       header: 'Options',
       buttons: [{
@@ -177,7 +189,7 @@ export class RoomPage implements OnInit, OnDestroy {
           const re = await alert.onDidDismiss();
           console.log('result of present: ', re.role);
 
-          if ( re.role === 'no' ) {
+          if (re.role === 'no') {
             return;
           }
 
@@ -193,19 +205,25 @@ export class RoomPage implements OnInit, OnDestroy {
           });
         }
       },
-      // {
-      //   text: 'Share',
-      //   icon: 'share',
-      //   handler: () => {
-      //     console.log('Share clicked');
-      //   }
-      // },
       {
-        text: 'Favorite',
+        text: favoriteText,
         icon: 'heart',
         handler: () => {
           console.log('favorite clicked');
-          this.a.toast('This room has added as favorite');
+          console.log('chatroominfo: ', this.roomInfo);
+          if (this.roomInfo.favorite === 'Y') {
+            this.philgo.chatRoomUnfavorite(this.roomInfo.idx).subscribe(res => {
+              console.log('un-favorite:', res);
+              this.a.toast('This room has removed as favorite');
+              this.roomInfo.favorite = '';
+            }, e => this.a.toast(e));
+          } else {
+            this.philgo.chatRoomFavorite(this.roomInfo.idx).subscribe(res => {
+              console.log('favorite:', res);
+              this.a.toast('This room has added as favorite');
+              this.roomInfo.favorite = 'Y';
+            }, e => this.a.toast(e));
+          }
         }
       }, {
         text: 'Cancel',
@@ -226,6 +244,17 @@ export class RoomPage implements OnInit, OnDestroy {
       this.messages.push(message);
       this.scroll();
     }
+  }
+  updateLastRead(idx_message: string) {
+    if (!idx_message) {
+      return;
+    }
+    console.log('updateLastRead(): ', this.roomInfo.idx);
+    this.philgo.chatMessageLastRead(this.roomInfo.idx, idx_message).subscribe(res => {
+      console.log('chatMssagelastRead()', res);
+    }, e => {
+      console.log('error:', e);
+    });
   }
 }
 

@@ -255,5 +255,16 @@ export class AppService {
     this.listeningRooms.push(room);
   }
 
+  /**
+   * Returns number from string.
+   * @param v value of number
+   */
+  number(v) {
+    if (isNaN(v)) {
+      return 0;
+    } else {
+      return parseInt(v, 10);
+    }
+  }
 
 }

@@ -1,12 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ title }}</ion-title>
+    <ion-title>
+      {{ title }}
+      <ion-badge color="danger" *ngIf="share.totalNoOfNewMessages">{{ share.totalNoOfNewMessages }}</ion-badge>
+    </ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 
 <ion-content padding>
 
@@ -14,6 +16,6 @@
     <ion-searchbar></ion-searchbar>
   </ion-toolbar>
 
-  <app-rooms-component #appRoomsComponent></app-rooms-component>
+  <app-rooms-component #appRoomsComponent [share]="share"></app-rooms-component>
 
 </ion-content>

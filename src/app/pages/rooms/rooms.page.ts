@@ -14,6 +14,9 @@ export class RoomsPage implements OnInit, OnDestroy {
   @ViewChild('appRoomsComponent') appRoomsComponent: RoomsComponent;
 
   title = '';
+  share = {
+    totalNoOfNewMessages: 0
+  };
   show = {
     searchBox: false
   };
@@ -69,7 +72,7 @@ export class RoomsPage implements OnInit, OnDestroy {
   initAllRooms() {
     this.title = 'All Rooms';
     this.show.searchBox = true;
-    this.appRoomsComponent.loadChatRoomList();
+    this.appRoomsComponent.loadAllChatRoomList();
   }
 
   onClickMyRooms() {
