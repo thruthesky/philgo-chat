@@ -376,11 +376,19 @@ export interface ApiCommentEditResponse extends ApiVersion2Response {
  *
  */
 export interface ApiChatRoom {
-    idx: string;
-    idx_member: string;
+    idx: string;                // always api_chat_room.idx
+    idx_member: string;         // is the owner of the chat room.
+    idx_owner?: string;         // is the owner of the chat room.
+    no_of_member: string;
     name: string;
     description: string;
     stamp_create: string;
+    idx_room?: string;          // api_chat_room.idx
+    idx_my_room?: string;       // api_chat_my_room.idx
+    idx_chat_room?: string;     // api_chat_room.idx
+    favorite?: 'Y' | '';          // 'Y' | '' if it's in favorite list.
+    idx_message_last_read?: string;     // api_chat_message.idx which lastly read by the user for that chat room.
+    no_of_unread_messages?: string;     // no of unread messages for this room.
 }
 export interface ApiChatMessage {
     idx: string;
@@ -1234,11 +1242,23 @@ export class PhilGoApiService {
         return this.query('chatRoomLeave', data);
     }
 
+    chatRoomFavorite(idx: string): Observable<ApiChatRoom> {
+        return this.query('chatRoomFavorite', { idx: idx });
+    }
+
+    chatRoomUnfavorite(idx: string): Observable<ApiChatRoom> {
+        return this.query('chatRoomUnfavorite', { idx: idx });
+    }
+
     /**
      * Get chat room list. It includes my own chat rooms.
      */
     chatMessageSend(form: ApiChatMessage): Observable<ApiChatMessage> {
         return this.query('chatMessageSend', form);
+    }
+
+    chatMessageLastRead(idx_room: string, idx_message: string): Observable<any> {
+        return this.query('chatMessageLastRead', { idx_room: idx_room, idx_message: idx_message });
     }
 
 
