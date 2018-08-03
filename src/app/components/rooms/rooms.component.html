@@ -3,8 +3,8 @@
   <!-- <ion-item *ngFor="let room of rooms" (click)="onClickRoom(room)"> -->
   <ion-item lines="full" *ngFor="let room of rooms" routerLink="/room/{{ room.idx }}">
     <ion-label>
-        <ion-icon color="tertiary" name="ribbon" *ngIf=" room.idx_owner == philgo.myIdx() "></ion-icon>
-        <ion-icon color="secondary" name="heart" *ngIf=" room.idx_owner != philgo.myIdx() && room.favorite == 'Y' "></ion-icon>
+        <ion-icon slot="start" color="tertiary" name="ribbon" *ngIf=" room.idx_owner == philgo.myIdx() "></ion-icon>
+        <ion-icon slot="start" color="secondary" name="heart" *ngIf=" room.idx_owner != philgo.myIdx() && room.favorite == 'Y' "></ion-icon>
         <ion-text>{{ room.name }}</ion-text>
 
         <ng-container *ngIf=" roomType == 'my-rooms' ">
