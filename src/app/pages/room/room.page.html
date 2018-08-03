@@ -8,7 +8,7 @@
     <ion-title>
       <ion-spinner *ngIf=" ! roomInfo.name "></ion-spinner>
       <ng-container *ngIf=" roomInfo.name ">
-        {{ roomInfo.name }}
+        <ion-text>{{ roomInfo.name }}</ion-text>
         <ion-badge>{{ roomInfo.no_of_member }}</ion-badge>
       </ng-container>
     </ion-title>
