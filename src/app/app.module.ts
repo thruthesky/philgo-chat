@@ -31,5 +31,10 @@ export class AppModule {
      * Philgo API file server url. Must end with 'indx.php'.
      */
     philgo.setFileServerUrl('https://local.philgo.com/index.php');
+
+    /**
+     * New File Server End Ponit
+     */
+    philgo.setNewFileServerUrl('http://127.0.0.1/tmp/file-server/index.php');
   }
 }

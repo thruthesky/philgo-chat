@@ -54,7 +54,10 @@
 
 <ion-footer>
   <div class="message-input-box">
-    <ion-icon class="camera" name="camera"></ion-icon>
+    <div class="camera-wrapper">
+        <ion-icon class="camera" name="camera"></ion-icon>
+        <input class="filebox" type="file" name="file" (change)="onChangeFile($event)">
+    </div>
     <ion-input type="text" placeholder="Type a message" [(ngModel)]="form.message" name="message" (keyup.enter)="onClickSendMessage()"></ion-input>
     <ion-icon class="send" name="paper-plane" (click)="onClickSendMessage()"></ion-icon>
   </div>
