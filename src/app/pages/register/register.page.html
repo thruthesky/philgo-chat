@@ -1,4 +1,4 @@
-<ion-header mode="ios" translucent>
+<ion-header  translucent>
   <ion-toolbar>
     <ion-title *ngIf=" !isLoggedIn ">Register</ion-title>
     <ion-title *ngIf=" isLoggedIn ">Profile Update</ion-title>
@@ -52,7 +52,7 @@
         <ion-input name="mobile" [(ngModel)]="form.mobile" (keyup.enter)="onSubmit()"></ion-input>
       </ion-item>
     </ion-list>
-    <ion-button margin-vertical mode="ios" expand="full" type="button" (click)="onSubmit()">
+    <ion-button margin-vertical  expand="full" type="button" (click)="onSubmit()">
         SUBMIT
       <ion-icon slot="end" name="send"></ion-icon>
     </ion-button>
