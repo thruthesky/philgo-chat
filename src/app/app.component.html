@@ -2,11 +2,11 @@
   <ion-split-pane>
     <ion-menu side="end">
       <ion-header mode="ios" translucent>
-        <ion-toolbar color="secondary">
+        <ion-toolbar padding-horizontal color="secondary">
           <ion-title>Menu</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-content>
+      <ion-content padding>
         <ion-list>
           <ion-menu-toggle auto-hide="false">
             <!-- <ion-item routerLink="/">
@@ -17,6 +17,7 @@
               </ion-label>
             </ion-item> -->
             <ion-item routerLink="/my-rooms">
+              <ion-icon slot="start" color="medium" name="albums"></ion-icon>
               <ion-label>
                 <ion-text>
                   My Rooms
@@ -24,6 +25,7 @@
               </ion-label>
             </ion-item>
             <ion-item routerLink="/all-rooms">
+              <ion-icon slot="start" color="medium" name="chatbubbles"></ion-icon>
               <ion-label>
                 <ion-text>
                   All Rooms
@@ -31,6 +33,7 @@
               </ion-label>
             </ion-item>
             <ion-item routerLink="/create-room">
+              <ion-icon slot="start" mode="ios" color="medium" name="add-circle"></ion-icon>
               <ion-label>
                 <ion-text>
                   Create Room
@@ -38,6 +41,7 @@
               </ion-label>
             </ion-item>
             <ion-item routerLink="/register">
+              <ion-icon slot="start" mode="ios" color="medium" name="create"></ion-icon>
               <ion-label>
                 <ion-text>
                   Register
@@ -45,6 +49,7 @@
               </ion-label>
             </ion-item>
             <ion-item routerLink="/login">
+              <ion-icon slot="start" mode="ios" color="medium" name="log-in"></ion-icon>
               <ion-label>
                 <ion-text>
                   Login
@@ -52,6 +57,7 @@
               </ion-label>
             </ion-item>
             <ion-item (click)="onClickLogout()">
+              <ion-icon slot="start" mode="ios" color="medium" name="log-out"></ion-icon>
               <ion-label>
                 <ion-text>
                   Logout
@@ -59,7 +65,7 @@
               </ion-label>
             </ion-item>
             <ion-item>
-              <ion-icon mode="ios" color="danger" name="close"></ion-icon>
+              <ion-icon slot="start" mode="ios" color="secondary" name="close-circle"></ion-icon>
               <ion-label>
                 <ion-text>
                   Close

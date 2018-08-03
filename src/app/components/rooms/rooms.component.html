@@ -1,10 +1,10 @@
 <ion-list *ngIf=" rooms.length ">
   <!-- <ion-item *ngFor="let room of rooms" (click)="enter.emit(room)"> -->
   <!-- <ion-item *ngFor="let room of rooms" (click)="onClickRoom(room)"> -->
-  <ion-item *ngFor="let room of rooms" routerLink="/room/{{ room.idx }}">
+  <ion-item lines="full" *ngFor="let room of rooms" routerLink="/room/{{ room.idx }}">
     <ion-label>
-        <ion-icon name="ribbon" *ngIf=" room.idx_owner == philgo.myIdx() "></ion-icon>
-        <ion-icon name="heart" *ngIf=" room.idx_owner != philgo.myIdx() && room.favorite == 'Y' "></ion-icon>
+        <ion-icon color="tertiary" name="ribbon" *ngIf=" room.idx_owner == philgo.myIdx() "></ion-icon>
+        <ion-icon color="secondary" name="heart" *ngIf=" room.idx_owner != philgo.myIdx() && room.favorite == 'Y' "></ion-icon>
         <ion-text>{{ room.name }}</ion-text>
 
         <ng-container *ngIf=" roomType == 'my-rooms' ">

@@ -8,7 +8,7 @@
     <ion-title>
       <ion-spinner *ngIf=" ! roomInfo.name "></ion-spinner>
       <ng-container *ngIf=" roomInfo.name ">
-        <ion-text>{{ roomInfo.name }}</ion-text>
+        {{ roomInfo.name }}
         <ion-badge>{{ roomInfo.no_of_member }}</ion-badge>
       </ng-container>
     </ion-title>
@@ -21,7 +21,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-scroll #ionScroll>
     <div class="messages" *ngIf=" messages.length ">
       <div class="message p-2" *ngFor=" let message of messages ">

@@ -1,5 +1,5 @@
 <ion-header mode="ios" translucent>
-  <ion-toolbar padding-horizontal>
+  <ion-toolbar>
     <ion-title>Login</ion-title>
     <ion-buttons slot="end">
         <ion-menu-button></ion-menu-button>
@@ -7,9 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-
-
+<ion-content>
   <ion-list>
     <ion-item>
       <ion-label position="floating">Email</ion-label>
@@ -19,15 +17,11 @@
       <ion-label position="floating">Password</ion-label>
       <ion-input name="password" type="password" [(ngModel)]="password" (keyup.enter)="onSubmit()"></ion-input>
     </ion-item>
-    <ion-item padding-vertical>
-      <ion-button mode="ios" expand="full" type="button" (click)="onSubmit()">
-        <ion-label>
-          LOGIN
-        </ion-label>
-        <ion-icon name="send"></ion-icon>
-      </ion-button>
-    </ion-item>
   </ion-list>
+  <ion-button margin-vertical mode="ios" expand="full" type="button" (click)="onSubmit()">
+      LOGIN
+    <ion-icon slot="end" name="send"></ion-icon>
+  </ion-button>
 
 
 </ion-content>

@@ -11,19 +11,14 @@
     <ion-label position="floating">Description</ion-label>
     <ion-input name="description" type="type" [(ngModel)]="form.description" (keyup.enter)="onSubmit()"></ion-input>
   </ion-item>
-  <ion-item padding-vertical>
-    <ion-button margin-end mode="ios" expand="full" type="button" (click)="onSubmit()">
-      <ion-label>
-        Create
-      </ion-label>
-      <ion-icon name="send"></ion-icon>
-    </ion-button>
-    <ion-button margin-start color="light" mode="ios" expand="full" type="button" (click)="onCancel()">
-      <ion-label>
-        Cancel
-      </ion-label>
-      <ion-icon color="danger" name="close"></ion-icon>
-    </ion-button>
-  </ion-item>
 </ion-list>
+
+<ion-button margin-vertical mode="ios" expand="full" type="button" (click)="onSubmit()">
+    Create
+  <ion-icon slot="end" name="send"></ion-icon>
+</ion-button>
+<ion-button margin-vertical color="light" mode="ios" expand="full" type="button" (click)="onCancel()">
+    Cancel
+  <ion-icon slot="end" color="danger" name="close"></ion-icon>
+</ion-button>
 
