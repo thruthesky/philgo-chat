@@ -1,12 +1,18 @@
-ion-input {
-    background-color: rgb(252, 235, 214);
-}
+@import '../../../theme/mixins';
 
-.send-button {
-    background-color: #b0c0bf;
-    padding: 12px;
-    ion-icon {
-        width: 26px;
-        height: 26px;
+.message-input-box {
+    display: flex;
+    ion-input {
+        background-color: rgb(252, 235, 214);
+    }
+    ion-icon.camera {
+        background-color: #b0c0bf;
+        padding: 12px;
+        @include icon-size();
+    }
+    ion-icon.send {
+        background-color: #b0c0bf;
+        padding: 12px;
+        @include icon-size();
     }
 }
