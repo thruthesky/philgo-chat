@@ -6,6 +6,7 @@ import {
 } from '../../modules/philgo-api-v3/philgo-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, AlertController } from '@ionic/angular';
+import { HttpRequest } from '../../../../node_modules/@angular/common/http';
 
 @Component({
   selector: 'app-room',
@@ -256,5 +257,26 @@ export class RoomPage implements OnInit, OnDestroy {
       console.log('error:', e);
     });
   }
+
+
+  onChangeFile(event: Event) {
+    console.log(event);
+    const files = event.target['files'];
+    if (files === void 0 || !files.length || files[0] === void 0) {
+      return this.a.toast('Please select a file');
+    }
+
+    this.philgo.fileUpload(files, {
+      uid: this.philgo.myIdx(),
+      secret: this.philgo.myIdx()
+    }).subscribe(res => {
+      if (typeof res === 'number') {
+        console.log('percentage', res);
+      } else {
+        console.log('result ', res);
+      }
+    }, e => this.a.toast(e));
+  }
+
 }
 
