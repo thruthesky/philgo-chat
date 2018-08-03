@@ -1,5 +1,19 @@
 @import '../../../theme/mixins';
-
+ion-icon{
+    position: relative;
+    top: .06em;
+}
+ion-title{
+    ion-badge{
+        position: relative;
+        bottom: .16em;
+        margin-left: .5em;
+    }
+    ion-spinner{
+        position: relative;
+        top: .06em;
+    }
+}
 .message-input-box {
     display: flex;
     ion-input {

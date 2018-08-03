@@ -1,9 +1,9 @@
-<ion-header mode="ios" translucent>
+<ion-header  >
   <ion-toolbar>
 
     <ion-title>
-      {{ title }}
-      <ion-badge color="danger" *ngIf="share.totalNoOfNewMessages">{{ share.totalNoOfNewMessages }}</ion-badge>
+      <ion-text>{{ title }}</ion-text>
+      <ion-badge color="primary" *ngIf="share.totalNoOfNewMessages">{{ share.totalNoOfNewMessages }}</ion-badge>
     </ion-title>
 
     <ion-buttons slot="end">
@@ -13,12 +13,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
-  <ion-toolbar *ngIf="show.searchBox">
-    <ion-searchbar mode="ios"></ion-searchbar>
-  </ion-toolbar>
-
+<ion-content padding>
+  <ion-searchbar *ngIf="show.searchBox" autocomplete></ion-searchbar>
   <app-rooms-component #appRoomsComponent [share]="share"></app-rooms-component>
 
 </ion-content>

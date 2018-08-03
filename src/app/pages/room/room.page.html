@@ -1,4 +1,4 @@
-<ion-header mode="ios" translucent>
+<ion-header  >
   <ion-toolbar padding-horizontal>
     <ion-buttons slot="start">
       <ion-button routerLink="/">
@@ -21,7 +21,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-scroll #ionScroll>
     <div class="messages" *ngIf=" messages.length ">
       <div class="message p-2" *ngFor=" let message of messages ">

@@ -1,4 +1,15 @@
+@import "../../../theme/breakpoints";
 ion-badge{
     position: relative;
-    bottom: .16em;
+    bottom: .125em;
+    margin-left: .5em
+}
+
+ion-toolbar{
+    padding-left:17px;
+    padding-right: 17px;
+}
+
+ion-searchbar{
+    margin-left: .4rem;
 }

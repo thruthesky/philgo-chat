@@ -1,5 +1,5 @@
-<ion-header mode="ios" translucent>
-  <ion-toolbar padding-horizontal>
+<ion-header  >
+  <ion-toolbar>
     <ion-title *ngIf=" !isLoggedIn ">Register</ion-title>
     <ion-title *ngIf=" isLoggedIn ">Profile Update</ion-title>
     <ion-buttons slot="end">
@@ -13,17 +13,15 @@
   <form (ngSubmit)="onSubmit( $event )">
     <ion-list>
 
-      <ion-item *ngIf="isLoggedIn ">
+      <ion-item margin-vertical padding-end color="light" *ngIf="isLoggedIn ">
         <ion-label>Nickname</ion-label>
-        <ion-text>
-          {{ form.nickname }}
-        </ion-text>
+        <ion-text>{{ form.nickname }}</ion-text>
       </ion-item>
 
-      <ion-item *ngIf="isLoggedIn">
+      <ion-item margin-bottom padding-end color="light" *ngIf="isLoggedIn">
           <ion-label>Email</ion-label>
           <ion-text>{{ form.email }}</ion-text>
-        </ion-item>
+      </ion-item>
   
       <ion-item *ngIf=" !isLoggedIn ">
         <ion-label position="floating">Email</ion-label>
@@ -34,7 +32,8 @@
         <ion-label position="floating">Password</ion-label>
         <ion-input name="password" type="password" [(ngModel)]="form.password" (keyup.enter)="onSubmit()"></ion-input>
       </ion-item>
-      <ion-item *ngIf=" isLoggedIn ">
+
+      <ion-item margin-bottom padding-end color="light" *ngIf=" isLoggedIn ">
         <ion-label>
           <ion-text>Change Password</ion-text>
         </ion-label>
@@ -52,15 +51,11 @@
         <ion-label position="floating">Mobile</ion-label>
         <ion-input name="mobile" [(ngModel)]="form.mobile" (keyup.enter)="onSubmit()"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-button type="button" (click)="onSubmit()">
-          <ion-label>
-            SUBMIT
-          </ion-label>
-          <ion-icon name="send"></ion-icon>
-        </ion-button>
-      </ion-item>
     </ion-list>
+    <ion-button margin-vertical  expand="full" type="button" (click)="onSubmit()">
+        SUBMIT
+      <ion-icon slot="end" name="send"></ion-icon>
+    </ion-button>
   </form>
 
 </ion-content>
