@@ -1,18 +1,21 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header mode="ios" translucent>
+  <ion-toolbar padding-horizontal>
+
     <ion-title>
       {{ title }}
       <ion-badge color="danger" *ngIf="share.totalNoOfNewMessages">{{ share.totalNoOfNewMessages }}</ion-badge>
     </ion-title>
+
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
 
-  <ion-toolbar *ngIf="show.searchBox">
+  <ion-toolbar padding-horizontal *ngIf="show.searchBox">
     <ion-searchbar></ion-searchbar>
   </ion-toolbar>
 
