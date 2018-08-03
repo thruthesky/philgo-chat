@@ -17,3 +17,13 @@
     <ion-text>{{ room.description }}</ion-text>
   </ion-item>
 </ion-list>
+
+<ion-card *ngIf=" ! rooms.length ">
+  <ion-img src="/assets/img/chat-icon.png"></ion-img>
+
+  <ion-card-content>
+    <ion-card-title>Oops ... !</ion-card-title>
+
+    <p>You do not have any rooms.</p>
+  </ion-card-content>
+</ion-card>
