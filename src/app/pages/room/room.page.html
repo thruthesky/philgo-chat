@@ -53,14 +53,9 @@
 </ion-content>
 
 <ion-footer>
-
-  <div class="">
-    <ion-label>
-      <ion-icon name="camera"></ion-icon>
-    </ion-label>
+  <div class="message-input-box">
+    <ion-icon class="camera" name="camera"></ion-icon>
     <ion-input type="text" placeholder="Type a message" [(ngModel)]="form.message" name="message" (keyup.enter)="onClickSendMessage()"></ion-input>
-
-    <ion-icon name="paper-plane" (click)="onClickSendMessage()"></ion-icon>
+    <ion-icon class="send" name="paper-plane" (click)="onClickSendMessage()"></ion-icon>
   </div>
-
 </ion-footer>
