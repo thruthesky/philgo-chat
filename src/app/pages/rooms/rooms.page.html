@@ -1,5 +1,5 @@
 <ion-header mode="ios" translucent>
-  <ion-toolbar padding-horizontal>
+  <ion-toolbar>
 
     <ion-title>
       {{ title }}
@@ -13,10 +13,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
-  <ion-toolbar padding-horizontal *ngIf="show.searchBox">
-    <ion-searchbar></ion-searchbar>
+  <ion-toolbar *ngIf="show.searchBox">
+    <ion-searchbar mode="ios"></ion-searchbar>
   </ion-toolbar>
 
   <app-rooms-component #appRoomsComponent [share]="share"></app-rooms-component>
