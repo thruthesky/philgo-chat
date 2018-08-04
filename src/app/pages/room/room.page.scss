@@ -88,6 +88,7 @@ ion-title {
                 .content{
                     padding: 1rem;
                     border-radius: 7px;
+                    border-top-left-radius: 0;
                     background:  var(--ion-color-light-tint);
                     color: var(--ion-color-light-contrast);
                     font-size: .9em;
@@ -101,6 +102,7 @@ ion-title {
             .content{
                 padding: 1rem;
                 border-radius: 5px;
+                border-bottom-right-radius: 0;
                 background:  var(--ion-color-primary-tint);
                 color: var(--ion-color-primary-contrast);
                 font-size: .9em;
