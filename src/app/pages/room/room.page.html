@@ -39,9 +39,7 @@
 
                 <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
                 <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
-                <div class="uploaded-photo">
-                  <img text-wrap [src]="message.url" *ngIf="message.url">
-                </div>
+                <app-show-file *ngIf="message.url" [message]="message" ></app-show-file>
               </div>
             </div>
           </div>
@@ -53,9 +51,7 @@
 
             <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
             <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
-            <div class="uploaded-photo">
-              <img text-wrap [src]="message.url" *ngIf="message.url">
-            </div>
+            <app-show-file *ngIf="message.url" [message]="message" ></app-show-file>
             <div *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
 
           </div>

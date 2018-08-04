@@ -1,0 +1,10 @@
+.uploaded-photo {
+    img {
+        width: 256px;
+    }
+    &.clicked {
+        img {
+            width: 100%;
+        }
+    }
+}
