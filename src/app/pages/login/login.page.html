@@ -11,7 +11,7 @@
   <ion-list>
     <ion-item>
       <ion-label position="floating">Email</ion-label>
-      <ion-input name="email" [(ngModel)]="email" (keyup.enter)="onSubmit()"></ion-input>
+      <ion-input autocomplete clear-input name="email" [(ngModel)]="email" (keyup.enter)="onSubmit()"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Password</ion-label>
