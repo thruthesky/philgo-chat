@@ -1,5 +1,21 @@
 @import '../../../theme/mixins';
-@import '../../../theme/breakpoints';
+ion-icon {
+    position: relative;
+    top: .06em;
+}
+
+ion-title {
+    ion-badge {
+        position: relative;
+        bottom: .16em;
+        margin-left: .5em;
+    }
+    ion-spinner {
+        position: relative;
+        top: .06em;
+    }
+}
+
 .message-input-box {
     display: flex;
     ion-input {
@@ -17,7 +33,6 @@
         padding: 12px;
         @include icon-size();
     }
-
     .camera-wrapper {
         position: relative;
         overflow: hidden;
@@ -73,28 +88,19 @@
         }
     }
 }
-
-
-// .sending-file {
-//     &.photo {
-//         img {
-//             width: 160px;
-//         }
-//     }
-// }
-
-ion-icon{
-    position: relative;
-    top: .06em;
-}
-ion-title{
-    ion-badge{
-        position: relative;
-        bottom: .16em;
-        margin-left: .5em;
+.sending-file {
+    &.photo {
+        img {
+            width: 160px;
+        }
     }
-    ion-spinner{
-        position: relative;
-        top: .06em;
+}
+
+
+.messages {
+    .uploaded-photo {
+        img {
+            width: 256px;
+        }
     }
 }
