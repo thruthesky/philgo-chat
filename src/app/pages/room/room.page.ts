@@ -272,6 +272,9 @@ export class RoomPage implements OnInit, OnDestroy {
     if (!idx_message) {
       return;
     }
+    if (this.philgo.isLoggedOut()) {
+      return;
+    }
     console.log('updateLastRead(): ', this.roomInfo.idx);
     this.philgo.chatMessageLastRead(this.roomInfo.idx, idx_message).subscribe(res => {
       console.log('chatMssagelastRead()', res);

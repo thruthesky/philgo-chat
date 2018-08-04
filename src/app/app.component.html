@@ -1,7 +1,7 @@
 <ion-app>
   <ion-split-pane>
     <ion-menu side="end">
-      <ion-header  >
+      <ion-header>
         <ion-toolbar padding-horizontal color="light">
           <ion-title>Menu</ion-title>
         </ion-toolbar>
@@ -33,7 +33,7 @@
               </ion-label>
             </ion-item>
             <ion-item routerLink="/create-room">
-              <ion-icon slot="start"  color="medium" name="add-circle"></ion-icon>
+              <ion-icon slot="start" color="medium" name="add-circle"></ion-icon>
               <ion-label>
                 <ion-text>
                   Create Room
@@ -41,15 +41,23 @@
               </ion-label>
             </ion-item>
             <ion-item routerLink="/register">
-              <ion-icon slot="start"  color="medium" name="create"></ion-icon>
+              <ion-icon slot="start" color="medium" name="create"></ion-icon>
               <ion-label>
                 <ion-text>
                   Register
                 </ion-text>
               </ion-label>
             </ion-item>
+            <ion-item routerLink="/help">
+              <ion-icon slot="start" color="medium" name="help-circle-outline"></ion-icon>
+              <ion-label>
+                <ion-text>
+                  Help
+                </ion-text>
+              </ion-label>
+            </ion-item>
             <ion-item routerLink="/login">
-              <ion-icon slot="start"  color="medium" name="log-in"></ion-icon>
+              <ion-icon slot="start" color="medium" name="log-in"></ion-icon>
               <ion-label>
                 <ion-text>
                   Login
@@ -57,7 +65,7 @@
               </ion-label>
             </ion-item>
             <ion-item (click)="onClickLogout()">
-              <ion-icon slot="start"  color="medium" name="log-out"></ion-icon>
+              <ion-icon slot="start" color="medium" name="log-out"></ion-icon>
               <ion-label>
                 <ion-text>
                   Logout
