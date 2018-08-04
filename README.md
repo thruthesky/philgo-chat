@@ -2,10 +2,12 @@
 
 ## TODO
 
-* 파일 업로드
+* 파일 업로드 in cordova.
   * 채팅 파일은 가장 단하게 [DO Valume 추가와 File Server](https://docs.google.com/document/d/1mJrvlq_TxH_t9K0_32mgjJW29djeoWY40261jHVYXjc/edit#heading=h.o1vnfl7avheq) 로 한다.
   * do it with cordova file upload. capacitor 는 아직 불완전해서, 급하게 앱 개발해야하는데, 애로점이 많아 보인다. 그래서 그냥 cordova 로 한다.
   * use phone camera to upload file.
+
+* Profile 업로드
 
 * push notificatoin for web and app
   * https://beta.ionicframework.com/docs/native/firebase-messaging
