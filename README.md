@@ -7,7 +7,9 @@
   * do it with cordova file upload. capacitor 는 아직 불완전해서, 급하게 앱 개발해야하는데, 애로점이 많아 보인다. 그래서 그냥 cordova 로 한다.
   * use phone camera to upload file.
 
-* Profile 업로드
+* Profile 사진 업로드
+
+* cordova 에서 백 버튼 클릭하면 뒤로 안감.
 
 * push notificatoin for web and app
   * https://beta.ionicframework.com/docs/native/firebase-messaging
@@ -17,6 +19,8 @@
   * api_chat_push_tokens 테이블을 만들어서 각 사용자별 모든 push token 을 관리한다.
   * 모든 사용자는 전체 토픽에 참여를 해서, 공지를 할 수 있도록 한다.
   * 각 방마다 토픽을 만든다.
+
+* 언어 translation
 
 * 필고 운영자 페이지 필터링 단어 필터링. 필고와 동일한 알고리즘.
 * 관리자의 채팅방 설정 페이지. 별 레벨 제한과 사용자 별 허가. 레벨을 높게하면, 모두 채팅 차단하는 효과가 있고, 원하는 사용자만 허가 할 수 있음.
