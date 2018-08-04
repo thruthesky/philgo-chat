@@ -24,7 +24,7 @@
 <ion-content>
   <ion-scroll #ionScroll padding>
     <div class="messages" *ngIf=" messages.length ">
-      <div class="message p-2" *ngFor=" let message of messages ">
+      <div class="message" *ngFor=" let message of messages ">
 
         <!-- {{ message | json }} -->
         <ng-container *ngIf=" message.type != 'sending-file' ">
@@ -54,7 +54,7 @@
                   <span class="date fs-xl">{{ message.stamp | date:'short'}}</span> -->
             <!-- {{ message.idx }} -->
             <div class="content">
-                <ion-spinner *ngIf="  ! message.idx "></ion-spinner>
+                <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
                 <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
                 <app-show-file *ngIf="message.url" [message]="message" (load)=" scroll() "></app-show-file>
                 <div class="fs-sm" *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
