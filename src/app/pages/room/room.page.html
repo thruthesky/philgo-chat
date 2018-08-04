@@ -22,35 +22,40 @@
 </ion-header>
 
 <ion-content>
-  <ion-scroll #ionScroll>
+  <ion-scroll #ionScroll padding>
     <div class="messages" *ngIf=" messages.length ">
-      <div class="message p-2" *ngFor=" let message of messages ">
+      <div class="message" *ngFor=" let message of messages ">
         <ng-container *ngIf=" ! message.type ">
-          <div class="other" text-left *ngIf="message.idx_member != philgo.myIdx(); ">
-            <div class="">
-              <div class="photo" *ngIf=" message.photoUrl ">
-                <img src="{{ message.photoUrl }}">
-              </div>
-              <div class="text">
+
+
+          <div class="other" *ngIf="message.idx_member != philgo.myIdx(); ">
+            <div class="left">
+                <ion-avatar *ngIf=" message.photoUrl ">
+                  <img src="{{ message.photoUrl }}">
+                </ion-avatar>
+            </div>
+            <div class="right">
+              <div class="title">
                 <span class="name">{{message.name}}</span>
-                <span class="date fs-xl">{{message.stamp | date:'short'}}</span>
-                <div text-wrap [innerHTML]="message.message"></div>
+                <span class="date fs-sm">{{message.stamp | date:'short'}}</span>
               </div>
+              <div class="content" text-wrap [innerHTML]="message.message"></div>
             </div>
           </div>
 
+          
           <div class="my" text-right *ngIf="message.idx_member == philgo.myIdx(); ">
             <!-- <span class="name">Me</span>
                   <span class="date fs-xl">{{ message.stamp | date:'short'}}</span> -->
             <!-- {{ message.idx }} -->
             <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
             <div text-wrap [innerHTML]="message.message"></div>
-            <div *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
+            <div *ngIf=" !message['percentage'] ">{{ message['percentage'] }}%</div>
           </div>
+
+
         </ng-container>
         <app-send-file text-right *ngIf=" message.type == 'sending-file' " [message]="message"></app-send-file>
-
-
       </div>
     </div>
   </ion-scroll>

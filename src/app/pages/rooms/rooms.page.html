@@ -14,7 +14,9 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-searchbar *ngIf="show.searchBox" autocomplete></ion-searchbar>
+  <ion-toolbar  *ngIf="show.searchBox">
+      <ion-searchbar autocomplete></ion-searchbar>
+  </ion-toolbar>
   <app-rooms-component #appRoomsComponent [share]="share"></app-rooms-component>
 
 </ion-content>
