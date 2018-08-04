@@ -49,7 +49,7 @@ ion-title {
 
 .messages{
     .message{
-        margin: .5rem 0;
+        margin: 1rem 0;
         padding: .5rem 0;
         .other{
             display: flex;
@@ -66,8 +66,7 @@ ion-title {
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
-                    margin-top:.25rem;
-                    margin-bottom: .5rem;
+                    margin: .1rem 1px .5rem 1px; 
                     .name{
                         color:var(--ion-color-primary-shade);
                         font-weight: bold;
