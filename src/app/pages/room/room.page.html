@@ -29,22 +29,24 @@
         <!-- {{ message | json }} -->
         <ng-container *ngIf=" message.type != 'sending-file' ">
           <div class="other" text-left *ngIf="message.idx_member != philgo.myIdx(); ">
-            <div class="">
-              <div class="photo" *ngIf=" message.photoUrl ">
-                <img src="{{ message.photoUrl }}">
-              </div>
-              <div class="text">
-                <span class="name">{{message.name}}</span>
-                <span class="date fs-xl">{{message.stamp | date:'short'}}</span>
-
-                <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
-                <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
-                <div class="uploaded-photo">
-                  <img text-wrap [src]="message.url" *ngIf="message.url">
+            <div class="left">
+                <ion-avatar *ngIf=" message.photoUrl ">
+                  <img src="{{ message.photoUrl }}">
+                </ion-avatar>
+            </div>
+              <div class="right">
+                <div class="title">
+                    <span class="name">{{message.name}}</span>
+                    <span class="date fs-sm">{{message.stamp | date:'short'}}</span>
+                </div>
+                <div class="content">
+                    <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
+                    <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
+                    <div class="uploaded-photo">
+                      <img text-wrap [src]="message.url" *ngIf="message.url">
+                    </div>
                 </div>
               </div>
-              <div class="content" text-wrap [innerHTML]="message.message"></div>
-            </div>
           </div>
 
           
