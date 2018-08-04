@@ -5,11 +5,17 @@ ion-badge{
     margin-left: .5em
 }
 
-ion-toolbar{
-    padding-left:17px;
-    padding-right: 17px;
+ion-header{
+    ion-toolbar{
+        padding-left:17px;
+        padding-right: 17px;
+    }
 }
-
-ion-searchbar{
-    margin-left: .4rem;
+ion-content{
+    ion-toolbar{
+        margin-left: .4rem;
+    }
 }
+// ion-searchbar{
+//     margin-left: .4rem;
+// }

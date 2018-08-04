@@ -9,7 +9,7 @@
       <ion-spinner *ngIf=" ! roomInfo.name "></ion-spinner>
       <ng-container *ngIf=" roomInfo.name ">
         {{ roomInfo.name }}
-        <ion-badge>{{ roomInfo.no_of_member }}</ion-badge>
+        <ion-badge color="secondary">{{ roomInfo.no_of_member }}</ion-badge>
       </ng-container>
     </ion-title>
     <ion-buttons slot="end">
@@ -22,27 +22,33 @@
 </ion-header>
 
 <ion-content>
-  <ion-scroll #ionScroll>
+  <ion-scroll #ionScroll padding>
     <div class="messages" *ngIf=" messages.length ">
       <div class="message p-2" *ngFor=" let message of messages ">
 
         <!-- {{ message | json }} -->
         <ng-container *ngIf=" message.type != 'sending-file' ">
           <div class="other" text-left *ngIf="message.idx_member != philgo.myIdx(); ">
-            <div class="">
-              <div class="photo" *ngIf=" message.photoUrl ">
+            
+            <div class="left" *ngIf=" message.photoUrl ">
+              <ion-avatar>
                 <img src="{{ message.photoUrl }}">
-              </div>
-              <div class="text">
-                <span class="name">{{message.name}}</span>
-                <span class="date fs-xl">{{message.stamp | date:'short'}}</span>
-
-                <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
-                <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
-                <app-show-file *ngIf="message.url" [message]="message" ></app-show-file>
-              </div>
+              </ion-avatar>
+          </div>
+          <div class="right">
+            <div class="title">
+              <span class="name">{{message.name}}</span>
+              <span class="date fs-sm">{{message.stamp | date:'short'}}</span>
+            </div>
+            <div class="content">
+              <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
+              <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
+              <app-show-file *ngIf="message.url" [message]="message"></app-show-file>
+            </div>
+            
             </div>
           </div>
+
 
           <div class="my" text-right *ngIf="message.idx_member == philgo.myIdx(); ">
             <!-- <span class="name">Me</span>
@@ -50,16 +56,17 @@
             <!-- {{ message.idx }} -->
 
             <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
-            <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
-            <app-show-file *ngIf="message.url" [message]="message" ></app-show-file>
-            <div *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
-
-          </div>
-        </ng-container>
-        <app-send-file text-right *ngIf=" message.type == 'sending-file' " [message]="message"></app-send-file>
-
-
+            
+            <div class="content" text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
+          <app-show-file *ngIf="message.url" [message]="message"></app-show-file>
+          
+          <div *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
       </div>
+
+
+      </ng-container>
+      <app-send-file text-right *ngIf=" message.type == 'sending-file' " [message]="message"></app-send-file>
+    </div>
     </div>
   </ion-scroll>
 </ion-content>

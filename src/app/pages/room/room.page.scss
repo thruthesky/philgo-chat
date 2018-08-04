@@ -47,6 +47,60 @@ ion-title {
     }
 }
 
+.messages{
+    .message{
+        margin: 1rem 0;
+        padding: .5rem 0;
+        .other{
+            display: flex;
+            .left{
+                padding-right:  1rem;
+                ion-avatar{
+                    height: 50px;
+                    width: 50px;
+                }
+            }
+            .right{
+                width: auto;
+                .title{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-end;
+                    margin: .1rem 1px .5rem 1px; 
+                    .name{
+                        color:var(--ion-color-dark-tint);
+                        font-weight: bold;
+                        font-size: .95rem;
+                    }
+                    .date{
+                        margin-left: 2rem;
+                        color:var(--ion-color-medium-shade);
+                    }
+                }
+                .content{
+                    padding: 1rem;
+                    border-radius: 7px;
+                    background:  var(--ion-color-light-tint);
+                    color: var(--ion-color-light-contrast);
+                    font-size: .9rem;
+                    line-height: 1.3rem;
+                }
+            }
+        }
+        .my{
+            display: flex;
+            justify-content: flex-end;
+            .content{
+                padding: 1rem;
+                border-radius: 5px;
+                background:  var(--ion-color-primary-tint);
+                color: var(--ion-color-primary-contrast);
+                font-size: .9rem;
+                line-height: 1.3rem;
+            }
+        }
+    }
+}
 .sending-file {
     &.photo {
         img {
@@ -54,4 +108,3 @@ ion-title {
         }
     }
 }
-
