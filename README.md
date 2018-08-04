@@ -10,14 +10,22 @@
 
 ## TODO
 
-* 파일 업로드 in cordova.
+* @done 파일 업로드 in cordova.
   * 채팅 파일은 가장 단하게 [DO Valume 추가와 File Server](https://docs.google.com/document/d/1mJrvlq_TxH_t9K0_32mgjJW29djeoWY40261jHVYXjc/edit#heading=h.o1vnfl7avheq) 로 한다.
   * do it with cordova file upload. capacitor 는 아직 불완전해서, 급하게 앱 개발해야하는데, 애로점이 많아 보인다. 그래서 그냥 cordova 로 한다.
   * use phone camera to upload file.
 
 * Profile 사진 업로드
+  * 채팅 파일 전송과 동일하게 할 것.
+
+* 내가 속한 방에서 사진이 업로드되면, 다른 방에 있을 때, 새 메시지 알림 창이 공백이 된다.
+  * ' .... 방에 사진이 업로드되었습니다.' 라고 표시 할 것.
+
+* 사진을 업로드하면, ... 안드로이드 앱에서는 반응이 느리다. 그래서, 사진을 선택하자 마자, 뭔가 좀 바로 보여 줄 수 있도록 한다.
 
 * cordova 에서 백 버튼 클릭하면 뒤로 안감.
+
+* 파폭에서 채팅이 맨 끝까지 스크롤 안되는 경향이 있다. 주의해서 살펴본다. 굳이 파폭을 지원 할 필요는 없다. Chrome 과 Edge, IE 면 된다.
 
 * push notificatoin for web and app
   * https://beta.ionicframework.com/docs/native/firebase-messaging
@@ -29,6 +37,8 @@
   * 각 방마다 토픽을 만든다.
 
 * 언어 translation
+  * 카메라 선택을
+    '카메라로 사진찍기', '갤러리에서 선택하기' 로 이해하기 쉽게 할 것.
 
 * 필고 운영자 페이지 필터링 단어 필터링. 필고와 동일한 알고리즘.
 * 관리자의 채팅방 설정 페이지. 별 레벨 제한과 사용자 별 허가. 레벨을 높게하면, 모두 채팅 차단하는 효과가 있고, 원하는 사용자만 허가 할 수 있음.

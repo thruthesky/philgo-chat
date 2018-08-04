@@ -10,7 +10,7 @@
       <ng-container *ngIf=" roomInfo.name ">
         {{ roomInfo.name }}
       </ng-container>
-      <ion-badge  *ngIf=" roomInfo.name " color="dark">{{ roomInfo.no_of_member }}</ion-badge>
+      <ion-badge *ngIf=" roomInfo.name " color="dark">{{ roomInfo.no_of_member }}</ion-badge>
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="presentRoomOptions()">
@@ -54,10 +54,10 @@
                   <span class="date fs-xl">{{ message.stamp | date:'short'}}</span> -->
             <!-- {{ message.idx }} -->
             <div class="content">
-                <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
-                <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
-                <app-show-file *ngIf="message.url" [message]="message" (load)=" scroll() "></app-show-file>
-                <div class="fs-sm" *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
+              <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
+              <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
+              <app-show-file *ngIf="message.url" [message]="message" (load)=" scroll() "></app-show-file>
+              <div class="fs-sm" *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
             </div>
           </div>
 
@@ -71,9 +71,9 @@
 
 <ion-footer>
   <div class="message-input-box">
-    <div class="camera-wrapper">
+    <div class="camera-wrapper" (click)=" onClickFile($event) ">
       <ion-icon class="camera" name="camera"></ion-icon>
-      <input class="filebox" type="file" name="file" (change)="onChangeFile($event)">
+      <input class="filebox" type="file" name="file" (change)="onChangeFile($event)" *ngIf=" environment == 'web' ">
     </div>
     <ion-input type="text" placeholder="Type a message" [(ngModel)]="form.message" name="message" (keyup.enter)="onClickSendMessage()"></ion-input>
     <ion-icon class="send" name="paper-plane" (click)="onClickSendMessage()"></ion-icon>

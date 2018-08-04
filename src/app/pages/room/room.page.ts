@@ -6,7 +6,8 @@ import {
 } from '../../modules/philgo-api-v3/philgo-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, AlertController } from '@ionic/angular';
-import { HttpRequest } from '../../../../node_modules/@angular/common/http';
+import { Platform } from '@ionic/angular';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'app-room',
@@ -17,6 +18,7 @@ export class RoomPage implements OnInit, OnDestroy {
 
   @ViewChild('ionScroll') ionScroll;
 
+  environment: 'web' | 'cordova' = 'web';
   countMessageSent = 0;
   roomInfo: ApiChatRoomEnter = <any>{};
   form: ApiChatMessage = <any>{};
@@ -26,12 +28,20 @@ export class RoomPage implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private platform: Platform,
     public actionSheetController: ActionSheetController,
     private alertController: AlertController,
+    private camera: Camera,
     public a: AppService,
     public philgo: PhilGoApiService
   ) {
     console.log(' ==> RoomPage::constructor()');
+
+    this.platform.ready().then(() => {
+      if (this.platform.is('cordova')) {
+        this.environment = 'cordova';
+      }
+    });
 
     /**
      * @desc 채팅 방 부터 먼저 접속한 경우, 로비로 갔다가 다시 오면, life cyle 이벤트가 발생하지 않는다.
@@ -284,8 +294,14 @@ export class RoomPage implements OnInit, OnDestroy {
   }
 
 
+
+
   onChangeFile(event: Event) {
-    console.log(event);
+    if (this.environment === 'cordova') {
+      console.log('Running in cordova. return in onChangeFile()');
+      return;
+    }
+    console.log('onChangeFile()');
     const files = event.target['files'];
     if (files === void 0 || !files.length || files[0] === void 0) {
       return this.a.toast('Please select a file');
@@ -298,6 +314,10 @@ export class RoomPage implements OnInit, OnDestroy {
     // message['percentage'] = 33;
     // this.displayMessage(message);
 
+    this.doFile(files);
+  }
+
+  doFile(files) {
     const url = URL.createObjectURL(files[0]);
     // console.log('url: ', url);
     const message: ApiChatMessage = <any>{ url: this.a.safeUrl(url), retvar: ++this.countMessageSent };
@@ -324,6 +344,102 @@ export class RoomPage implements OnInit, OnDestroy {
         this.sendMessage();
       }
     }, e => this.a.toast(e));
+  }
+  /**
+   * File upload button has been clicked.
+   *
+   * If it is cordova, then do camera.
+   * If not, simply return.
+   *
+   * @param event click event
+   */
+  async onClickFile(event: Event) {
+    console.log('onClickFile()');
+    if (this.environment === 'web') {
+      console.log('it is web. return.');
+      return;
+    }
+
+    console.log('cordova camera....');
+
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      subHeader: 'Subtitle',
+      message: 'This is an alert message.',
+      buttons: [
+        { role: 'camera', text: 'Take A Photo' },
+        { role: 'gallery', text: 'Select A Photo From Gallery' },
+        { role: 'cancel', text: 'Cancel' }
+      ]
+    });
+
+
+    await alert.present();
+    const re = await alert.onDidDismiss();
+
+
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      sourceType: this.camera.PictureSourceType.CAMERA
+    };
+
+    if (re.role === 'cancel') {
+      return;
+    }
+    if (re.role === 'gallery') {
+      options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
+    }
+    /**
+     * 문제의 핵심은 Cordova Camera 로 받은 base64 데이터를 어떻게 <input type='file'> 과 같은 FileList 형의 데이터를 가져오는 것인가이다.
+     * FileList 로 값을 가져오면 그냥 HTML 의 <input type='file'> 과 똑 같은 코드로 Angular 로 업로드하면 되기 때문이다.
+     */
+    const base64 = await this.camera.getPicture(options).then((imageData) => {
+      return imageData;
+    }, (e) => {
+      console.log(e);
+      console.log('Camera/Gallery cancelled');
+      return '';
+    });
+    if (!base64) {
+      console.log('No data path or base64. just return');
+    }
+    // console.log('path: ', data);
+    const blob = this.b64toBlob(base64);
+    /**
+     * File 와 FileList 타입의 변수를 만든다.
+     * 그리고 그냥 일반 HTML FORM <input type='file'> 에서 파일 정보를 받아 업로드하는 것과 똑 같이 하면 된다.
+     */
+    const d = new Date();
+    const name = d.getFullYear() + (d.getMonth() + 1) + d.getDate() + '-' + d.getHours() + d.getMinutes() + d.getSeconds() +
+      '-' + this.philgo.myIdx();
+    const file = new File([blob], name + '.jpg', { type: 'image/jpeg' });
+    const files: FileList = <any>[file];
+
+    this.doFile(files);
+  }
+
+  /**
+   *
+   * Base64 데이터를 바이너리로 변경해서 리턴한다.
+   *
+   */
+  b64toBlob(b64Data, contentType = 'image/jpeg', sliceSize = 512): Blob {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
   }
 
 }
