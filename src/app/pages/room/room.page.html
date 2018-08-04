@@ -9,7 +9,7 @@
       <ion-spinner *ngIf=" ! roomInfo.name "></ion-spinner>
       <ng-container *ngIf=" roomInfo.name ">
         {{ roomInfo.name }}
-        <ion-badge>{{ roomInfo.no_of_member }}</ion-badge>
+        <ion-badge color="dark">{{ roomInfo.no_of_member }}</ion-badge>
       </ng-container>
     </ion-title>
     <ion-buttons slot="end">
@@ -57,7 +57,7 @@
                 <ion-spinner *ngIf="  ! message.idx "></ion-spinner>
                 <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
                 <app-show-file *ngIf="message.url" [message]="message" (load)=" scroll() "></app-show-file>
-                <div *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
+                <div class="fs-sm" *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
             </div>
       </div>
 
