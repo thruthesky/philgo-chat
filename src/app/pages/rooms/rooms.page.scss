@@ -1,6 +1,8 @@
 @import "../../../theme/breakpoints";
-ion-badge{
+ion-title {
     position: relative;
-    bottom: .125em;
-    margin-left: .5em
+    ion-badge {
+        position: absolute;
+        margin-left: .5em;
+    }
 }
