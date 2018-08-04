@@ -1,5 +1,13 @@
 # Philgo Chat
 
+## 목표
+
+* 필리핀 로컬 앱.
+  * 필고 연동.
+  * 명칭 소너브
+  * 회사 주소가 Withcenter, Inc. Pamapanga 이므로 필리핀 앱이 맞다.
+  * 필리핀 커뮤니티 앱을 목표로 한다.
+
 ## TODO
 
 * 파일 업로드 in cordova.
