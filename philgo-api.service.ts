@@ -163,6 +163,7 @@ export interface ApiNewFileServerUpload {
     path: string;
     size: string;
     type: string;
+    url?: string; // client only.
 }
 
 
