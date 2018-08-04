@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { RoomPage } from './room.page';
+import { SendFileComponent } from '../../components/send-file/send-file.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [RoomPage]
+  declarations: [RoomPage, SendFileComponent]
 })
 export class RoomPageModule {}

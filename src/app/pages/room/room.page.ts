@@ -246,6 +246,10 @@ export class RoomPage implements OnInit, OnDestroy {
       this.scroll();
     }
   }
+  displaySendingFile(message) {
+    message['type'] = 'sending-file';
+    this.displayMessage(<any>message);
+  }
   updateLastRead(idx_message: string) {
     if (!idx_message) {
       return;
@@ -266,14 +270,28 @@ export class RoomPage implements OnInit, OnDestroy {
       return this.a.toast('Please select a file');
     }
 
+    // const message: ApiChatMessage = <any>{
+    //   idx_member: this.philgo.myIdx(),
+    //   message: ''
+    // };
+    // message['percentage'] = 33;
+    // this.displayMessage(message);
+
+    this.displaySendingFile({ url: URL.createObjectURL(files[0])});
     this.philgo.fileUpload(files, {
       uid: this.philgo.myIdx(),
       secret: this.philgo.myIdx()
     }).subscribe(res => {
       if (typeof res === 'number') {
         console.log('percentage', res);
+        message['percentage'] = res;
       } else {
         console.log('result ', res);
+        // @todo 여기서 부터. 파일을 업로드하기 전에 먼저, 디스크의 파일을 보여주고,
+        // 파일이 업로드 완료되고, 다른 사람들에게 채팅으로 모두 전달했으면,
+        // 그 때, loader 를 없애고, percentage 를 없앤다.
+        // message['percentage'] = 0;
+        // message['message'] = `<img src="${res['url']}">`;
       }
     }, e => this.a.toast(e));
   }

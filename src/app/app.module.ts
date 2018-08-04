@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PhilGoApiModule, PhilGoApiService } from './modules/philgo-api-v3/philgo-api.module';
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

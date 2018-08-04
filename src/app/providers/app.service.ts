@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { ToastController } from '../../../node_modules/@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import * as firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/messaging';
@@ -7,6 +7,7 @@ import {
   ApiChatRoom, ApiChatMessage, PhilGoApiService, CHAT_STATUS_ENTER, CHAT_STATUS_LEAVE
 } from '../modules/philgo-api-v3/philgo-api.service';
 import { Subject } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 
@@ -36,6 +37,7 @@ export class AppService {
 
   private firebaseEvent: firebase.database.EventType = 'value';
   constructor(
+    private readonly domSanitizer: DomSanitizer,
     private readonly ngZone: NgZone,
     private readonly toastController: ToastController,
     private readonly philgo: PhilGoApiService
@@ -267,4 +269,8 @@ export class AppService {
     }
   }
 
+
+  safeUrl(url) {
+    return this.domSanitizer.bypassSecurityTrustUrl(url);
+  }
 }

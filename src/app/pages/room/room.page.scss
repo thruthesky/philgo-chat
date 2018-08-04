@@ -45,3 +45,12 @@ ion-title{
         }
     }
 }
+
+
+.sending-file {
+    &.photo {
+        img {
+            width: 100px;
+        }
+    }
+}
