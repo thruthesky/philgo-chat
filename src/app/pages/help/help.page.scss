@@ -10,11 +10,13 @@ ion-content{
             display: flex;
             align-items: center;
             ion-icon{
-                font-size: 1.5rem;
+                margin-right: .5rem;
+                font-size: 2rem;
+                color: var(--ion-color-warning)
             }
         }
         &>li{
-            padding: .75rem .5rem;
+            padding: .5rem;
             color: var(--ion-color-medium-shade);
 
             li{
