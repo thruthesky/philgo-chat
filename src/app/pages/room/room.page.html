@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar padding-horizontal>
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button routerLink="/">
         <ion-icon name="arrow-round-back"></ion-icon>
@@ -9,7 +9,7 @@
       <ion-spinner *ngIf=" ! roomInfo.name "></ion-spinner>
       <ng-container *ngIf=" roomInfo.name ">
         {{ roomInfo.name }}
-        <ion-badge>{{ roomInfo.no_of_member }}</ion-badge>
+        <ion-badge color="dark">{{ roomInfo.no_of_member }}</ion-badge>
       </ng-container>
     </ion-title>
     <ion-buttons slot="end">
@@ -24,12 +24,12 @@
 <ion-content>
   <ion-scroll #ionScroll padding>
     <div class="messages" *ngIf=" messages.length ">
-      <div class="message p-2" *ngFor=" let message of messages ">
-
+      <div class="message" *ngFor=" let message of messages ">
         <!-- {{ message | json }} -->
         <ng-container *ngIf=" message.type != 'sending-file' ">
-          <div class="other" text-left *ngIf="message.idx_member != philgo.myIdx(); ">
 
+
+          <div class="other" text-left *ngIf="message.idx_member != philgo.myIdx(); ">
             <div class="left" *ngIf=" message.photoUrl ">
               <ion-avatar>
                 <img src="{{ message.photoUrl }}">
@@ -54,12 +54,12 @@
                   <span class="date fs-xl">{{ message.stamp | date:'short'}}</span> -->
             <!-- {{ message.idx }} -->
             <div class="content">
-                <ion-spinner *ngIf="  ! message.idx "></ion-spinner>
+                <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
                 <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
                 <app-show-file *ngIf="message.url" [message]="message" (load)=" scroll() "></app-show-file>
-                <div *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
+                <div class="fs-sm" *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
             </div>
-      </div>
+          </div>
 
 
         </ng-container>
