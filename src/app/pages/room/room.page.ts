@@ -135,11 +135,21 @@ export class RoomPage implements OnInit, OnDestroy {
       return;
     }
     console.log('form: ', this.form);
+    this.sendMessage();
+  }
+
+  sendMessage() {
     this.form.idx_member = this.philgo.idx().toString();
     this.form.retvar = ++this.countMessageSent;
     const m = Object.assign({}, this.form);
     this.messages.push(m);
+    console.log('pushed m: ', m);
     this.form.message = '';
+    this.form.url = '';
+    this.form.type = '';
+    this.form.retvar = '';
+    this.form.percentage = 0;
+
     // this.a.render();
     this.scroll();
     // console.log('messages: ', this.messages);
@@ -244,13 +254,19 @@ export class RoomPage implements OnInit, OnDestroy {
       // if it's a greeting message for my entering, then no need to show it to myself.
     } else {
       this.messages.push(message);
-      this.scroll();
     }
+    this.scroll();
   }
   displaySendingFile(message: ApiChatMessage) {
     message.type = 'sending-file';
     console.log('displaySendingFile: ', message);
     this.displayMessage(message);
+  }
+  removeMessageByRetvar(retvar) {
+    const i = this.messages.findIndex(m => m.retvar === retvar);
+    if (i !== -1) {
+      this.messages.splice(i, 1);
+    }
   }
   updateLastRead(idx_message: string) {
     if (!idx_message) {
@@ -281,7 +297,7 @@ export class RoomPage implements OnInit, OnDestroy {
 
     const url = URL.createObjectURL(files[0]);
     // console.log('url: ', url);
-    const message: ApiChatMessage = <any>{ url: this.a.safeUrl(url) };
+    const message: ApiChatMessage = <any>{ url: this.a.safeUrl(url), retvar: ++this.countMessageSent };
     this.displaySendingFile(message);
     this.philgo.fileUpload(files, {
       uid: this.philgo.myIdx(),
@@ -298,6 +314,11 @@ export class RoomPage implements OnInit, OnDestroy {
         // message['percentage'] = 0;
         // message['message'] = `<img src="${res['url']}">`;
         // message.percentage = 0;
+        this.removeMessageByRetvar(message.retvar);
+
+        this.form.type = res.type;
+        this.form.url = res.url;
+        this.sendMessage();
       }
     }, e => this.a.toast(e));
   }

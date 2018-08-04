@@ -1,19 +1,21 @@
 @import '../../../theme/mixins';
-ion-icon{
+ion-icon {
     position: relative;
     top: .06em;
 }
-ion-title{
-    ion-badge{
+
+ion-title {
+    ion-badge {
         position: relative;
         bottom: .16em;
         margin-left: .5em;
     }
-    ion-spinner{
+    ion-spinner {
         position: relative;
         top: .06em;
     }
 }
+
 .message-input-box {
     display: flex;
     ion-input {
@@ -31,7 +33,6 @@ ion-title{
         padding: 12px;
         @include icon-size();
     }
-
     .camera-wrapper {
         position: relative;
         overflow: hidden;
@@ -46,11 +47,18 @@ ion-title{
     }
 }
 
-
 .sending-file {
     &.photo {
         img {
             width: 160px;
+        }
+    }
+}
+
+.messages {
+    .uploaded-photo {
+        img {
+            width: 256px;
         }
     }
 }
