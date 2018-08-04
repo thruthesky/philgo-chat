@@ -27,15 +27,15 @@ import { PhilGoApiModule, PhilGoApiService } from './modules/philgo-api-v3/philg
 })
 export class AppModule {
   constructor(philgo: PhilGoApiService) {
-    philgo.setServerUrl('https://local.philgo.com/api.php');
+    philgo.setServerUrl('http://192.168.0.182/sapcms_1_2/api.php');
     /**
      * Philgo API file server url. Must end with 'indx.php'.
      */
-    philgo.setFileServerUrl('https://local.philgo.com/index.php');
+    philgo.setFileServerUrl('http://192.168.0.182/sapcms_1_2/index.php');
 
     /**
      * New File Server End Ponit
      */
-    philgo.setNewFileServerUrl('http://127.0.0.1/file-server/index.php');
+    philgo.setNewFileServerUrl('http://192.168.0.182/file-server/index.php');
   }
 }
