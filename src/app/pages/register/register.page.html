@@ -13,14 +13,14 @@
   <form (ngSubmit)="onSubmit( $event )">
     <ion-list>
 
-      <ion-item margin-vertical padding-end color="light" *ngIf="isLoggedIn ">
+      <ion-item margin-vertical color="light" *ngIf="isLoggedIn ">
         <ion-label>Nickname</ion-label>
-        <ion-text>{{ form.nickname }}</ion-text>
+        <ion-text slot="end">{{ form.nickname }}</ion-text>
       </ion-item>
 
-      <ion-item margin-bottom padding-end color="light" *ngIf="isLoggedIn">
+      <ion-item margin-bottom color="light" *ngIf="isLoggedIn">
           <ion-label>Email</ion-label>
-          <ion-text>{{ form.email }}</ion-text>
+          <ion-text slot="end">{{ form.email }}</ion-text>
       </ion-item>
   
       <ion-item *ngIf=" !isLoggedIn ">
@@ -33,7 +33,7 @@
         <ion-input name="password" type="password" [(ngModel)]="form.password" (keyup.enter)="onSubmit()"></ion-input>
       </ion-item>
 
-      <ion-item margin-bottom padding-end color="light" *ngIf=" isLoggedIn ">
+      <ion-item margin-bottom color="light" *ngIf=" isLoggedIn ">
         <ion-label>
           <ion-text>Change Password</ion-text>
         </ion-label>

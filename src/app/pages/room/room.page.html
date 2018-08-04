@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar padding-horizontal>
     <ion-buttons slot="start">
       <ion-button routerLink="/">
         <ion-icon name="arrow-round-back"></ion-icon>
@@ -54,13 +54,12 @@
             <!-- <span class="name">Me</span>
                   <span class="date fs-xl">{{ message.stamp | date:'short'}}</span> -->
             <!-- {{ message.idx }} -->
-
-            <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
-            
-            <div class="content" text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
-          <app-show-file *ngIf="message.url" [message]="message"></app-show-file>
-          
-          <div *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
+            <div class="content">
+                <ion-spinner *ngIf="  ! message.idx "></ion-spinner>
+                <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
+                <app-show-file *ngIf="message.url" [message]="message"></app-show-file>
+                <div *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
+            </div>
       </div>
 
 

@@ -2,17 +2,3 @@
 ion-list{
     margin-bottom: 3rem;
 }
-ion-content{
-    --padding-start: 17px;
-    --padding-end: 17px;
-}
-@media (min-width:$md){
-    ion-toolbar{
-        padding-left:17px;
-        padding-right: 17px;
-    }
-    ion-content{
-        --padding-start: 32px;
-        --padding-end: 32px;
-    }
-}
