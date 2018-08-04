@@ -2,22 +2,22 @@
   <!-- <ion-item *ngFor="let room of rooms" (click)="enter.emit(room)"> -->
   <!-- <ion-item *ngFor="let room of rooms" (click)="onClickRoom(room)"> -->
   <ion-item lines="full" *ngFor="let room of rooms" routerLink="/room/{{ room.idx }}">
-    <ion-label>
-        <ion-icon slot="start" color="tertiary" name="ribbon" *ngIf=" room.idx_owner == philgo.myIdx() "></ion-icon>
-        <ion-icon slot="start" color="danger" name="heart" *ngIf=" room.idx_owner != philgo.myIdx() && room.favorite == 'Y' "></ion-icon>
-        <ion-text>{{ room.name }}</ion-text>
 
-        <ng-container *ngIf=" roomType == 'my-rooms' ">
-          <ion-badge color="primary" *ngIf=" room.no_of_unread_messages != '0' ">{{ room.no_of_unread_messages }}</ion-badge>
-        </ng-container>
+    <ion-icon slot="start" color="tertiary" name="ribbon" *ngIf=" room.idx_owner == philgo.myIdx() "></ion-icon>
+    <ion-icon slot="start" color="danger" name="heart" *ngIf=" room.idx_owner != philgo.myIdx() && room.favorite == 'Y' "></ion-icon>
 
-        <ng-container *ngIf=" roomType == 'all-rooms' ">
-          <ion-badge *ngIf=" a.number(room.no_of_member) > 0 && a.number(room.no_of_member) <= 10 " color="light">{{ room.no_of_member }}</ion-badge>
-          <ion-badge *ngIf=" a.number(room.no_of_member) > 10" color="dark">{{ room.no_of_member }}</ion-badge>
-        </ng-container>
-        
-    </ion-label>
-    <ion-text>{{ room.description }}</ion-text>
+    <ion-label>{{ room.name }}</ion-label>
+
+    <ion-text slot="end" text-nowrap>{{ room.description }}</ion-text>
+
+    <ng-container *ngIf=" roomType == 'my-rooms' ">
+      <ion-badge slot="end" color="primary" *ngIf=" room.no_of_unread_messages != '0' ">{{ room.no_of_unread_messages }}</ion-badge>
+    </ng-container>
+    <ng-container *ngIf=" roomType == 'all-rooms' ">
+      <ion-badge slot="end" *ngIf=" a.number(room.no_of_member) > 0 && a.number(room.no_of_member) <= 10 " color="light">{{ room.no_of_member }}</ion-badge>
+      <ion-badge slot="end" *ngIf=" a.number(room.no_of_member) > 10" color="dark">{{ room.no_of_member }}</ion-badge>
+    </ng-container>
+    
   </ion-item>
 </ion-list>
 
