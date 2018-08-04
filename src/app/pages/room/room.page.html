@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar padding-horizontal>
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button routerLink="/">
         <ion-icon name="arrow-round-back"></ion-icon>
@@ -9,7 +9,7 @@
       <ion-spinner *ngIf=" ! roomInfo.name "></ion-spinner>
       <ng-container *ngIf=" roomInfo.name ">
         {{ roomInfo.name }}
-        <ion-badge color="secondary">{{ roomInfo.no_of_member }}</ion-badge>
+        <ion-badge>{{ roomInfo.no_of_member }}</ion-badge>
       </ng-container>
     </ion-title>
     <ion-buttons slot="end">

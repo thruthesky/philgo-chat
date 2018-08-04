@@ -1,8 +1,8 @@
 @import "../../../theme/breakpoints";
 
 ion-content{
-    --padding-start: 17px;
-    --padding-end: 17px;
+    --padding-start: 16px;
+    --padding-end: 16px;
 }
 @media (min-width:$md){
     ion-toolbar{
@@ -10,7 +10,7 @@ ion-content{
         padding-right: 17px;
     }
     ion-content{
-        --padding-start: 32px;
-        --padding-end: 32px;
+        --padding-start: 30px;
+        --padding-end: 30px;
     }
 }
