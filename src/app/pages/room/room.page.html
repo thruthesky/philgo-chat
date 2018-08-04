@@ -9,8 +9,8 @@
       <ion-spinner *ngIf=" ! roomInfo.name "></ion-spinner>
       <ng-container *ngIf=" roomInfo.name ">
         {{ roomInfo.name }}
-        <ion-badge color="dark">{{ roomInfo.no_of_member }}</ion-badge>
       </ng-container>
+      <ion-badge  *ngIf=" roomInfo.name " color="dark">{{ roomInfo.no_of_member }}</ion-badge>
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="presentRoomOptions()">
