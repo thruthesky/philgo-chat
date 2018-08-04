@@ -26,29 +26,30 @@
     <div class="messages" *ngIf=" messages.length ">
       <div class="message p-2" *ngFor=" let message of messages ">
         <ng-container *ngIf=" ! message.type ">
-            <div class="other" text-left *ngIf="message.idx_member != philgo.myIdx(); ">
-                <div class="">
-                  <div class="photo" *ngIf=" message.photoUrl ">
-                    <img src="{{ message.photoUrl }}">
-                  </div>
-                  <div class="text">
-                    <span class="name">{{message.name}}</span>
-                    <span class="date fs-xl">{{message.stamp | date:'short'}}</span>
-                    <div text-wrap [innerHTML]="message.message"></div>
-                  </div>
-                </div>
+          <div class="other" text-left *ngIf="message.idx_member != philgo.myIdx(); ">
+            <div class="">
+              <div class="photo" *ngIf=" message.photoUrl ">
+                <img src="{{ message.photoUrl }}">
               </div>
-      
-              <div class="my" text-right *ngIf="message.idx_member == philgo.myIdx(); ">
-                <!-- <span class="name">Me</span>
-                  <span class="date fs-xl">{{ message.stamp | date:'short'}}</span> -->
-                <!-- {{ message.idx }} -->
-                <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
+              <div class="text">
+                <span class="name">{{message.name}}</span>
+                <span class="date fs-xl">{{message.stamp | date:'short'}}</span>
                 <div text-wrap [innerHTML]="message.message"></div>
-                <div *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
               </div>
+            </div>
+          </div>
+
+          <div class="my" text-right *ngIf="message.idx_member == philgo.myIdx(); ">
+            <!-- <span class="name">Me</span>
+                  <span class="date fs-xl">{{ message.stamp | date:'short'}}</span> -->
+            <!-- {{ message.idx }} -->
+            <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
+            <div text-wrap [innerHTML]="message.message"></div>
+            <div *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
+          </div>
         </ng-container>
         <app-send-file text-right *ngIf=" message.type == 'sending-file' " [message]="message"></app-send-file>
+
 
       </div>
     </div>

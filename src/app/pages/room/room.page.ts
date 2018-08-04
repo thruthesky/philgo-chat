@@ -239,6 +239,7 @@ export class RoomPage implements OnInit, OnDestroy {
   }
 
   displayMessage(message: ApiChatMessage) {
+    console.log('displayMessage: ', message);
     if (message.status === CHAT_STATUS_ENTER && message.idx_member === this.philgo.myIdx()) {
       // if it's a greeting message for my entering, then no need to show it to myself.
     } else {
@@ -246,9 +247,10 @@ export class RoomPage implements OnInit, OnDestroy {
       this.scroll();
     }
   }
-  displaySendingFile(message) {
-    message['type'] = 'sending-file';
-    this.displayMessage(<any>message);
+  displaySendingFile(message: ApiChatMessage) {
+    message.type = 'sending-file';
+    console.log('displaySendingFile: ', message);
+    this.displayMessage(message);
   }
   updateLastRead(idx_message: string) {
     if (!idx_message) {
@@ -277,7 +279,10 @@ export class RoomPage implements OnInit, OnDestroy {
     // message['percentage'] = 33;
     // this.displayMessage(message);
 
-    this.displaySendingFile({ url: URL.createObjectURL(files[0])});
+    const url = URL.createObjectURL(files[0]);
+    // console.log('url: ', url);
+    const message: ApiChatMessage = <any>{ url: this.a.safeUrl(url) };
+    this.displaySendingFile(message);
     this.philgo.fileUpload(files, {
       uid: this.philgo.myIdx(),
       secret: this.philgo.myIdx()
@@ -292,6 +297,7 @@ export class RoomPage implements OnInit, OnDestroy {
         // 그 때, loader 를 없애고, percentage 를 없앤다.
         // message['percentage'] = 0;
         // message['message'] = `<img src="${res['url']}">`;
+        // message.percentage = 0;
       }
     }, e => this.a.toast(e));
   }
