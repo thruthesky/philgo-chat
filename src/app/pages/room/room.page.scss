@@ -54,35 +54,49 @@ ion-title {
         .other{
             display: flex;
             .left{
+                padding-right:  1rem;
                 ion-avatar{
-                    height: 40px;
-                    width: 40px;
+                    height: 50px;
+                    width: 50px;
                 }
             }
             .right{
-                padding: 0 1rem;
-                width: 100%;
+                width: auto;
                 .title{
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
                     margin: .1rem 1px .5rem 1px; 
                     .name{
-                        color:var(--ion-color-primary-shade);
+                        color:var(--ion-color-dark-tint);
                         font-weight: bold;
                         font-size: .95rem;
                     }
                     .date{
-                        color: dimgray;
+                        margin-left: 2rem;
+                        color:var(--ion-color-medium-shade);
                     }
                 }
                 .content{
                     padding: 1rem;
-                    border-radius: 5px;
-                    background:  #eee;
+                    border-radius: 7px;
+                    background:  var(--ion-color-light-tint);
+                    color: var(--ion-color-light-contrast);
                     font-size: .9rem;
                     line-height: 1.3rem;
                 }
+            }
+        }
+        .my{
+            display: flex;
+            justify-content: flex-end;
+            .content{
+                padding: 1rem;
+                border-radius: 5px;
+                background:  var(--ion-color-primary-tint);
+                color: var(--ion-color-primary-contrast);
+                font-size: .9rem;
+                line-height: 1.3rem;
             }
         }
     }

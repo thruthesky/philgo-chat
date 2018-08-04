@@ -9,7 +9,7 @@
       <ion-spinner *ngIf=" ! roomInfo.name "></ion-spinner>
       <ng-container *ngIf=" roomInfo.name ">
         {{ roomInfo.name }}
-        <ion-badge>{{ roomInfo.no_of_member }}</ion-badge>
+        <ion-badge color="secondary">{{ roomInfo.no_of_member }}</ion-badge>
       </ng-container>
     </ion-title>
     <ion-buttons slot="end">
@@ -29,8 +29,8 @@
         <!-- {{ message | json }} -->
         <ng-container *ngIf=" message.type != 'sending-file' ">
           <div class="other" text-left *ngIf="message.idx_member != philgo.myIdx(); ">
-            <div class="left">
-                <ion-avatar *ngIf=" message.photoUrl ">
+            <div class="left"  *ngIf=" message.photoUrl ">
+                <ion-avatar>
                   <img src="{{ message.photoUrl }}">
                 </ion-avatar>
             </div>
@@ -56,7 +56,7 @@
             <!-- {{ message.idx }} -->
 
             <ion-spinner *ngIf=" ! message.idx "></ion-spinner>
-            <div text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
+            <div class="content"  text-wrap [innerHTML]="message.message" *ngIf="message.message"></div>
             <div class="uploaded-photo">
               <img text-wrap [src]="message.url" *ngIf="message.url">
             </div>
