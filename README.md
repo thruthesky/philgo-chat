@@ -2,17 +2,9 @@
 
 ## TODO
 
-* 로그인을 하지 않은 경우, 방 입장시...
-  * help.html 참고
-* 사진을 보여 줄 때, 스크롤이 먼저되고 나서, 사진을 보여주므로, 사진이 밑에 보이거나, 스크롤이 끝까지 안된다.
-  사진이 완전히 보여지면 스크롤을 한번 더 해야한ㄴ다.
-    사진이 완뢰는 이벤트는 찾을 것.
 * 파일 업로드
-  * 사용자 사진은 필고 파일 서버를 그대로 이용.
-  * 실제 테스트 환경에서 테스트를 해 봐야 한다.
-
-  * 채팅 파일은 가장 단하게 [DO Valume 추가와 Wordpress API](https://docs.google.com/document/d/1mJrvlq_TxH_t9K0_32mgjJW29djeoWY40261jHVYXjc/edit#heading=h.o1vnfl7avheq) 로 한다.
-  * do it with capacitor file upload.
+  * 채팅 파일은 가장 단하게 [DO Valume 추가와 File Server](https://docs.google.com/document/d/1mJrvlq_TxH_t9K0_32mgjJW29djeoWY40261jHVYXjc/edit#heading=h.o1vnfl7avheq) 로 한다.
+  * do it with cordova file upload. capacitor 는 아직 불완전해서, 급하게 앱 개발해야하는데, 애로점이 많아 보인다. 그래서 그냥 cordova 로 한다.
   * use phone camera to upload file.
 
 * push notificatoin for web and app
@@ -150,5 +142,12 @@
     * 하지만, 북마크 된 것이므로, 맨 위에 보인다.
     * 북마크 안된 내 방은, 그냥 보인다.
 
+* @done 로그인을 하지 않은 경우, 방 입장시...
+  * help.html 참고
+
+
+* @done 사진을 보여 줄 때, 스크롤이 먼저되고 나서, 사진을 보여주므로, 사진이 밑에 보이거나, 스크롤이 끝까지 안된다.
+  사진이 완전히 보여지면 스크롤을 한번 더 해야한ㄴ다.
+    사진이 완뢰는 이벤트는 찾을 것.
 
 ## 필리핀 단톡방 운영

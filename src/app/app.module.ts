@@ -36,6 +36,6 @@ export class AppModule {
     /**
      * New File Server End Ponit
      */
-    philgo.setNewFileServerUrl('http://127.0.0.1/tmp/file-server/index.php');
+    philgo.setNewFileServerUrl('http://127.0.0.1/file-server/index.php');
   }
 }
