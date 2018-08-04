@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest, HttpResponse, HttpHeaderResponse, HttpEventType } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, filter } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
+
 
 export const ID = 'id';
 export const SESSION_ID = 'session_id';
@@ -150,6 +151,18 @@ export interface ApiFileUploadOptions {
     finish?: '1';
     code?: string;
     module_name?: string;
+}
+
+export interface ApiNewFileServerUploadOptions {
+    uid: string;
+    secret: string;
+    callbackProgress?: () => number;
+}
+export interface ApiNewFileServerUpload {
+    name: string;
+    path: string;
+    size: string;
+    type: string;
 }
 
 
@@ -390,6 +403,7 @@ export interface ApiChatRoom {
     idx_message_last_read?: string;     // api_chat_message.idx which lastly read by the user for that chat room.
     no_of_unread_messages?: string;     // no of unread messages for this room.
 }
+
 export interface ApiChatMessage {
     idx: string;
     idx_chat_room: string;
@@ -400,6 +414,9 @@ export interface ApiChatMessage {
     stamp: string;
     status: string; // char 1 byte.
     retvar?: any; // client session token string or any value. it can be anything. it will be returned from server.
+    percentage?: number;                // used only in client.
+    type?: string;                      // to determine the message type.
+    url?: string;                       // the url of the file.
 }
 export interface ApiChatRoomCreateRequest extends ApiRequest {
     name: string;
@@ -431,6 +448,7 @@ export interface ApiChatRoomEnter extends ApiChatRoom {
 export class PhilGoApiService {
     static serverUrl = '';
     static fileServerUrl = '';
+    static newFileServerUrl = '';
 
 
     constructor(
@@ -458,6 +476,12 @@ export class PhilGoApiService {
     }
     getFileServerUrl(): string {
         return PhilGoApiService.fileServerUrl;
+    }
+    setNewFileServerUrl(url: string) {
+        PhilGoApiService.newFileServerUrl = url;
+    }
+    getNewFileServerUrl(): string {
+        return PhilGoApiService.newFileServerUrl;
     }
 
 
@@ -955,6 +979,75 @@ export class PhilGoApiService {
 
     }
 
+
+    /**
+     * New File Upload
+     *
+     * @since 2018-08-03 새로운 파일 서버에 파일을 업로드한다.
+     * 이 파일 서버는 Philgo API 와는 상관이 없는 파일 서버이다.
+     *
+     */
+    fileUpload(files: FileList, options: ApiNewFileServerUploadOptions): Observable<ApiNewFileServerUpload> {
+        if (files === void 0 || !files.length || files[0] === void 0) {
+            return throwError(ApiErrorFileNotSelected);
+        }
+        const file = files[0];
+
+        const formData = new FormData();
+        formData.append('userfile', file, file.name);
+        formData.append('action', 'file-upload');
+        console.log('option: ', options);
+        if (options.uid) {
+            formData.append('uid', options.uid);
+        }
+        if (options.secret) {
+            formData.append('secret', options.secret);
+        }
+
+        const req = new HttpRequest('POST', this.getNewFileServerUrl(), formData, {
+            reportProgress: true,
+            responseType: 'json'
+        });
+
+        console.log('file upload: ', this.getNewFileServerUrl());
+        return this.http.request(req).pipe(
+            map(e => {
+                if (e instanceof HttpResponse) { // success event.
+                    if (e.body !== void 0 && e.body['code'] !== void 0) {
+                        if (e.body['code'] === 0) {
+                            e.body['data']['url'] = this.getNewFileServerUrl().replace('index.php', e.body['data']['path'] );
+                            return e.body['data'];
+                        } else if (e.body['code'] !== 0) {
+                            throw { code: e.body['code'], message: e.body['message'] };
+                        }
+                    } else {
+                        // may php error string?
+                        return e.body;
+                    }
+                } else if (e instanceof HttpHeaderResponse) { // header event
+                    // don't return anything about header.
+                    // return e;
+                } else if (e.type === HttpEventType.UploadProgress) { // progress event
+                    const precentage = Math.round(100 * e.loaded / e.total);
+                    if (isNaN(precentage)) {
+                        // don't do here anything. this will never happens.
+                        console.log('file upload error. percentage is not number');
+                        return <any>0;
+                    } else {
+                        console.log('upload percentage: ', precentage);
+                        return <any>precentage;
+                    }
+                } else {
+                    // don't return other events.
+                    // return e; // other events
+                }
+            }),
+            filter(e => e)
+        );
+
+    }
+
+
     /**
      * Returns thumbnail URL of the photo
      * @see sapcms_1_2/etc/resize_image.php for detail.
@@ -1208,7 +1301,6 @@ export class PhilGoApiService {
         };
         return this.queryVersion2(req);
     }
-
 
     /**
      * Chat methods
