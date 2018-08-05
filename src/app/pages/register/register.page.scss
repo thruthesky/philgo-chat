@@ -38,6 +38,20 @@ ion-list{
                 position: absolute;
                 opacity: 0;
             }
+            .button{
+                display: flex;
+                align-items: center;
+                padding: .5rem 1rem;
+                border-radius: 2px;
+                background: var(--ion-color-warning);
+                font-size: .9rem;
+                color: var(--ion-color-warning-contrast);
+                cursor: pointer;
+                ion-icon{
+                    font-size: 1.25rem;
+                    margin-right: .5rem;
+                }
+            }
         }
     }
 }
