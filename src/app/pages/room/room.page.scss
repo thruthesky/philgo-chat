@@ -1,18 +1,5 @@
 @import '../../../theme/mixins';
 @import '../../../theme/breakpoints';
-ion-icon {
-    position: relative;
-    top: .06em;
-}
-
-ion-title {
-    position: relative;
-    ion-badge {
-        position: absolute;
-        margin-left: .5em;
-    }
-}
-
 .message-input-box {
     display: flex;
     ion-input {
