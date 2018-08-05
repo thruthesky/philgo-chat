@@ -48,6 +48,7 @@ export class AppService {
     private readonly philgo: PhilGoApiService
   ) {
     window['triggerToastMessageClick'] = this.onClickToastMessage.bind(this);
+    console.log('isPushNotificationRequested: ', this.isPushNotificationRequested());
   }
 
   version(): string {
@@ -313,5 +314,19 @@ export class AppService {
 
   safeUrl(url) {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
+  }
+
+  isPushNotificationRequested() {
+    // Let's check if the browser supports notifications
+    if (!('Notification' in window)) {
+      console.log('This browser does not support desktop notification');
+      return null;
+    }
+
+    if (Notification && Notification['permission'] !== void 0 && Notification['permission'] === 'granted') {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
