@@ -1,6 +1,7 @@
 .uploaded-photo {
     img {
-        width: 256px;
+        min-width: 100px;
+        max-width: 200px;
     }
     &.clicked {
         img {

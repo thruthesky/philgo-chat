@@ -4,7 +4,7 @@ ion-footer{
     ion-toolbar{
         label{
             padding: .5rem 0;
-            padding-left: .65rem;
+            padding-left: .25rem;
             cursor: pointer;
         }
         .filebox{
@@ -13,9 +13,9 @@ ion-footer{
         }
     }
 }
-
-
-
+ion-badge{
+    border-radius: 45px;
+}
 .messages{
     font-size: .85rem;
     @media (min-width:$md) {
@@ -32,11 +32,15 @@ ion-footer{
         padding: .5rem 0;
         .other{
             display: flex;
+            margin-right: auto;
+            max-width: 93%;
             .left{
-                padding-right:  .5rem;
-                ion-avatar{
+                padding-right:  .75rem;
+                ion-thumbnail{
                     height: 35px;
                     width: 35px;
+                    border-radius: 5%;
+                    overflow: hidden;
                     @media (min-width:$md) {
                         height: 45px;
                         width: 45px;
@@ -49,7 +53,7 @@ ion-footer{
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
-                    margin: .1rem 1px .35rem 1px; 
+                    margin: 0 1px .35rem 1px; 
                     .name{
                         color:var(--ion-color-dark-tint);
                         font-weight: bold;
@@ -77,6 +81,8 @@ ion-footer{
         .my{
             display: flex;
             justify-content: flex-end;
+            margin-left: auto;
+            max-width: 93%;
             .content{
                 padding: .5rem 1rem;
                 @media (min-width:$md) {
@@ -84,24 +90,22 @@ ion-footer{
                 }
                 border-radius: 5px;
                 border-bottom-right-radius: 0;
-                background:  var(--ion-color-primary-tint);
-                color: var(--ion-color-primary-contrast);
+                background:  var(--ion-color-warning-tint);
+                color: var(--ion-color-warning-contrast);
                 font-size: .9em;
-                line-height: 1.3em;
+                line-height: 1.4em;
                 text-align: left;
             }
+            // .title-bottom{
+            //     display: flex;
+            //     align-items: flex-end;
+            //     justify-content: flex-end;
+            //     margin: .35rem 1px 0 1px; 
+            //     .date{
+            //         margin-left: 3rem;
+            //         color:var(--ion-color-medium-shade);
+            //     }
+            // }
         }
     }
-}
-.sending-file {
-    &.photo {
-        img {
-            width: 160px;
-        }
-    }
-}
-
-.same-sender{
-    margin: 0!important;
-    padding: 0!important;
 }

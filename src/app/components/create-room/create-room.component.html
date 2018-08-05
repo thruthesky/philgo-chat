@@ -1,8 +1,8 @@
-<h2>Create a chat room</h2>
-
-
-
 <ion-list>
+  <div class="title">
+    <ion-icon color="tertiary" name="chatbubbles"></ion-icon>
+    <h2>Create a chat room</h2>
+  </div>
   <ion-item>
     <ion-label position="floating">Name</ion-label>
     <ion-input name="name" [(ngModel)]="form.name" (keyup.enter)="onSubmit()"></ion-input>
@@ -13,7 +13,7 @@
   </ion-item>
 </ion-list>
 
-<ion-button margin-vertical  expand="full" type="button" (click)="onSubmit()">
+<ion-button color="warning" margin-vertical  expand="full" type="button" (click)="onSubmit()">
     Create
   <ion-icon slot="end" name="send"></ion-icon>
 </ion-button>

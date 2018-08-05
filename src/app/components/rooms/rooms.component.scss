@@ -8,3 +8,19 @@ ion-list{
         }
     }
 }
+ion-badge[slot="end"]{
+    margin-right: 0;
+    margin-left: .5rem;
+    border-radius: 45px;
+}
+ion-text{
+    flex:100%;
+    text-align: right;
+}
+
+ion-card{
+    text-align: center;
+    ion-icon{
+        font-size: 10rem;
+    }
+}

@@ -11,14 +11,28 @@
 <ion-content padding>
 
   <section id="profile-photo-update" *ngIf=" philgo.isLoggedIn() ">
-    <div *ngIf=" form.url_profile_photo ">
-      <img src="{{ philgo.thumbnailUrl({ width: 100, height: 120, path: form.url_profile_photo }) }}" *ngIf=" form.url_profile_photo ">
-      <div>
-        <button (click)=" onClickDeletePrimaryPhoto() ">Delete</button>
-      </div>
+    <div class="top">
+        <div class="profile-photo">
+          <img src="{{ philgo.thumbnailUrl({ width: 100, height: 120, path: form.url_profile_photo }) }}" *ngIf=" form.url_profile_photo ">
+        </div>
+        <ion-buttons class="delete-button">
+            <ion-button (click)=" onClickDeletePrimaryPhoto() ">
+                <ion-icon slot="icon-only" color="danger" name="close-circle"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </div>
-    <input type="file" name="file" (change)="onChangePrimaryPhoto($event)">
-    <span class="percentage" *ngIf=" percentage ">{{ percentage }}%</span>
+    <div class="bottom">
+        <div text-center>
+            <ion-text class="fs-sm" color="primary" *ngIf="percentage">{{ percentage }}%</ion-text>
+        </div>
+        <label class="upload-photo-button">
+            <input type="file" name="file" (change)="onChangePrimaryPhoto($event)">
+              <div class="button">
+                <ion-icon slot="end" name="camera"></ion-icon>
+                Upload Photo
+              </div>
+        </label>
+    </div>
   </section>
 
   <form (ngSubmit)="onSubmit( $event )">
@@ -64,7 +78,7 @@
         <ion-input name="mobile" [(ngModel)]="form.mobile" (keyup.enter)="onSubmit()"></ion-input>
       </ion-item>
     </ion-list>
-    <ion-button margin-vertical expand="full" type="button" (click)="onSubmit()">
+    <ion-button color="warning"  margin-vertical expand="full" type="button" (click)="onSubmit()">
       SUBMIT
       <ion-icon slot="end" name="send"></ion-icon>
     </ion-button>

@@ -51,6 +51,8 @@
 
 ## Todo later after publish
 
+* Follow [Git issus board](https://github.com/thruthesky/philgo-chat/issues/new#issue-sh-boards)
+
 * 필고 운영자 페이지 필터링 단어 필터링. 필고와 동일한 알고리즘.
 * 관리자의 채팅방 설정 페이지. 별 레벨 제한과 사용자 별 허가. 레벨을 높게하면, 모두 채팅 차단하는 효과가 있고, 원하는 사용자만 허가 할 수 있음.
 

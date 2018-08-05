@@ -418,6 +418,7 @@ export class AppService {
    *
    */
   updatePushNotificationTokenToServer(token) {
+    console.log('token: ', token);
     this.philgo.pushSaveToken({token: token, domain: 'chat'}).subscribe(res => {
       console.log('pushSaveToken', res);
     }, e => {
