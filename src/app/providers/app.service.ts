@@ -73,7 +73,22 @@ export class AppService {
         this.updatePushNotificationToken();
 
       }
+
+      this.onInit();
     });
+
+
+  }
+
+  /**
+   * Platform 초기화 되고 맨 처음 한번만 호출 된다.
+   */
+  onInit() {
+    if (this.platform === 'web') {
+      this.messaging.onMessage((payload) => {
+        console.log('Got FCM notification! Just ignore since app has toast.');
+      });
+    }
   }
 
   /**
@@ -419,7 +434,7 @@ export class AppService {
    */
   updatePushNotificationTokenToServer(token) {
     console.log('token: ', token);
-    this.philgo.pushSaveToken({token: token, domain: 'chat'}).subscribe(res => {
+    this.philgo.pushSaveToken({ token: token, domain: 'chat' }).subscribe(res => {
       console.log('pushSaveToken', res);
     }, e => {
       console.log('Error on pushSaveToken(): If the token exists, just ignore. It is not an error. ', e);
