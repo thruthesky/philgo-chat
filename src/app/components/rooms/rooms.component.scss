@@ -8,9 +8,10 @@ ion-list{
         }
     }
 }
-ion-badge{
+ion-badge[slot="end"]{
     margin-right: 0;
     margin-left: .5rem;
+    border-radius: 45px;
 }
 ion-text{
     flex:100%;
