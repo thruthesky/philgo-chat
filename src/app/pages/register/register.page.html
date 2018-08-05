@@ -1,4 +1,4 @@
-<ion-header  >
+<ion-header>
   <ion-toolbar>
     <ion-title *ngIf=" !isLoggedIn ">Register</ion-title>
     <ion-title *ngIf=" isLoggedIn ">Profile Update</ion-title>
@@ -10,7 +10,19 @@
 
 <ion-content padding>
 
+  <section id="profile-photo-update" *ngIf=" philgo.isLoggedIn() ">
+    <div *ngIf=" form.url_profile_photo ">
+      <img src="{{ philgo.thumbnailUrl({ width: 100, height: 120, path: form.url_profile_photo }) }}" *ngIf=" form.url_profile_photo ">
+      <div>
+        <button (click)=" onClickDeletePrimaryPhoto() ">Delete</button>
+      </div>
+    </div>
+    <input type="file" name="file" (change)="onChangePrimaryPhoto($event)">
+    <span class="percentage" *ngIf=" percentage ">{{ percentage }}%</span>
+  </section>
+
   <form (ngSubmit)="onSubmit( $event )">
+
     <ion-list>
 
       <ion-item margin-vertical color="light" *ngIf="isLoggedIn ">
@@ -19,10 +31,10 @@
       </ion-item>
 
       <ion-item margin-bottom color="light" *ngIf="isLoggedIn">
-          <ion-label>Email</ion-label>
-          <ion-text slot="end">{{ form.email }}</ion-text>
+        <ion-label>Email</ion-label>
+        <ion-text slot="end">{{ form.email }}</ion-text>
       </ion-item>
-  
+
       <ion-item *ngIf=" !isLoggedIn ">
         <ion-label position="floating">Email</ion-label>
         <ion-input name="email" [(ngModel)]="form.email" (keyup.enter)="onSubmit()"></ion-input>
@@ -52,8 +64,8 @@
         <ion-input name="mobile" [(ngModel)]="form.mobile" (keyup.enter)="onSubmit()"></ion-input>
       </ion-item>
     </ion-list>
-    <ion-button margin-vertical  expand="full" type="button" (click)="onSubmit()">
-        SUBMIT
+    <ion-button margin-vertical expand="full" type="button" (click)="onSubmit()">
+      SUBMIT
       <ion-icon slot="end" name="send"></ion-icon>
     </ion-button>
   </form>

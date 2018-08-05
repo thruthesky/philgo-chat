@@ -44,6 +44,9 @@
 * 관리자의 채팅방 설정 페이지. 별 레벨 제한과 사용자 별 허가. 레벨을 높게하면, 모두 채팅 차단하는 효과가 있고, 원하는 사용자만 허가 할 수 있음.
 * Ionic 앱 개발. ( push 부터 먼저 마무리 하고, wrapping 해서 마무리 할 것. )
 
+
+* 필고 아이디, 닉네임 으로 로그인 할 수 있도록 할 것.
+
 * 필고 메뉴 연계 (PWA 에서)
   * 필고에서 메뉴로 session id 를 전달해서 로그인을 할 수 있도록 한다.
   * for philgo login user, they can use chat. meaning, they can login with google in philgo and can use chat.
