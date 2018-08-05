@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 
 
 
+declare let FCMPlugin;
+
 const firebaseConfig = {
   apiKey: 'AIzaSyA1X3vpzSpUk_JHCbNjEwQe1-pduF0Enqs',
   authDomain: 'philgo-64b1a.firebaseapp.com',
@@ -48,6 +50,8 @@ export class AppService {
    *
    */
   platform: 'web' | 'cordova' = 'web';
+
+  cordovaPushToken = null;
   constructor(
     private readonly domSanitizer: DomSanitizer,
     private readonly ngZone: NgZone,
@@ -88,6 +92,26 @@ export class AppService {
       this.messaging.onMessage((payload) => {
         console.log('Got FCM notification! Just ignore since app has toast.');
       });
+    } else if (this.platform === 'cordova') {
+      FCMPlugin.getToken(token => {
+        this.cordovaPushToken = token;
+        this.updatePushNotificationTokenToServer(token);
+      });
+      FCMPlugin.onTokenRefresh(token => {
+        this.cordovaPushToken = token;
+        this.updatePushNotificationTokenToServer(token);
+      });
+
+      FCMPlugin.onNotification((data) => {
+        if (data.wasTapped) {
+          // Notification was received on device tray and tapped by the user.
+          // alert('data was Tapped by user: ' + JSON.stringify(data));
+        } else {
+          // Notification was received in foreground. Maybe the user needs to be notified.
+          // alert('data was received in foreground: ' + JSON.stringify(data));
+        }
+      });
+
     }
   }
 
@@ -353,6 +377,7 @@ export class AppService {
       }
 
       /**
+       * 2018년 8월 6일. Firebase 로 방 입장/출장이 오지만 푸시는 되지 않는다.
        * If the message is one of my rooms' message and If I am not in the room, show it as a toast except
        *    If the message is not for enter or leave.
        */
@@ -414,12 +439,16 @@ export class AppService {
   updatePushNotificationToken() {
     console.log('updatePushNotificationToken()');
 
-    /**
-     * 맨 처음에는 물어보고 해야 하므로, 부팅 할 때 토큰 업데이트하지 않고 (토큰 업데이트를 할 때, permission 을 자동으로 물어 봄 )
-     * Permission 허용 했을 때만, 토큰 업데이트 확인을 한다.
-     */
-    if (this.isPushNotificationPermissionGranted()) {
-      this.requestPushNotificationPermission();
+    if (this.platform === 'web') {
+      /**
+       * 맨 처음에는 물어보고 해야 하므로, 부팅 할 때 토큰 업데이트하지 않고 (토큰 업데이트를 할 때, permission 을 자동으로 물어 봄 )
+       * Permission 허용 했을 때만, 토큰 업데이트 확인을 한다.
+       */
+      if (this.isPushNotificationPermissionGranted()) {
+        this.requestPushNotificationPermission();
+      }
+    } else if (this.platform === 'cordova') {
+      this.updatePushNotificationTokenToServer(this.cordovaPushToken);
     }
   }
   /**
@@ -434,6 +463,9 @@ export class AppService {
    */
   updatePushNotificationTokenToServer(token) {
     console.log('token: ', token);
+    if (!token) {
+      return;
+    }
     this.philgo.pushSaveToken({ token: token, domain: 'chat' }).subscribe(res => {
       console.log('pushSaveToken', res);
     }, e => {

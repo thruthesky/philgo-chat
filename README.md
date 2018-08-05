@@ -10,19 +10,16 @@
 
 ## TODO
 
-* push notificatoin for web and app
-  * https://beta.ionicframework.com/docs/native/firebase-messaging
-  * 한 사용자 당 push token 이 수십개 일 수 있다.
-    * 필고 push_tokens 테이블에 domain 필드를 추가해서, chat 으로 기록을 한다.
-  * 웹브라우저에서 알림을 허용해야지 채팅방에 입장 가능하다고 한다.
-  * api_chat_push_tokens 테이블을 만들어서 각 사용자별 모든 push token 을 관리한다.
-  * 모든 사용자는 전체 토픽에 참여를 해서, 공지를 할 수 있도록 한다.
-  * 각 방마다 토픽을 만든다.
+* 푸시 클릭시 chat.philgo.com 으로 이동.
+  * 앱은 필요 없음. 앱에서는 앱이 완전히 종료되어도 푸시가 오고, 푸시를 클릭하면 자동으로 앱이 실행됨.
 
-* app 에서 push notificatoin
-  * 앱은 별도 허가를 받지 않는다.
+* 푸시 아이콘 변경.
+  * 웹과 앱 모두 바꾸어야 함.
+
+* 앱 아이콘 및 splash 작업.
 
 * 언어 translation
+  * ngx-translate 로 대충 번역만 먼저 할 것.
   * 카메라 선택을
     '카메라로 사진찍기', '갤러리에서 선택하기' 로 이해하기 쉽게 할 것.
 
@@ -32,7 +29,7 @@
 
 * 앱 배포.
 
-* 배포 후, 메인에 push 거절했으면 링크.
+* 배포 후, 채팅 방 목록 페이지에서 push 알림을 거절했으면 앱 다운로드 URL 링크.
 
 * 필고 아이디, 닉네임 으로 로그인 할 수 있도록 할 것.
 
@@ -47,7 +44,9 @@
       따라서, 내가 '내 방 목록 페이지'에 있지만, 여전히 채팅방 (A)에 있는 것과 마찬가지가 되며 새 메시지가 오면 채팅방(A) 가 받는다. 왜냐하면 채팅방 (A) 가 살아 있기 때문이다.
       이 상황에서 채팅방 (B) 로 들어가면, 예상치 못한 문제가 발생할 수 있다. 왜냐하면 채팅방 두 개에 동시 접속을 하는것이 되니까.
 
-* cordova 에서 백 버튼 클릭하면 뒤로 안감.
+* cordova 에서 백 버튼 클릭하면 뒤로 안감. 수정 할 것.
+
+* sonub 알파 0.2 버전 발표.
 
 ## Todo later after publish
 
@@ -133,6 +132,20 @@
 
 ## Done and Finished list
 
+* @done push notificatoin for web and app
+  * https://beta.ionicframework.com/docs/native/firebase-messaging
+  * 한 사용자 당 push token 이 수십개 일 수 있다.
+    * 필고 push_tokens 테이블에 domain 필드를 추가해서, chat 으로 기록을 한다.
+  * 웹브라우저에서 알림을 허용해야지 채팅방에 입장 가능하다고 한다.
+  * 모든 사용자는 전체 토픽에 참여를 해서, 공지를 할 수 있도록 한다.
+  * 각 방마다 토픽을 만든다.
+
+* @done app 에서 push notificatoin
+  * 앱은 별도 허가를 받지 않는다.
+
+
+* @done 누가 입장한 것은 푸시 알림 하지 말 것.
+  * 단, Firebase Realtime DB 로 전송해서, 전체 알림을 한다.
 
 * @done 파일 업로드 in cordova.
   * 채팅 파일은 가장 단하게 [DO Valume 추가와 File Server](https://docs.google.com/document/d/1mJrvlq_TxH_t9K0_32mgjJW29djeoWY40261jHVYXjc/edit#heading=h.o1vnfl7avheq) 로 한다.
