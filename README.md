@@ -10,23 +10,6 @@
 
 ## TODO
 
-* @done 파일 업로드 in cordova.
-  * 채팅 파일은 가장 단하게 [DO Valume 추가와 File Server](https://docs.google.com/document/d/1mJrvlq_TxH_t9K0_32mgjJW29djeoWY40261jHVYXjc/edit#heading=h.o1vnfl7avheq) 로 한다.
-  * do it with cordova file upload. capacitor 는 아직 불완전해서, 급하게 앱 개발해야하는데, 애로점이 많아 보인다. 그래서 그냥 cordova 로 한다.
-  * use phone camera to upload file.
-
-* Profile 사진 업로드
-  * 채팅 파일 전송과 동일하게 할 것.
-
-* 내가 속한 방에서 사진이 업로드되면, 다른 방에 있을 때, 새 메시지 알림 창이 공백이 된다.
-  * ' .... 방에 사진이 업로드되었습니다.' 라고 표시 할 것.
-
-* 사진을 업로드하면, ... 안드로이드 앱에서는 반응이 느리다. 그래서, 사진을 선택하자 마자, 뭔가 좀 바로 보여 줄 수 있도록 한다.
-
-* cordova 에서 백 버튼 클릭하면 뒤로 안감.
-
-* 파폭에서 채팅이 맨 끝까지 스크롤 안되는 경향이 있다. 주의해서 살펴본다. 굳이 파폭을 지원 할 필요는 없다. Chrome 과 Edge, IE 면 된다.
-
 * push notificatoin for web and app
   * https://beta.ionicframework.com/docs/native/firebase-messaging
   * 한 사용자 당 push token 이 수십개 일 수 있다.
@@ -44,7 +27,6 @@
 * 관리자의 채팅방 설정 페이지. 별 레벨 제한과 사용자 별 허가. 레벨을 높게하면, 모두 채팅 차단하는 효과가 있고, 원하는 사용자만 허가 할 수 있음.
 * Ionic 앱 개발. ( push 부터 먼저 마무리 하고, wrapping 해서 마무리 할 것. )
 
-
 * 필고 아이디, 닉네임 으로 로그인 할 수 있도록 할 것.
 
 * 필고 메뉴 연계 (PWA 에서)
@@ -58,7 +40,15 @@
       따라서, 내가 '내 방 목록 페이지'에 있지만, 여전히 채팅방 (A)에 있는 것과 마찬가지가 되며 새 메시지가 오면 채팅방(A) 가 받는다. 왜냐하면 채팅방 (A) 가 살아 있기 때문이다.
       이 상황에서 채팅방 (B) 로 들어가면, 예상치 못한 문제가 발생할 수 있다. 왜냐하면 채팅방 두 개에 동시 접속을 하는것이 되니까.
 
+* cordova 에서 백 버튼 클릭하면 뒤로 안감.
+
 ## Todo later after publish
+
+* 사진을 업로드하면, ... 안드로이드 앱에서는 반응이 느리다. 그래서, 사진을 선택하자 마자, 뭔가 좀 바로 보여 줄 수 있도록 한다.
+
+* 일반 파일 업로드 기능. 업로드는 잘 된다. 사진과 다르게 보여주면됨.
+
+* 않읽은 채팅이 있는 방만 따로 모아서 보기. 카톡에는 이게 없어서 불편했다. 그리고 천체 읽음으로 표시하기 기능.
 
 * 사진 삭제 기능이 필요한가?
   * 그렇다면 메시지 삭제 기능도 똑 같이 삭제 할 수 있어야 하지 않나?
@@ -127,6 +117,16 @@
 
 ## Done and Finished list
 
+
+* @done 파일 업로드 in cordova.
+  * 채팅 파일은 가장 단하게 [DO Valume 추가와 File Server](https://docs.google.com/document/d/1mJrvlq_TxH_t9K0_32mgjJW29djeoWY40261jHVYXjc/edit#heading=h.o1vnfl7avheq) 로 한다.
+  * do it with cordova file upload. capacitor 는 아직 불완전해서, 급하게 앱 개발해야하는데, 애로점이 많아 보인다. 그래서 그냥 cordova 로 한다.
+  * use phone camera to upload file.
+
+* @done Profile 사진 업로드
+  * 채팅 파일 전송과 동일하게 할 것.
+
+
 * @done 로그인을 하지 않아도, 방에 들어 갈 수 있다. 단, 쪽지 전송은 방 생성 등은, 로그인을 해야만 한다.
 
 * @ok Race condition test.
@@ -175,6 +175,9 @@
 
 * @done 로그인을 하지 않은 경우, 방 입장시...
   * help.html 참고
+
+* @done 내가 속한 방에서 사진이 업로드되면, 다른 방에 있을 때, 새 메시지 알림 창이 공백이 된다.
+  * ' .... 방에 사진이 업로드되었습니다.' 라고 표시 할 것.
 
 
 * @done 사진을 보여 줄 때, 스크롤이 먼저되고 나서, 사진을 보여주므로, 사진이 밑에 보이거나, 스크롤이 끝까지 안된다.

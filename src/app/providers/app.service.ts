@@ -117,7 +117,7 @@ export class AppService {
    *    stamp: of the message.
    *  }
    */
-  async toastMessage(o: any) {
+  async toastMessage(o: ApiChatMessage | any) {
     console.log('toastMessage: ', o);
     if (!o) {
       return;
@@ -126,7 +126,7 @@ export class AppService {
       o.closeButtonText = 'Close';
     }
     if (o.duration === void 0) {
-      o.duration = 700000;
+      o.duration = 7000;
     }
 
     const toastClass = 'toast-' + (++this.countToastMessage);
@@ -134,14 +134,29 @@ export class AppService {
     o.position = 'top';
     o.showCloseButton = true;
 
+
+    if (o.message === void 0 || !o.message) {
+      o['message'] = ' ';
+    }
+    if (o.type !== void 0 && o.type.match('image.*')) {
+      o['message'] = ` has uploaded a photo.`;
+    }
+
     // console.log('o: ', o);
     const toast = await this.toastController.create(o);
     await toast.present();
     const el: Element = document.querySelector('.' + toastClass + ' .toast-message');
-    el.innerHTML = `
-  <div class="custom-message" onclick="triggerToastMessageClick(${o.idx_chat_room}, '${toastClass}')">
-    <img src="${o.photoUrl}"><span>${el.innerHTML}</span>
-  </div>`;
+    if (el) {
+      let innerHTML = '';
+      innerHTML += `<div class="custom-message" onclick="triggerToastMessageClick(${o.idx_chat_room}, '${toastClass}')">`;
+      if (o.photoUrl !== void 0 && o.photoUrl) {
+        innerHTML += ` <img src="${o.photoUrl}">`;
+      } else {
+        innerHTML += ` <span class="name">${o.name}</span>`;
+      }
+      innerHTML += `<span>${el.innerHTML}</span></div>`;
+      el.innerHTML = innerHTML;
+    }
   }
   onClickToastMessage(idx_chat_room, toastClass) {
     console.log('onClickToastMessage() idx_chat_room: ', idx_chat_room, toastClass);
