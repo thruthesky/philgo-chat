@@ -1017,7 +1017,7 @@ export class PhilGoApiService {
                 if (e instanceof HttpResponse) { // success event.
                     if (e.body !== void 0 && e.body['code'] !== void 0) {
                         if (e.body['code'] === 0) {
-                            e.body['data']['url'] = this.getNewFileServerUrl().replace('index.php', e.body['data']['path'] );
+                            e.body['data']['url'] = this.getNewFileServerUrl().replace('index.php', e.body['data']['path']);
                             return e.body['data'];
                         } else if (e.body['code'] !== 0) {
                             throw { code: e.body['code'], message: e.body['message'] };
@@ -1062,7 +1062,7 @@ export class PhilGoApiService {
         if (option.type) {
             type = option.type;
         }
-        const path = '../' + option.path.substr( option.path.indexOf('data/upload') );
+        const path = '../' + option.path.substr(option.path.indexOf('data/upload'));
         let quality = 100;
         if (option.quality) {
             quality = option.quality;
@@ -1370,6 +1370,15 @@ export class PhilGoApiService {
      */
     isMyCurrentChatRoomMessage(currentRoomNo: number, message: ApiChatMessage) {
         return message && message.idx_chat_room && message.idx_chat_room === currentRoomNo.toString();
+    }
+
+
+    /**
+     * Save push token
+     * @param token token
+     */
+    pushSaveToken(data: { token: string, domain?: string }) {
+        return this.query('pushSaveToken', data);
     }
 }
 
