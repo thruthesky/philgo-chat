@@ -1,35 +1,20 @@
 @import '../../../theme/mixins';
 @import '../../../theme/breakpoints';
-.message-input-box {
-    display: flex;
-    ion-input {
-        background-color: rgb(252, 235, 214);
-    }
-    ion-icon.camera {
-        display: block;
-        background-color: #b0c0bf;
-        padding: 12px;
-        @include icon-size();
-    }
-    ion-icon.send {
-        display: block;
-        background-color: #b0c0bf;
-        padding: 12px;
-        @include icon-size();
-    }
-    .camera-wrapper {
-        position: relative;
-        overflow: hidden;
-        .filebox {
+ion-footer{
+    ion-toolbar{
+        label{
+            padding: .5rem 0;
+            padding-left: .65rem;
+            cursor: pointer;
+        }
+        .filebox{
             position: absolute;
-            z-index: 1234;
-            top: 0;
-            left: 0;
-            height: 48px;
-            opacity: .001;
+            opacity: 0;
         }
     }
 }
+
+
 
 .messages{
     font-size: .85rem;

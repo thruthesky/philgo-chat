@@ -70,12 +70,19 @@
 </ion-content>
 
 <ion-footer>
-  <div class="message-input-box">
-    <div class="camera-wrapper" (click)=" onClickFile($event) ">
-      <ion-icon class="camera" name="camera"></ion-icon>
-      <input class="filebox" type="file" name="file" (change)="onChangeFile($event)" *ngIf=" environment == 'web' ">
-    </div>
+  <ion-toolbar>
+    <label for="filebox" slot="start"  (click)=" onClickFile($event)">
+      <ion-buttons>
+        <ion-icon slot="icon-only" class="camera" name="camera"></ion-icon>
+      </ion-buttons>
+    </label>
+    <input id="filebox" class="filebox" type="file" name="file" (change)="onChangeFile($event)" *ngIf=" environment == 'web' ">
+ 
     <ion-input type="text" placeholder="Type a message" [(ngModel)]="form.message" name="message" (keyup.enter)="onClickSendMessage()"></ion-input>
-    <ion-icon class="send" name="paper-plane" (click)="onClickSendMessage()"></ion-icon>
-  </div>
+    <ion-buttons slot="end">
+        <ion-button color="primary">
+            <ion-icon slot="icon-only"  name="paper-plane"></ion-icon>
+        </ion-button>
+    </ion-buttons>       
+  </ion-toolbar>
 </ion-footer>
