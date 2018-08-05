@@ -125,6 +125,7 @@ export class RoomPage implements OnInit, OnDestroy {
             delete room['messages'];
             this.a.addRoomToListen(room);
             this.updateLastRead(idx_message_last_read);
+            this.a.render( 100, () => this.scroll() );
             // this.test();
           }, e => this.a.toast(e));
         } else {
@@ -317,10 +318,20 @@ export class RoomPage implements OnInit, OnDestroy {
     this.doFile(files);
   }
 
-  doFile(files) {
-    const url = URL.createObjectURL(files[0]);
+  /**
+   * It does everything for file upload.
+   * @param files FileList
+   * @param dataUrl data url if it has. Cordova Camera returns base64, so it can have data url.
+   */
+  doFile(files, dataUrl = '') {
+    if (!dataUrl) {
+      console.log('No dataUrl. Going to create an object!');
+      dataUrl = URL.createObjectURL(files[0]);
+    } else {
+      console.log('Got dataUrl already. no create object');
+    }
     // console.log('url: ', url);
-    const message: ApiChatMessage = <any>{ url: this.a.safeUrl(url), retvar: ++this.countMessageSent };
+    const message: ApiChatMessage = <any>{ url: this.a.safeUrl(dataUrl), retvar: ++this.countMessageSent };
     this.displaySendingFile(message);
     this.philgo.fileUpload(files, {
       uid: this.philgo.myIdx(),
@@ -418,7 +429,8 @@ export class RoomPage implements OnInit, OnDestroy {
     const file = new File([blob], name + '.jpg', { type: 'image/jpeg' });
     const files: FileList = <any>[file];
 
-    this.doFile(files);
+    const dataUrl = 'data:image/jpg;base64,' + base64;
+    this.doFile(files, dataUrl);
   }
 
   /**

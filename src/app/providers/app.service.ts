@@ -8,6 +8,8 @@ import {
 } from '../modules/philgo-api-v3/philgo-api.service';
 import { Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Message } from '../../../node_modules/@angular/compiler/src/i18n/i18n_ast';
+import { Router } from '@angular/router';
 
 
 
@@ -36,12 +38,17 @@ export class AppService {
 
 
   private firebaseEvent: firebase.database.EventType = 'value';
+
+  private countToastMessage = 0;
   constructor(
     private readonly domSanitizer: DomSanitizer,
     private readonly ngZone: NgZone,
+    private readonly router: Router,
     private readonly toastController: ToastController,
     private readonly philgo: PhilGoApiService
-  ) { }
+  ) {
+    window['triggerToastMessageClick'] = this.onClickToastMessage.bind(this);
+  }
 
   version(): string {
     return '0.1';
@@ -111,7 +118,7 @@ export class AppService {
    *  }
    */
   async toastMessage(o: any) {
-    // console.log('o: ', o);
+    console.log('toastMessage: ', o);
     if (!o) {
       return;
     }
@@ -119,19 +126,38 @@ export class AppService {
       o.closeButtonText = 'Close';
     }
     if (o.duration === void 0) {
-      o.duration = 7000;
+      o.duration = 700000;
     }
-    o.cssClass = 'new-chat-message';
+
+    const toastClass = 'toast-' + (++this.countToastMessage);
+    o.cssClass = 'new-chat-message ' + toastClass;
     o.position = 'top';
     o.showCloseButton = true;
+
     // console.log('o: ', o);
     const toast = await this.toastController.create(o);
-    toast.present();
+    await toast.present();
+    const el: Element = document.querySelector('.' + toastClass + ' .toast-message');
+    el.innerHTML = `
+  <div class="custom-message" onclick="triggerToastMessageClick(${o.idx_chat_room}, '${toastClass}')">
+    <img src="${o.photoUrl}"><span>${el.innerHTML}</span>
+  </div>`;
+  }
+  onClickToastMessage(idx_chat_room, toastClass) {
+    console.log('onClickToastMessage() idx_chat_room: ', idx_chat_room, toastClass);
+    const el = document.querySelector('.' + toastClass);
+    if (el['dismiss'] !== void 0 && typeof el['dismiss'] === 'function') {
+      (<any>el).dismiss();
+      this.router.navigateByUrl('/room/' + idx_chat_room);
+    }
   }
 
-  render(ms = 10) {
+  render(ms = 100, callback?) {
     setTimeout(() => {
       this.ngZone.run(() => { });
+      if (callback) {
+        setTimeout(() => callback(), 100);
+      }
     }, ms);
   }
 
