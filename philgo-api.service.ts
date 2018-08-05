@@ -3,6 +3,7 @@ import { HttpClient, HttpRequest, HttpResponse, HttpHeaderResponse, HttpEventTyp
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, filter } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Options } from '../../../../node_modules/@types/selenium-webdriver/ie';
 
 
 export const ID = 'id';
@@ -1061,7 +1062,7 @@ export class PhilGoApiService {
         if (option.type) {
             type = option.type;
         }
-        const path = option.path.replace(url, '../');
+        const path = '../' + option.path.substr( option.path.indexOf('data/upload') );
         let quality = 100;
         if (option.quality) {
             quality = option.quality;
