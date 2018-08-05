@@ -83,6 +83,7 @@ export class RegisterPage implements OnInit {
         mobile: this.form.mobile
       };
       this.philgo.profileUpdate(data).subscribe(user => {
+        this.a.onProfileUpdate();
         this.loader.submit = false;
         console.log('profile update success: ', user);
         this.a.toast('Your profile has been successfully updated.');
@@ -92,6 +93,7 @@ export class RegisterPage implements OnInit {
       });
     } else {
       this.philgo.register(this.form).subscribe(user => {
+        this.a.onRegister();
         this.loader.submit = false;
         this.isLoggedIn = true;
       }, e => {

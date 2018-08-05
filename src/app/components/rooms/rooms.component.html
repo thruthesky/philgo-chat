@@ -1,4 +1,4 @@
-<ion-card>
+<ion-card *ngIf=" a.platform == 'web' && ! a.isPushNotificationPermissionRequested() ">
   <ion-card-header>
     <ion-card-subtitle>Chat Notification</ion-card-subtitle>
     <ion-card-title>Allow Notification</ion-card-title>
@@ -8,9 +8,22 @@
     
     <div>Please allow notification. So we can notify you when your friends talk to you.</div>
     <div>If you reject, you will not be notified.</div>
-    <ion-button color="danger">Allow Notification</ion-button>
+    <ion-button color="danger" (click)=" a.requestPushNotificationPermission() ">Allow Notification</ion-button>
   </ion-card-content>
 </ion-card>
+
+<ion-card *ngIf=" a.platform == 'web' && a.isPushNotificationPermissionDenied() ">
+    <ion-card-header>
+      <ion-card-subtitle>Install chat app</ion-card-subtitle>
+      <ion-card-title>Install Chat App</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <div>You have denied chat notification. Please install Chat App to be notified.</div>
+      <a color="danger" routerLink="/">Installing Chat App</a>
+    </ion-card-content>
+  </ion-card>
+  
 
 
 <ion-list *ngIf=" rooms.length ">
