@@ -13,7 +13,7 @@
 
     <ion-text text-nowrap>{{ room.description }}</ion-text>
     <ng-container *ngIf=" roomType == 'my-rooms' ">
-    <ion-badge mode="ios" slot="end" color="danger">{{ room.no_of_unread_messages }}</ion-badge>
+    <ion-badge mode="ios" slot="end" color="danger" *ngIf=" room.no_of_unread_messages != '0' ">{{ room.no_of_unread_messages }}</ion-badge>
     </ng-container>
 
     
