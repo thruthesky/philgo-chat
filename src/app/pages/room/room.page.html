@@ -78,7 +78,7 @@
     </label>
     <input id="filebox" class="filebox" type="file" name="file" (change)="onChangeFile($event)" *ngIf=" environment == 'web' ">
     <ion-input type="text" placeholder="Type a message" [(ngModel)]="form.message" name="message" (keyup.enter)="onClickSendMessage()"></ion-input>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" (click)="onClickSendMessage()">
         <ion-button color="primary">
             <ion-icon slot="icon-only"  name="paper-plane"></ion-icon>
         </ion-button>
