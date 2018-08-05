@@ -15,7 +15,6 @@ ion-footer{
 }
 
 
-
 .messages{
     font-size: .85rem;
     @media (min-width:$md) {
@@ -86,8 +85,8 @@ ion-footer{
                 }
                 border-radius: 5px;
                 border-bottom-right-radius: 0;
-                background:  var(--ion-color-primary-tint);
-                color: var(--ion-color-primary-contrast);
+                background:  var(--ion-color-warning-tint);
+                color: var(--ion-color-warning-contrast);
                 font-size: .9em;
                 line-height: 1.3em;
                 text-align: left;

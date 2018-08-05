@@ -1,3 +1,19 @@
+@import "../../../theme/breakpoints";
 ion-list{
     margin-bottom: 3rem;
+}
+
+.title{
+    display: flex;
+    align-items: center;
+    margin-top: .5rem; 
+    margin-bottom: 1rem;
+    h2{
+        margin: 0;
+        font-size: 1.3rem;
+    }
+    ion-icon{
+        margin-right: .5rem;
+        font-size: 2.2rem;
+    }
 }

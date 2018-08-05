@@ -8,9 +8,11 @@ ion-list{
         }
     }
 }
-
+ion-badge{
+    margin-right: 0;
+    margin-left: .5rem;
+}
 ion-text{
-    padding-right: .5rem;
     flex:100%;
     text-align: right;
 }

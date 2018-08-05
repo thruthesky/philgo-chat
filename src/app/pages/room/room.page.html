@@ -22,7 +22,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-scroll #ionScroll padding>
+  <ion-scroll color="light" #ionScroll padding>
     <div class="messages" *ngIf=" messages.length ">
       <div class="message" *ngFor=" let message of messages ">
         <!-- {{ message | json }} -->
@@ -79,7 +79,7 @@
     <input id="filebox" class="filebox" type="file" name="file" (change)="onChangeFile($event)" *ngIf=" environment == 'web' ">
     <ion-input type="text" placeholder="Type a message" [(ngModel)]="form.message" name="message" (keyup.enter)="onClickSendMessage()"></ion-input>
     <ion-buttons slot="end" (click)="onClickSendMessage()">
-        <ion-button color="primary">
+        <ion-button color="tertiary">
             <ion-icon slot="icon-only"  name="paper-plane"></ion-icon>
         </ion-button>
     </ion-buttons>       
