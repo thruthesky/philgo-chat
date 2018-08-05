@@ -29,7 +29,7 @@ ion-list{
         .delete-button{
             position: absolute;
             top: 0rem;
-            right: -2rem;
+            right: -1.8rem;
         }
     }
     .bottom{
@@ -37,13 +37,6 @@ ion-list{
             input{
                 position: absolute;
                 opacity: 0;
-            }
-            button{
-                display: inline-block;
-                padding: .5rem 1rem;
-                border-radius: 2px;
-                background: forestgreen;
-                font-size: .85rem;
             }
         }
     }
