@@ -3,7 +3,9 @@
 ion-footer{
     ion-toolbar{
         label{
+            padding: .5rem 0;
             padding-left: .65rem;
+            cursor: pointer;
         }
         .filebox{
             position: absolute;
