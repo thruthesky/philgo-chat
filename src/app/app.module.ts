@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PhilGoApiModule, PhilGoApiService } from './modules/philgo-api-v3/philgo-api.module';
 import { Camera } from '@ionic-native/camera/ngx';
+import { environment } from '../environments/environment';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,13 +38,14 @@ export class AppModule {
     // /**
     //  * New File Server End Ponit
     //  */
-    philgo.setNewFileServerUrl('http://192.168.0.182/file-server/index.php');
+    // philgo.setNewFileServerUrl('http://192.168.0.182/file-server/index.php');
 
 
-    philgo.setServerUrl('https://www.philgo.com/api.php');
+    philgo.setServerUrl(environment.philgoServerUrl);
     /**
      * Philgo API file server url. Must end with 'indx.php'.
      */
-    philgo.setFileServerUrl('https://file.philgo.com/index.php');
+    philgo.setFileServerUrl(environment.philgoFileServerUrl);
+    philgo.setNewFileServerUrl(environment.newFileServerUrl);
   }
 }

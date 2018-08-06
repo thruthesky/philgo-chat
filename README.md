@@ -3,20 +3,21 @@
 ## 목표
 
 * 필리핀 로컬 앱.
-  * 필고 연동.
+  * 필고 연동 + 필리핀에 있는 외국인들을 대상 + 채팅 커뮤니티 앱.
   * 명칭 소너브
   * 회사 주소가 Withcenter, Inc. Pamapanga 이므로 필리핀 앱이 맞다.
-  * 필리핀 커뮤니티 앱을 목표로 한다.
 
 ## TODO
 
 * @done 푸시 클릭시 chat.philgo.com 으로 이동.
   * 앱은 필요 없음. 앱에서는 앱이 완전히 종료되어도 푸시가 오고, 푸시를 클릭하면 자동으로 앱이 실행됨.
 
-* 웹앱을 chat.philgo.com 으로 배포 해서 테스트.
+* @done 웹앱을 chat.philgo.com 으로 배포 해서 테스트.
   * 크롬과 카나리가 푸시가 섞인 것 같다. 윈도우즈, 맥, 모바일 웹, 앱, 여러 컴퓨터로 테스트 해 볼 것.
   * v8.philgo.com 에 chat.philgo.com 을 호스팅한다.
-  
+
+* 사진 업로드시, 푸시 알림에. 사진을 업로드했습니다로 변경.
+
 * 푸시 아이콘 변경.
   * 웹과 앱 모두 바꾸어야 함.
 
@@ -54,6 +55,8 @@
 
 ## Todo later after publish
 
+* 설정에
+  api 주소, file 서버 주소, 새 파일 서버 주소를 관리자 인 경우에만 표시를 한다.
 
 * Follow [Git issus board](https://github.com/thruthesky/philgo-chat/issues/new#issue-sh-boards)
 
@@ -222,10 +225,31 @@
 * @done 내가 속한 방에서 사진이 업로드되면, 다른 방에 있을 때, 새 메시지 알림 창이 공백이 된다.
   * ' .... 방에 사진이 업로드되었습니다.' 라고 표시 할 것.
 
-
 * @done 사진을 보여 줄 때, 스크롤이 먼저되고 나서, 사진을 보여주므로, 사진이 밑에 보이거나, 스크롤이 끝까지 안된다.
   사진이 완전히 보여지면 스크롤을 한번 더 해야한ㄴ다.
     사진이 완뢰는 이벤트는 찾을 것.
+
+## 개발
+
+$ ionic s ; 웹 serve
+$ ionic cordova run android -l ; 앱 serve
+
+## 빌드 및 배포
+
+### 웹사이트로 배포
+
+* 웹 사이트로 빌드와 배포를 하려면 아래와 같이 하면 된다.
+
+```` sh
+npm run publish
+````
+
+## 서버 환경
+
+* 웹은 chat.philgo.com 에 배포. v8.philgo.com 과 동일한 서버이다.
+* file_server 는 아래와 같이 file.philgo.com 서버에 설치했다.
+  * $ git clone https://github.com/thruthesky/file-server public_html
+  * 접속 URL: https://file.philgo.com/~file_server/index.php
 
 ## 필리핀 단톡방 운영
 

@@ -4,7 +4,8 @@ import * as firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/messaging';
 import {
-  ApiChatRoom, ApiChatMessage, PhilGoApiService, CHAT_STATUS_ENTER, CHAT_STATUS_LEAVE, ERROR_WRONG_SESSION_ID
+  ApiChatRoom, ApiChatMessage, PhilGoApiService, CHAT_STATUS_ENTER, CHAT_STATUS_LEAVE, ERROR_WRONG_SESSION_ID,
+  ERROR_WRONG_IDX_MEMBER
 } from '../modules/philgo-api-v3/philgo-api.service';
 import { Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -182,7 +183,7 @@ export class AppService {
       /**
        * If session id is invalid.
        */
-      if ( o.code === ERROR_WRONG_SESSION_ID ) {
+      if ( o.code === ERROR_WRONG_SESSION_ID || o.code === ERROR_WRONG_IDX_MEMBER ) {
         this.philgo.logout();
       }
       o.cssClass = `error error${o.code}`;
