@@ -17,6 +17,7 @@ export const CHAT_STATUS_LEAVE = 'L';
 
 export const ERROR_CHAT_NOT_IN_THAT_ROOM = -530;
 export const ERROR_WRONG_SESSION_ID = -290;
+export const ERROR_WRONG_IDX_MEMBER = -280;
 
 interface ApiOptionalRequest {
     method?: string;
