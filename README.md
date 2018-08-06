@@ -9,32 +9,16 @@
 
 ## TODO
 
-* @done 푸시 클릭시 chat.philgo.com 으로 이동.
-  * 앱은 필요 없음. 앱에서는 앱이 완전히 종료되어도 푸시가 오고, 푸시를 클릭하면 자동으로 앱이 실행됨.
+* 앱 배포.
 
-* @done 웹앱을 chat.philgo.com 으로 배포 해서 테스트.
-  * 크롬과 카나리가 푸시가 섞인 것 같다. 윈도우즈, 맥, 모바일 웹, 앱, 여러 컴퓨터로 테스트 해 볼 것.
-  * v8.philgo.com 에 chat.philgo.com 을 호스팅한다.
-
-* 사진 업로드시, 푸시 알림에. 사진을 업로드했습니다로 변경.
-
-* 푸시 아이콘 변경.
-  * 웹과 앱 모두 바꾸어야 함.
-
-* 앱 아이콘 및 splash 작업.
+* 배포 후, 채팅 방 목록 페이지에서 push 알림을 거절했으면 앱 다운로드 URL 링크.
 
 * 언어 translation
   * ngx-translate 로 대충 번역만 먼저 할 것.
   * 카메라 선택을
     '카메라로 사진찍기', '갤러리에서 선택하기' 로 이해하기 쉽게 할 것.
-
   * push notification 에서 allow 를 허용으로 번역할 것.
-
   * 앱 명칭.
-
-* 앱 배포.
-
-* 배포 후, 채팅 방 목록 페이지에서 push 알림을 거절했으면 앱 다운로드 URL 링크.
 
 * 필고 아이디, 닉네임 으로 로그인 할 수 있도록 할 것.
 
@@ -149,6 +133,22 @@
 
 ## Done and Finished list
 
+* @done 푸시 아이콘 변경.
+  * 웹과 앱 모두 바꾸어야 함.
+
+* @done 앱 아이콘 및 splash 작업.
+
+* @done 푸시 클릭시 chat.philgo.com 으로 이동.
+  * 앱은 필요 없음. 앱에서는 앱이 완전히 종료되어도 푸시가 오고, 푸시를 클릭하면 자동으로 앱이 실행됨.
+
+* @done 웹앱을 chat.philgo.com 으로 배포 해서 테스트.
+  * 크롬과 카나리가 푸시가 섞인 것 같다. 윈도우즈, 맥, 모바일 웹, 앱, 여러 컴퓨터로 테스트 해 볼 것.
+  * v8.philgo.com 에 chat.philgo.com 을 호스팅한다.
+
+* @done 회원 가입 시 이메일/닉네임 앞뒤 공백 제거.
+
+* @done 사진 업로드시, 푸시 알림에. 사진을 업로드했습니다로 변경.
+
 * @done push notificatoin for web and app
   * https://beta.ionicframework.com/docs/native/firebase-messaging
   * 한 사용자 당 push token 이 수십개 일 수 있다.
@@ -160,7 +160,6 @@
 * @done app 에서 push notificatoin
   * 앱은 별도 허가를 받지 않는다.
 
-
 * @done 누가 입장한 것은 푸시 알림 하지 말 것.
   * 단, Firebase Realtime DB 로 전송해서, 전체 알림을 한다.
 
@@ -171,7 +170,6 @@
 
 * @done Profile 사진 업로드
   * 채팅 파일 전송과 동일하게 할 것.
-
 
 * @done 로그인을 하지 않아도, 방에 들어 갈 수 있다. 단, 쪽지 전송은 방 생성 등은, 로그인을 해야만 한다.
 
