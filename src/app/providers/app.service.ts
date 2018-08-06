@@ -4,7 +4,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/messaging';
 import {
-  ApiChatRoom, ApiChatMessage, PhilGoApiService, CHAT_STATUS_ENTER, CHAT_STATUS_LEAVE
+  ApiChatRoom, ApiChatMessage, PhilGoApiService, CHAT_STATUS_ENTER, CHAT_STATUS_LEAVE, ERROR_WRONG_SESSION_ID
 } from '../modules/philgo-api-v3/philgo-api.service';
 import { Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -179,6 +179,12 @@ export class AppService {
       o.duration = 10000;
     }
     if (typeof o.code !== void 0 && o.code) {
+      /**
+       * If session id is invalid.
+       */
+      if ( o.code === ERROR_WRONG_SESSION_ID ) {
+        this.philgo.logout();
+      }
       o.cssClass = `error error${o.code}`;
     }
     o.showCloseButton = true;
@@ -440,12 +446,16 @@ export class AppService {
     console.log('updatePushNotificationToken()');
 
     if (this.platform === 'web') {
+      console.log('  --> web');
       /**
        * 맨 처음에는 물어보고 해야 하므로, 부팅 할 때 토큰 업데이트하지 않고 (토큰 업데이트를 할 때, permission 을 자동으로 물어 봄 )
        * Permission 허용 했을 때만, 토큰 업데이트 확인을 한다.
        */
       if (this.isPushNotificationPermissionGranted()) {
+        console.log('    --> request permission granted()');
         this.requestPushNotificationPermission();
+      } else {
+        console.log('    --> request permission NOT granted()');
       }
     } else if (this.platform === 'cordova') {
       this.updatePushNotificationTokenToServer(this.cordovaPushToken);
@@ -462,8 +472,9 @@ export class AppService {
    *
    */
   updatePushNotificationTokenToServer(token) {
-    console.log('token: ', token);
+    console.log('updatePushNotificationTokenToServer(): ', token);
     if (!token) {
+      console.log('token empty. return.');
       return;
     }
     this.philgo.pushSaveToken({ token: token, domain: 'chat' }).subscribe(res => {
