@@ -17,10 +17,23 @@ ion-text{
     flex:100%;
     text-align: right;
 }
-
-ion-card{
-    text-align: center;
-    ion-icon{
-        font-size: 10rem;
+.no-more{
+    margin: 2rem .5rem;
+    padding: 1rem;
+    border-radius: 4px;
+    border:1px solid rgba(125,125,125,0.3);
+    ion-text{
+        display: block;
+        text-align: center;
+    }
+    .title{
+        font-size: 2rem;
+        line-height: 1.5em;
+    }
+    ion-img{
+        margin: auto;
+        padding: 2rem;
+        height: 250px;
+        width: 250px;
     }
 }
