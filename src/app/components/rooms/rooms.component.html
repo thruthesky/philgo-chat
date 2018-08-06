@@ -48,12 +48,8 @@
   </ion-item>
 </ion-list>
 
-<ion-card *ngIf=" ! rooms.length ">
-  <!-- <ion-img src="/assets/img/chat-icon.png"></ion-img> -->
-  <ion-icon color="tertiary" name="trash"></ion-icon>
-  <ion-card-content>
-    <ion-card-title>Oops ... !</ion-card-title>
-
-    <p>You do not have any rooms.</p>
-  </ion-card-content>
-</ion-card>
+<div class="no-more" *ngIf=" ! rooms.length ">
+  <ion-img src="/assets/img/chat-icon.png"></ion-img>
+  <ion-text color="danger" class="title">Oops ... !</ion-text>
+  <ion-text>You do not have any rooms.</ion-text>
+</div>
