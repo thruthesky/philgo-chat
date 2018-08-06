@@ -15,7 +15,8 @@ export const DELETED = 'Deleted';
 export const CHAT_STATUS_ENTER = 'E';
 export const CHAT_STATUS_LEAVE = 'L';
 
-export const ERROR_CHAT_NOT_IN_THAT_ROOM = '-530';
+export const ERROR_CHAT_NOT_IN_THAT_ROOM = -530;
+export const ERROR_WRONG_SESSION_ID = -290;
 
 interface ApiOptionalRequest {
     method?: string;
