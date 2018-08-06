@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
 import * as firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/messaging';
@@ -8,10 +8,11 @@ import {
 } from '../modules/philgo-api-v3/philgo-api.service';
 import { Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Message } from '../../../node_modules/@angular/compiler/src/i18n/i18n_ast';
 import { Router } from '@angular/router';
 
 
+
+declare let FCMPlugin;
 
 const firebaseConfig = {
   apiKey: 'AIzaSyA1X3vpzSpUk_JHCbNjEwQe1-pduF0Enqs',
@@ -30,6 +31,7 @@ firebase.initializeApp(firebaseConfig);
 export class AppService {
 
   db: firebase.database.Reference = firebase.database().ref('/');
+  messaging: firebase.messaging.Messaging = null;
 
   listeningRooms: Array<ApiChatRoom> = [];
   currentRoomNo = 0;
@@ -40,14 +42,103 @@ export class AppService {
   private firebaseEvent: firebase.database.EventType = 'value';
 
   private countToastMessage = 0;
+
+  /**
+   * Becareful!
+   *
+   * this.a.platform is a string. not ionic angular api object.
+   *
+   */
+  platform: 'web' | 'cordova' = 'web';
+
+  cordovaPushToken = null;
   constructor(
     private readonly domSanitizer: DomSanitizer,
     private readonly ngZone: NgZone,
     private readonly router: Router,
     private readonly toastController: ToastController,
-    private readonly philgo: PhilGoApiService
+    private readonly philgo: PhilGoApiService,
+    platform: Platform
   ) {
     window['triggerToastMessageClick'] = this.onClickToastMessage.bind(this);
+    console.log('isPushNotificationRequested: ', this.isPushNotificationPermissionRequested());
+
+    platform.ready().then(() => {
+      if (platform.is('cordova')) {
+        this.platform = 'cordova';
+      } else {
+        /**
+         * Web 설정.
+         *
+         * Cordova 에서 firebase.messaging() 을 하면 에러 발생.
+         */
+        this.messaging = firebase.messaging();
+
+        this.updatePushNotificationToken();
+
+      }
+
+      this.onInit();
+    });
+
+
+  }
+
+  /**
+   * Platform 초기화 되고 맨 처음 한번만 호출 된다.
+   */
+  onInit() {
+    if (this.platform === 'web') {
+      this.messaging.onMessage((payload) => {
+        console.log('Got FCM notification! Just ignore since app has toast.');
+      });
+    } else if (this.platform === 'cordova') {
+      FCMPlugin.getToken(token => {
+        this.cordovaPushToken = token;
+        this.updatePushNotificationTokenToServer(token);
+      });
+      FCMPlugin.onTokenRefresh(token => {
+        this.cordovaPushToken = token;
+        this.updatePushNotificationTokenToServer(token);
+      });
+
+      FCMPlugin.onNotification((data) => {
+        if (data.wasTapped) {
+          // Notification was received on device tray and tapped by the user.
+          // alert('data was Tapped by user: ' + JSON.stringify(data));
+        } else {
+          // Notification was received in foreground. Maybe the user needs to be notified.
+          // alert('data was received in foreground: ' + JSON.stringify(data));
+        }
+      });
+
+    }
+  }
+
+  /**
+   * 로그인을 하면 항상 이곳이 호출된다.
+   */
+  onLogin() {
+    this.updatePushNotificationToken();
+  }
+  /**
+   * 회원 가입을 하면 항상 이 함수가 호출된다.
+   */
+  onRegister() {
+    this.updatePushNotificationToken();
+  }
+  /**
+   * 회원 정보 수정을 하면 항상 이 함수가 호출된다.
+   */
+  onProfileUpdate() {
+    this.updatePushNotificationToken();
+  }
+  /**
+   * 회원 로그아웃을 하면 항상 이 함수가 호출된다.
+   */
+
+  onLogout() {
+    this.updatePushNotificationToken();
   }
 
   version(): string {
@@ -286,6 +377,7 @@ export class AppService {
       }
 
       /**
+       * 2018년 8월 6일. Firebase 로 방 입장/출장이 오지만 푸시는 되지 않는다.
        * If the message is one of my rooms' message and If I am not in the room, show it as a toast except
        *    If the message is not for enter or leave.
        */
@@ -313,5 +405,96 @@ export class AppService {
 
   safeUrl(url) {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
+  }
+
+  isPushNotificationPermissionRequested() {
+    // Let's check if the browser supports notifications
+    if (!('Notification' in window) || Notification === void 0 || Notification['permission'] === void 0) {
+      console.log('This browser does not support desktop notification');
+      return false;
+    }
+    // console.log(`Notification['permission']`, Notification['permission']);
+    return Notification['permission'] !== 'default';
+  }
+  isPushNotificationPermissionDenied() {
+    if (this.isPushNotificationPermissionRequested()) {
+      return Notification['permission'] === 'denied';
+    } else {
+      return false;
+    }
+  }
+  isPushNotificationPermissionGranted() {
+    if (this.isPushNotificationPermissionRequested()) {
+      return Notification['permission'] === 'granted';
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * 웹 Notification
+   *
+   * 매번 실행시 실행시 호출 하면 된다.
+   */
+  updatePushNotificationToken() {
+    console.log('updatePushNotificationToken()');
+
+    if (this.platform === 'web') {
+      /**
+       * 맨 처음에는 물어보고 해야 하므로, 부팅 할 때 토큰 업데이트하지 않고 (토큰 업데이트를 할 때, permission 을 자동으로 물어 봄 )
+       * Permission 허용 했을 때만, 토큰 업데이트 확인을 한다.
+       */
+      if (this.isPushNotificationPermissionGranted()) {
+        this.requestPushNotificationPermission();
+      }
+    } else if (this.platform === 'cordova') {
+      this.updatePushNotificationTokenToServer(this.cordovaPushToken);
+    }
+  }
+  /**
+   * 실제로 서버에 저장한다.
+   *
+   * 그냥 매우 간단하게 !!!! 접속 할 때 마다 항상 서버에 저장한다.
+   *
+   * 맨 처음 접속할 때, 로그인을 한 다음에 접속하는 것이 좋다.
+   *
+   * @param token push notification token
+   *
+   */
+  updatePushNotificationTokenToServer(token) {
+    console.log('token: ', token);
+    if (!token) {
+      return;
+    }
+    this.philgo.pushSaveToken({ token: token, domain: 'chat' }).subscribe(res => {
+      console.log('pushSaveToken', res);
+    }, e => {
+      console.log('Error on pushSaveToken(): If the token exists, just ignore. It is not an error. ', e);
+    });
+  }
+  /**
+   * 매번 실행시 호출 하면 되지만, 맨 처음에는 rooms 페이지에서 한번 물어 보고 한다.
+   */
+  requestPushNotificationPermission() {
+    console.log('requestPushNotificationPermission()');
+    this.messaging.requestPermission().then(() => {
+      console.log('   ===> Notification permission granted.');
+      // TODO(developer): Retrieve an Instance ID token for use with FCM.
+      // Callback fired if Instance ID token is updated.
+
+      this.messaging.getToken().then(token => this.updatePushNotificationTokenToServer(token))
+        .catch((err) => {
+          console.log('getToken() error: ', err);
+        });
+      this.messaging.onTokenRefresh(() => {
+        this.messaging.getToken().then((token => this.updatePushNotificationTokenToServer(token)))
+          .catch((err) => {
+            console.log('Unable to retrieve refreshed token ', err);
+            // showToken('Unable to retrieve refreshed token ', err);
+          });
+      });
+    }).catch((err) => {
+      console.log('Unable to get permission to notify. User may have denied permission!', err);
+    });
   }
 }

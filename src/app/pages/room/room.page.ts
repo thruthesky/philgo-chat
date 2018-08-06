@@ -18,7 +18,6 @@ export class RoomPage implements OnInit, OnDestroy {
 
   @ViewChild('ionScroll') ionScroll;
 
-  environment: 'web' | 'cordova' = 'web';
   countMessageSent = 0;
   roomInfo: ApiChatRoomEnter = <any>{};
   form: ApiChatMessage = <any>{};
@@ -28,7 +27,6 @@ export class RoomPage implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private platform: Platform,
     public actionSheetController: ActionSheetController,
     private alertController: AlertController,
     private camera: Camera,
@@ -37,11 +35,6 @@ export class RoomPage implements OnInit, OnDestroy {
   ) {
     console.log(' ==> RoomPage::constructor()');
 
-    this.platform.ready().then(() => {
-      if (this.platform.is('cordova')) {
-        this.environment = 'cordova';
-      }
-    });
 
     /**
      * @desc 채팅 방 부터 먼저 접속한 경우, 로비로 갔다가 다시 오면, life cyle 이벤트가 발생하지 않는다.
@@ -298,7 +291,7 @@ export class RoomPage implements OnInit, OnDestroy {
 
 
   onChangeFile(event: Event) {
-    if (this.environment === 'cordova') {
+    if (this.a.platform === 'cordova') {
       console.log('Running in cordova. return in onChangeFile()');
       return;
     }
@@ -366,7 +359,7 @@ export class RoomPage implements OnInit, OnDestroy {
    */
   async onClickFile(event: Event) {
     console.log('onClickFile()');
-    if (this.environment === 'web') {
+    if (this.a.platform === 'web') {
       console.log('it is web. return.');
       return;
     }
