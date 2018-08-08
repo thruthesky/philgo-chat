@@ -11,10 +11,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "s": "ionic s",
-    "serve:hmr": "ng serve --disable-host-check --configuration=hmr",
     "bt": "ng build --prod --named-chunks=true",
     "publish": "ionic build --prod && npm run scp",
-    "scp": "cd www && scp -r * chat@v8.philgo.com:./www"
+    "scp": "cd www && scp -r * chat@v8.philgo.com:./www",
+    "serve:local": "ionic serve --disable-host-check --configuration=local"
   },
   "private": true,
   "dependencies": {

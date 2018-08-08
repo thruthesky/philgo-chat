@@ -44,6 +44,7 @@ export class AppService {
 
   private countToastMessage = 0;
 
+
   /**
    * Becareful!
    *
@@ -52,7 +53,19 @@ export class AppService {
    */
   platform: 'web' | 'cordova' = 'web';
 
+  /**
+   * Cordova token
+   */
   cordovaPushToken = null;
+
+  /**
+   * If the user visits other than rooms list page, it will be false.
+   * Especially if user visits chat room page fist, before visiting chat rooms list page,
+   *  the app needs to reload the site into rooms page when the user leave the room to completely remove the page
+   *  from the bottom of the nativation stack.
+   */
+  roomsPageVisited = false;
+  //
   constructor(
     private readonly domSanitizer: DomSanitizer,
     private readonly ngZone: NgZone,
@@ -183,7 +196,7 @@ export class AppService {
       /**
        * If session id is invalid.
        */
-      if ( o.code === ERROR_WRONG_SESSION_ID || o.code === ERROR_WRONG_IDX_MEMBER ) {
+      if (o.code === ERROR_WRONG_SESSION_ID || o.code === ERROR_WRONG_IDX_MEMBER) {
         this.philgo.logout();
       }
       o.cssClass = `error error${o.code}`;
@@ -306,16 +319,15 @@ export class AppService {
    * It listens new messages of my rooms.
    *
    * @description This may be called in many ways.
-   *    - When user first visit my rooms page after app booted. Which means, my rooms page is at the bottom of navigation stack.
+   *    - When user first visit my rooms page after app booted.
+   *        Which means, my rooms page is at the bottom of navigation stack.
    *        In this case, when user visit all rooms page and visit back to my rooms page, this method will be called.
    *    - Whenever user visit my rooms page when my rooms page is not on the bottom of navigation stack.
    *        It needs to delete all my room and add new ones.
    *
-   * @todo Re-consider to
-   *    - Add listening on only the rooms that are not listened.
-   *    - Delete listening of the rooms that are not my rooms.
+   * @description
    *
-   *    But it may also be reasonable to refresh all the listeners somehow I feel like the app shold refresh it.
+   *    It may be reasonable to remove and listen all the rooms. Somehow I feel like the app should refresh room listenning.
    *
    * @param rooms my rooms
    */
@@ -339,24 +351,51 @@ export class AppService {
     }
   }
 
+  /**
+   * If the user is not listening his rooms, he can call this method.
+   *
+   * User can call this method when he first access chat room page instead of chat rooms list page.
+   *
+   * If the user has visited before calling this method, then it simply don't listen his rooms.
+   * If the user visits again on room list page, then, app will remove all the listeners and listens again for the user's room.
+   */
+  listenMyRoomsIfNotListenning() {
+    if (this.philgo.isLoggedIn()) {
+      if (this.listeningRooms.length === 0) {
+        console.log('No rooms are listened, I am going to listen my rooms.');
+        this.philgo.chatMyRoomList().subscribe(res => {
+          this.listenMyRooms(res).then(() => {
+          });
+        });
+      } else {
+        console.log('My rooms are already listened.');
+      }
+    }
+  }
+
 
   /**
    * Listens a room.
+   *
+   * If the room is already in listening, it double listens. and this is not good.
+   *
+   * So, do not use this method direcly. use this.addRoomToListen() which does not listen when the room is already listend.
    *
    * You can call any room to listen. Even if it's not your room.
    *
    * @param room chat room
    */
   listenRoom(room: ApiChatRoom) {
-    // console.log('On: ', room.name);
+    console.log('On: ', room.name);
     room['off'] = this.db.child(`/chat/rooms/${room.idx}/last-message`).on(this.firebaseEvent, snapshot => {
       const message: ApiChatMessage = snapshot.val();
 
       /**
-       * Don't toast if I am opening rooms page for the first time of app running.
+       * Don't toast if I am opening rooms page ( or listening the room ) for the first time of app running.
+       * If 'firstOpenning' is undefined, it is first message. define it and return it.
        */
       if (room['firstOpenning'] === void 0) {
-        // console.log(`First time visiting on Rooms page. Do not toast for the first visit only. room: ${room.name}.`);
+        // console.log(`First time visiting on listening the room. Do not toast for the first message only. room: ${room.name}.`);
         room['firstOpenning'] = true;
         return;
       }

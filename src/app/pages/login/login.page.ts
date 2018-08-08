@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
-  email = '';
+  uid = '';
   password = '';
   loader = {
     submit: false
@@ -26,7 +26,7 @@ export class LoginPage implements OnInit {
   onSubmit() {
     event.preventDefault();
     this.loader.submit = true;
-    this.philgo.login({ email: this.email, password: this.password }).subscribe(res => {
+    this.philgo.login({ uid: this.uid, password: this.password }).subscribe(res => {
       this.a.onLogin();
         this.loader.submit = false;
         console.log('login success: ', res);

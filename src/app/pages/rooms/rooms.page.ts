@@ -27,6 +27,7 @@ export class RoomsPage implements OnInit, OnDestroy {
     public a: AppService
   ) {
     console.log('RoomsPage::constructor()');
+    this.a.roomsPageVisited = true;
   }
 
   ngOnInit() {

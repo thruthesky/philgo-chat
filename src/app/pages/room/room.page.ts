@@ -53,6 +53,8 @@ export class RoomPage implements OnInit, OnDestroy {
       this.updateLastRead(message.idx);
       // this.updateLastRead();
     });
+
+    this.a.listenMyRoomsIfNotListenning();
   }
 
   ngOnInit() {
@@ -100,11 +102,19 @@ export class RoomPage implements OnInit, OnDestroy {
       this.activatedRoute.paramMap.subscribe(params => {
         const idx = params.get('idx_chat_room');
         if (idx) {
+          /**
+           * idx_chat_room in route may be string.
+           */
           this.form.idx_chat_room = idx;
-          this.a.currentRoomNo = parseInt(this.form.idx_chat_room, 10);
+          // this.a.currentRoomNo = parseInt(this.form.idx_chat_room, 10);
           this.philgo.chatRoomEnter({ idx: this.form.idx_chat_room }).subscribe(res => {
             // console.log('info: ', res);
             this.roomInfo = res;
+            /**
+             * get real idx_chat_room
+             */
+            this.form.idx_chat_room = this.roomInfo.idx_chat_room;
+            this.a.currentRoomNo = parseInt(this.roomInfo.idx_chat_room, 10);
             let idx_message_last_read = '';
             if (this.roomInfo.messages && this.roomInfo.messages.length) {
               this.roomInfo.messages.reverse().map(v => {
@@ -253,7 +263,7 @@ export class RoomPage implements OnInit, OnDestroy {
   }
 
   displayMessage(message: ApiChatMessage) {
-    console.log('displayMessage: ', message);
+    // console.log('displayMessage: ', message);
     if (message.status === CHAT_STATUS_ENTER && message.idx_member === this.philgo.myIdx()) {
       // if it's a greeting message for my entering, then no need to show it to myself.
     } else {
@@ -447,5 +457,15 @@ export class RoomPage implements OnInit, OnDestroy {
     return blob;
   }
 
+
+  onClickLeaveButton() {
+
+    if ( this.a.roomsPageVisited ) {
+      this.router.navigateByUrl('/');
+    } else {
+      location.href = '/';
+    }
+    return false;
+  }
 }
 
