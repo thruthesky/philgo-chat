@@ -4,9 +4,9 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 export const environment = {
   production: false,
-  philgoServerUrl: 'http://192.168.0.182/sapcms_1_2/api.php',
-  philgoFileServerUrl: 'http://192.168.0.182/sapcms_1_2/index.php',
-  newFileServerUrl: 'http://192.168.0.182/file-server/index.php'
+  philgoServerUrl: 'https://www.philgo.com/api.php',
+  philgoFileServerUrl: 'https://file.philgo.com/index.php',
+  newFileServerUrl: 'https://file.philgo.com/~file_server/index.php'
 };
 
 /*

@@ -21,7 +21,7 @@
   * 앱 명칭.
 
 * 필고 아이디, 닉네임 으로 로그인 할 수 있도록 할 것.
-
+* 필고 기존 단톡방 링크를 모두 변경
 * 필고 메뉴 연계 (PWA 에서)
   * 필고에서 메뉴로 session id 를 전달해서 로그인을 할 수 있도록 한다.
   * for philgo login user, they can use chat. meaning, they can login with google in philgo and can use chat.
@@ -38,6 +38,19 @@
 * sonub 알파 0.2 버전 발표.
 
 ## Todo later after publish
+
+* topic 푸시 알림이 확실히 좀 문제 있음.
+  * 크롬이 새로운 방을 만들고, 크롬만 입장하고, 채팅을 하면, 아무도 푸시를 아직 받으면 안되는데, 카나리가 푸시를 받음.
+    * 이론적으로는 로컬컴에서 테스트 할 때, 방번호, 회원 번호가 실제 서버와 섞이면 그럴 수 있다.
+    * 또는 하나의 아이디로 웹브라우저를 번갈아가면서 사용했다면 그럴 수 있다.
+    * 이 경우, DB 에서 푸시 토큰을 다 지우고, 채팅방을 다 지우고 해야 가능 할 수 있다.
+  무엇보다 topic 에 누가 들어가 있는지를 알수 없음. 컨트롤이 안됨. PHP ADMIN SDK 로 한번에 여러 토큰으로 보내는 기능이 없다.
+  그래서 그냥 Multi CURL 로, 눈으로 직접 회원번호,방번호,token 을 확인하고 보내는 것이 현명한 방법인 것 같다.
+  한번에 255 개씩 보냄. 1천개라도 금방 보냄.
+
+* 채팅방 상단 메뉴에, 설정 옆에, 알림 표시를 하는 종 아이콘, 그리고 토글 아이콘을 두어서, 알림 켬/끔을 표시 할 것.
+* 각 방 목록 상단에 필고 로고와 링크 표시.
+* 메뉴에 필고 홈/장터/질문/자유게시판 링크.
 
 * 설정에
   api 주소, file 서버 주소, 새 파일 서버 주소를 관리자 인 경우에만 표시를 한다.
@@ -242,17 +255,23 @@ $ ionic cordova run android -l ; 앱 serve
 npm run publish
 ````
 
-## 서버 환경
+## 개발 환경, 정보 및 각종 서버 환경 및 정보
 
+* [Ionic Pro 의 philgo-chat 프로젝트](https://dashboard.ionicframework.com/app/1c4a1ca7/deploy/builds)에서 앱 빌드 및 Deploy.
 * 웹은 chat.philgo.com 에 배포. v8.philgo.com 과 동일한 서버이다.
 * file_server 는 아래와 같이 file.philgo.com 서버에 설치했다.
   * $ git clone https://github.com/thruthesky/file-server public_html
   * 접속 URL: https://file.philgo.com/~file_server/index.php
+* Android keystore
+  * 파일: philgo-chat.keystore
+  * aliah: philgo-chat
+  * 비밀번호: as 로 시작 9 으로 끝나는 6 자리.
 
 ## 필리핀 단톡방 운영
 
 ## Resources
 
 * 디자인 원본 파일은 tmp 폴더에 있다.
+* 아이콘과 스플래시는 문서를 보고 한다.
 * 앱 로고는 필고/etc/resources/sonub 폴더에 저장했다.
   * 경로: https://www.philgo.com/etc/resources/sonub/logo.png
