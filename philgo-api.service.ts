@@ -30,7 +30,7 @@ export interface ApiRequest {
     session_id?: string;
 }
 export interface ApiLoginRequest extends ApiOptionalRequest {
-    email: string;
+    uid: string;        // id or nickname or email
     password: string;
 }
 export interface ApiCurrencyRequest extends ApiOptionalRequest {
