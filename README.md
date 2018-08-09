@@ -12,7 +12,8 @@
 * @done 홈페이지 주소 https://chat.philgo.com/room/마닐라 와 같이 접속 하도록 할 것.
 
 * 앱 배포.
-  * submodule 을 없애고 subtree 로 변경해야한다. ionic pro 에 컴파일 문제 있음.
+  * API 타겟이 26 이상이야 한다고 함. Ionic Pro 에서 어떻게 변경하지?
+  * com.philgo.www 는 이미 사용중이라고 함. com.sonub.www 로 사용 할 것.
 
 * 배포 후, 채팅 방 목록 페이지에서 push 알림을 거절했으면 앱 다운로드 URL 링크.
 
@@ -281,6 +282,8 @@ npm run publish
   * 파일: philgo-chat.keystore
   * aliah: philgo-chat
   * 비밀번호: as 로 시작 9 으로 끝나는 6 자리.
+
+* config.xml 의 package name 은 com.philgo.www
 
 ## 필리핀 단톡방 운영
 
