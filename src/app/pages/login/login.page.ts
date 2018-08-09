@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
   onSubmit() {
-    event.preventDefault();
+    // event.preventDefault();
     this.loader.submit = true;
     this.philgo.login({ uid: this.uid, password: this.password }).subscribe(res => {
       this.a.onLogin();
