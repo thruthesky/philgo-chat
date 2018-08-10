@@ -56,7 +56,7 @@ export class AppService {
   /**
    * Cordova token
    */
-  cordovaPushToken = null;
+  pushToken = null;
 
   /**
    * If the user visits other than rooms list page, it will be false.
@@ -108,11 +108,11 @@ export class AppService {
       });
     } else if (this.platform === 'cordova') {
       FCMPlugin.getToken(token => {
-        this.cordovaPushToken = token;
+        this.pushToken = token;
         this.updatePushNotificationTokenToServer(token);
       });
       FCMPlugin.onTokenRefresh(token => {
-        this.cordovaPushToken = token;
+        this.pushToken = token;
         this.updatePushNotificationTokenToServer(token);
       });
 
@@ -498,11 +498,14 @@ export class AppService {
         console.log('    --> request permission NOT granted()');
       }
     } else if (this.platform === 'cordova') {
-      this.updatePushNotificationTokenToServer(this.cordovaPushToken);
+      this.updatePushNotificationTokenToServer(this.pushToken);
     }
   }
   /**
+   *
    * 실제로 서버에 저장한다.
+   *
+   * 앱이든 웹이든 반드시 실행을 하면 이 함수가 호출된다.
    *
    * 그냥 매우 간단하게 !!!! 접속 할 때 마다 항상 서버에 저장한다.
    *
@@ -512,6 +515,7 @@ export class AppService {
    *
    */
   updatePushNotificationTokenToServer(token) {
+    this.pushToken = token; // Cordova 는 이미 값이 있지만, 웹에는 적용을 해 준다.
     console.log('updatePushNotificationTokenToServer(): ', token);
     if (!token) {
       console.log('token empty. return.');
