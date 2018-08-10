@@ -18,7 +18,9 @@
 * 배포 후, 채팅 방 목록 페이지에서 push 알림을 거절했으면 앱 다운로드 URL 링크.
 
 * 언어 translation
-  * ngx-translate 로 대충 번역만 먼저 할 것.
+  * ngx-translate 하지 말 것. 도저히 이해 할 수 없다.
+  * 지금현재 ~/app/site 의 소스와 https://github.com/thruthesky/firelibrary/blob/3237b8b22cc227e8c3acf82e3f87bdc425b9acd4/providers/etc/base.ts 의 소스를 보고,
+  * angular-translate 이라는 독립 서브 repo 를 만들어서 사용한다.
   * 카메라 선택을
     '카메라로 사진찍기', '갤러리에서 선택하기' 로 이해하기 쉽게 할 것.
   * push notification 에서 allow 를 허용으로 번역할 것.
@@ -290,13 +292,9 @@ npm run publish
   * 이에 따라서 Android keystoer information 을 작성하고 루트폴더에 저장.
   * firebase Project 에도 package name 을 com.sonub.chat 으로 작성.
 
-
 ```` sh
 keytool -genkey -v -keystore com.sonub.chat.keystore -alias sonubchat -keyalg RSA -keysize 2048 -validity 10000
 Enter keystore password:  
-Keystore password is too short - must be at least 6 characters
-Enter keystore password:  
-Re-enter new password: 
 What is your first and last name?
   [Unknown]:  JaeHo Song
 What is the name of your organizational unit?
@@ -309,14 +307,7 @@ What is the name of your State or Province?
   [Unknown]:  Pampanga
 What is the two-letter country code for this unit?
   [Unknown]:  PH
-Is CN=JaeHo Song, OU=Withcenter IT Dept, O=Withcenter, L=Clark, ST=Pampanga, C=PH correct?
-  [no]:  yes
 
-Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 10,000 days
-	for: CN=JaeHo Song, OU=Withcenter IT Dept, O=Withcenter, L=Clark, ST=Pampanga, C=PH
-Enter key password for <sonubchat>
-	(RETURN if same as keystore password):  
-[Storing com.sonub.chat.keystore]
 ````
 
 ## 필리핀 단톡방 운영
