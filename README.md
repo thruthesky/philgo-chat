@@ -24,6 +24,8 @@
   * push notification 에서 allow 를 허용으로 번역할 것.
   * 앱 명칭.
 
+* 필고 홈페이지에 단톡방 링크는 이미 걸려져 있음. 방을 생성해야 함.
+
 * @done 필고 아이디, 닉네임 으로 로그인 할 수 있도록 할 것.
 * 필고 기존 단톡방 링크를 모두 변경하거나, 기존의 단톡방 페이지에, philgo-chat 이 부팅되도록 함. in-page booting 은 ionic app 을 필고 루트에 저장해야 하기 때문에, 어려 울 듯.
   * 그냥 chat.philgo.com 으로 연결하는 것이 가장 좋을 듯.
@@ -50,6 +52,11 @@
 * sonub 알파 0.2 버전 발표.
 
 ## Todo later after publish
+
+* 다른 카톡 단톡방에 광고
+  * 강사들의 안쓰는 카톡 아이디를 하나 내 컴으로 연결
+  * 필고 chat.philgo.com 링크 붙여넣기를 하면, 채팅 방에 멋진 광고 로고가 멋지게 떠서,
+    필고 광고가 아닌 것 처럼 광고를 한다.
 
 * 상단 메뉴에 [필고 챗 앱 설치] 메뉴를 두며, 여러 페이지에 앱 설치를 표시 할 것.
 
@@ -279,8 +286,10 @@ npm run publish
   * $ git clone https://github.com/thruthesky/file-server public_html
   * 접속 URL: https://file.philgo.com/~file_server/index.php
 
-* config.xml 의 package name 은 com.philgo.www
-* Android keystoer information
+* config.xml 의 package name 은 com.sonub.chat
+  * 이에 따라서 Android keystoer information 을 작성하고 루트폴더에 저장.
+  * firebase Project 에도 package name 을 com.sonub.chat 으로 작성.
+
 
 ```` sh
 keytool -genkey -v -keystore com.sonub.chat.keystore -alias sonubchat -keyalg RSA -keysize 2048 -validity 10000
