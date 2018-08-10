@@ -36,6 +36,37 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675064809117:android:0933381f5d4b86ae",
+        "android_client_info": {
+          "package_name": "com.sonub.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "675064809117-a97j1atq6uo4g4dujqkrbe4vm7re60lq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0HlooLpPJeB8MQRru4T3hnSPKvQ_b5Yg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

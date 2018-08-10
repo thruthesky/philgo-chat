@@ -278,12 +278,37 @@ npm run publish
 * file_server 는 아래와 같이 file.philgo.com 서버에 설치했다.
   * $ git clone https://github.com/thruthesky/file-server public_html
   * 접속 URL: https://file.philgo.com/~file_server/index.php
-* Android keystore
-  * 파일: philgo-chat.keystore
-  * aliah: philgo-chat
-  * 비밀번호: as 로 시작 9 으로 끝나는 6 자리.
 
 * config.xml 의 package name 은 com.philgo.www
+* Android keystoer information
+
+```` sh
+keytool -genkey -v -keystore com.sonub.chat.keystore -alias sonubchat -keyalg RSA -keysize 2048 -validity 10000
+Enter keystore password:  
+Keystore password is too short - must be at least 6 characters
+Enter keystore password:  
+Re-enter new password: 
+What is your first and last name?
+  [Unknown]:  JaeHo Song
+What is the name of your organizational unit?
+  [Unknown]:  Withcenter IT Dept
+What is the name of your organization?
+  [Unknown]:  Withcenter
+What is the name of your City or Locality?
+  [Unknown]:  Clark
+What is the name of your State or Province?
+  [Unknown]:  Pampanga
+What is the two-letter country code for this unit?
+  [Unknown]:  PH
+Is CN=JaeHo Song, OU=Withcenter IT Dept, O=Withcenter, L=Clark, ST=Pampanga, C=PH correct?
+  [no]:  yes
+
+Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 10,000 days
+	for: CN=JaeHo Song, OU=Withcenter IT Dept, O=Withcenter, L=Clark, ST=Pampanga, C=PH
+Enter key password for <sonubchat>
+	(RETURN if same as keystore password):  
+[Storing com.sonub.chat.keystore]
+````
 
 ## 필리핀 단톡방 운영
 
