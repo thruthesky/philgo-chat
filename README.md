@@ -56,6 +56,9 @@
 
 ## Todo later after publish
 
+* 푸시 소리 커스터마이징
+  /resources/res/bird.mp3 로 저장 해 놓았음.
+
 * 다른 카톡 단톡방에 광고
   * 강사들의 안쓰는 카톡 아이디를 하나 내 컴으로 연결
   * 필고 chat.philgo.com 링크 붙여넣기를 하면, 채팅 방에 멋진 광고 로고가 멋지게 떠서,
