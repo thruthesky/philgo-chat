@@ -6,7 +6,28 @@
 
 <ion-content padding>
 
-  <div>Client Platform: {{ a.platform }}</div>
-  <div>Server url: {{ philgo.getServerUrl() }}</div>
-  <div>Token: {{ a.pushToken }}</div>
+  <ion-list>
+    <ion-item>
+      <ion-label>Client Platform</ion-label>
+      <ion-text> {{ a.platform }}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>Server URL</ion-label>
+      <ion-text> {{ philgo.getServerUrl() }}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>Token</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-text>{{ a.pushToken }}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>Location.href</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-text>{{ locationHref }}</ion-text>
+    </ion-item>
+  </ion-list>
+
+
 </ion-content>

@@ -9,10 +9,13 @@ import { PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.module'
 })
 export class SettingPage implements OnInit {
 
+  locationHref = '';
   constructor(
     public a: AppService,
     public philgo: PhilGoApiService
-  ) { }
+  ) {
+    this.locationHref = location.href;
+  }
 
   ngOnInit() {
   }
