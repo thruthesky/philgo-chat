@@ -9,6 +9,7 @@ import { PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.module'
 })
 export class SettingPage implements OnInit {
 
+  isCordova = !! window.cordova;
   locationHref = '';
   constructor(
     public a: AppService,

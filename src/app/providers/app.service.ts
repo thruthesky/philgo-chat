@@ -79,7 +79,7 @@ export class AppService {
 
     platform.ready().then(() => {
 
-      if (platform.is('cordova')) {
+      if (platform.is('cordova') || this.platform === 'cordova') {
         this.platform = 'cordova';
       } else {
         /**
@@ -88,23 +88,8 @@ export class AppService {
          * Cordova 에서 firebase.messaging() 을 하면 에러 발생.
          */
         this.messaging = firebase.messaging();
-
         this.updatePushNotificationToken();
-
       }
-      /**
-       * Ionic v4 beta 0 에 버그. Cordva 를 detect 하지 못함.
-       * 그래서, 임의로 cordova 인지 확인을 함.
-       */
-      if (!!window.cordova) {
-        this.platform = 'cordova';
-      }
-      const re = document.URL.indexOf('http://') === -1
-        && document.URL.indexOf('https://') === -1;
-      if (re) {
-        this.platform = 'cordova';
-      }
-
       this.onInit();
     });
 

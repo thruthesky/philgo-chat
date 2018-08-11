@@ -18,14 +18,14 @@ export class CreateRoomComponent implements OnInit {
     public a: AppService
   ) {
     //
-    this.test();
+    // this.test();
   }
 
-  test() {
-    this.form.name = 'abc';
-    this.form.description = 'this is abc room';
-    this.onSubmit();
-  }
+  // test() {
+  //   this.form.name = 'abc';
+  //   this.form.description = 'this is abc room';
+  //   this.onSubmit();
+  // }
 
   ngOnInit() {
   }
