@@ -12,8 +12,9 @@
 * @done 홈페이지 주소 https://chat.philgo.com/room/마닐라 와 같이 접속 하도록 할 것.
 
 * 앱 배포.
-  * API 타겟이 26 이상이야 한다고 함. Ionic Pro 에서 어떻게 변경하지?
-  * com.philgo.www 는 이미 사용중이라고 함. com.sonub.www 로 사용 할 것.
+  * 새로운 핸드폰 Galaxy wide 에서, cordova 로 인식 못하는 것 같음. 그래서 push token 이 없음.
+  * @done API 타겟이 26 이상이야 한다고 함. Ionic Pro 에서 어떻게 변경하지?
+  * @done com.philgo.www 는 이미 사용중이라고 함. com.sonub.www 로 사용 할 것.
 
 * 배포 후, 채팅 방 목록 페이지에서 push 알림을 거절했으면 앱 다운로드 URL 링크.
 
