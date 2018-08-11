@@ -3,6 +3,7 @@ import { RoomsComponent } from '../../components/rooms/rooms.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiChatRoom, PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.service';
 import { AppService } from '../../providers/app.service';
+import { LanguageTranslate } from '../../modules/language-translate/language-translate';
 
 @Component({
   selector: 'app-rooms',
@@ -24,7 +25,8 @@ export class RoomsPage implements OnInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public philgo: PhilGoApiService,
-    public a: AppService
+    public a: AppService,
+    public languageTranslate: LanguageTranslate
   ) {
     console.log('RoomsPage::constructor()');
     this.a.roomsPageVisited = true;
@@ -71,7 +73,10 @@ export class RoomsPage implements OnInit, OnDestroy {
     this.appRoomsComponent.loadMyChatRoomList();
   }
   initAllRooms() {
-    this.title = 'All Rooms';
+    this.title = this.languageTranslate.t({
+      ko: '전체 채팅방 목록',
+      en: 'All Chat Room List'
+    });
     this.show.searchBox = true;
     this.appRoomsComponent.loadAllChatRoomList();
   }

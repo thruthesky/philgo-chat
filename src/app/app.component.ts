@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { PhilGoApiService } from './modules/philgo-api-v3/philgo-api.module';
 import { Router } from '../../node_modules/@angular/router';
 import { AppService } from './providers/app.service';
+import { LanguageTranslate } from './modules/language-translate/language-translate';
 
 @Component({
   selector: 'app-root',
@@ -18,9 +19,11 @@ export class AppComponent {
     private statusBar: StatusBar,
     private readonly router: Router,
     public readonly philgo: PhilGoApiService,
-    public a: AppService
+    public a: AppService,
+    public lt: LanguageTranslate
   ) {
     this.initializeApp();
+    this.lt.languageCode = 'ko';
   }
 
   initializeApp() {

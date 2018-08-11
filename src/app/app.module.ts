@@ -12,7 +12,6 @@ import { PhilGoApiModule, PhilGoApiService } from './modules/philgo-api-v3/philg
 import { Camera } from '@ionic-native/camera/ngx';
 import { environment } from '../environments/environment';
 
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
