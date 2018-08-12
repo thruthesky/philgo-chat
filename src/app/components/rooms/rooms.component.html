@@ -31,7 +31,7 @@
   <!-- <ion-item *ngFor="let room of rooms" (click)="onClickRoom(room)"> -->
   <ion-item lines="full" *ngFor="let room of rooms" routerLink="/room/{{ room.idx }}">
 
-    <ion-icon slot="start" color="tertiary" name="ribbon" *ngIf=" room.idx_owner == philgo.myIdx() "></ion-icon>
+    <ion-icon slot="start" color="tertiary" name="ribbon" *ngIf=" room.idx_owner && room.idx_owner == philgo.myIdx() "></ion-icon>
     <ion-icon slot="start" color="primary" name="heart" *ngIf=" room.idx_owner != philgo.myIdx() && room.favorite == 'Y' "></ion-icon>
     <ng-container *ngIf=" roomType == 'all-rooms' ">
       <ion-badge slot="start" *ngIf=" a.number(room.no_of_member) > 0 && a.number(room.no_of_member) <= 10 " color="light">{{ room.no_of_member }}</ion-badge>

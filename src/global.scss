@@ -14,3 +14,11 @@
 @import "./theme/theme";
 @import "./theme/mixins";
 @import "./theme/components/new-chat-message";
+
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+@import "node_modules/bootstrap/scss/utilities";
+
+@import "./app/components/create-room/create-room.component.scss";

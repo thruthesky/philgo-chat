@@ -1,102 +1,103 @@
 @import '../../../theme/mixins';
 @import '../../../theme/breakpoints';
-ion-footer{
-    ion-toolbar{
-        label{
+ion-footer {
+    ion-toolbar {
+        label {
             padding: .5rem 0;
             padding-left: .25rem;
             cursor: pointer;
         }
-        .filebox{
+        .filebox {
             position: absolute;
             opacity: 0;
         }
     }
 }
-ion-badge{
+
+ion-badge {
     border-radius: 45px;
 }
-.messages{
+
+.messages {
     font-size: .85rem;
-    @media (min-width:$md) {
+    @media (min-width: $md) {
         font-size: 1rem;
     }
-    .message{
+    .message {
         margin: .5rem 0;
-        @media (min-width:$md) {
+        @media (min-width: $md) {
             margin: 1rem 0;
         }
-        &:first-child{
+        &:first-child {
             margin-top: 0;
         }
         padding: .5rem 0;
-        .other{
+        .other {
             display: flex;
             margin-right: auto;
             max-width: 93%;
-            .left{
-                padding-right:  .75rem;
-                ion-thumbnail{
+            .left {
+                padding-right: .75rem;
+                ion-thumbnail {
                     height: 35px;
                     width: 35px;
                     border-radius: 5%;
                     overflow: hidden;
-                    @media (min-width:$md) {
+                    @media (min-width: $md) {
                         height: 45px;
                         width: 45px;
                     }
                 }
             }
-            .right{
+            .right {
                 width: auto;
-                .title{
+                .title {
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-end;
-                    margin: 0 1px .35rem 1px; 
-                    .name{
-                        color:var(--ion-color-dark-tint);
+                    margin: 0 1px .35rem 1px;
+                    .name {
+                        color: var(--ion-color-dark-tint);
                         font-weight: bold;
                         font-size: .95em;
                     }
-                    .date{
+                    .date {
                         margin-left: 2rem;
-                        color:var(--ion-color-medium-shade);
+                        color: var(--ion-color-medium-shade);
                     }
                 }
-                .content{
+                .content {
                     padding: .5rem 1rem;
-                    @media (min-width:$md) {
+                    @media (min-width: $md) {
                         padding: .75rem 1rem;
                     }
                     border-radius: 7px;
                     border-top-left-radius: 0;
-                    background:  var(--ion-color-light-tint);
+                    background : var(--ion-color-light-tint);
                     color: var(--ion-color-light-contrast);
                     font-size: .9em;
                     line-height: 1.3rem;
                 }
             }
         }
-        .my{
+        .my {
             display: flex;
             justify-content: flex-end;
             margin-left: auto;
             max-width: 93%;
-            .content{
+            .content {
                 padding: .5rem 1rem;
-                @media (min-width:$md) {
+                @media (min-width: $md) {
                     padding: .75rem 1rem;
                 }
                 border-radius: 5px;
                 border-bottom-right-radius: 0;
-                background:  var(--ion-color-warning-tint);
+                background : var(--ion-color-warning-tint);
                 color: var(--ion-color-warning-contrast);
                 font-size: .9em;
                 line-height: 1.4em;
                 text-align: left;
-            }
-            // .title-bottom{
+            } // .title-bottom{
             //     display: flex;
             //     align-items: flex-end;
             //     justify-content: flex-end;

@@ -5,8 +5,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-room-component',
-  templateUrl: './create-room.component.html',
-  styleUrls: ['./create-room.component.scss']
+  templateUrl: './create-room.component.html'
 })
 export class CreateRoomComponent implements OnInit {
 

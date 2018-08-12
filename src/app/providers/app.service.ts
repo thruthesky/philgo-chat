@@ -10,6 +10,7 @@ import {
 import { Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { LanguageTranslate } from '../modules/language-translate/language-translate';
 
 
 
@@ -72,6 +73,7 @@ export class AppService {
     private readonly router: Router,
     private readonly toastController: ToastController,
     private readonly philgo: PhilGoApiService,
+    public readonly tr: LanguageTranslate,
     platform: Platform
   ) {
     window['triggerToastMessageClick'] = this.onClickToastMessage.bind(this);
