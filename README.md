@@ -11,17 +11,21 @@
 
 * @done 홈페이지 주소 https://chat.philgo.com/room/마닐라 와 같이 접속 하도록 할 것.
 
-* 앱 배포.
+* @done 앱 배포.
   * 새로운 핸드폰 Galaxy wide 에서, cordova 로 인식 못하는 것 같음. 그래서 push token 이 없음.
   * @done API 타겟이 26 이상이야 한다고 함. Ionic Pro 에서 어떻게 변경하지?
   * @done com.philgo.www 는 이미 사용중이라고 함. com.sonub.www 로 사용 할 것.
+
+* @done 마지막 채팅 100개 가져오고. enter, leave 는 가죠오지 않기.
+
+* 앱 푸시 테스트
+  * 은수, 장모님 핸드폰으로 테스트 해 볼 것.
 
 * 배포 후, 채팅 방 목록 페이지에서 push 알림을 거절했으면 앱 다운로드 URL 링크.
 
 * 언어 translation
   * ngx-translate 하지 말 것. 도저히 이해 할 수 없다.
-  * 지금현재 ~/app/site 의 소스와 https://github.com/thruthesky/firelibrary/blob/3237b8b22cc227e8c3acf82e3f87bdc425b9acd4/providers/etc/base.ts 의 소스를 보고,
-  * angular-translate 이라는 독립 서브 repo 를 만들어서 사용한다.
+  * src/app/modules/language-translate 로 작업 중. 템플릿에서 바로 변환을 한다.
   * 카메라 선택을
     '카메라로 사진찍기', '갤러리에서 선택하기' 로 이해하기 쉽게 할 것.
   * push notification 에서 allow 를 허용으로 번역할 것.
@@ -55,6 +59,8 @@
 * sonub 알파 0.2 버전 발표.
 
 ## Todo later after publish
+
+* 사용자기 매우 편하게 모든 것을 변경.
 
 * 푸시 소리 커스터마이징
   /resources/res/bird.mp3 로 저장 해 놓았음.

@@ -26,7 +26,7 @@ export class RoomsPage implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     public philgo: PhilGoApiService,
     public a: AppService,
-    public languageTranslate: LanguageTranslate
+    public lt: LanguageTranslate
   ) {
     console.log('RoomsPage::constructor()');
     this.a.roomsPageVisited = true;
@@ -68,12 +68,12 @@ export class RoomsPage implements OnInit, OnDestroy {
 
 
   initMyRooms() {
-    this.title = 'My Rooms';
+    this.title = this.lt.t({ko: '나의 채팅방 목록', en: 'My Chat Rooms'}); // 'My Rooms';
     this.show.searchBox = false;
     this.appRoomsComponent.loadMyChatRoomList();
   }
   initAllRooms() {
-    this.title = this.languageTranslate.t({
+    this.title = this.lt.t({
       ko: '전체 채팅방 목록',
       en: 'All Chat Room List'
     });

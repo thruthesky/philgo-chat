@@ -549,7 +549,7 @@ export class PhilGoApiService {
             }),
             catchError(e => {
                 console.log('PhilGoApiService::post() => catchError()');
-                // console.log('catchError: ', e);
+                console.log('catchError: ', e);
                 /**
                  * PhilGo API 의 에러이면 그대로 Observable Error 를 리턴한다.
                  */

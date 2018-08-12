@@ -286,6 +286,9 @@ export class AppService {
   }
 
   /**
+   * 방에 들어가는 경우, 그 방을 listen 한다. 이것은 로그인 회원이든 비 로그인 회원이든 그 방을 listen 한다.
+   * 이미 listen 중에 있으면, 두번 listen 하지 않는다.
+   *
    * It adds a room for listening new message.
    *
    * since it simply don't do anything if the room is already added, it is harmless you try to listen a room that is already by listened.
@@ -308,7 +311,6 @@ export class AppService {
     if (i === -1) { // Not in the listeners array? This may be a new room for the user. Listen it!!
       console.log('Going to listen a room: ', room.name);
       this.listenRoom(room);
-
     } else { // the room is already being listened.
       console.log('The room is already listened. Maybe it is his old room.');
     }
@@ -352,6 +354,8 @@ export class AppService {
   /**
    * If the user is not listening his rooms, he can call this method.
    *
+   * 로그인을 한 사용자가, 전체 자기방을 Listen 하지 않았으면, 전체 listen 한다.
+   *
    * User can call this method when he first access chat room page instead of chat rooms list page.
    *
    * If the user has visited before calling this method, then it simply don't listen his rooms.
@@ -375,6 +379,9 @@ export class AppService {
   /**
    * Listens a room.
    *
+   * 비 회원인 경우, 모든 방을 listen 하지 않는다.
+   * 비 회원이 방에 들어가는 경우, listenMyRoomsIfNotListenning() 를 통해서 listen 하지도 않는다.
+   *
    * If the room is already in listening, it double listens. and this is not good.
    *
    * So, do not use this method direcly. use this.addRoomToListen() which does not listen when the room is already listend.
@@ -388,6 +395,7 @@ export class AppService {
     room['off'] = this.db.child(`/chat/rooms/${room.idx}/last-message`).on(this.firebaseEvent, snapshot => {
       const message: ApiChatMessage = snapshot.val();
 
+      console.log('listenRoom() => got listen: data: ', message);
       /**
        * Don't toast if I am opening rooms page ( or listening the room ) for the first time of app running.
        * If 'firstOpenning' is undefined, it is first message. define it and return it.
@@ -415,7 +423,7 @@ export class AppService {
        * Don't toast if I am in the same room of the message since it will be displayed on chat messgae box.
        */
       if (this.philgo.isMyCurrentChatRoomMessage(this.currentRoomNo, message)) {
-        console.log('AppService::listenMyRooms():: got current room message. next()', message);
+        console.log('AppService::listenMyRooms():: got current room No. ', this.currentRoomNo, 'message. next()', message);
         this.newMessageOnCurrentRoom.next(message);
         return;
       }
