@@ -1,5 +1,11 @@
-<ion-header  >
+<ion-header>
   <ion-toolbar>
+
+    <ion-buttons slot="start" *ngIf=" ! isMyRoom ">
+      <ion-button routerLink="/">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
     <ion-title>
       <ion-text>{{ title }}</ion-text>
@@ -14,9 +20,6 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-toolbar  *ngIf="show.searchBox">
-      <ion-searchbar autocomplete></ion-searchbar>
-  </ion-toolbar>
   <app-rooms-component #appRoomsComponent [share]="share"></app-rooms-component>
 
 </ion-content>

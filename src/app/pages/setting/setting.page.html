@@ -1,20 +1,25 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>setting</ion-title>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ a.tr.t({ko: '설정', en: 'Setting'}) }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
 
   <ion-list>
-      <ion-item>
-        <ion-label>Client Platform</ion-label>
-        <ion-text> {{ a.platform }}</ion-text>
-      </ion-item>
-      <ion-item>
-        <ion-label>is Cordova?</ion-label>
-        <ion-text> {{ isCordova }}</ion-text>
-      </ion-item>
+    <ion-item>
+      <ion-label>Client Platform</ion-label>
+      <ion-text> {{ a.platform }}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>is Cordova?</ion-label>
+      <ion-text> {{ isCordova }}</ion-text>
+    </ion-item>
     <ion-item>
       <ion-label>Server URL</ion-label>
       <ion-text> {{ philgo.getServerUrl() }}</ion-text>

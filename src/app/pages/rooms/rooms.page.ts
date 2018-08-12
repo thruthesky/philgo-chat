@@ -18,9 +18,10 @@ export class RoomsPage implements OnInit, OnDestroy {
   share = {
     totalNoOfNewMessages: 0
   };
-  show = {
-    searchBox: false
-  };
+  // show = {
+  //   searchBox: false
+  // };
+  isMyRoom = false;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -51,12 +52,13 @@ export class RoomsPage implements OnInit, OnDestroy {
        * When user is not logged in, he can only see all rooms.
        */
       if (this.philgo.isLoggedOut()) {
-        this.a.toast('Please login in');
+        this.a.toast( this.a.tr.t({ko: '로그인을 해 주세요.', en: 'Please login'}) );
         this.initAllRooms();
       } else {
         if (data.mode === 'all') {
           this.initAllRooms();
         } else {
+          this.isMyRoom = true;
           this.initMyRooms();
         }
       }
@@ -68,8 +70,8 @@ export class RoomsPage implements OnInit, OnDestroy {
 
 
   initMyRooms() {
-    this.title = this.lt.t({ko: '나의 채팅방 목록', en: 'My Chat Rooms'}); // 'My Rooms';
-    this.show.searchBox = false;
+    this.title = this.lt.t({ ko: '나의 채팅방 목록', en: 'My Chat Rooms' }); // 'My Rooms';
+    // this.show.searchBox = false;
     this.appRoomsComponent.loadMyChatRoomList();
   }
   initAllRooms() {
@@ -77,7 +79,7 @@ export class RoomsPage implements OnInit, OnDestroy {
       ko: '전체 채팅방 목록',
       en: 'All Chat Room List'
     });
-    this.show.searchBox = true;
+    // this.show.searchBox = true;
     this.appRoomsComponent.loadAllChatRoomList();
   }
 

@@ -6,14 +6,19 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rooms-component',
-  templateUrl: './rooms.component.html',
-  styleUrls: ['./rooms.component.scss']
+  templateUrl: './rooms.component.html'
 })
 export class RoomsComponent implements OnInit, OnDestroy {
 
   @Input() share = {};
   roomType: 'my-rooms' | 'all-rooms' = null;
   rooms: Array<ApiChatRoom> = [];
+
+  show = {
+    loader: {
+      roomList: true
+    }
+  };
   constructor(
     private router: Router,
     public a: AppService,
@@ -42,8 +47,11 @@ export class RoomsComponent implements OnInit, OnDestroy {
   }
 
   loadMyChatRoomList(callback?) {
+    this.show.loader.roomList = true;
     this.roomType = 'my-rooms';
     this.philgo.chatMyRoomList().subscribe(res => {
+
+      this.show.loader.roomList = false;
       // console.log('my room list: ', res);
       /**
        * Sort of rooms
@@ -76,15 +84,23 @@ export class RoomsComponent implements OnInit, OnDestroy {
           callback();
         }
       });
-    }, e => this.a.toast(e));
+    }, e => {
+      this.show.loader.roomList = false;
+      this.a.toast(e);
+    });
   }
   loadAllChatRoomList() {
+    this.show.loader.roomList = true;
     this.roomType = 'all-rooms';
     this.philgo.chatRoomList().subscribe(res => {
+      this.show.loader.roomList = false;
       console.log('list: ', res);
       this.rooms = res;
       this.updateShare();
-    }, e => this.a.toast(e));
+    }, e => {
+      this.show.loader.roomList = false;
+      this.a.toast(e);
+    });
   }
   // onClickRoom(room: ApiChatRoom) {
   //   this.a.addRoomToListen(room);

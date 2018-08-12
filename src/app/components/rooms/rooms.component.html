@@ -5,7 +5,7 @@
   </ion-card-header>
 
   <ion-card-content>
-    
+
     <div>Please allow notification. So we can notify you when your friends talk to you.</div>
     <div>If you reject, you will not be notified.</div>
     <ion-button color="danger" (click)=" a.requestPushNotificationPermission() ">Allow Notification</ion-button>
@@ -13,43 +13,57 @@
 </ion-card>
 
 <ion-card *ngIf=" a.platform == 'web' && a.isPushNotificationPermissionDenied() ">
-    <ion-card-header>
-      <ion-card-subtitle>Install chat app</ion-card-subtitle>
-      <ion-card-title>Install Chat App</ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content>
-      <div>You have denied chat notification. Please install Chat App to be notified.</div>
-      <a color="danger" routerLink="/">Installing Chat App</a>
-    </ion-card-content>
-  </ion-card>
-  
+  <ion-card-header>
+    <ion-card-subtitle>Install chat app</ion-card-subtitle>
+    <ion-card-title>Install Chat App</ion-card-title>
+  </ion-card-header>
 
+  <ion-card-content>
+    <div>You have denied chat notification. Please install Chat App to be notified.</div>
+    <a color="danger" routerLink="/">Installing Chat App</a>
+  </ion-card-content>
+</ion-card>
 
-<ion-list *ngIf=" rooms.length ">
-  <!-- <ion-item *ngFor="let room of rooms" (click)="enter.emit(room)"> -->
-  <!-- <ion-item *ngFor="let room of rooms" (click)="onClickRoom(room)"> -->
-  <ion-item lines="full" *ngFor="let room of rooms" routerLink="/room/{{ room.idx }}">
-
-    <ion-icon slot="start" color="tertiary" name="ribbon" *ngIf=" room.idx_owner && room.idx_owner == philgo.myIdx() "></ion-icon>
-    <ion-icon slot="start" color="primary" name="heart" *ngIf=" room.idx_owner != philgo.myIdx() && room.favorite == 'Y' "></ion-icon>
-    <ng-container *ngIf=" roomType == 'all-rooms' ">
-      <ion-badge slot="start" *ngIf=" a.number(room.no_of_member) > 0 && a.number(room.no_of_member) <= 10 " color="light">{{ room.no_of_member }}</ion-badge>
-      <ion-badge slot="start" *ngIf=" a.number(room.no_of_member) > 10" color="dark">{{ room.no_of_member }}</ion-badge>
-    </ng-container>
-    <ion-label slot="start">{{ room.name }}</ion-label>
-
-    <ion-text text-nowrap>{{ room.description }}</ion-text>
-    <ng-container *ngIf=" roomType == 'my-rooms' ">
-    <ion-badge  slot="end" color="danger" *ngIf=" room.no_of_unread_messages != '0' ">{{ room.no_of_unread_messages }}</ion-badge>
-    </ng-container>
-
-    
-  </ion-item>
-</ion-list>
-
-<div class="no-more" *ngIf=" ! rooms.length ">
-  <ion-img src="/assets/img/chat-icon.png"></ion-img>
-  <ion-text color="danger" class="title">Oops ... !</ion-text>
-  <ion-text>You do not have any rooms.</ion-text>
+<div class="d-flex align-items-center justify-content-center mt-5" *ngIf=" show.loader.roomList; else roomListLoaded ">
+  <ion-spinner></ion-spinner>
+  <div class="ml-3">{{ a.tr.t({ko: '채팅방 목록을 로딩중입니다.', en: 'Loading chat room list.'}) }}</div>
 </div>
+
+<ng-template #roomListLoaded>
+
+  <ion-toolbar *ngIf=" roomType == 'all-rooms' ">
+    <ion-searchbar autocomplete placeholder="{{ a.tr.t({ko: '채팅방 검색', en: 'Search chat rooms' }) }}"></ion-searchbar>
+  </ion-toolbar>
+
+  <ion-list class="rooms" *ngIf=" rooms.length ">
+    <!-- <ion-item *ngFor="let room of rooms" (click)="enter.emit(room)"> -->
+    <!-- <ion-item *ngFor="let room of rooms" (click)="onClickRoom(room)"> -->
+    <ng-container *ngFor="let room of rooms">
+
+      <ion-item class="name" routerLink="/room/{{ room.idx }}">
+        <ion-icon slot="start" color="tertiary" name="ribbon" *ngIf=" room.idx_owner && room.idx_owner == philgo.myIdx() "></ion-icon>
+        <ion-icon slot="start" color="primary" name="heart" *ngIf=" room.idx_owner != philgo.myIdx() && room.favorite == 'Y' "></ion-icon>
+        <ng-container *ngIf=" roomType == 'all-rooms' ">
+          <ion-badge slot="start" *ngIf=" a.number(room.no_of_member) > 0 && a.number(room.no_of_member) <= 10 " color="light">{{ room.no_of_member }}</ion-badge>
+          <ion-badge slot="start" *ngIf=" a.number(room.no_of_member) > 10" color="dark">{{ room.no_of_member }}</ion-badge>
+        </ng-container>
+        <ion-label slot="start">{{ room.name }}</ion-label>
+      </ion-item>
+
+      <ion-item class="meta" routerLink="/room/{{ room.idx }}">
+        <ion-text text-wrap>{{ room.description }}</ion-text>
+        <ng-container *ngIf=" roomType == 'my-rooms' ">
+          <ion-badge slot="end" color="danger" *ngIf=" room.no_of_unread_messages != '0' ">{{ room.no_of_unread_messages }}</ion-badge>
+        </ng-container>
+      </ion-item>
+
+    </ng-container>
+  </ion-list>
+
+  <div class="no-more" *ngIf=" ! rooms.length ">
+    <ion-img src="/assets/img/chat-icon.png"></ion-img>
+    <ion-text color="danger" class="title">{{ a.tr.t({ko: '앗 ...?!', en: 'Oops ... ?!'}) }}</ion-text>
+    <ion-text>{{ a.tr.t({ko: '회원님이 참여한 채팅 방이 없네요.', en: 'You do not have any rooms.'}) }}</ion-text>
+    <ion-text>{{ a.tr.t({ko: '전체 채팅방 목록 메뉴에서 채팅방에 챰여해보세요.', en: 'Please join a room under All Chat Room List menu.'}) }}</ion-text>
+  </div>
+</ng-template>

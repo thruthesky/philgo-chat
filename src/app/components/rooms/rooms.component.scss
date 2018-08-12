@@ -1,36 +1,38 @@
 @import "../../../theme/breakpoints";
-
-ion-list{
-    ion-item{
-        font-size: .85rem;
-        @media (min-width:$md) {
-            font-size: 1rem;
-        }
+.rooms .name {
+    --height: 1em;
+    font-size: 1rem;
+    @media (min-width: $md) {
+        font-size: 1.1rem;
     }
 }
-ion-badge[slot="end"]{
+
+.rooms .meta {
+    margin-bottom: 1em;
+    --min-height: 1.8em;
+    font-size: .85em;
+    flex: 100%;
+}
+
+ion-badge[slot="end"] {
     margin-right: 0;
     margin-left: .5rem;
     border-radius: 45px;
 }
-ion-text{
-    flex:100%;
-    text-align: right;
-}
-.no-more{
+
+.no-more {
     margin: 2rem .5rem;
     padding: 1rem;
     border-radius: 4px;
-    border:1px solid rgba(125,125,125,0.3);
-    ion-text{
+    ion-text {
         display: block;
+        margin-top: .5em;
         text-align: center;
     }
-    .title{
+    .title {
         font-size: 2rem;
-        line-height: 1.5em;
     }
-    ion-img{
+    ion-img {
         margin: auto;
         padding: 2rem;
         height: 250px;

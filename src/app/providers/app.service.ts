@@ -187,7 +187,7 @@ export class AppService {
       };
     }
     if (o.closeButtonText === void 0) {
-      o.closeButtonText = 'Close';
+      o.closeButtonText = this.tr.t({ko: '닫기', en: 'Close'});
     }
     if (o.duration === void 0) {
       o.duration = 10000;

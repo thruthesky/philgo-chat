@@ -1,9 +1,14 @@
-<ion-header  >
+<ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>{{ a.tr.t({ko: '새로운 채팅방 만들기'}) }}</ion-title>
     <ion-buttons slot="end">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,4 +17,3 @@
   <app-create-room-component (cancel)=" onCancelCreateRoom() "></app-create-room-component>
 
 </ion-content>
-

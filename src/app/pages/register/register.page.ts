@@ -7,8 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.page.html',
-  styleUrls: ['./register.page.scss'],
+  templateUrl: './register.page.html'
 })
 export class RegisterPage implements OnInit {
 
@@ -73,11 +72,11 @@ export class RegisterPage implements OnInit {
       event.preventDefault();
     }
 
-    console.log('philgo.isLoggedIn?', this.philgo.isLoggedIn());
-    console.log('whoami?: ', this.philgo.nickname());
-    console.log('di?', this.form);
+    // console.log('philgo.isLoggedIn?', this.philgo.isLoggedIn());
+    // console.log('whoami?: ', this.philgo.nickname());
+    // console.log('di?', this.form);
     if (this.philgo.isLoggedIn()) {
-      console.log('going to update profile');
+      // console.log('going to update profile');
       const data: ApiProfileUpdateRequest = {
         name: this.form.name,
         mobile: this.form.mobile
@@ -85,8 +84,8 @@ export class RegisterPage implements OnInit {
       this.philgo.profileUpdate(data).subscribe(user => {
         this.a.onProfileUpdate();
         this.loader.submit = false;
-        console.log('profile update success: ', user);
-        this.a.toast('Your profile has been successfully updated.');
+        // console.log('profile update success: ', user);
+        this.a.toast(this.a.tr.t({ ko: '회원 정보를 수정하였습니다.', en: 'Your profile has been successfully updated.' }));
       }, e => {
         this.loader.submit = false;
         this.a.toast(e.message);
