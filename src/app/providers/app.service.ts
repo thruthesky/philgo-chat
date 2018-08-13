@@ -89,7 +89,7 @@ export class AppService {
     private p: Platform
   ) {
     window['triggerToastMessageClick'] = this.onClickToastMessage.bind(this);
-    console.log('isPushNotificationRequested: ', this.isPushNotificationPermissionRequested());
+    // console.log('isPushNotificationRequested: ', this.isPushNotificationPermissionRequested());
 
     this.p.backButton.subscribe(() => {
       this.router.navigateByUrl('/');
