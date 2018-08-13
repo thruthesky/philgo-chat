@@ -91,6 +91,9 @@ export class AppService {
     window['triggerToastMessageClick'] = this.onClickToastMessage.bind(this);
     console.log('isPushNotificationRequested: ', this.isPushNotificationPermissionRequested());
 
+    this.p.backButton.subscribe(() => {
+      this.router.navigateByUrl('/');
+    });
     this.p.ready().then(() => {
 
       // alert('is mobile web?: ' + AngularLibrary.isMobileWeb());
@@ -148,7 +151,7 @@ export class AppService {
    * 로그인이 되어 있지 않은 상태이면, 필고 쿠키를 바탕으로 회원 로그인을 한다.
    */
   doCookieLogin() {
-    if ( this.philgo.isLoggedIn() ) {
+    if (this.philgo.isLoggedIn()) {
       return;
     }
     const idx = AngularLibrary.getCookie('idx');
@@ -156,7 +159,7 @@ export class AppService {
     const session_id = AngularLibrary.getCookie('session_id');
     const webbrowser_id = AngularLibrary.getCookie('webbrowser_id');
     console.log(idx, nickname, session_id, webbrowser_id);
-    const user: ApiUserInformation = <any> {
+    const user: ApiUserInformation = <any>{
       idx: idx,
       id: idx,
       nickname: nickname,
