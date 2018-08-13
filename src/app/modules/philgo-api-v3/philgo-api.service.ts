@@ -821,7 +821,7 @@ export class PhilGoApiService {
      *
      * @param user User information
      */
-    private saveUserInformation(user: ApiUserInformation) {
+    saveUserInformation(user: ApiUserInformation) {
         // console.log('saveuserInformation: user: ', user);
         localStorage.setItem(SESSION_ID, user.session_id);
         localStorage.setItem(ID, user.id);

@@ -1,28 +1,33 @@
 <ion-card *ngIf=" a.platform == 'web' && ! a.isPushNotificationPermissionRequested() ">
   <ion-card-header>
-    <ion-card-subtitle>Chat Notification</ion-card-subtitle>
-    <ion-card-title>Allow Notification</ion-card-title>
+    <ion-card-subtitle>{{ a.tr.t({ko: '채팅 알림을 허용해주세요.', en: 'Please accept Notification'}) }}</ion-card-subtitle>
+    <ion-card-title>{{ a.tr.t({ko: '채팅 알림', en: 'Allow Chat Notification'}) }}</ion-card-title>
   </ion-card-header>
-
   <ion-card-content>
-
-    <div>Please allow notification. So we can notify you when your friends talk to you.</div>
-    <div>If you reject, you will not be notified.</div>
-    <ion-button color="danger" (click)=" a.requestPushNotificationPermission() ">Allow Notification</ion-button>
+    <div>{{ a.tr.t({ko: '채팅 알림을 허용 해 주셔야 새로운 채팅이 있을 시 알림을 받을 수 있습니다.', en: 'Please allow notification. So we can notify you when
+      your friends talk to you.'}) }}</div>
+    <ion-button color="danger" (click)=" a.requestPushNotificationPermission() ">{{ a.tr.t({ko: '채팅 알림 허용하기', en: 'Allow Notification'}) }}</ion-button>
   </ion-card-content>
 </ion-card>
 
 <ion-card *ngIf=" a.platform == 'web' && a.isPushNotificationPermissionDenied() ">
   <ion-card-header>
-    <ion-card-subtitle>Install chat app</ion-card-subtitle>
-    <ion-card-title>Install Chat App</ion-card-title>
+    <ion-card-subtitle>{{ a.tr.t({ko: '채팅앱을 설치 해 주세요.', en: 'Please install chat app'}) }}</ion-card-subtitle>
+    <ion-card-title>{{ a.tr.t({ko: '채팅앱 설치', en: 'Install Chat App'}) }}</ion-card-title>
   </ion-card-header>
 
   <ion-card-content>
-    <div>You have denied chat notification. Please install Chat App to be notified.</div>
-    <a color="danger" routerLink="/">Installing Chat App</a>
+    <div>{{ a.tr.t({ko: '채팅 알림을 거절하신 경우 반드시 채팅앱을 사용하시기 바랍니다.', en: 'You have denied chat notification. Please install Chat App
+      to be notified.'}) }}</div>
+    <ion-button routerLink="/">{{ a.tr.t({ko: '채팅앱 설치하기', en: 'Install Chat App'}) }}</ion-button>
   </ion-card-content>
 </ion-card>
+
+
+
+
+
+
 
 <div class="d-flex align-items-center justify-content-center mt-5" *ngIf=" show.loader.roomList; else roomListLoaded ">
   <ion-spinner></ion-spinner>
@@ -33,7 +38,8 @@
 <ng-template #roomListLoaded>
 
   <ion-toolbar *ngIf=" roomType == 'all-rooms' ">
-    <ion-searchbar #searchBar (ionCancel)=" onCancelSearch() " (ionClear)=" onCancelSearch() " (ionChange)=" onSearch( searchBar.value ) " debounce="500" animated="true" autocomplete="on" placeholder="{{ a.tr.t({ko: '채팅방 검색', en: 'Search chat rooms' }) }}"></ion-searchbar>
+    <ion-searchbar #searchBar (ionCancel)=" onCancelSearch() " (ionClear)=" onCancelSearch() " (ionChange)=" onSearch( searchBar.value ) "
+      debounce="500" animated="true" autocomplete="on" placeholder="{{ a.tr.t({ko: '채팅방 검색', en: 'Search chat rooms' }) }}"></ion-searchbar>
   </ion-toolbar>
 
   <ion-list class="rooms" *ngIf=" rooms.length ">
@@ -61,10 +67,19 @@
     </ng-container>
   </ion-list>
 
-  <div class="no-more" *ngIf=" ! rooms.length ">
+  <div class="no-more" text-center *ngIf=" ! rooms.length ">
     <ion-img src="/assets/img/chat-icon.png"></ion-img>
-    <ion-text color="danger" class="title">{{ a.tr.t({ko: '앗 ...?!', en: 'Oops ... ?!'}) }}</ion-text>
-    <ion-text>{{ a.tr.t({ko: '회원님이 참여한 채팅 방이 없네요.', en: 'You do not have any rooms.'}) }}</ion-text>
-    <ion-text>{{ a.tr.t({ko: '전체 채팅방 목록 메뉴에서 채팅방에 챰여해보세요.', en: 'Please join a room under All Chat Room List menu.'}) }}</ion-text>
+    <ng-container *ngIf=" roomType == 'my-rooms' ">
+      <ion-text color="danger" class="title">{{ a.tr.t({ko: '앗 ...?!', en: 'Oops ... ?!'}) }}</ion-text>
+      <ion-text>{{ a.tr.t({ko: '회원님이 참여한 채팅 방이 없네요.', en: 'You do not have any rooms.'}) }}</ion-text>
+      <ion-text>{{ a.tr.t({ko: '전체 채팅방 목록 메뉴에서 채팅방에 참여해보세요.', en: 'Please join a room under All Chat Room List menu.'}) }}</ion-text>
+      <ion-button routerLink="/all-rooms">{{ a.tr.t({ko: '전체 채팅방 목록', en:'All Chat Room List' }) }}</ion-button>
+    </ng-container>
+    <ng-container *ngIf=" roomType == 'all-rooms' ">
+      <ion-text color="danger" class="title">{{ a.tr.t({ko: '앗 ...?!', en: 'Oops ... ?!'}) }}</ion-text>
+      <ion-text>{{ a.tr.t({ko: '채팅방이 검색되지 않습니다. 다른 단어로 검색해 보세요.', en: 'There is no chat room by the serarch. Try other words.'}) }}</ion-text>
+    </ng-container>
   </div>
 </ng-template>
+
+<a *ngIf=" a.isMobileWeb " class="d-block p-3 text-center text-white bg-info border" style="text-decoration: none;" href="https://play.google.com/store/apps/details?id=com.sonub.chat" target="_blank">{{ a.tr.t({ko: '채팅앱 이용하기', en: 'Use chat app'})}}</a>

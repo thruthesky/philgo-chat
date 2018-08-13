@@ -5,13 +5,15 @@ import 'firebase/database';
 import 'firebase/messaging';
 import {
   ApiChatRoom, ApiChatMessage, PhilGoApiService, CHAT_STATUS_ENTER, CHAT_STATUS_LEAVE, ERROR_WRONG_SESSION_ID,
-  ERROR_WRONG_IDX_MEMBER
+  ERROR_WRONG_IDX_MEMBER,
+  ApiUserInformation
 } from '../modules/philgo-api-v3/philgo-api.service';
 import { Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { LanguageTranslate } from '../modules/language-translate/language-translate';
 import { environment } from '../../environments/environment';
+import { AngularLibrary } from '../modules/angular-library/angular-library';
 
 
 interface Environment {
@@ -62,6 +64,7 @@ export class AppService {
    *
    */
   platform: 'web' | 'cordova' = 'web';
+  isMobileWeb = AngularLibrary.isMobileWeb();
 
   /**
    * Cordova token
@@ -83,14 +86,16 @@ export class AppService {
     private readonly toastController: ToastController,
     private readonly philgo: PhilGoApiService,
     public readonly tr: LanguageTranslate,
-    platform: Platform
+    private p: Platform
   ) {
     window['triggerToastMessageClick'] = this.onClickToastMessage.bind(this);
     console.log('isPushNotificationRequested: ', this.isPushNotificationPermissionRequested());
 
-    platform.ready().then(() => {
+    this.p.ready().then(() => {
 
-      if (platform.is('cordova') || this.platform === 'cordova') {
+      // alert('is mobile web?: ' + AngularLibrary.isMobileWeb());
+
+      if (this.p.is('cordova')) {
         this.platform = 'cordova';
       } else {
         /**
@@ -115,6 +120,7 @@ export class AppService {
       this.messaging.onMessage((payload) => {
         console.log('Got FCM notification! Just ignore since app has toast.');
       });
+      this.doCookieLogin();
     } else if (this.platform === 'cordova') {
       FCMPlugin.getToken(token => {
         this.pushToken = token;
@@ -138,6 +144,26 @@ export class AppService {
     }
   }
 
+  /**
+   * 로그인이 되어 있지 않은 상태이면, 필고 쿠키를 바탕으로 회원 로그인을 한다.
+   */
+  doCookieLogin() {
+    if ( this.philgo.isLoggedIn() ) {
+      return;
+    }
+    const idx = AngularLibrary.getCookie('idx');
+    const nickname = AngularLibrary.getCookie('nickname');
+    const session_id = AngularLibrary.getCookie('session_id');
+    const webbrowser_id = AngularLibrary.getCookie('webbrowser_id');
+    console.log(idx, nickname, session_id, webbrowser_id);
+    const user: ApiUserInformation = <any> {
+      idx: idx,
+      id: idx,
+      nickname: nickname,
+      session_id: session_id
+    };
+    this.philgo.saveUserInformation(user);
+  }
   /**
    * 로그인을 하면 항상 이곳이 호출된다.
    */
