@@ -1,4 +1,13 @@
 @import "../../../theme/breakpoints";
+.loader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5rem 0 2rem 0 ;
+    ion-spinner{
+        margin-right: 1.5rem;
+    }
+}
 .rooms .name {
     --height: 1em;
     font-size: 1rem;
@@ -12,6 +21,7 @@
     --min-height: 1.8em;
     font-size: .85em;
     flex: 100%;
+    color: dimgray
 }
 
 ion-badge[slot="end"] {
