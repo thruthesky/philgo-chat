@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.sonub.chat" version="1.0.18" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.sonub.chat" version="1.0.16" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>필리핀단톡방</name>
     <description>필리핀 단체 톡방</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://59.30.59.162:8101" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -92,4 +92,13 @@
     <allow-navigation href="http://59.30.59.82:8102" />
     <engine name="android" spec="~7.0.0" />
     <allow-navigation href="http://59.30.59.162:8101" />
+    <plugin name="cordova-plugin-ionic" spec="~5.0.5">
+        <variable name="APP_ID" value="1c4a1ca7" />
+        <variable name="CHANNEL_NAME" value="Production" />
+        <variable name="UPDATE_METHOD" value="background" />
+        <variable name="WARN_DEBUG" value="true" />
+        <variable name="UPDATE_API" value="https://api.ionicjs.com" />
+        <variable name="MAX_STORE" value="2" />
+        <variable name="MIN_BACKGROUND_DURATION" value="30" />
+    </plugin>
 </widget>

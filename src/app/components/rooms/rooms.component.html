@@ -1,3 +1,5 @@
+version: 1
+
 <ion-card *ngIf=" a.platform == 'web' && ! a.isPushNotificationPermissionRequested() ">
   <ion-card-header>
     <ion-card-subtitle>{{ a.tr.t({ko: '채팅 알림을 허용해주세요.', en: 'Please accept Notification'}) }}</ion-card-subtitle>
