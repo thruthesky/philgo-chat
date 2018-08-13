@@ -6,7 +6,8 @@ import 'firebase/messaging';
 import {
   ApiChatRoom, ApiChatMessage, PhilGoApiService, CHAT_STATUS_ENTER, CHAT_STATUS_LEAVE, ERROR_WRONG_SESSION_ID,
   ERROR_WRONG_IDX_MEMBER,
-  ApiUserInformation
+  ApiUserInformation,
+  ApiChatInfo
 } from '../modules/philgo-api-v3/philgo-api.service';
 import { Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -41,6 +42,9 @@ firebase.initializeApp(firebaseConfig);
   providedIn: 'root'
 })
 export class AppService {
+
+  version = 2018081001;
+  info: ApiChatInfo = null;
 
   environment: Environment = environment;
   db: firebase.database.Reference = firebase.database().ref('/');
@@ -93,6 +97,11 @@ export class AppService {
 
     this.p.backButton.subscribe(() => {
       this.router.navigateByUrl('/');
+    });
+
+    this.philgo.chatInfo().subscribe(info => {
+      console.log('info: ', info);
+      this.info = info;
     });
     this.p.ready().then(() => {
 
@@ -193,9 +202,6 @@ export class AppService {
     this.updatePushNotificationToken();
   }
 
-  version(): string {
-    return '0.1';
-  }
 
   /**
    *

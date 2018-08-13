@@ -1,5 +1,17 @@
 
 
+<ion-card *ngIf=" a.platform == 'cordova' && a.info && a.version < a.info.version ">
+  <ion-card-header>
+    <ion-card-subtitle>{{ a.tr.t({ko: '앱을 업데이트해주세요.', en: 'Update app'}) }}</ion-card-subtitle>
+    <ion-card-title>{{ a.tr.t({ko: '업데이트 알림', en: 'Update'}) }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <div>{{ a.tr.t({ko: '앱이 업데이트되었습니다. 업데이트된 앱을 설치해주세요.', en: 'Please update new version'}) }}</div>
+    <a class="d-inline-block py-2 px-4 bg-primary text-white" style="text-decoration: none;" href="https://play.google.com/store/apps/details?id=com.sonub.chat" target="_blank">{{ a.tr.t({ko: '채팅앱 설치하기', en: 'Install Chat App'}) }}</a>
+  </ion-card-content>
+</ion-card>
+
+
 <ion-card *ngIf=" a.platform == 'web' && ! a.isPushNotificationPermissionRequested() ">
   <ion-card-header>
     <ion-card-subtitle>{{ a.tr.t({ko: '채팅 알림을 허용해주세요.', en: 'Please accept Notification'}) }}</ion-card-subtitle>

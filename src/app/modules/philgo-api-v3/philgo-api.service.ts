@@ -445,6 +445,10 @@ export interface ApiChatRoomEnter extends ApiChatRoom {
     messages: Array<ApiChatMessage>;
 }
 
+export interface ApiChatInfo {
+    version: number;
+}
+
 /**
  * PhilGoApiService
  */
@@ -1358,6 +1362,12 @@ export class PhilGoApiService {
     }
 
 
+    /**
+     * Returns chat app version. You can use it to see if the app is latest version or not.
+     */
+    chatInfo() {
+        return this.query('chatInfo');
+    }
     /**
      * Returns true if the input 'message' is my message.
      * @param message chat message
