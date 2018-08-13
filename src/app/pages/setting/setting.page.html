@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="setting">
 
   <ion-list>
     <ion-item>
@@ -36,6 +36,16 @@
     <ion-item>
       <ion-text>{{ locationHref }}</ion-text>
     </ion-item>
+
+    <ion-item>
+      <ion-label>Production</ion-label>
+      <ion-text> {{ a.environment.production }}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>HMR</ion-label>
+      <ion-text> {{ a.environment.hmr }}</ion-text>
+    </ion-item>
+
   </ion-list>
 
 

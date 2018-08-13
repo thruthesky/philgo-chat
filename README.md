@@ -9,19 +9,16 @@
 
 ## TODO
 
+* 앱 실행이 안됨.
+
 * 앱 푸시 테스트
   * 은수 및 다른 여러 핸드폰으로 해 볼 것.
-* desktop 에서는 메뉴 숨기기 표시하지 않음.
+* @done desktop 에서는 메뉴 숨기기 표시하지 않음.
 * 배포 후, 채팅 방 목록 페이지에서 push 알림을 거절했으면 앱 다운로드 URL 링크.
   앱 설치, 하루동안 안보기, 일주일동안 안보기 옵션.
 
-* @done 언어 translation
-  * ngx-translate 하지 말 것. 도저히 이해 할 수 없다.
-  * src/app/modules/language-translate 로 작업 중. 템플릿에서 바로 변환을 한다.
-  * 카메라 선택을
-    '카메라로 사진찍기', '갤러리에서 선택하기' 로 이해하기 쉽게 할 것.
-  * push notification 에서 allow 를 허용으로 번역할 것.
-  * 앱 명칭.
+* @done 채팅방 검색.
+  * 단어가 입력되면, 기존 목록을 따로 변수에 저장하고, 기존 목록에서 매치되는 단어가 있는 채팅방을 목록해서 보여줌.
 
 * 필고 홈페이지에 단톡방 링크는 이미 걸려져 있음. 방을 생성해야 함.
 
@@ -35,10 +32,18 @@
 
 * cordova 에서 백 버튼 클릭하면 뒤로 안감. 수정 할 것.
 
+* deploy 확인.
+  * 이게 되어야 확실히 배포를 할 수 있다.
+
+* 앱. 새로운 아이콘과 스플래시 화면.
 
 * sonub 알파 0.2 버전 발표.
 
 ## Todo later after publish
+
+* 전체 채팅방 검색. 공개 채팅방이어서, 채팅 테이블 전체를 검색 할 수 있도록 해서, 결과를 보여 줄 수 있다.
+
+* php firebase admin sdk subscribe topic 때문에 방 입장/나가기에서 시간이 걸리는데, 로더를 표시 할 것.
 
 * 언어 변환. 영어/한국어/일본어/중국어로 둔다.
 * 사용자기 매우 편하게 모든 것을 변경.
@@ -117,6 +122,7 @@
   * 꼭 필요하지만, 성공적으로 운영되면 한다.
   * 방 인원수 ( 전체 방, 내가 들어 있는 방 업데이트 )
   * 새로운 채팅 수 증가. 내 방 목록.
+  * 채팅방 목록에서 각 채팅방에 마지막 채팅 내용을 표시한다.
 
 * rooms 페이지에 읽지 않은 메세지 표시. ( 각 채팅방 별 읽지 않은 메세지 구현 )
   * Ionic Badge 로 표시.
@@ -167,9 +173,15 @@
 
 * 백그라운드 설정을 할 수 있도록 할 것. 특히, 제목 부분에 방 이름 대신 이미지로 할 수 있도록 할 것.
 
-
 ## Done and Finished list
 
+* @done 언어 translation
+  * ngx-translate 하지 말 것. 도저히 이해 할 수 없다.
+  * src/app/modules/language-translate 로 작업 중. 템플릿에서 바로 변환을 한다.
+  * 카메라 선택을
+    '카메라로 사진찍기', '갤러리에서 선택하기' 로 이해하기 쉽게 할 것.
+  * push notification 에서 allow 를 허용으로 번역할 것.
+  * 앱 명칭.
 
 * @done 홈페이지 주소 https://chat.philgo.com/room/마닐라 와 같이 접속 하도록 할 것.
 
@@ -289,9 +301,9 @@
   사진이 완전히 보여지면 스크롤을 한번 더 해야한ㄴ다.
     사진이 완뢰는 이벤트는 찾을 것.
 
-## 개발
+## 실행
 
-$ ionic s ; 웹 serve
+$ ionic s ; 웹 serve. HMR 이 기본 동작한다.
 $ ionic cordova run android -l ; 앱 serve
 
 ## 빌드 및 배포
@@ -302,6 +314,20 @@ $ ionic cordova run android -l ; 앱 serve
 
 ```` sh
 npm run publish
+````
+
+### 앱 빌드 및 배포
+
+* 아래와 같이 release 바이너리를 빌드하면 philgo-chat.apk 파일이 생성된다. 이 파일을 구글 플레이스토어에 업로드하면된다.
+
+```` sh
+npm run cordova:build:install
+````
+
+* 아래와 같이하면 자동으로 release 바이너리 빌드 후, 핸드폰에 설치한다.
+
+```` sh
+npm run cordova:build:install
 ````
 
 ## 개발 환경, 정보 및 각종 서버 환경 및 정보

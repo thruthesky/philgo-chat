@@ -13,6 +13,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
   @Input() share = {};
   roomType: 'my-rooms' | 'all-rooms' = null;
   rooms: Array<ApiChatRoom> = [];
+  roomsBackup: Array<ApiChatRoom> = [];
 
   show = {
     loader: {
@@ -106,4 +107,34 @@ export class RoomsComponent implements OnInit, OnDestroy {
   //   this.a.addRoomToListen(room);
   //   this.router.navigateByUrl(`/room/${room.idx}`);
   // }
+
+  onSearch(value) {
+    console.log('value: ', value);
+    if (value === '' && this.roomsBackup.length) {
+      this.onCancelSearch();
+      return;
+    }
+    this.roomsBackup = this.rooms;
+    this.rooms = this.rooms.filter(room => {
+      if (room.name.indexOf(value) !== -1) {
+        return true;
+      }
+      if (room.description.indexOf(value) !== -1) {
+        return true;
+      }
+    });
+  }
+
+  onCancelSearch() {
+    if (this.roomsBackup.length) {
+      this.rooms = this.roomsBackup;
+      this.roomsBackup = [];
+    }
+  }
+
+  onClickRoom(idx) {
+    this.onCancelSearch();
+    this.router.navigateByUrl('/room/' + idx);
+  }
+
 }

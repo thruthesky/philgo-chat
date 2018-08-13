@@ -25,7 +25,7 @@
       <ion-input name="password" type="password" [(ngModel)]="password" (keyup.enter)="onSubmit()"></ion-input>
     </ion-item>
   </ion-list>
-  <ion-button color="warning" margin-vertical expand="full" type="button" (click)="onSubmit()">
+  <ion-button class="login-submit-button" color="warning" margin-vertical expand="full" type="button" (click)="onSubmit()">
     {{ a.tr.t({ko: '로그인', en: 'Login' }) }}
     <ion-icon slot="end" name="send"></ion-icon>
   </ion-button>

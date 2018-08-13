@@ -29,10 +29,11 @@
   <div class="ml-3">{{ a.tr.t({ko: '채팅방 목록을 로딩중입니다.', en: 'Loading chat room list.'}) }}</div>
 </div>
 
+
 <ng-template #roomListLoaded>
 
   <ion-toolbar *ngIf=" roomType == 'all-rooms' ">
-    <ion-searchbar autocomplete placeholder="{{ a.tr.t({ko: '채팅방 검색', en: 'Search chat rooms' }) }}"></ion-searchbar>
+    <ion-searchbar #searchBar (ionCancel)=" onCancelSearch() " (ionClear)=" onCancelSearch() " (ionChange)=" onSearch( searchBar.value ) " debounce="500" animated="true" autocomplete="on" placeholder="{{ a.tr.t({ko: '채팅방 검색', en: 'Search chat rooms' }) }}"></ion-searchbar>
   </ion-toolbar>
 
   <ion-list class="rooms" *ngIf=" rooms.length ">
@@ -40,7 +41,7 @@
     <!-- <ion-item *ngFor="let room of rooms" (click)="onClickRoom(room)"> -->
     <ng-container *ngFor="let room of rooms">
 
-      <ion-item class="name" routerLink="/room/{{ room.idx }}">
+      <ion-item class="name pointer" (click)=" onClickRoom(room.idx) ">
         <ion-icon slot="start" color="tertiary" name="ribbon" *ngIf=" room.idx_owner && room.idx_owner == philgo.myIdx() "></ion-icon>
         <ion-icon slot="start" color="primary" name="heart" *ngIf=" room.idx_owner != philgo.myIdx() && room.favorite == 'Y' "></ion-icon>
         <ng-container *ngIf=" roomType == 'all-rooms' ">
@@ -50,7 +51,7 @@
         <ion-label slot="start">{{ room.name }}</ion-label>
       </ion-item>
 
-      <ion-item class="meta" routerLink="/room/{{ room.idx }}">
+      <ion-item class="meta pointer" (click)=" onClickRoom(room.idx) ">
         <ion-text text-wrap>{{ room.description }}</ion-text>
         <ng-container *ngIf=" roomType == 'my-rooms' ">
           <ion-badge slot="end" color="danger" *ngIf=" room.no_of_unread_messages != '0' ">{{ room.no_of_unread_messages }}</ion-badge>

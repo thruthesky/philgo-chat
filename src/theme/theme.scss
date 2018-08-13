@@ -46,3 +46,10 @@ font-size: .9rem;
         font-size: 1rem;
     }
 }
+
+/**
+ * Ionic v4 beta 0 버그
+ */
+ion-toolbar {
+    padding-top: 0!important;
+}

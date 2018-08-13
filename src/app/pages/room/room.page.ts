@@ -127,7 +127,7 @@ export class RoomPage implements OnInit, OnDestroy {
             delete room['messages'];
             this.a.addRoomToListen(room);
             this.updateLastRead(idx_message_last_read);
-            this.a.render( 100, () => this.scroll() );
+            this.a.render(100, () => this.scroll());
             // this.test();
           }, e => this.a.toast(e));
         } else {
@@ -170,41 +170,42 @@ export class RoomPage implements OnInit, OnDestroy {
       console.log('message sent: ', res);
       // this.form.message = '';
       // this.messages.push(res);
+      //
       m.idx = res.idx;
     }, e => this.a.toast(e));
   }
 
   async presentRoomOptions() {
 
-    let favoriteText = 'Favorite';
+    let favoriteText = this.a.tr.t({ko: '즐겨찾기 추가', en: 'Favorite'});
     if (this.roomInfo.favorite === 'Y') {
-      favoriteText = 'Remove from Favorite';
+      favoriteText = this.a.tr.t({ko: '즐겨찾기에서 삭제', en: 'Remove from Favorite'});
     }
     const actionSheet = await this.actionSheetController.create({
-      header: 'Options',
+      header: this.a.tr.t({ko: '채팅방 옵션', en: 'Options'}),
       buttons: [{
-        text: 'Leave Chat Room',
+        text: this.a.tr.t({ ko: '채팅 방 나가기', en: 'Leave Chat Room' }),
         role: 'destructive',
         icon: 'trash',
         handler: async () => {
-          console.log('Room leave clicked');
+          // console.log('Room leave clicked');
 
           const alert = await this.alertController.create({
-            header: 'Leave',
-            message: 'Do you want to leave this room?',
+            header: this.a.tr.t({ ko: '방 나가기', en: 'Leave' }),
+            message: this.a.tr.t({ ko: '채팅방을 나가시겠습니까?', en: 'Do you want to leave this room?' }),
             buttons: [
               {
-                text: 'No',
+                text: this.a.tr.t({ ko: '아니오', en: 'No' }),
                 role: 'no',
                 cssClass: 'secondary',
                 handler: (blah) => {
-                  console.log('Confirm Cancel: blah');
+                  // console.log('Confirm Cancel: blah');
                 }
               }, {
-                text: 'Yes',
+                text: this.a.tr.t({ ko: '예', en: 'Yes' }),
                 role: 'yes',
                 handler: () => {
-                  console.log('Confirm Okay');
+                  // console.log('Confirm Okay');
                 }
               }
             ]
@@ -218,7 +219,7 @@ export class RoomPage implements OnInit, OnDestroy {
           }
 
           this.philgo.chatRoomLeave(this.roomInfo.idx).subscribe(res => {
-            console.log('You have successfully left the room: ', res.name);
+            // console.log('You have successfully left the room: ', res.name);
             this.router.navigateByUrl('/my-rooms');
           }, e => {
             if (e.code !== void 0 && e.code === ERROR_CHAT_NOT_IN_THAT_ROOM) {
@@ -233,11 +234,11 @@ export class RoomPage implements OnInit, OnDestroy {
         text: favoriteText,
         icon: 'heart',
         handler: () => {
-          console.log('favorite clicked');
-          console.log('chatroominfo: ', this.roomInfo);
+          // console.log('favorite clicked');
+          // console.log('chatroominfo: ', this.roomInfo);
           if (this.roomInfo.favorite === 'Y') {
             this.philgo.chatRoomUnfavorite(this.roomInfo.idx).subscribe(res => {
-              console.log('un-favorite:', res);
+              // console.log('un-favorite:', res);
               this.a.toast('This room has removed as favorite');
               this.roomInfo.favorite = '';
             }, e => this.a.toast(e));
@@ -250,11 +251,11 @@ export class RoomPage implements OnInit, OnDestroy {
           }
         }
       }, {
-        text: 'Cancel',
+        text: this.a.tr.t({ ko: '닫기', en: 'Cancel' }),
         icon: 'close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });
@@ -373,16 +374,19 @@ export class RoomPage implements OnInit, OnDestroy {
       return;
     }
 
-    console.log('cordova camera....');
+    // console.log('cordova camera....');
 
     const alert = await this.alertController.create({
-      header: 'Alert',
-      subHeader: 'Subtitle',
-      message: 'This is an alert message.',
+      header: this.a.tr.t({ ko: '사진', en: 'Photo' }),
+      subHeader: this.a.tr.t({ ko: '사진 전송을 합니다.', en: 'Sending a photo.' }),
+      message: this.a.tr.t({
+        ko: '카메라로 사진을 찍어서 전송 할 수 있으며 갤러리에서 사진을 선택 할 수도 있습니다.',
+        en: 'You can take a picture from Camera or select a photo from gallery.'
+      }),
       buttons: [
-        { role: 'camera', text: 'Take A Photo' },
-        { role: 'gallery', text: 'Select A Photo From Gallery' },
-        { role: 'cancel', text: 'Cancel' }
+        { role: 'camera', text: this.a.tr.t({ ko: '카메라로 사진 찍기', en: 'Take a photo using Camera' }) },
+        { role: 'gallery', text: this.a.tr.t({ ko: '갤러리에서 선택하기', en: 'Select a photo from Gallery' }) },
+        { role: 'cancel', text: this.a.tr.t({ ko: '취소', en: 'Cancel' }) }
       ]
     });
 
@@ -459,7 +463,7 @@ export class RoomPage implements OnInit, OnDestroy {
 
   onClickLeaveButton() {
 
-    if ( this.a.roomsPageVisited ) {
+    if (this.a.roomsPageVisited) {
       this.router.navigateByUrl('/');
     } else {
       location.href = '/';

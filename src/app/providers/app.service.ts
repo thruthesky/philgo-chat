@@ -11,8 +11,16 @@ import { Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { LanguageTranslate } from '../modules/language-translate/language-translate';
+import { environment } from '../../environments/environment';
 
 
+interface Environment {
+  production: boolean;
+  hmr: boolean;
+  philgoServerUrl: string;
+  philgoFileServerUrl: string;
+  newFileServerUrl: string;
+}
 
 declare let FCMPlugin;
 
@@ -32,6 +40,7 @@ firebase.initializeApp(firebaseConfig);
 })
 export class AppService {
 
+  environment: Environment = environment;
   db: firebase.database.Reference = firebase.database().ref('/');
   messaging: firebase.messaging.Messaging = null;
 
@@ -187,7 +196,7 @@ export class AppService {
       };
     }
     if (o.closeButtonText === void 0) {
-      o.closeButtonText = this.tr.t({ko: '닫기', en: 'Close'});
+      o.closeButtonText = this.tr.t({ ko: '닫기', en: 'Close' });
     }
     if (o.duration === void 0) {
       o.duration = 10000;
