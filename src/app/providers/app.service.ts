@@ -43,7 +43,7 @@ firebase.initializeApp(firebaseConfig);
 })
 export class AppService {
 
-  version = 2018081001;
+  version = 2018081402;
   info: ApiChatInfo = null;
 
   environment: Environment = environment;
