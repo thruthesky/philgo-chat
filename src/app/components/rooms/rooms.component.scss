@@ -68,10 +68,10 @@ ion-badge[slot="end"] {
     margin: 2rem .5rem;
     padding: 1rem;
     border-radius: 4px;
+    text-align: center;
     ion-text {
         display: block;
         margin-top: .5em;
-        text-align: center;
     }
     .title {
         font-size: 2rem;
@@ -81,6 +81,13 @@ ion-badge[slot="end"] {
         padding: 2rem;
         height: 250px;
         width: 250px;
+    }
+    ion-button{
+        margin-top: .4rem;
+        text-align: center;
+        ion-icon{
+            margin-left: .3rem;
+        }
     }
 }
 

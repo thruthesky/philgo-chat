@@ -65,7 +65,7 @@
       debounce="500" animated="true" autocomplete="on" placeholder="{{ a.tr.t({ko: '채팅방 검색', en: 'Search chat rooms' }) }}"></ion-searchbar>
   </ion-toolbar>
 
-  <ion-list class="rooms" *ngIf=" rooms.length ">
+  <ion-list lines="full" class="rooms" *ngIf=" rooms.length ">
     <!-- <ion-item *ngFor="let room of rooms" (click)="enter.emit(room)"> -->
     <!-- <ion-item *ngFor="let room of rooms" (click)="onClickRoom(room)"> -->
     <ng-container *ngFor="let room of rooms">
@@ -101,7 +101,10 @@
       <ion-text color="danger" class="title">{{ a.tr.t({ko: '앗 ...?!', en: 'Oops ... ?!'}) }}</ion-text>
       <ion-text>{{ a.tr.t({ko: '회원님이 참여한 채팅 방이 없네요.', en: 'You do not have any rooms.'}) }}</ion-text>
       <ion-text>{{ a.tr.t({ko: '전체 채팅방 목록 메뉴에서 채팅방에 참여해보세요.', en: 'Please join a room under All Chat Room List menu.'}) }}</ion-text>
-      <ion-button routerLink="/all-rooms">{{ a.tr.t({ko: '전체 채팅방 목록', en:'All Chat Room List' }) }}</ion-button>
+      <ion-button routerLink="/all-rooms">
+        <span>{{ a.tr.t({ko: '전체 채팅방 목록', en:'All Chat Room List' }) }}</span>
+        <ion-icon name="chatbubbles"></ion-icon>
+      </ion-button>
     </ng-container>
     <ng-container *ngIf=" roomType == 'all-rooms' ">
       <ion-text color="danger" class="title">{{ a.tr.t({ko: '앗 ...?!', en: 'Oops ... ?!'}) }}</ion-text>
