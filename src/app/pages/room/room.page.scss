@@ -1,5 +1,8 @@
 @import '../../../theme/mixins';
 @import '../../../theme/breakpoints';
+ion-scroll{
+    background: #99C0D9;
+}
 ion-footer {
     ion-toolbar {
         label {
@@ -52,13 +55,14 @@ ion-badge {
             align-items: flex-end;
             margin: 0 4px .35rem 2px;
             .name {
-                color: #555;
-                font-weight: 500;
+                // color: #555;
+                font-weight: 400;
                 font-size: .95em;
             }
             .date {
                 margin-left: 2rem;
-                color: var(--ion-color-medium-shade);
+                color: #447899;
+                // color: var(--ion-color-medium-shade);
             }
         }
         .content {
@@ -66,9 +70,10 @@ ion-badge {
             @media (min-width: $md) {
                 padding: .75rem 1rem;
             }
-            border-radius: 7px;
+            border-radius: 5px;
             border-top-left-radius: 0;
-            background: #f3f3f3;
+            // background: #f3f3f3;
+            background: #fff;
             font-size: .9em;
             line-height: 1.3rem;
         }
@@ -91,6 +96,7 @@ ion-badge {
         border-radius: 5px;
         border-bottom-right-radius: 0;
         background: rgb(247, 222, 0);
+        // background: #FBF300;
         font-size: .9em;
         line-height: 1.4em;
         text-align: left;
