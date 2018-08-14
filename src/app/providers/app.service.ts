@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { ToastController, Platform } from '@ionic/angular';
+import { ToastController, Platform, AlertController } from '@ionic/angular';
 import * as firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/messaging';
@@ -43,7 +43,7 @@ firebase.initializeApp(firebaseConfig);
 })
 export class AppService {
 
-  version = 2018081402;
+  version = 2018081413;
   info: ApiChatInfo = null;
 
   environment: Environment = environment;
@@ -82,12 +82,14 @@ export class AppService {
    *  from the bottom of the nativation stack.
    */
   roomsPageVisited = false;
+  counter = 0;
   //
   constructor(
     private readonly domSanitizer: DomSanitizer,
     private readonly ngZone: NgZone,
     private readonly router: Router,
     private readonly toastController: ToastController,
+    private readonly alertController: AlertController,
     private readonly philgo: PhilGoApiService,
     public readonly tr: LanguageTranslate,
     private p: Platform
@@ -95,8 +97,32 @@ export class AppService {
     window['triggerToastMessageClick'] = this.onClickToastMessage.bind(this);
     // console.log('isPushNotificationRequested: ', this.isPushNotificationPermissionRequested());
 
-    this.p.backButton.subscribe(() => {
+    this.p.backButton.subscribe(async () => {
       this.router.navigateByUrl('/');
+      if (this.counter === 0) {
+        this.counter++;
+        setTimeout(() => this.counter = 0, 500);
+      } else {
+        const alert = await this.alertController.create({
+          header: this.tr.t({ ko: '채팅앱 종료', en: 'Exit Chat App!' }),
+          message: this.tr.t({ ko: '채팅앱을 종료하시겠습니까?', en: 'Do you want to exist App?' }),
+          buttons: [
+            {
+              text: this.tr.t({ ko: '아니오', en: 'No' }),
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: (blah) => {
+              }
+            }, {
+              text: this.tr.t({ ko: '예', en: 'Yes' }),
+              handler: () => {
+                navigator['app'].exitApp();
+              }
+            }
+          ]
+        });
+        await alert.present();
+      }
     });
 
     this.philgo.chatInfo().subscribe(info => {
