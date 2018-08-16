@@ -70,16 +70,16 @@
     <!-- <ion-item *ngFor="let room of rooms" (click)="onClickRoom(room)"> -->
     <ng-container *ngFor="let room of rooms">
       <ion-item class="name pointer" (click)=" onClickRoom(room.idx) ">
-        <ion-icon slot="start" color="tertiary" name="ribbon" *ngIf=" room.idx_owner && room.idx_owner == philgo.myIdx() "></ion-icon>
-        <ion-icon slot="start" color="primary" name="heart" *ngIf=" room.idx_owner != philgo.myIdx() && room.favorite == 'Y' "></ion-icon>
-        <ng-container *ngIf=" roomType == 'all-rooms' ">
-          <ion-badge slot="start" *ngIf=" a.number(room.no_of_member) > 0 && a.number(room.no_of_member) <= 10 " color="light">{{ room.no_of_member }}</ion-badge>
-          <ion-badge slot="start" *ngIf=" a.number(room.no_of_member) > 10" color="dark">{{ room.no_of_member }}</ion-badge>
-        </ng-container>
         <ion-label>
           <h3>{{ room.name }}</h3>
           <p>{{ room.description }}</p>
         </ion-label>
+        <ion-icon color="tertiary" name="ribbon" *ngIf=" room.idx_owner && room.idx_owner == philgo.myIdx() "></ion-icon>
+        <ion-icon color="primary" name="heart" *ngIf=" room.idx_owner != philgo.myIdx() && room.favorite == 'Y' "></ion-icon>
+        <ng-container *ngIf=" roomType == 'all-rooms' ">
+          <ion-badge *ngIf=" a.number(room.no_of_member) > 0 && a.number(room.no_of_member) <= 10 " color="light">{{ room.no_of_member }}</ion-badge>
+          <ion-badge *ngIf=" a.number(room.no_of_member) > 10" color="dark">{{ room.no_of_member }}</ion-badge>
+        </ng-container>
         <ng-container *ngIf=" roomType == 'my-rooms' ">
           <ion-badge slot="end" color="danger" *ngIf=" room.no_of_unread_messages != '0' ">{{ room.no_of_unread_messages }}</ion-badge>
         </ng-container>
