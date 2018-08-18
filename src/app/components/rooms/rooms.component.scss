@@ -8,22 +8,56 @@
         margin-right: 1.5rem;
     }
 }
-.rooms .name {
-    --height: 1em;
-    font-size: 1rem;
-    @media (min-width: $md) {
-        font-size: 1.1rem;
+.install-button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: .5rem;
+    padding: .5rem 1.5rem;
+    border-radius: 2px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),0 3px 1px -2px rgba(0, 0, 0, 0.2),0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    ion-icon{
+        margin-left: .5rem;
+        font-size: 1.5rem;
     }
 }
-
-.rooms .meta {
-    margin-bottom: 1em;
-    --min-height: 1.8em;
-    font-size: .85em;
-    flex: 100%;
-    color: dimgray
+ion-button[color="danger"]{
+    ion-icon{
+        margin-left: .4rem;
+    }
 }
+.rooms{
+    font-size: .8rem;
+    ion-badge[slot="start"] {
+        margin-left:0;
+        margin-right: 1em;
+    }
+    h3{
+        font-size: 1em;
+    }
+    p{
+        margin-top: .3em;
+        font-size: .85em;
+    }
+}
+// .rooms .name {
+//     --height: 1em;
+//     font-size: 1rem;
+//     @media (min-width: $md) {
+//         font-size: 1.1rem;
+//     }
+// }
 
+// .rooms .meta {
+//     margin-bottom: 1em;
+//     --min-height: 1.8em;
+//     font-size: .85em;
+//     flex: 100%;
+//     color: dimgray
+// }
 ion-badge[slot="end"] {
     margin-right: 0;
     margin-left: .5rem;
@@ -34,10 +68,10 @@ ion-badge[slot="end"] {
     margin: 2rem .5rem;
     padding: 1rem;
     border-radius: 4px;
+    text-align: center;
     ion-text {
         display: block;
         margin-top: .5em;
-        text-align: center;
     }
     .title {
         font-size: 2rem;
@@ -47,5 +81,27 @@ ion-badge[slot="end"] {
         padding: 2rem;
         height: 250px;
         width: 250px;
+    }
+    ion-button{
+        margin-top: .4rem;
+        text-align: center;
+        ion-icon{
+            margin-left: .3rem;
+        }
+    }
+}
+
+.mobileWeb-install-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #17a2b8;
+    text-decoration: none;
+    color: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),0 3px 1px -2px rgba(0, 0, 0, 0.2),0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    ion-icon{
+        margin-left: .5rem;
+        font-size: 1.5rem;
     }
 }
