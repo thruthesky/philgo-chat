@@ -93,7 +93,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
   loadAllChatRoomList() {
     this.show.loader.roomList = true;
     this.roomType = 'all-rooms';
-    this.philgo.chatRoomList().subscribe(res => {
+    this.philgo.chatOtherRooms().subscribe(res => {
       this.show.loader.roomList = false;
       console.log('list: ', res);
       this.rooms = res;
