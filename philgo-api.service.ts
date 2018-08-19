@@ -3,7 +3,7 @@ import { HttpClient, HttpRequest, HttpResponse, HttpHeaderResponse, HttpEventTyp
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, filter } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Options } from '../../../../node_modules/@types/selenium-webdriver/ie';
+
 
 
 export const ID = 'id';
@@ -427,9 +427,9 @@ export interface ApiChatRoomCreateRequest extends ApiRequest {
     description: string;
 }
 
-export interface ApiChatRoomCreateResponse {
-    idx?: string;
-}
+// export interface ApiChatRoomCreateResponse {
+//     idx?: string;
+// }
 
 
 
@@ -659,17 +659,20 @@ export class PhilGoApiService {
     query<R>(method: string, data?): Observable<R>;
     query<D, R>(method: string, data: D): Observable<R>;
     query<DATA, RESPONSE>(method: string, data?: DATA): Observable<RESPONSE> {
-        if (data === void 0 || !data) {
-            data = <any>{};
-        }
-        const idx = this.idx();
-        const sessionId = this.getSessionId();
-        if (idx) {
-            data['idx_member'] = idx;
-        }
-        if (sessionId) {
-            data['session_id'] = this.getSessionId();
-        }
+
+        // if (data === void 0 || !data) {
+        //     data = <any>{};
+        // }
+        // const idx = this.idx();
+        // const sessionId = this.getSessionId();
+        // if (idx) {
+        //     data['idx_member'] = idx;
+        // }
+        // if (sessionId) {
+        //     data['session_id'] = this.getSessionId();
+        // }
+
+        data = this.addLogin(data);
         data['method'] = method;
         return this.post(data);
     }
@@ -762,7 +765,7 @@ export class PhilGoApiService {
     profileUpdate(data: ApiProfileUpdateRequest) {
         // data = Object.assign(data, this.getLoginObject());
         // console.log('profileUpdate data: ', data);
-        return this.query<ApiProfileUpdateRequest, ApiProfileResponse>('profileUpdate', this.addLogin(data));
+        return this.query<ApiProfileUpdateRequest, ApiProfileResponse>('profileUpdate', data);
     }
 
 
@@ -795,7 +798,10 @@ export class PhilGoApiService {
     }
 
     /**
-     * Get an object and add login session id and idx and returns it.
+     * Get an object and add login session id and idx (to login) and returns it.
+     *
+     * @desc Use this method to add login information before sending data to the server.
+     *
      * @param obj Object to add login information.
      *          if `obj` is undefined or falsy, then it return a new object with login information.
      */
@@ -803,8 +809,8 @@ export class PhilGoApiService {
         if (obj === void 0 || !obj) {
             obj = {};
         }
-        obj[IDX_MEMBER] = this.getIdxMember();
-        obj[SESSION_ID] = this.getSessionId();
+        obj[IDX_MEMBER] = this.myIdx();
+        obj[SESSION_ID] = this.mySessionId();
         return obj;
     }
 
@@ -842,6 +848,9 @@ export class PhilGoApiService {
      */
     getSessionId(): string {
         return localStorage.getItem(SESSION_ID);
+    }
+    mySessionId(): string {
+        return this.getSessionId();
     }
     /**
      * Returns user idx.
@@ -1316,14 +1325,15 @@ export class PhilGoApiService {
     /**
      * Create a chat room
      */
-    chatRoomCreate(option: ApiChatRoomCreateRequest): Observable<ApiChatRoomCreateResponse> {
-        return this.query('chatRoomCreate', option);
+    chatRoomCreate(option: ApiChatRoomCreateRequest): Observable<number> {
+        return this.query('chat.createRoom', option);
     }
+
     /**
      * Get chat room list. It includes my own chat rooms.
      */
-    chatRoomList(): Observable<Array<ApiChatRoom>> {
-        return this.query('chatRoomList');
+    chatOtherRooms(): Observable<Array<ApiChatRoom>> {
+        return this.query('chat.otherRooms');
     }
     chatMyRoomList(): Observable<Array<ApiChatRoom>> {
 
