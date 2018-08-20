@@ -89,7 +89,7 @@ export class AppModule {
 ```` typescript
     let req = { post_id: this.post_id, page_no: this.page_no };
     this.post.page( req, ( posts: POSTS ) => {
-      console.log('posts: ', posts);
+      // console.log('posts: ', posts);
       this.posts = posts;
     }, e => {
       alert( e );
@@ -117,13 +117,13 @@ export class AppModule {
         c.idx_parent = idx_parent;
         c.subject = "Comment title";
         c.content = "Comment content";
-        console.log("comment create data: ", c);
+        // console.log("comment create data: ", c);
         this.post.debug = true;
         this.post.createComment( c, data => {
-            console.log('createComment() data: ', data);
+            // console.log('createComment() data: ', data);
             this.updateComment( data.post.idx );
         }, error => {
-            console.error("create comment error: " + error );
+            // console.error("create comment error: " + error );
             alert( error );
         });
 
@@ -142,7 +142,7 @@ You can get provinces and cities of province like below.
       .subscribe( re => {
         let data = JSON.parse( re['_body'] );
         this.provinces = data;
-        console.log('place:', data);
+        // console.log('place:', data);
       });
 ````
 
@@ -179,7 +179,7 @@ See `api.post()` to learn how to use api post query.
 ```` typescript
     api.setUrl( 'https://local.philgo.com/api.php' );
     api.post({ method: 'version' }).subscribe( re => {
-      console.log('data: ', re);
+      // console.log('data: ', re);
     }, e => console.log(`Error code: ${e.code}, message: ${e.message}`));
 ````
 
@@ -189,10 +189,10 @@ See the simplest `api.version()` and `api.exchangeRate()` method on how to call 
 
 ```` typescript
     api.version().subscribe( re => {
-      console.log('version: ', re.version);
+      // console.log('version: ', re.version);
     }, e => console.log(`Error code: ${e.code}, message: ${e.message}`));
     api.exchangeRate().subscribe( re => {
-      console.log('exchangeRate: ', re);
+      // console.log('exchangeRate: ', re);
     }, e => console.log(`Error code: ${e.code}, message: ${e.message}`));
 ````
 
@@ -202,8 +202,8 @@ See the simplest `api.version()` and `api.exchangeRate()` method on how to call 
 
 ```` typescript
     api.query<ApiCurrencyResponse>('exchangeRate', {currency: 'php'}).subscribe( re => {
-      console.log('usd: ', re.usd);
-      console.log('php: ', re.php);
+      // console.log('usd: ', re.usd);
+      // console.log('php: ', re.php);
     }, e => console.log(e));
 ````
 

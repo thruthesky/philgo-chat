@@ -28,11 +28,11 @@ export class RoomsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('RoomsComponent::ngOnInit()');
+    // console.log('RoomsComponent::ngOnInit()');
     // this.loadMyChatRoomList();
   }
   ngOnDestroy() {
-    console.log('RoomsComponent::ngOnDestroy()');
+    // console.log('RoomsComponent::ngOnDestroy()');
   }
 
   updateShare() {
@@ -50,7 +50,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
   loadMyChatRoomList(callback?) {
     this.show.loader.roomList = true;
     this.roomType = 'my-rooms';
-    this.philgo.chatMyRoomList().subscribe(res => {
+    this.philgo.chatMyRooms().subscribe(res => {
 
       this.show.loader.roomList = false;
       // console.log('my room list: ', res);
@@ -95,7 +95,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
     this.roomType = 'all-rooms';
     this.philgo.chatOtherRooms().subscribe(res => {
       this.show.loader.roomList = false;
-      console.log('list: ', res);
+      // console.log('list: ', res);
       this.rooms = res;
       this.updateShare();
     }, e => {
@@ -109,7 +109,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
   // }
 
   onSearch(value) {
-    console.log('value: ', value);
+    // console.log('value: ', value);
     if (value === '' && this.roomsBackup.length) {
       this.onCancelSearch();
       return;

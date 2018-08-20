@@ -25,12 +25,12 @@ export class RegisterPage implements OnInit {
     public readonly a: AppService
   ) {
     this.resetForm();
-    console.log('RegisterPage::constructor()');
+    // console.log('RegisterPage::constructor()');
   }
 
 
   ionViewDidEnter() {
-    console.log('RegisterPage::ionViewDidEnter()');
+    // console.log('RegisterPage::ionViewDidEnter()');
 
     this.isLoggedIn = this.philgo.isLoggedIn();
     if (this.philgo.isLoggedIn()) {
@@ -38,7 +38,7 @@ export class RegisterPage implements OnInit {
       this.philgo.profile().subscribe(user => {
         this.loader.profile = false;
         this.form = user;
-        console.log('user: ', user);
+        // console.log('user: ', user);
       }, e => alert(e.message));
     } else {
       this.resetForm();
@@ -109,10 +109,10 @@ export class RegisterPage implements OnInit {
     this.philgo.uploadPrimaryPhotoWeb(event.target['files']).subscribe(re => {
       // console.log(event);
       if (typeof re === 'number') {
-        console.log(`File is ${re}% uploaded.`);
+        // console.log(`File is ${re}% uploaded.`);
         this.percentage = re;
       } else if (re['code'] && re['idx'] === void 0) {
-        console.log('error: ', re);
+        // console.log('error: ', re);
       } else if (re['idx'] !== void 0 && re['idx']) {
         // console.log('file upload success: ', re);
         // this.photo = re;
@@ -120,27 +120,27 @@ export class RegisterPage implements OnInit {
         this.percentage = 0;
       }
     }, (e: HttpErrorResponse) => {
-      console.log('error subscribe: ', e);
+      // console.log('error subscribe: ', e);
       if (e.error instanceof Error) {
-        console.log('Client-side error occurred.');
+        // console.log('Client-side error occurred.');
       } else {
         // console.log(err);
         if (e.message === ApiErrorFileNotSelected) {
-          console.log('file is not selected');
+          // console.log('file is not selected');
         } else if (e['code'] !== void 0 && e['code'] === ApiErrorFileUploadError) {
-          console.log('File upload error:', e.message);
+          // console.log('File upload error:', e.message);
         } else {
-          console.log('FILE TOO LARGE' + e.message);
+          // console.log('FILE TOO LARGE' + e.message);
         }
       }
-      console.log('file upload failed');
+      // console.log('file upload failed');
     });
   }
 
   onClickDeletePrimaryPhoto() {
     const idx = this.form.url_profile_photo.split('/').pop();
     this.philgo.deleteFile(parseInt(idx, 10)).subscribe(res => {
-      console.log('res: ', res);
+      // console.log('res: ', res);
       this.form.url_profile_photo = '';
     }, e => alert(e.message));
   }

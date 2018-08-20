@@ -126,7 +126,7 @@ export class AppService {
     });
 
     this.philgo.chatInfo().subscribe(info => {
-      console.log('info: ', info);
+      // console.log('info: ', info);
       this.info = info;
     });
     this.p.ready().then(() => {
@@ -156,7 +156,7 @@ export class AppService {
   onInit() {
     if (this.platform === 'web') {
       this.messaging.onMessage((payload) => {
-        console.log('Got FCM notification! Just ignore since app has toast.');
+        // console.log('Got FCM notification! Just ignore since app has toast.');
       });
       this.doCookieLogin();
     } else if (this.platform === 'cordova') {
@@ -193,7 +193,7 @@ export class AppService {
     const nickname = AngularLibrary.getCookie('nickname');
     const session_id = AngularLibrary.getCookie('session_id');
     const webbrowser_id = AngularLibrary.getCookie('webbrowser_id');
-    console.log(idx, nickname, session_id, webbrowser_id);
+    // console.log(idx, nickname, session_id, webbrowser_id);
     const user: ApiUserInformation = <any>{
       idx: idx,
       id: idx,
@@ -251,7 +251,7 @@ export class AppService {
   async toast(o: any) {
     // console.log('o: ', o);
     if (typeof o === 'string') {
-      console.log('o is tring');
+      // console.log('o is tring');
       o = {
         message: o
       };
@@ -299,7 +299,7 @@ export class AppService {
    *  }
    */
   async toastMessage(o: ApiChatMessage | any) {
-    console.log('toastMessage: ', o);
+    // console.log('toastMessage: ', o);
     if (!o) {
       return;
     }
@@ -340,7 +340,7 @@ export class AppService {
     }
   }
   onClickToastMessage(idx_chat_room, toastClass) {
-    console.log('onClickToastMessage() idx_chat_room: ', idx_chat_room, toastClass);
+    // console.log('onClickToastMessage() idx_chat_room: ', idx_chat_room, toastClass);
     const el = document.querySelector('.' + toastClass);
     if (el['dismiss'] !== void 0 && typeof el['dismiss'] === 'function') {
       (<any>el).dismiss();
@@ -381,10 +381,10 @@ export class AppService {
   addRoomToListen(room: ApiChatRoom) {
     const i = this.listeningRooms.findIndex(v => v.idx === room.idx);
     if (i === -1) { // Not in the listeners array? This may be a new room for the user. Listen it!!
-      console.log('Going to listen a room: ', room.name);
+      // console.log('Going to listen a room: ', room.name);
       this.listenRoom(room);
     } else { // the room is already being listened.
-      console.log('The room is already listened. Maybe it is his old room.');
+      // console.log('The room is already listened. Maybe it is his old room.');
     }
   }
   /**
@@ -436,13 +436,13 @@ export class AppService {
   listenMyRoomsIfNotListenning() {
     if (this.philgo.isLoggedIn()) {
       if (this.listeningRooms.length === 0) {
-        console.log('No rooms are listened, I am going to listen my rooms.');
-        this.philgo.chatMyRoomList().subscribe(res => {
+        // console.log('No rooms are listened, I am going to listen my rooms.');
+        this.philgo.chatMyRooms().subscribe(res => {
           this.listenMyRooms(res).then(() => {
           });
         });
       } else {
-        console.log('My rooms are already listened.');
+        // console.log('My rooms are already listened.');
       }
     }
   }
@@ -463,11 +463,11 @@ export class AppService {
    * @param room chat room
    */
   listenRoom(room: ApiChatRoom) {
-    console.log('On: ', room.name);
+    // console.log('On: ', room.name);
     room['off'] = this.db.child(`/chat/rooms/${room.idx}/last-message`).on(this.firebaseEvent, snapshot => {
       const message: ApiChatMessage = snapshot.val();
 
-      console.log('listenRoom() => got listen: data: ', message);
+      // console.log('listenRoom() => got listen: data: ', message);
       /**
        * Don't toast if I am opening rooms page ( or listening the room ) for the first time of app running.
        * If 'firstOpenning' is undefined, it is first message. define it and return it.
@@ -479,7 +479,7 @@ export class AppService {
       }
 
       if (!message) { // no chage message yet.
-        console.log('No chat message in the chat room. just return');
+        // console.log('No chat message in the chat room. just return');
         return;
       }
 
@@ -495,7 +495,7 @@ export class AppService {
        * Don't toast if I am in the same room of the message since it will be displayed on chat messgae box.
        */
       if (this.philgo.isMyCurrentChatRoomMessage(this.currentRoomNo, message)) {
-        console.log('AppService::listenMyRooms():: got current room No. ', this.currentRoomNo, 'message. next()', message);
+        // console.log('AppService::listenMyRooms():: got current room No. ', this.currentRoomNo, 'message. next()', message);
         this.newMessageOnCurrentRoom.next(message);
         return;
       }
@@ -506,7 +506,7 @@ export class AppService {
        *    If the message is not for enter or leave.
        */
       if (message.status === CHAT_STATUS_ENTER || message.status === CHAT_STATUS_LEAVE) {
-        console.log('User is entering or leaving. No toast!!');
+        // console.log('User is entering or leaving. No toast!!');
         return;
       }
       this.toastMessage(message);
@@ -534,7 +534,7 @@ export class AppService {
   isPushNotificationPermissionRequested() {
     // Let's check if the browser supports notifications
     if (!('Notification' in window) || Notification === void 0 || Notification['permission'] === void 0) {
-      console.log('This browser does not support desktop notification');
+      // console.log('This browser does not support desktop notification');
       return false;
     }
     // console.log(`Notification['permission']`, Notification['permission']);
@@ -561,19 +561,19 @@ export class AppService {
    * 매번 실행시 실행시 호출 하면 된다.
    */
   updatePushNotificationToken() {
-    console.log('updatePushNotificationToken()');
+    // console.log('updatePushNotificationToken()');
 
     if (this.platform === 'web') {
-      console.log('  --> web');
+      // console.log('  --> web');
       /**
        * 맨 처음에는 물어보고 해야 하므로, 부팅 할 때 토큰 업데이트하지 않고 (토큰 업데이트를 할 때, permission 을 자동으로 물어 봄 )
        * Permission 허용 했을 때만, 토큰 업데이트 확인을 한다.
        */
       if (this.isPushNotificationPermissionGranted()) {
-        console.log('    --> request permission granted()');
+        // console.log('    --> request permission granted()');
         this.requestPushNotificationPermission();
       } else {
-        console.log('    --> request permission NOT granted()');
+        // console.log('    --> request permission NOT granted()');
       }
     } else if (this.platform === 'cordova') {
       this.updatePushNotificationTokenToServer(this.pushToken);
@@ -594,40 +594,40 @@ export class AppService {
    */
   updatePushNotificationTokenToServer(token) {
     this.pushToken = token; // Cordova 는 이미 값이 있지만, 웹에는 적용을 해 준다.
-    console.log('updatePushNotificationTokenToServer(): ', token);
+    // console.log('updatePushNotificationTokenToServer(): ', token);
     if (!token) {
-      console.log('token empty. return.');
+      // console.log('token empty. return.');
       return;
     }
-    this.philgo.pushSaveToken({ token: token, domain: 'chat' }).subscribe(res => {
-      console.log('pushSaveToken', res);
+    this.philgo.chatSaveToken({ token: token, domain: 'chat' }).subscribe(res => {
+      // console.log('chat.saveToken', res);
     }, e => {
-      console.log('Error on pushSaveToken(): If the token exists, just ignore. It is not an error. ', e);
+      // console.log('Error on chat.saveToken(): If the token exists, just ignore. It is not an error. ', e);
     });
   }
   /**
    * 매번 실행시 호출 하면 되지만, 맨 처음에는 rooms 페이지에서 한번 물어 보고 한다.
    */
   requestPushNotificationPermission() {
-    console.log('requestPushNotificationPermission()');
+    // console.log('requestPushNotificationPermission()');
     this.messaging.requestPermission().then(() => {
-      console.log('   ===> Notification permission granted.');
+      // console.log('   ===> Notification permission granted.');
       // TODO(developer): Retrieve an Instance ID token for use with FCM.
       // Callback fired if Instance ID token is updated.
 
       this.messaging.getToken().then(token => this.updatePushNotificationTokenToServer(token))
         .catch((err) => {
-          console.log('getToken() error: ', err);
+          // console.log('getToken() error: ', err);
         });
       this.messaging.onTokenRefresh(() => {
         this.messaging.getToken().then((token => this.updatePushNotificationTokenToServer(token)))
           .catch((err) => {
-            console.log('Unable to retrieve refreshed token ', err);
+            // console.log('Unable to retrieve refreshed token ', err);
             // showToken('Unable to retrieve refreshed token ', err);
           });
       });
     }).catch((err) => {
-      console.log('Unable to get permission to notify. User may have denied permission!', err);
+      // console.log('Unable to get permission to notify. User may have denied permission!', err);
     });
   }
 }

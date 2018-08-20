@@ -31,7 +31,7 @@ export class CreateRoomComponent implements OnInit {
 
   onSubmit() {
     this.philgo.chatRoomCreate(this.form).subscribe(res => {
-      console.log('create: ', res);
+      // console.log('create: ', res);
       this.router.navigateByUrl('/room/' + res.idx);
     }, e => {
       this.a.toast(e);

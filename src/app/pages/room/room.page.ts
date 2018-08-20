@@ -32,7 +32,7 @@ export class RoomPage implements OnInit, OnDestroy {
     public a: AppService,
     public philgo: PhilGoApiService
   ) {
-    console.log(' ==> RoomPage::constructor()');
+    // console.log(' ==> RoomPage::constructor()');
 
 
     /**
@@ -41,13 +41,13 @@ export class RoomPage implements OnInit, OnDestroy {
      *  따라서, 기존 subscription 사용하고 새로 만들지 않는다.
      */
     if (this.subscriptionNewMessage) {
-      console.log(' ==> Unsubscribing new message');
+      // console.log(' ==> Unsubscribing new message');
       this.subscriptionNewMessage.unsubscribe();
     }
-    console.log(' ===> Going to subscribe new message event!');
+    // console.log(' ===> Going to subscribe new message event!');
     this.subscriptionNewMessage = a.newMessageOnCurrentRoom.subscribe(message => {
-      console.log(` ==> RoomPage::constructor() => Got new message in ${this.roomInfo.name} : you should see it on chat box.`,
-        message, CHAT_STATUS_ENTER, this.philgo.myIdx());
+      // console.log(` ==> RoomPage::constructor() => Got new message in ${this.roomInfo.name} : you should see it on chat box.`,
+      //   message, CHAT_STATUS_ENTER, this.philgo.myIdx());
       this.displayMessage(message);
       this.updateLastRead(message.idx);
       // this.updateLastRead();
@@ -57,28 +57,28 @@ export class RoomPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('   ===> RoomPage::ngOnInit()');
+    // console.log('   ===> RoomPage::ngOnInit()');
   }
 
   ngOnDestroy() {
-    console.log('   ===> RoomPage::ngOnDestroy()');
+    // console.log('   ===> RoomPage::ngOnDestroy()');
     this.leaveRoom();
   }
 
   ionViewDidEnter() {
-    console.log('   ===> RoomPage::ionViewDidEnter()');
+    // console.log('   ===> RoomPage::ionViewDidEnter()');
     this.messages = [];
     this.loadChatRoomEnter();
   }
   ionViewWillLeave() {
-    console.log('   ===> RoomPage::ionViewWillLeave()');
+    // console.log('   ===> RoomPage::ionViewWillLeave()');
     // this.leaveRoom();
   }
 
   test() {
     for (let i = 0; i < 100; i++) {
       this.form.message = 'message No. ' + i;
-      console.log('sending message: ', i);
+      // console.log('sending message: ', i);
       this.onClickSendMessage();
     }
 
@@ -89,7 +89,7 @@ export class RoomPage implements OnInit, OnDestroy {
     }
     this.a.currentRoomNo = 0;
     if (this.subscriptionNewMessage) {
-      console.log(' ==> New message unsubscribed !!');
+      // console.log(' ==> New message unsubscribed !!');
       this.subscriptionNewMessage.unsubscribe();
       this.subscriptionNewMessage = null;
     }
@@ -106,7 +106,7 @@ export class RoomPage implements OnInit, OnDestroy {
            */
           this.form.idx_chat_room = idx;
           // this.a.currentRoomNo = parseInt(this.form.idx_chat_room, 10);
-          this.philgo.chatRoomEnter({ idx: this.form.idx_chat_room }).subscribe(res => {
+          this.philgo.chatEnterRoom({ idx: this.form.idx_chat_room }).subscribe(res => {
             // console.log('info: ', res);
             this.roomInfo = res;
             /**
@@ -144,10 +144,10 @@ export class RoomPage implements OnInit, OnDestroy {
 
   onClickSendMessage() {
     if (!this.form.message) {
-      console.log('empty form.message. return');
+      // console.log('empty form.message. return');
       return;
     }
-    console.log('form: ', this.form);
+    // console.log('form: ', this.form);
     this.sendMessage();
   }
 
@@ -156,7 +156,7 @@ export class RoomPage implements OnInit, OnDestroy {
     this.form.retvar = ++this.countMessageSent;
     const m = Object.assign({}, this.form);
     this.messages.push(m);
-    console.log('pushed m: ', m);
+    // console.log('pushed m: ', m);
     this.form.message = '';
     this.form.url = '';
     this.form.type = '';
@@ -166,8 +166,8 @@ export class RoomPage implements OnInit, OnDestroy {
     // this.a.render();
     this.scroll();
     // console.log('messages: ', this.messages);
-    this.philgo.chatMessageSend(m).subscribe(res => {
-      console.log('message sent: ', res);
+    this.philgo.chatSendMessage(m).subscribe(res => {
+      // console.log('message sent: ', res);
       // this.form.message = '';
       // this.messages.push(res);
       //
@@ -177,12 +177,12 @@ export class RoomPage implements OnInit, OnDestroy {
 
   async presentRoomOptions() {
 
-    let favoriteText = this.a.tr.t({ko: '즐겨찾기 추가', en: 'Favorite'});
+    let favoriteText = this.a.tr.t({ ko: '즐겨찾기 추가', en: 'Favorite' });
     if (this.roomInfo.favorite === 'Y') {
-      favoriteText = this.a.tr.t({ko: '즐겨찾기에서 삭제', en: 'Remove from Favorite'});
+      favoriteText = this.a.tr.t({ ko: '즐겨찾기에서 삭제', en: 'Remove from Favorite' });
     }
     const actionSheet = await this.actionSheetController.create({
-      header: this.a.tr.t({ko: '채팅방 옵션', en: 'Options'}),
+      header: this.a.tr.t({ ko: '채팅방 옵션', en: 'Options' }),
       buttons: [{
         text: this.a.tr.t({ ko: '채팅 방 나가기', en: 'Leave Chat Room' }),
         role: 'destructive',
@@ -212,13 +212,13 @@ export class RoomPage implements OnInit, OnDestroy {
           });
           alert.present();
           const re = await alert.onDidDismiss();
-          console.log('result of present: ', re.role);
+          // console.log('result of present: ', re.role);
 
           if (re.role === 'no') {
             return;
           }
 
-          this.philgo.chatRoomLeave(this.roomInfo.idx).subscribe(res => {
+          this.philgo.chatLeaveRoom(this.roomInfo.idx).subscribe(res => {
             // console.log('You have successfully left the room: ', res.name);
             this.router.navigateByUrl('/my-rooms');
           }, e => {
@@ -237,14 +237,14 @@ export class RoomPage implements OnInit, OnDestroy {
           // console.log('favorite clicked');
           // console.log('chatroominfo: ', this.roomInfo);
           if (this.roomInfo.favorite === 'Y') {
-            this.philgo.chatRoomUnfavorite(this.roomInfo.idx).subscribe(res => {
+            this.philgo.chatUnfavorite(this.roomInfo.idx).subscribe(res => {
               // console.log('un-favorite:', res);
               this.a.toast('This room has removed as favorite');
               this.roomInfo.favorite = '';
             }, e => this.a.toast(e));
           } else {
-            this.philgo.chatRoomFavorite(this.roomInfo.idx).subscribe(res => {
-              console.log('favorite:', res);
+            this.philgo.chatFavorite(this.roomInfo.idx).subscribe(res => {
+              // console.log('favorite:', res);
               this.a.toast('This room has added as favorite');
               this.roomInfo.favorite = 'Y';
             }, e => this.a.toast(e));
@@ -273,7 +273,7 @@ export class RoomPage implements OnInit, OnDestroy {
   }
   displaySendingFile(message: ApiChatMessage) {
     message.type = 'sending-file';
-    console.log('displaySendingFile: ', message);
+    // console.log('displaySendingFile: ', message);
     this.displayMessage(message);
   }
   removeMessageByRetvar(retvar) {
@@ -289,9 +289,9 @@ export class RoomPage implements OnInit, OnDestroy {
     if (this.philgo.isLoggedOut()) {
       return;
     }
-    console.log('updateLastRead(): ', this.roomInfo.idx);
-    this.philgo.chatMessageLastRead(this.roomInfo.idx, idx_message).subscribe(res => {
-      console.log('chatMssagelastRead()', res);
+    // console.log('updateLastRead(): ', this.roomInfo.idx);
+    this.philgo.chatLastRead(this.roomInfo.idx, idx_message).subscribe(res => {
+      // console.log('chatMssagelastRead()', res);
     }, e => {
       console.log('error:', e);
     });
@@ -302,10 +302,10 @@ export class RoomPage implements OnInit, OnDestroy {
 
   onChangeFile(event: Event) {
     if (this.a.platform === 'cordova') {
-      console.log('Running in cordova. return in onChangeFile()');
+      // console.log('Running in cordova. return in onChangeFile()');
       return;
     }
-    console.log('onChangeFile()');
+    // console.log('onChangeFile()');
     const files = event.target['files'];
     if (files === void 0 || !files.length || files[0] === void 0) {
       return this.a.toast('Please select a file');
@@ -328,10 +328,10 @@ export class RoomPage implements OnInit, OnDestroy {
    */
   doFile(files, dataUrl = '') {
     if (!dataUrl) {
-      console.log('No dataUrl. Going to create an object!');
+      // console.log('No dataUrl. Going to create an object!');
       dataUrl = URL.createObjectURL(files[0]);
     } else {
-      console.log('Got dataUrl already. no create object');
+      // console.log('Got dataUrl already. no create object');
     }
     // console.log('url: ', url);
     const message: ApiChatMessage = <any>{ url: this.a.safeUrl(dataUrl), retvar: ++this.countMessageSent };
@@ -341,10 +341,10 @@ export class RoomPage implements OnInit, OnDestroy {
       secret: this.philgo.myIdx()
     }).subscribe(res => {
       if (typeof res === 'number') {
-        console.log('percentage', res);
+        // console.log('percentage', res);
         message['percentage'] = res;
       } else {
-        console.log('result ', res);
+        // console.log('result ', res);
         // @todo 여기서 부터. 파일을 업로드하기 전에 먼저, 디스크의 파일을 보여주고,
         // 파일이 업로드 완료되고, 다른 사람들에게 채팅으로 모두 전달했으면,
         // 그 때, loader 를 없애고, percentage 를 없앤다.
@@ -368,9 +368,9 @@ export class RoomPage implements OnInit, OnDestroy {
    * @param event click event
    */
   async onClickFile(event: Event) {
-    console.log('onClickFile()');
+    // console.log('onClickFile()');
     if (this.a.platform === 'web') {
-      console.log('it is web. return.');
+      // console.log('it is web. return.');
       return;
     }
 
@@ -416,12 +416,12 @@ export class RoomPage implements OnInit, OnDestroy {
     const base64 = await this.camera.getPicture(options).then((imageData) => {
       return imageData;
     }, (e) => {
-      console.log(e);
-      console.log('Camera/Gallery cancelled');
+      // console.log(e);
+      // console.log('Camera/Gallery cancelled');
       return '';
     });
     if (!base64) {
-      console.log('No data path or base64. just return');
+      // console.log('No data path or base64. just return');
     }
     // console.log('path: ', data);
     const blob = this.b64toBlob(base64);

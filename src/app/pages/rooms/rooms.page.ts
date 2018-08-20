@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { RoomsComponent } from '../../components/rooms/rooms.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ApiChatRoom, PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.service';
+import { PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.service';
 import { AppService } from '../../providers/app.service';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
 
@@ -29,25 +29,25 @@ export class RoomsPage implements OnInit, OnDestroy {
     public a: AppService,
     public lt: LanguageTranslate
   ) {
-    console.log('RoomsPage::constructor()');
+    // console.log('RoomsPage::constructor()');
     this.a.roomsPageVisited = true;
   }
 
   ngOnInit() {
-    console.log('  ==> RoomsPage::ngOnInit()');
+    // console.log('  ==> RoomsPage::ngOnInit()');
   }
 
   ngOnDestroy() {
-    console.log('  ===> RoomsPage::ngOnDestroy()');
+    // console.log('  ===> RoomsPage::ngOnDestroy()');
   }
 
   ionViewDidEnter() {
-    console.log('  ===> RoomsPage::ionViewDidEnter()');
+    // console.log('  ===> RoomsPage::ionViewDidEnter()');
     this.activatedRoute.paramMap.subscribe(params => {
-      console.log('params: ', params);
+      // console.log('params: ', params);
     });
     this.activatedRoute.data.subscribe(data => {
-      console.log('data: ', data);
+      // console.log('data: ', data);
       /**
        * When user is not logged in, he can only see all rooms.
        */
@@ -65,7 +65,7 @@ export class RoomsPage implements OnInit, OnDestroy {
     });
   }
   ionViewWillLeave() {
-    console.log('   ===> RoomsPage::ionViewWillLeave()');
+    // console.log('   ===> RoomsPage::ionViewWillLeave()');
   }
 
 

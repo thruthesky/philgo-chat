@@ -28,7 +28,7 @@ export class LoginPage implements OnInit {
     this.philgo.login({ uid: this.uid, password: this.password }).subscribe(res => {
       this.a.onLogin();
         this.loader.submit = false;
-        console.log('login success: ', res);
+        // console.log('login success: ', res);
         this.router.navigateByUrl('/');
     }, e => {
         this.loader.submit = false;
