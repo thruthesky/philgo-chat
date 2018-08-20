@@ -8,7 +8,7 @@ import {
   ERROR_WRONG_IDX_MEMBER,
   ApiUserInformation,
   ApiChatInfo
-} from '../modules/philgo-api-v3/philgo-api.service';
+} from '../modules/philgo-api/philgo-api.service';
 import { Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -438,7 +438,7 @@ export class AppService {
       if (this.listeningRooms.length === 0) {
         // console.log('No rooms are listened, I am going to listen my rooms.');
         this.philgo.chatMyRooms().subscribe(res => {
-          this.listenMyRooms(res).then(() => {
+          this.listenMyRooms(res.rooms).then(() => {
           });
         });
       } else {

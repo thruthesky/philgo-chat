@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { AppService } from '../../providers/app.service';
-import { PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.module';
-import { ApiChatRoom } from '../../modules/philgo-api-v3/philgo-api.service';
+import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.module';
+import { ApiChatRoom } from '../../modules/philgo-api/philgo-api.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -59,7 +59,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
        *  - favorite first.
        *  - Alphabet list for others.
        */
-      res.sort((a, b) => {
+      res.rooms.sort((a, b) => {
         if (a.favorite === 'Y' && b.favorite === 'Y') {
           return 0;
         } else if (a.favorite === 'Y') {
@@ -78,7 +78,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
           return 0;
         }
       });
-      this.rooms = res;
+      this.rooms = res.rooms;
       this.updateShare();
       this.a.listenMyRooms(this.rooms).then(() => {
         if (callback) {
@@ -96,7 +96,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
     this.philgo.chatOtherRooms().subscribe(res => {
       this.show.loader.roomList = false;
       // console.log('list: ', res);
-      this.rooms = res;
+      this.rooms = res.rooms;
       this.updateShare();
     }, e => {
       this.show.loader.roomList = false;

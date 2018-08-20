@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ApiChatMessage } from '../../modules/philgo-api-v3/philgo-api.service';
+import { ApiChatMessage } from '../../modules/philgo-api/philgo-api.service';
 
 @Component({
   selector: 'app-send-file',

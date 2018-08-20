@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.module';
+import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.module';
 import { AppService } from '../../providers/app.service';
 import { Router } from '@angular/router';
 

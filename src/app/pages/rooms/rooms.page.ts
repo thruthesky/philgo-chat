@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { RoomsComponent } from '../../components/rooms/rooms.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import { PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.service';
+import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
 import { AppService } from '../../providers/app.service';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
 

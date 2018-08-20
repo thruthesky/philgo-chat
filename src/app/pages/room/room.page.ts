@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AppService } from '../../providers/app.service';
-import { PhilGoApiService } from '../../modules/philgo-api-v3/philgo-api.module';
+import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.module';
 import {
   ApiChatMessage, ApiChatRoomEnter, ApiChatRoom, CHAT_STATUS_ENTER, ERROR_CHAT_NOT_IN_THAT_ROOM
-} from '../../modules/philgo-api-v3/philgo-api.service';
+} from '../../modules/philgo-api/philgo-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, AlertController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
