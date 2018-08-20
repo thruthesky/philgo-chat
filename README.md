@@ -1,6 +1,6 @@
-# PhilGo Restful API v3
+# PhilGo Restful API
 
-* Old version of [PhilGo API v2](https://github.com/thruthesky/philgo-api/tree/8bcd9b53d06e6acec2bb80f2aa0bfbe59f61b881)
+* This philgo api v4.
 
 ## TODO
 
@@ -16,8 +16,14 @@
 
 ## Document
 
+* [PhilGo API v4 Document](https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#)
 * [PhilGo API](https://docs.google.com/document/d/1DbGXezNIVoOgFmjhnnZBZjrsx9vEwSVv-BzSJHB3C2s/edit#heading=h.wuw5os21mdy)
 * [PhilGo Family Github](https://github.com/thruthesky/philgo-family) which uses this project.
+
+* [Examples of PhilGo API](https://github.com/thruthesky/philgo-api-old)
+  * [Components example of PhilGo API](https://github.com/thruthesky/philgo-api-old/tree/master/components)
+
+* Old version of [PhilGo API v2](https://github.com/thruthesky/philgo-api/tree/8bcd9b53d06e6acec2bb80f2aa0bfbe59f61b881)
 
 ## Work Environment
 
