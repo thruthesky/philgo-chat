@@ -53,6 +53,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
     this.philgo.chatMyRooms().subscribe(res => {
 
       this.show.loader.roomList = false;
+      this.a.info = res.info;
       // console.log('my room list: ', res);
       /**
        * Sort of rooms
@@ -95,6 +96,7 @@ export class RoomsComponent implements OnInit, OnDestroy {
     this.roomType = 'all-rooms';
     this.philgo.chatOtherRooms().subscribe(res => {
       this.show.loader.roomList = false;
+      this.a.info = res.info;
       // console.log('list: ', res);
       this.rooms = res.rooms;
       this.updateShare();

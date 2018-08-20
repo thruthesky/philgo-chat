@@ -125,10 +125,10 @@ export class AppService {
       }
     });
 
-    this.philgo.chatInfo().subscribe(info => {
-      // console.log('info: ', info);
-      this.info = info;
-    });
+    // this.philgo.chatInfo().subscribe(info => {
+    //   // console.log('info: ', info);
+    //   this.info = info;
+    // });
     this.p.ready().then(() => {
 
       // alert('is mobile web?: ' + AngularLibrary.isMobileWeb());

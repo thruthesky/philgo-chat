@@ -9,13 +9,16 @@ export const environment = {
   // philgoFileServerUrl: 'https://file.philgo.com/index.php',
   // newFileServerUrl: 'https://file.philgo.com/~file_server/index.php'
 
-  philgoServerUrl: 'https://local.philgo.com/api.php',
-  philgoFileServerUrl: 'https://local.philgo.com/index.php',
-  newFileServerUrl: 'http://work.org/file-server/index.php',
+  // philgoServerUrl: 'https://local.philgo.com/api.php',
+  // philgoFileServerUrl: 'https://local.philgo.com/index.php',
+  // newFileServerUrl: 'http://work.org/file-server/index.php',
 
-  // philgoServerUrl: 'http://59.30.59.82/sapcms_1_2/api.php',
-  // philgoFileServerUrl: 'http://59.30.59.82/sapcms_1_2/index.php',
-  // newFileServerUrl: 'http://59.30.59.82/file-server/index.php',
+  /**
+   * Office network.
+   */
+  philgoServerUrl: 'http://192.168.0.174/sapcms_1_2/api.php',
+  philgoFileServerUrl: 'http://192.168.0.174/sapcms_1_2/index.php',
+  newFileServerUrl: 'http://192.168.0.174/file-server/index.php',
 
   // philgoServerUrl: 'http://59.30.59.162/sapcms_1_2/api.php',
   // philgoFileServerUrl: 'http://59.30.59.162/sapcms_1_2/index.php',

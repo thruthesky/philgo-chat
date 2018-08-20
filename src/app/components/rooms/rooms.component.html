@@ -1,6 +1,7 @@
 
 
-<ion-card *ngIf=" a.platform == 'cordova' && a.info && a.version < a.info.version ">
+
+<ion-card *ngIf=" a.platform == 'cordova' && a.info && a.version < a.number(a.info.version) ">
   <ion-card-header>
     <ion-card-subtitle>{{ a.tr.t({ko: '앱을 업데이트해주세요.', en: 'Update app'}) }}</ion-card-subtitle>
     <ion-card-title>{{ a.tr.t({ko: '업데이트 알림', en: 'Update'}) }}</ion-card-title>
