@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rooms-component',
-  templateUrl: './rooms.component.html'
+  templateUrl: './rooms.component.html',
+  styleUrls: ['./rooms.component.scss']
 })
 export class RoomsComponent implements OnInit, OnDestroy {
 

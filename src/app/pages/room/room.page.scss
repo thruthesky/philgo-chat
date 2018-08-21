@@ -1,5 +1,7 @@
 @import '../../../theme/mixins';
 @import '../../../theme/breakpoints';
+app-room{
+    
 ion-scroll{
     background: #99C0D9;
 }
@@ -116,4 +118,5 @@ ion-badge {
     .text {
         word-break: break-all !important;
     }
+}
 }

@@ -11,7 +11,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'app-room',
-  templateUrl: './room.page.html'
+  templateUrl: './room.page.html',
+  styleUrls: ['./room.page.scss']
 })
 export class RoomPage implements OnInit, OnDestroy {
 

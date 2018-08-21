@@ -5,7 +5,8 @@ import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-setting',
-  templateUrl: './setting.page.html'
+  templateUrl: './setting.page.html',
+  styleUrls: ['./setting.page.scss']
 })
 export class SettingPage implements OnInit {
 
