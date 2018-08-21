@@ -40,7 +40,7 @@ export class RegisterPage implements OnInit {
         this.loader.profile = false;
         this.form = user;
         // console.log('user: ', user);
-      }, e => alert(e.message));
+      }, e => this.a.toast(e));
     } else {
       this.resetForm();
     }

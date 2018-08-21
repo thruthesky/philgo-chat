@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AppService } from '../../providers/app.service';
 import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.module';
 import {
-  ApiChatMessage, ApiChatRoomEnter, ApiChatRoom, CHAT_STATUS_ENTER, ERROR_CHAT_NOT_IN_THAT_ROOM
+  ApiChatMessage, ApiChatRoomEnter, ApiChatRoom, CHAT_STATUS_ENTER, ERROR_CHAT_NOT_IN_THAT_ROOM, ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM
 } from '../../modules/philgo-api/philgo-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, AlertController } from '@ionic/angular';
@@ -130,7 +130,18 @@ export class RoomPage implements OnInit, OnDestroy {
             this.updateLastRead(idx_message_last_read);
             this.a.render(100, () => this.scroll());
             // this.test();
-          }, e => this.a.toast(e));
+          }, async e => {
+            console.log(e.code);
+            if ( e.code === ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM ) {
+              await (await this.alertController.create({
+                message: e.message,
+                buttons: [ this.a.tr.t({ ko: '닫기', en: 'Close' }) ]
+              })).present();
+            } else {
+              this.a.toast(e);
+            }
+            this.router.navigateByUrl('/');
+          });
         } else {
           this.a.toast('Chat room number was not provided.');
         }
@@ -138,6 +149,7 @@ export class RoomPage implements OnInit, OnDestroy {
     }, 100);
   }
   scroll() {
+    this.a.render(50);
     setTimeout(() => {
       this.ionScroll.nativeElement.scrollToBottom(30);
     }, 100);
