@@ -3,7 +3,8 @@ import { ApiChatMessage } from '../../modules/philgo-api/philgo-api.service';
 
 @Component({
   selector: 'app-show-file',
-  templateUrl: './show-file.component.html'
+  templateUrl: './show-file.component.html',
+  styleUrls: ['./show-file.component.scss']
 })
 export class ShowFileComponent implements OnInit {
 
