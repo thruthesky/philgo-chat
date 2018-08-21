@@ -20,10 +20,10 @@ export class AppComponent {
     private readonly router: Router,
     public readonly philgo: PhilGoApiService,
     public a: AppService,
-    public lt: LanguageTranslate
+    public tr: LanguageTranslate
   ) {
     this.initializeApp();
-    this.lt.languageCode = 'ko';
+    this.tr.languageCode = 'ko';
   }
 
   initializeApp() {

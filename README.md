@@ -23,24 +23,24 @@
   * @done 레벨별 글쓰기 제한 등을 적용한다.
 
 * 2018년 9월 1일 업데이트 발표
-  * 모든 컴포넌트를 philgo-api-component, philgo-api-chat-component git repo 에 저장하고, subtree 로 작업을 한다.
+  * 모든 컴포넌트를 components, philgo-api-chat-component git repo 에 저장하고, subtree 로 작업을 한다.
     * 로그인, 로그아웃, 회원 정보, 회원 탈퇴, 각종 채팅 페이지 등등.
       각 페이지는 별도의 모듈로 한다.
 
-      philgo-api-component/user/login
-      philgo-api-component/user/register
-      philgo-api-component/user/resign
-      philgo-api-component/chat/all-rooms
-      philgo-api-component/chat/my-rooms
-      philgo-api-component/chat/create-room
-      philgo-api-component/chat/setting
-      philgo-api-component/chat/room
-      philgo-api-component/chat/help
-      philgo-api-component/forum/list
-      philgo-api-component/forum/post-create
-      philgo-api-component/forum/post-edit
-      philgo-api-component/forum/comment-create
-      philgo-api-component/forum/comment-edit
+      components/user/login
+      components/user/register
+      components/user/resign
+      components/chat/all-rooms
+      components/chat/my-rooms
+      components/chat/create-room
+      components/chat/setting
+      components/chat/room
+      components/chat/help
+      components/forum/list
+      components/forum/post-create
+      components/forum/post-edit
+      components/forum/comment-create
+      components/forum/comment-edit
 
       등등...
 
@@ -52,8 +52,10 @@
 
     * 글/채팅글 을 클릭하고 오래 있으면, 글 내용을 복사 할 것.
 
+  * 채팅 방 인원 목록
+
   * 나의 채팅방 목록 => '...'님의 대화방 목록으로 변경.
-  
+
   * 방장 기능. 방장이 접속 차단(쫒아내기), 글 입력 차단을 할 수 있음.
     * 방장이 불법 광고 글을 막지 못하면, 방 자체를 블럭 시킴.
     * 방장이 채팅방을 만들고 채팅 방 처음에 입장을 하면, 채팅 방 설정을 어떻게 하는지 설명을 주욱 할 것.

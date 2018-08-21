@@ -23,19 +23,19 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
   }
-  onSubmit() {
-    // event.preventDefault();
-    this.loader.submit = true;
-    this.philgo.login({ uid: this.uid, password: this.password }).subscribe(res => {
-      this.a.onLogin();
-        this.loader.submit = false;
-        // console.log('login success: ', res);
-        this.router.navigateByUrl('/');
-    }, e => {
-        this.loader.submit = false;
-        this.a.toast( e );
-    });
-    return false;
-  }
+  // onSubmit() {
+  //   // event.preventDefault();
+  //   this.loader.submit = true;
+  //   this.philgo.login({ uid: this.uid, password: this.password }).subscribe(res => {
+  //     this.a.onLogin();
+  //       this.loader.submit = false;
+  //       // console.log('login success: ', res);
+  //       this.router.navigateByUrl('/');
+  //   }, e => {
+  //       this.loader.submit = false;
+  //       this.a.toast( e );
+  //   });
+  //   return false;
+  // }
 
 }

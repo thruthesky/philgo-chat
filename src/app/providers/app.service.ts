@@ -630,4 +630,9 @@ export class AppService {
       // console.log('Unable to get permission to notify. User may have denied permission!', err);
     });
   }
+
+
+  openHome() {
+    this.router.navigateByUrl('/');
+  }
 }
