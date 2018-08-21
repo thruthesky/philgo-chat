@@ -57,6 +57,8 @@ ion-button[color="danger"]{
 ion-badge{
     margin-left: 0;
     margin-left: .5rem;
+}
+ion-badge[slot="end"]{
     border-radius: 45px;
 }
 
