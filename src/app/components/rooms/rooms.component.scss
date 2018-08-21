@@ -31,10 +31,6 @@ ion-button[color="danger"]{
 }
 .rooms{
     font-size: .8rem;
-    ion-badge[slot="start"] {
-        margin-left:0;
-        margin-right: 1em;
-    }
     h3{
         font-size: 1em;
     }
@@ -58,9 +54,11 @@ ion-button[color="danger"]{
 //     flex: 100%;
 //     color: dimgray
 // }
-ion-badge[slot="end"] {
-    margin-right: 0;
+ion-badge{
+    margin-left: 0;
     margin-left: .5rem;
+}
+ion-badge[slot="end"]{
     border-radius: 45px;
 }
 
