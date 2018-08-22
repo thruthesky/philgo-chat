@@ -46,7 +46,7 @@ export class RoomPage implements OnInit, OnDestroy {
       this.subscriptionNewMessage.unsubscribe();
     }
     // console.log(' ===> Going to subscribe new message event!');
-    this.subscriptionNewMessage = a.newMessageOnCurrentRoom.subscribe(message => {
+    this.subscriptionNewMessage = philgo.newMessageOnCurrentRoom.subscribe(message => {
       // console.log(` ==> RoomPage::constructor() => Got new message in ${this.roomInfo.name} : you should see it on chat box.`,
       //   message, CHAT_STATUS_ENTER, this.philgo.myIdx());
       this.displayMessage(message);
@@ -54,7 +54,7 @@ export class RoomPage implements OnInit, OnDestroy {
       // this.updateLastRead();
     });
 
-    this.a.listenMyRoomsIfNotListenning();
+    this.philgo.listenMyRoomsIfNotListenning();
   }
 
   ngOnInit() {
@@ -88,7 +88,7 @@ export class RoomPage implements OnInit, OnDestroy {
     if (this.messages && this.messages.length) {
       this.messages = [];
     }
-    this.a.currentRoomNo = 0;
+    this.philgo.currentRoomNo = 0;
     if (this.subscriptionNewMessage) {
       // console.log(' ==> New message unsubscribed !!');
       this.subscriptionNewMessage.unsubscribe();
@@ -114,7 +114,7 @@ export class RoomPage implements OnInit, OnDestroy {
              * get real idx_chat_room
              */
             this.form.idx_chat_room = this.roomInfo.idx_chat_room;
-            this.a.currentRoomNo = parseInt(this.roomInfo.idx_chat_room, 10);
+            this.philgo.currentRoomNo = parseInt(this.roomInfo.idx_chat_room, 10);
             let idx_message_last_read = '';
             if (this.roomInfo.messages && this.roomInfo.messages.length) {
               this.roomInfo.messages.reverse().map(v => {
@@ -126,7 +126,7 @@ export class RoomPage implements OnInit, OnDestroy {
             this.scroll();
             const room: ApiChatRoom = <any>this.roomInfo;
             delete room['messages'];
-            this.a.addRoomToListen(room);
+            this.philgo.addRoomToListen(room);
             this.updateLastRead(idx_message_last_read);
             this.a.render(100, () => this.scroll());
             // this.test();

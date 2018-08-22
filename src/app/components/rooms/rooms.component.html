@@ -1,5 +1,4 @@
-
-
+<!--
 
 <ion-card *ngIf=" a.platform == 'cordova' && a.info && a.version < a.number(a.info.version) ">
   <ion-card-header>
@@ -69,6 +68,7 @@
   <ion-list lines="full" class="rooms" *ngIf=" rooms.length ">
     <!-- <ion-item *ngFor="let room of rooms" (click)="enter.emit(room)"> -->
     <!-- <ion-item *ngFor="let room of rooms" (click)="onClickRoom(room)"> -->
+      <!--
     <ng-container *ngFor="let room of rooms">
       <ion-item class="name pointer" (click)=" onClickRoom(room.idx) ">
         <ion-label>
@@ -92,7 +92,7 @@
           <ion-badge slot="end" color="danger" *ngIf=" room.no_of_unread_messages != '0' ">{{ room.no_of_unread_messages }}</ion-badge>
         </ng-container>
       </ion-item> -->
-
+<!--
     </ng-container>
   </ion-list>
 
@@ -118,3 +118,4 @@
   <span>{{ a.tr.t({ko: '채팅앱 이용하기', en: 'Use chat app'})}}</span>
   <ion-icon name="appstore"></ion-icon>
 </a>
+-->

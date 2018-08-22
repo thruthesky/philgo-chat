@@ -136,11 +136,11 @@ export class AppService {
         this.platform = 'cordova';
         FCMPlugin.getToken(token => {
           this.pushToken = token;
-          this.updatePushNotificationTokenToServer(token);
+          this.philgo.updatePusTokenToServer(token);
         });
         FCMPlugin.onTokenRefresh(token => {
           this.pushToken = token;
-          this.updatePushNotificationTokenToServer(token);
+          this.philgo.updatePusTokenToServer(token);
         });
 
         FCMPlugin.onNotification((data) => {
@@ -160,10 +160,16 @@ export class AppService {
          */
         this.messaging = firebase.messaging();
 
+        /**
+         * 채팅에서 백그라운드로 메시지가 와도 별로 할 것이 없다. 왜냐하면, firebase realtiem update 로 message toast 를 상단에 보여주기 때문이다.
+         */
         this.messaging.onMessage((payload) => {
           // console.log('Got FCM notification! Just ignore since app has toast.');
         });
-        this.updatePushNotificationToken();
+
+
+        // 아래 코드는 굳이 여기서 오출 할 필요가 없다. philgo api constructor() 에서 자동으로 호출된다.
+        // this.philgo.updateWebPushToken();
       }
       this.onInit();
     });
@@ -207,26 +213,26 @@ export class AppService {
    * 로그인을 하면 항상 이곳이 호출된다.
    */
   onLogin() {
-    this.updatePushNotificationToken();
+    this.philgo.updateWebPushToken();
   }
   /**
    * 회원 가입을 하면 항상 이 함수가 호출된다.
    */
   onRegister() {
-    this.updatePushNotificationToken();
+    this.philgo.updateWebPushToken();
   }
   /**
    * 회원 정보 수정을 하면 항상 이 함수가 호출된다.
    */
   onProfileUpdate() {
-    this.updatePushNotificationToken();
+    this.philgo.updateWebPushToken();
   }
   /**
    * 회원 로그아웃을 하면 항상 이 함수가 호출된다.
    */
 
   onLogout() {
-    this.updatePushNotificationToken();
+    this.philgo.updateWebPushToken();
   }
 
 
@@ -499,105 +505,105 @@ export class AppService {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
 
-  isPushNotificationPermissionRequested() {
-    // Let's check if the browser supports notifications
-    if (!('Notification' in window) || Notification === void 0 || Notification['permission'] === void 0) {
-      // console.log('This browser does not support desktop notification');
-      return false;
-    }
-    // console.log(`Notification['permission']`, Notification['permission']);
-    return Notification['permission'] !== 'default';
-  }
-  isPushNotificationPermissionDenied() {
-    if (this.isPushNotificationPermissionRequested()) {
-      return Notification['permission'] === 'denied';
-    } else {
-      return false;
-    }
-  }
-  isPushNotificationPermissionGranted() {
-    if (this.isPushNotificationPermissionRequested()) {
-      return Notification['permission'] === 'granted';
-    } else {
-      return false;
-    }
-  }
+  // isPushNotificationPermissionRequested() {
+  //   // Let's check if the browser supports notifications
+  //   if (!('Notification' in window) || Notification === void 0 || Notification['permission'] === void 0) {
+  //     // console.log('This browser does not support desktop notification');
+  //     return false;
+  //   }
+  //   // console.log(`Notification['permission']`, Notification['permission']);
+  //   return Notification['permission'] !== 'default';
+  // }
+  // isPushNotificationPermissionDenied() {
+  //   if (this.isPushNotificationPermissionRequested()) {
+  //     return Notification['permission'] === 'denied';
+  //   } else {
+  //     return false;
+  //   }
+  // }
+  // isPushNotificationPermissionGranted() {
+  //   if (this.isPushNotificationPermissionRequested()) {
+  //     return Notification['permission'] === 'granted';
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   /**
    * 웹 Notification
    *
    * 매번 실행시 실행시 호출 하면 된다.
    */
-  updatePushNotificationToken() {
-    // console.log('updatePushNotificationToken()');
+  // updatePushNotificationToken() {
+  //   // console.log('updatePushNotificationToken()');
 
-    if (this.platform === 'web') {
-      // console.log('  --> web');
-      /**
-       * 맨 처음에는 물어보고 해야 하므로, 부팅 할 때 토큰 업데이트하지 않고 (토큰 업데이트를 할 때, permission 을 자동으로 물어 봄 )
-       * Permission 허용 했을 때만, 토큰 업데이트 확인을 한다.
-       */
-      if (this.isPushNotificationPermissionGranted()) {
-        // console.log('    --> request permission granted()');
-        this.requestPushNotificationPermission();
-      } else {
-        // console.log('    --> request permission NOT granted()');
-      }
-    } else if (this.platform === 'cordova') {
-      this.updatePushNotificationTokenToServer(this.pushToken);
-    }
-  }
-  /**
-   *
-   * 실제로 서버에 저장한다.
-   *
-   * 앱이든 웹이든 반드시 실행을 하면 이 함수가 호출된다.
-   *
-   * 그냥 매우 간단하게 !!!! 접속 할 때 마다 항상 서버에 저장한다.
-   *
-   * 맨 처음 접속할 때, 로그인을 한 다음에 접속하는 것이 좋다.
-   *
-   * @param token push notification token
-   *
-   */
-  updatePushNotificationTokenToServer(token) {
-    this.pushToken = token; // Cordova 는 이미 값이 있지만, 웹에는 적용을 해 준다.
-    // console.log('updatePushNotificationTokenToServer(): ', token);
-    if (!token) {
-      // console.log('token empty. return.');
-      return;
-    }
-    this.philgo.chatSaveToken({ token: token, domain: 'chat' }).subscribe(res => {
-      // console.log('chat.saveToken', res);
-    }, e => {
-      // console.log('Error on chat.saveToken(): If the token exists, just ignore. It is not an error. ', e);
-    });
-  }
-  /**
-   * 매번 실행시 호출 하면 되지만, 맨 처음에는 rooms 페이지에서 한번 물어 보고 한다.
-   */
-  requestPushNotificationPermission() {
-    // console.log('requestPushNotificationPermission()');
-    this.messaging.requestPermission().then(() => {
-      // console.log('   ===> Notification permission granted.');
-      // TODO(developer): Retrieve an Instance ID token for use with FCM.
-      // Callback fired if Instance ID token is updated.
+  //   if (this.platform === 'web') {
+  //     // console.log('  --> web');
+  //     /**
+  //      * 맨 처음에는 물어보고 해야 하므로, 부팅 할 때 토큰 업데이트하지 않고 (토큰 업데이트를 할 때, permission 을 자동으로 물어 봄 )
+  //      * Permission 허용 했을 때만, 토큰 업데이트 확인을 한다.
+  //      */
+  //     // if (AngularLibrary.isPushPermissionGranted()) {
+  //     //   // console.log('    --> request permission granted()');
+  //     //   // this.requestPushNotificationPermission();
+  //     // } else {
+  //     //   // console.log('    --> request permission NOT granted()');
+  //     // }
+  //   } else if (this.platform === 'cordova') {
+  //     this.philgo.updatePushNotificationTokenToServer(this.pushToken);
+  //   }
+  // }
+  // /**
+  //  *
+  //  * 실제로 서버에 저장한다.
+  //  *
+  //  * 앱이든 웹이든 반드시 실행을 하면 이 함수가 호출된다.
+  //  *
+  //  * 그냥 매우 간단하게 !!!! 접속 할 때 마다 항상 서버에 저장한다.
+  //  *
+  //  * 맨 처음 접속할 때, 로그인을 한 다음에 접속하는 것이 좋다.
+  //  *
+  //  * @param token push notification token
+  //  *
+  //  */
+  // updatePushNotificationTokenToServer(token) {
+  //   this.pushToken = token; // Cordova 는 이미 값이 있지만, 웹에는 적용을 해 준다.
+  //   // console.log('updatePushNotificationTokenToServer(): ', token);
+  //   if (!token) {
+  //     // console.log('token empty. return.');
+  //     return;
+  //   }
+  //   this.philgo.chatSaveToken({ token: token, domain: 'chat' }).subscribe(res => {
+  //     // console.log('chat.saveToken', res);
+  //   }, e => {
+  //     // console.log('Error on chat.saveToken(): If the token exists, just ignore. It is not an error. ', e);
+  //   });
+  // }
+  // /**
+  //  * 매번 실행시 호출 하면 되지만, 맨 처음에는 rooms 페이지에서 한번 물어 보고 한다.
+  //  */
+  // requestPushNotificationPermission() {
+  //   // console.log('requestPushNotificationPermission()');
+  //   this.messaging.requestPermission().then(() => {
+  //     // console.log('   ===> Notification permission granted.');
+  //     // TODO(developer): Retrieve an Instance ID token for use with FCM.
+  //     // Callback fired if Instance ID token is updated.
 
-      this.messaging.getToken().then(token => this.updatePushNotificationTokenToServer(token))
-        .catch((err) => {
-          // console.log('getToken() error: ', err);
-        });
-      this.messaging.onTokenRefresh(() => {
-        this.messaging.getToken().then((token => this.updatePushNotificationTokenToServer(token)))
-          .catch((err) => {
-            // console.log('Unable to retrieve refreshed token ', err);
-            // showToken('Unable to retrieve refreshed token ', err);
-          });
-      });
-    }).catch((err) => {
-      // console.log('Unable to get permission to notify. User may have denied permission!', err);
-    });
-  }
+  //     this.messaging.getToken().then(token => this.updatePushNotificationTokenToServer(token))
+  //       .catch((err) => {
+  //         // console.log('getToken() error: ', err);
+  //       });
+  //     this.messaging.onTokenRefresh(() => {
+  //       this.messaging.getToken().then((token => this.updatePushNotificationTokenToServer(token)))
+  //         .catch((err) => {
+  //           // console.log('Unable to retrieve refreshed token ', err);
+  //           // showToken('Unable to retrieve refreshed token ', err);
+  //         });
+  //     });
+  //   }).catch((err) => {
+  //     // console.log('Unable to get permission to notify. User may have denied permission!', err);
+  //   });
+  // }
 
 
   openHome() {
