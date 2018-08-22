@@ -27,21 +27,6 @@
     * 로그인, 로그아웃, 회원 정보, 회원 탈퇴, 각종 채팅 페이지 등등.
       각 페이지는 별도의 모듈로 한다.
 
-      components/user/login
-      components/user/register
-      components/user/resign
-      components/chat/all-rooms
-      components/chat/my-rooms
-      components/chat/create-room
-      components/chat/setting
-      components/chat/room
-      components/chat/help
-      components/forum/list
-      components/forum/post-create
-      components/forum/post-edit
-      components/forum/comment-create
-      components/forum/comment-edit
-
       등등...
 
     * 그래서, 관리가 편하게 한다.
@@ -52,8 +37,14 @@
 
     * 글/채팅글 을 클릭하고 오래 있으면, 글 내용을 복사 할 것.
 
+  * 전체 방 목록으로 돌아가기하면,
+    방부터 접속한 경우, 무조건 홈으로가야하는데, 잘 안된다.
+    수정할 것.
+    room.page.ts::onClickLeaveButton()
+
   * 채팅 방 인원 목록
   * 언어 선택
+  * 일반 회원 처음 방 입장시 사용방법 설명.
 
   * 나의 채팅방 목록 => '...'님의 대화방 목록으로 변경.
 

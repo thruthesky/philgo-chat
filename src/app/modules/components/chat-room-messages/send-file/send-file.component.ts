@@ -1,12 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ApiChatMessage } from '../../modules/philgo-api/philgo-api.service';
+import { ApiChatMessage } from '../../../philgo-api/philgo-api.service';
 
 @Component({
   selector: 'app-send-file',
   templateUrl: './send-file.component.html',
   styleUrls: ['./send-file.component.scss']
 })
-export class SendFileComponent implements OnInit {
+export class ChatRoomSendFileComponent implements OnInit {
 
   @Input() message: ApiChatMessage;
   constructor() { }

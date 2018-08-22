@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { MyRoomsPage } from './my-rooms.page';
 import { ChatMyRoomsComponentModule } from '../../modules/components/chat-my-rooms/chat-my-rooms.component.module';
+import { ChatUpdateComponentModule } from '../../modules/components/chat-update/chat-update.component.module';
 
 const routes: Routes = [
   {
@@ -21,8 +22,9 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ChatMyRoomsComponentModule
+    ChatMyRoomsComponentModule,
+    ChatUpdateComponentModule
   ],
   declarations: [MyRoomsPage]
 })
-export class MyRoomsPageModule {}
+export class MyRoomsPageModule { }

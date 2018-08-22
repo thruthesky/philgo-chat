@@ -6,11 +6,11 @@
       </ion-button>
     </ion-buttons>
     <ion-title>
-      <ion-spinner *ngIf=" ! roomInfo.name "></ion-spinner>
-      <ng-container *ngIf=" roomInfo.name ">
-        {{ roomInfo.name }}
+      <ion-spinner *ngIf=" ! philgo.currentRoom "></ion-spinner>
+      <ng-container *ngIf=" philgo.currentRoom?.name ">
+        {{ philgo.currentRoom?.name }}
       </ng-container>
-      <ion-badge *ngIf=" roomInfo.name " color="danger">{{ roomInfo.no_of_member }}</ion-badge>
+      <ion-badge *ngIf=" philgo.currentRoom?.name " color="danger">{{ philgo.currentRoom?.no_of_member }}</ion-badge>
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="presentRoomOptions()">
@@ -22,10 +22,11 @@
 </ion-header>
 
 <ion-content>
+  <app-chat-room-messages-component #messages (error)=" onChatMessageDisplayError( $event ) "></app-chat-room-messages-component>
+<!-- 
   <ion-scroll color="light" #ionScroll padding>
     <div class="messages" *ngIf=" messages.length ">
       <div class="message" *ngFor=" let message of messages " [ngClass]="{ file: message.url }">
-        <!-- {{ message | json }} -->
         <ng-container *ngIf=" message.type != 'sending-file' ">
 
           <div class="other" text-left *ngIf="message.idx_member != philgo.myIdx(); ">
@@ -48,7 +49,6 @@
           </div>
 
           <div class="my" text-right *ngIf="message.idx_member == philgo.myIdx(); ">
-            <!-- {{ message.idx }} -->
             <div class="container">
               <div class="content">
 
@@ -58,23 +58,23 @@
 
                 <div class="fs-sm" *ngIf=" message['percentage'] ">{{ message['percentage'] }}%</div>
               </div>
-              <!-- <div class="title-bottom">
-                        <span class="name">Me</span>
-                        <span class="date fs-sm">{{ message.stamp | date:'short'}}</span>
-                    </div> -->
             </div>
           </div>
-
-
         </ng-container>
         <app-send-file text-right *ngIf=" message.type == 'sending-file' " [message]="message"></app-send-file>
       </div>
     </div>
-  </ion-scroll>
+  </ion-scroll> -->
 </ion-content>
 
+
 <ion-footer>
-  <ion-toolbar>
+  <app-chat-room-input-component
+    (send)=" messages.sendNewMessage( $event ) "
+    (removeMessageByRetvar)=" messages.removeMessageByRetvar( $event ) "
+  ></app-chat-room-input-component>
+
+  <!-- <ion-toolbar>
     <label for="filebox" slot="start" (click)=" onClickFile($event) ">
       <ion-buttons>
         <ion-icon slot="icon-only" class="camera" name="camera"></ion-icon>
@@ -88,5 +88,5 @@
         <ion-icon slot="icon-only" name="paper-plane"></ion-icon>
       </ion-button>
     </ion-buttons>
-  </ion-toolbar>
+  </ion-toolbar> -->
 </ion-footer>

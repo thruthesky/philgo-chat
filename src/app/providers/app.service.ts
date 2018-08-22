@@ -67,7 +67,7 @@ export class AppService {
    *
    */
   platform: 'web' | 'cordova' = 'web';
-  isMobileWeb = AngularLibrary.isMobileWeb();
+  // isMobileWeb = AngularLibrary.isMobileWeb();
 
   /**
    * Cordova token

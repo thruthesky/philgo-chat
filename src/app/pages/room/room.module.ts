@@ -6,8 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { RoomPage } from './room.page';
-import { SendFileComponent } from '../../components/send-file/send-file.component';
-import { ShowFileComponent } from '../../components/show-file/show-file.component';
+import { ChatRoomMessagesComponentModule } from '../../modules/components/chat-room-messages/chat-room-messages.component.module';
+import { ChatRoomInputComponentModule } from '../../modules/components/chat-room-input/chat-room-input.component.module';
 
 const routes: Routes = [
   {
@@ -21,8 +21,10 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ChatRoomMessagesComponentModule,
+    ChatRoomInputComponentModule
   ],
-  declarations: [RoomPage, SendFileComponent, ShowFileComponent]
+  declarations: [RoomPage]
 })
-export class RoomPageModule {}
+export class RoomPageModule { }
