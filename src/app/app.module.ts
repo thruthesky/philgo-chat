@@ -12,6 +12,17 @@ import { PhilGoApiModule, PhilGoApiService } from './modules/philgo-api/philgo-a
 import { Camera } from '@ionic-native/camera/ngx';
 import { environment } from '../environments/environment';
 
+import * as firebase from 'firebase/app';
+const firebaseConfig = {
+  apiKey: 'AIzaSyA1X3vpzSpUk_JHCbNjEwQe1-pduF0Enqs',
+  authDomain: 'philgo-64b1a.firebaseapp.com',
+  databaseURL: 'https://philgo-64b1a.firebaseio.com',
+  projectId: 'philgo-64b1a',
+  storageBucket: 'philgo-64b1a.appspot.com',
+  messagingSenderId: '675064809117'
+};
+firebase.initializeApp(firebaseConfig);
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -46,5 +57,7 @@ export class AppModule {
      */
     philgo.setFileServerUrl(environment.philgoFileServerUrl);
     philgo.setNewFileServerUrl(environment.newFileServerUrl);
+    // philgo.db = firebase.database().ref('/');
+    philgo.setFirebaseApp(firebase);
   }
 }
