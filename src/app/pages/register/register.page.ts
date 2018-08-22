@@ -25,7 +25,7 @@ export class RegisterPage implements OnInit {
     public readonly philgo: PhilGoApiService,
     public readonly a: AppService
   ) {
-    this.resetForm();
+    // this.resetForm();
     // console.log('RegisterPage::constructor()');
   }
 

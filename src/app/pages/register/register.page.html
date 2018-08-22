@@ -17,7 +17,8 @@
 
 <ion-content padding>
   <app-register-component
-    (register)="onRegister()"
-    (error)=" a.toast( $event )"
+    (register)=" onRegister() "
+    (update)=" onUpdate() "
+    (error)=" a.toast( $event ) "
   ></app-register-component>
 </ion-content>
