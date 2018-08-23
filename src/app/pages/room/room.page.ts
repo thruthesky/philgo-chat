@@ -3,9 +3,10 @@ import { AppService } from '../../providers/app.service';
 import {
   ApiChatMessage, ERROR_CHAT_NOT_IN_THAT_ROOM, ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM, PhilGoApiService
 } from '../../modules/philgo-api/philgo-api.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ActionSheetController, AlertController } from '@ionic/angular';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { LanguageTranslate } from '../../modules/language-translate/language-translate';
+
 
 @Component({
   selector: 'app-room',
@@ -13,46 +14,26 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
   styleUrls: ['./room.page.scss']
 })
 export class RoomPage implements OnInit {
-
-  // @ViewChild('ionScroll') ionScroll;
-
   countMessageSent = 0;
-  // philgo.currentRoom: ApiChatRoomEnter = <any>{};
   form: ApiChatMessage = <any>{};
-  // messages: Array<ApiChatMessage> = [];
-
-  // subscriptionNewMessage = null;
   constructor(
     private router: Router,
-    // private activatedRoute: ActivatedRoute,
     public actionSheetController: ActionSheetController,
     private alertController: AlertController,
-    private camera: Camera,
     public a: AppService,
-    public philgo: PhilGoApiService
+    public philgo: PhilGoApiService,
+    public tr: LanguageTranslate
   ) {
 
   }
 
   ngOnInit() {
-
   }
 
   ionViewDidEnter() {
   }
   ionViewWillLeave() {
   }
-
-  test() {
-    for (let i = 0; i < 100; i++) {
-      this.form.message = 'message No. ' + i;
-      // console.log('sending message: ', i);
-      // this.onClickSendMessage();
-    }
-
-  }
-
-
 
   async presentRoomOptions() {
 
@@ -118,13 +99,13 @@ export class RoomPage implements OnInit {
           if (this.philgo.currentRoom.favorite === 'Y') {
             this.philgo.chatUnfavorite(this.philgo.currentRoom.idx).subscribe(res => {
               // console.log('un-favorite:', res);
-              this.a.toast('This room has removed as favorite');
+              this.a.toast( this.tr.t({ko: '즐겨찾기에 삭제되었습니다.', en: 'This room has removed as favorite'}) );
               this.philgo.currentRoom.favorite = '';
             }, e => this.a.toast(e));
           } else {
             this.philgo.chatFavorite(this.philgo.currentRoom.idx).subscribe(res => {
               // console.log('favorite:', res);
-              this.a.toast('This room has added as favorite');
+              this.a.toast( this.tr.t({ko: '즐겨찾기에 추가되었습니다.', en: 'This room has added as favorite'}) );
               this.philgo.currentRoom.favorite = 'Y';
             }, e => this.a.toast(e));
           }
@@ -142,12 +123,12 @@ export class RoomPage implements OnInit {
   }
 
   onClickLeaveButton() {
-
-    // if (this.a.roomsPageVisited) {
-    this.router.navigateByUrl('/');
-    // } else {
-    //   location.href = '/';
-    // }
+    this.philgo.currentRoom = null;
+    if (this.a.myRoomsPageVisited) {
+      this.router.navigateByUrl('/');
+    } else {
+      location.href = '/';
+    }
     return false;
   }
 

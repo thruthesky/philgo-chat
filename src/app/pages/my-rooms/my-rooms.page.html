@@ -1,12 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ title }}</ion-title>
+    <ion-title>{{ title }}
+      <ion-badge color="danger" *ngIf=" philgo.noOfNewMessageInMyRoom ">{{ philgo.noOfNewMessageInMyRoom }}</ion-badge>
+    </ion-title>
+
+    <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
-  <app-chat-my-rooms-component (error)=" a.toast( $event ) "></app-chat-my-rooms-component>
+  <app-chat-my-rooms-component [share]=" share " (error)=" a.toast( $event ) "></app-chat-my-rooms-component>
 </ion-content>
-
-

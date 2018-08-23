@@ -11,11 +11,15 @@ import { LanguageTranslate } from '../../modules/language-translate/language-tra
 export class MyRoomsPage implements OnInit {
 
   title = 'Loading...';
+  share = {
+    totalNoOfNewMessages: 0
+  };
   constructor(
     public a: AppService,
     public philgo: PhilGoApiService,
     public tr: LanguageTranslate
   ) {
+    a.myRoomsPageVisited = true;
     const name = philgo.name();
     this.title = tr.t({
       ko: `${name}님의 대화방 목록`,

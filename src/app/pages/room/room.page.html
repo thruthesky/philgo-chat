@@ -5,6 +5,7 @@
         <ion-icon name="arrow-round-back"></ion-icon>
       </ion-button>
     </ion-buttons>
+    
     <ion-title>
       <ion-spinner *ngIf=" ! philgo.currentRoom "></ion-spinner>
       <ng-container *ngIf=" philgo.currentRoom?.name ">
@@ -12,7 +13,8 @@
       </ng-container>
       <ion-badge *ngIf=" philgo.currentRoom?.name " color="danger">{{ philgo.currentRoom?.no_of_member }}</ion-badge>
     </ion-title>
-    <ion-buttons slot="end">
+
+    <ion-buttons slot="end" *ngIf=" philgo.currentRoom ">
       <ion-button (click)="presentRoomOptions()">
         <ion-icon name="settings"></ion-icon>
       </ion-button>
