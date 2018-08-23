@@ -80,7 +80,7 @@ export class AppService {
    *  the app needs to reload the site into rooms page when the user leave the room to completely remove the page
    *  from the bottom of the nativation stack.
    */
-  roomsPageVisited = false;
+  myRoomsPageVisited = false;
   counter = 0;
   //
   constructor(

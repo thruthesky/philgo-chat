@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>my-rooms</ion-title>
+    <ion-title>{{ title }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,4 +8,5 @@
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
   <app-chat-my-rooms-component (error)=" a.toast( $event ) "></app-chat-my-rooms-component>
 </ion-content>
+
 

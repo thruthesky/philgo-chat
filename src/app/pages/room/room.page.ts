@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AppService } from '../../providers/app.service';
-import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.module';
 import {
-  ApiChatMessage, ApiChatRoomEnter, ApiChatRoom, CHAT_STATUS_ENTER, ERROR_CHAT_NOT_IN_THAT_ROOM, ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM
+  ApiChatMessage, ERROR_CHAT_NOT_IN_THAT_ROOM, ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM, PhilGoApiService
 } from '../../modules/philgo-api/philgo-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, AlertController } from '@ionic/angular';
@@ -32,48 +31,16 @@ export class RoomPage implements OnInit {
     public a: AppService,
     public philgo: PhilGoApiService
   ) {
-    // console.log(' ==> RoomPage::constructor()');
 
-
-    // /**
-    //  * @desc 채팅 방 부터 먼저 접속한 경우, 로비로 갔다가 다시 오면, life cyle 이벤트가 발생하지 않는다.
-    //  *  이것은 기존 컴포넌트 인스턴스 어딘가에 살아 있다는 뜻이다.
-    //  *  따라서, 기존 subscription 사용하고 새로 만들지 않는다.
-    //  */
-    // if (this.subscriptionNewMessage) {
-    //   // console.log(' ==> Unsubscribing new message');
-    //   this.subscriptionNewMessage.unsubscribe();
-    // }
-    // // console.log(' ===> Going to subscribe new message event!');
-    // this.subscriptionNewMessage = philgo.newMessageOnCurrentRoom.subscribe(message => {
-    //   // console.log(` ==>
-    // RoomPage::constructor() => Got new message in ${this.philgo.currentRoom.name} : you should see it on chat box.`,
-    //   //   message, CHAT_STATUS_ENTER, this.philgo.myIdx());
-    //   this.displayMessage(message);
-    //   this.updateLastRead(message.idx);
-    //   // this.updateLastRead();
-    // });
-
-    // this.philgo.listenMyRoomsIfNotListenning();
   }
 
   ngOnInit() {
-    // console.log('   ===> RoomPage::ngOnInit()');
-  }
 
-  // ngOnDestroy() {
-  //   // console.log('   ===> RoomPage::ngOnDestroy()');
-  //   this.leaveRoom();
-  // }
+  }
 
   ionViewDidEnter() {
-    // console.log('   ===> RoomPage::ionViewDidEnter()');
-    // this.messages = [];
-    // this.loadChatRoomEnter();
   }
   ionViewWillLeave() {
-    // console.log('   ===> RoomPage::ionViewWillLeave()');
-    // this.leaveRoom();
   }
 
   test() {
@@ -84,110 +51,8 @@ export class RoomPage implements OnInit {
     }
 
   }
-  // leaveRoom() {
-  //   if (this.messages && this.messages.length) {
-  //     this.messages = [];
-  //   }
-  //   this.philgo.currentRoomNo = 0;
-  //   if (this.subscriptionNewMessage) {
-  //     // console.log(' ==> New message unsubscribed !!');
-  //     this.subscriptionNewMessage.unsubscribe();
-  //     this.subscriptionNewMessage = null;
-  //   }
-  // }
 
-  // loadChatRoomEnter() {
-  //   setTimeout(() => {
-  //     // console.log('loadChatRoomEnter() setTimeout()');
-  //     this.activatedRoute.paramMap.subscribe(params => {
-  //       const idx = params.get('idx_chat_room');
-  //       if (idx) {
-  //         /**
-  //          * idx_chat_room in route may be string.
-  //          */
-  //         this.form.idx_chat_room = idx;
-  //         // this.a.currentRoomNo = parseInt(this.form.idx_chat_room, 10);
-  //         this.philgo.chatEnterRoom({ idx: this.form.idx_chat_room }).subscribe(res => {
-  //           // console.log('info: ', res);
-  //           this.philgo.currentRoom = res;
-  //           /**
-  //            * get real idx_chat_room
-  //            */
-  //           this.form.idx_chat_room = this.philgo.currentRoom.idx_chat_room;
-  //           this.philgo.currentRoomNo = parseInt(this.philgo.currentRoom.idx_chat_room, 10);
-  //           let idx_message_last_read = '';
-  //           if (this.philgo.currentRoom.messages && this.philgo.currentRoom.messages.length) {
-  //             this.philgo.currentRoom.messages.reverse().map(v => {
-  //               this.displayMessage(v);
-  //               idx_message_last_read = v.idx;
-  //             });
-  //           }
-  //           // this.messages = this.philgo.currentRoom.messages.reverse();
-  //           this.scroll();
-  //           const room: ApiChatRoom = <any>this.philgo.currentRoom;
-  //           delete room['messages'];
-  //           this.philgo.addRoomToListen(room);
-  //           this.updateLastRead(idx_message_last_read);
-  //           this.a.render(100, () => this.scroll());
-  //           // this.test();
-  //         }, async e => {
-  //           console.log(e.code);
-  //           if (e.code === ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM) {
-  //             await (await this.alertController.create({
-  //               message: e.message,
-  //               buttons: [this.a.tr.t({ ko: '닫기', en: 'Close' })]
-  //             })).present();
-  //           } else {
-  //             this.a.toast(e);
-  //           }
-  //           this.router.navigateByUrl('/');
-  //         });
-  //       } else {
-  //         this.a.toast('Chat room number was not provided.');
-  //       }
-  //     });
-  //   }, 100);
-  // }
 
-  // scroll() {
-  //   this.a.render(50);
-  //   setTimeout(() => {
-  //     this.ionScroll.nativeElement.scrollToBottom(30);
-  //   }, 100);
-  // }
-
-  // onClickSendMessage() {
-  //   if (!this.form.message) {
-  //     // console.log('empty form.message. return');
-  //     return;
-  //   }
-  //   // console.log('form: ', this.form);
-  //   this.sendMessage();
-  // }
-
-  // sendMessage() {
-  //   this.form.idx_member = this.philgo.idx().toString();
-  //   this.form.retvar = ++this.countMessageSent;
-  //   const m = Object.assign({}, this.form);
-  //   this.messages.push(m);
-  //   // console.log('pushed m: ', m);
-  //   this.form.message = '';
-  //   this.form.url = '';
-  //   this.form.type = '';
-  //   this.form.retvar = '';
-  //   this.form.percentage = 0;
-
-  //   // this.a.render();
-  //   this.scroll();
-  //   // console.log('messages: ', this.messages);
-  //   this.philgo.chatSendMessage(m).subscribe(res => {
-  //     // console.log('message sent: ', res);
-  //     // this.form.message = '';
-  //     // this.messages.push(res);
-  //     //
-  //     m.idx = res.idx;
-  //   }, e => this.a.toast(e));
-  // }
 
   async presentRoomOptions() {
 
@@ -275,205 +140,6 @@ export class RoomPage implements OnInit {
     });
     await actionSheet.present();
   }
-
-  // displayMessage(message: ApiChatMessage) {
-  //   // console.log('displayMessage: ', message);
-  //   if (message.status === CHAT_STATUS_ENTER && message.idx_member === this.philgo.myIdx()) {
-  //     // if it's a greeting message for my entering, then no need to show it to myself.
-  //   } else {
-  //     this.messages.push(message);
-  //   }
-  //   this.scroll();
-  // }
-  // displaySendingFile(message: ApiChatMessage) {
-  //   message.type = 'sending-file';
-  //   // console.log('displaySendingFile: ', message);
-  //   this.displayMessage(message);
-  // }
-  // removeMessageByRetvar(retvar) {
-  //   const i = this.messages.findIndex(m => m.retvar === retvar);
-  //   if (i !== -1) {
-  //     this.messages.splice(i, 1);
-  //   }
-  // }
-  // updateLastRead(idx_message: string) {
-  //   if (!idx_message) {
-  //     return;
-  //   }
-  //   if (this.philgo.isLoggedOut()) {
-  //     return;
-  //   }
-  //   // console.log('updateLastRead(): ', this.philgo.currentRoom.idx);
-  //   this.philgo.chatLastRead(this.philgo.currentRoom.idx, idx_message).subscribe(res => {
-  //     // console.log('chatMssagelastRead()', res);
-  //   }, e => {
-  //     console.log('error:', e);
-  //   });
-  // }
-
-
-
-
-  // onChangeFile(event: Event) {
-  //   if (this.a.platform === 'cordova') {
-  //     // console.log('Running in cordova. return in onChangeFile()');
-  //     return;
-  //   }
-  //   // console.log('onChangeFile()');
-  //   const files = event.target['files'];
-  //   if (files === void 0 || !files.length || files[0] === void 0) {
-  //     return this.a.toast('Please select a file');
-  //   }
-
-  //   // const message: ApiChatMessage = <any>{
-  //   //   idx_member: this.philgo.myIdx(),
-  //   //   message: ''
-  //   // };
-  //   // message['percentage'] = 33;
-  //   // this.displayMessage(message);
-
-  //   this.doFile(files);
-  // }
-
-  // /**
-  //  * It does everything for file upload.
-  //  * @param files FileList
-  //  * @param dataUrl data url if it has. Cordova Camera returns base64, so it can have data url.
-  //  */
-  // doFile(files, dataUrl = '') {
-  //   if (!dataUrl) {
-  //     // console.log('No dataUrl. Going to create an object!');
-  //     dataUrl = URL.createObjectURL(files[0]);
-  //   } else {
-  //     // console.log('Got dataUrl already. no create object');
-  //   }
-  //   // console.log('url: ', url);
-  //   const message: ApiChatMessage = <any>{ url: this.a.safeUrl(dataUrl), retvar: ++this.countMessageSent };
-  //   this.displaySendingFile(message);
-  //   this.philgo.fileUpload(files, {
-  //     uid: this.philgo.myIdx(),
-  //     secret: this.philgo.myIdx()
-  //   }).subscribe(res => {
-  //     if (typeof res === 'number') {
-  //       // console.log('percentage', res);
-  //       message['percentage'] = res;
-  //     } else {
-  //       // console.log('result ', res);
-  //       // @todo 여기서 부터. 파일을 업로드하기 전에 먼저, 디스크의 파일을 보여주고,
-  //       // 파일이 업로드 완료되고, 다른 사람들에게 채팅으로 모두 전달했으면,
-  //       // 그 때, loader 를 없애고, percentage 를 없앤다.
-  //       // message['percentage'] = 0;
-  //       // message['message'] = `<img src="${res['url']}">`;
-  //       // message.percentage = 0;
-  //       this.removeMessageByRetvar(message.retvar);
-
-  //       this.form.type = res.type;
-  //       this.form.url = res.url;
-  //       this.sendMessage();
-  //     }
-  //   }, e => this.a.toast(e));
-  // }
-  // /**
-  //  * File upload button has been clicked.
-  //  *
-  //  * If it is cordova, then do camera.
-  //  * If not, simply return.
-  //  *
-  //  * @param event click event
-  //  */
-  // async onClickFile(event: Event) {
-  //   // console.log('onClickFile()');
-  //   if (this.a.platform === 'web') {
-  //     // console.log('it is web. return.');
-  //     return;
-  //   }
-
-  //   // console.log('cordova camera....');
-
-  //   const alert = await this.alertController.create({
-  //     header: this.a.tr.t({ ko: '사진', en: 'Photo' }),
-  //     subHeader: this.a.tr.t({ ko: '사진 전송을 합니다.', en: 'Sending a photo.' }),
-  //     message: this.a.tr.t({
-  //       ko: '카메라로 사진을 찍어서 전송 할 수 있으며 갤러리에서 사진을 선택 할 수도 있습니다.',
-  //       en: 'You can take a picture from Camera or select a photo from gallery.'
-  //     }),
-  //     buttons: [
-  //       { role: 'camera', text: this.a.tr.t({ ko: '카메라로 사진 찍기', en: 'Take a photo using Camera' }) },
-  //       { role: 'gallery', text: this.a.tr.t({ ko: '갤러리에서 선택하기', en: 'Select a photo from Gallery' }) },
-  //       { role: 'cancel', text: this.a.tr.t({ ko: '취소', en: 'Cancel' }) }
-  //     ]
-  //   });
-
-
-  //   await alert.present();
-  //   const re = await alert.onDidDismiss();
-
-
-  //   const options: CameraOptions = {
-  //     quality: 100,
-  //     destinationType: this.camera.DestinationType.DATA_URL,
-  //     encodingType: this.camera.EncodingType.JPEG,
-  //     mediaType: this.camera.MediaType.PICTURE,
-  //     sourceType: this.camera.PictureSourceType.CAMERA
-  //   };
-
-  //   if (re.role === 'cancel') {
-  //     return;
-  //   }
-  //   if (re.role === 'gallery') {
-  //     options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
-  //   }
-  //   /**
-  //    * 문제의 핵심은 Cordova Camera 로 받은 base64 데이터를 어떻게 <input type='file'> 과 같은 FileList 형의 데이터를 가져오는 것인가이다.
-  //    * FileList 로 값을 가져오면 그냥 HTML 의 <input type='file'> 과 똑 같은 코드로 Angular 로 업로드하면 되기 때문이다.
-  //    */
-  //   const base64 = await this.camera.getPicture(options).then((imageData) => {
-  //     return imageData;
-  //   }, (e) => {
-  //     // console.log(e);
-  //     // console.log('Camera/Gallery cancelled');
-  //     return '';
-  //   });
-  //   if (!base64) {
-  //     // console.log('No data path or base64. just return');
-  //   }
-  //   // console.log('path: ', data);
-  //   const blob = this.b64toBlob(base64);
-  //   /**
-  //    * File 와 FileList 타입의 변수를 만든다.
-  //    * 그리고 그냥 일반 HTML FORM <input type='file'> 에서 파일 정보를 받아 업로드하는 것과 똑 같이 하면 된다.
-  //    */
-  //   const d = new Date();
-  //   const name = d.getFullYear() + (d.getMonth() + 1) + d.getDate() + '-' + d.getHours() + d.getMinutes() + d.getSeconds() +
-  //     '-' + this.philgo.myIdx();
-  //   const file = new File([blob], name + '.jpg', { type: 'image/jpeg' });
-  //   const files: FileList = <any>[file];
-
-  //   const dataUrl = 'data:image/jpg;base64,' + base64;
-  //   this.doFile(files, dataUrl);
-  // }
-
-  // /**
-  //  *
-  //  * Base64 데이터를 바이너리로 변경해서 리턴한다.
-  //  *
-  //  */
-  // b64toBlob(b64Data, contentType = 'image/jpeg', sliceSize = 512): Blob {
-  //   const byteCharacters = atob(b64Data);
-  //   const byteArrays = [];
-  //   for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-  //     const slice = byteCharacters.slice(offset, offset + sliceSize);
-  //     const byteNumbers = new Array(slice.length);
-  //     for (let i = 0; i < slice.length; i++) {
-  //       byteNumbers[i] = slice.charCodeAt(i);
-  //     }
-  //     const byteArray = new Uint8Array(byteNumbers);
-  //     byteArrays.push(byteArray);
-  //   }
-  //   const blob = new Blob(byteArrays, { type: contentType });
-  //   return blob;
-  // }
-
 
   onClickLeaveButton() {
 

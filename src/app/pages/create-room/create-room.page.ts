@@ -17,11 +17,5 @@ export class CreateRoomPage implements OnInit {
   ngOnInit() {
   }
 
-
-  onCancelCreateRoom() {
-    // console.log('show.createRoom = false');
-    this.router.navigateByUrl('/my-rooms');
-  }
-
 }
 

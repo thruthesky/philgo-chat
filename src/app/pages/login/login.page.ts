@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.module';
 import { AppService } from '../../providers/app.service';
 import { Router } from '@angular/router';
+import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
 
 @Component({
   selector: 'app-login',

@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "s": "ionic s -- --disable-host-check",
+    "s": "ionic s --no-open -- --disable-host-check",
     "bt": "ng build --prod --named-chunks=true",
     "publish": "ionic build --prod && npm run scp",
     "scp": "cd www && scp -r * chat@v8.philgo.com:./www",

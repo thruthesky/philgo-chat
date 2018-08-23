@@ -1,6 +1,6 @@
 // import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 // import { AppService } from '../../providers/app.service';
-// import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.module';
+// import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
 // import { ApiChatRoom } from '../../modules/philgo-api/philgo-api.service';
 // import { Router } from '@angular/router';
 

@@ -3,10 +3,11 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { PhilGoApiService } from './modules/philgo-api/philgo-api.module';
 import { Router } from '../../node_modules/@angular/router';
 import { AppService } from './providers/app.service';
 import { LanguageTranslate } from './modules/language-translate/language-translate';
+import { PhilGoApiService } from './modules/philgo-api/philgo-api.service';
+
 
 @Component({
   selector: 'app-root',

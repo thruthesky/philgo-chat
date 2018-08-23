@@ -6,7 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { CreateRoomPage } from './create-room.page';
-import { CreateRoomComponent } from '../../components/create-room/create-room.component';
+import { ChatCreateRoomComponentModule } from '../../modules/components/chat-create-room/chat-create-room.component.module';
+
 
 const routes: Routes = [
   {
@@ -20,8 +21,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ChatCreateRoomComponentModule
   ],
-  declarations: [CreateRoomPage, CreateRoomComponent]
+  declarations: [CreateRoomPage]
 })
 export class CreateRoomPageModule {}

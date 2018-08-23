@@ -1,21 +1,23 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { ApiChatRoomCreateRequest, PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
-import { AppService } from '../../providers/app.service';
 import { Router } from '@angular/router';
+import { ApiChatRoomCreateRequest, PhilGoApiService, ApiErrorResponse } from '../../philgo-api/philgo-api.service';
+import { LanguageTranslate } from '../../language-translate/language-translate';
 
 @Component({
-  selector: 'app-create-room-component',
-  templateUrl: './create-room.component.html',
-  styleUrls: ['./create-room.component.scss']
+  selector: 'app-chat-create-room-component',
+  templateUrl: './chat-create-room.component.html',
+  styleUrls: ['./chat-create-room.component.scss']
 })
-export class CreateRoomComponent implements OnInit {
+export class ChatCreateRoomComponent implements OnInit {
+
+  @Output() error = new EventEmitter<ApiErrorResponse>();
+  @Output() cancel = new EventEmitter<any>();
 
   form: ApiChatRoomCreateRequest = <any>{};
-  @Output() cancel = new EventEmitter<any>();
   constructor(
     private router: Router,
     public philgo: PhilGoApiService,
-    public a: AppService
+    public tr: LanguageTranslate
   ) {
     //
     // this.test();
@@ -31,11 +33,13 @@ export class CreateRoomComponent implements OnInit {
   }
 
   onSubmit() {
+    // console.log('onSubmit(): create room: ', this.form);
     this.philgo.chatRoomCreate(this.form).subscribe(res => {
       // console.log('create: ', res);
       this.router.navigateByUrl('/room/' + res.idx);
     }, e => {
-      this.a.toast(e);
+      // console.error(e);
+      this.error.emit(e);
     });
   }
   onCancel() {
@@ -43,4 +47,5 @@ export class CreateRoomComponent implements OnInit {
     this.cancel.emit();
   }
 }
+
 

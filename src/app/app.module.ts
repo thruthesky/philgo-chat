@@ -8,11 +8,12 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { PhilGoApiModule, PhilGoApiService } from './modules/philgo-api/philgo-api.module';
 import { Camera } from '@ionic-native/camera/ngx';
 import { environment } from '../environments/environment';
 
 import * as firebase from 'firebase/app';
+import { PhilGoApiService } from './modules/philgo-api/philgo-api.service';
+import { HttpClientModule } from '@angular/common/http';
 const firebaseConfig = {
   apiKey: 'AIzaSyA1X3vpzSpUk_JHCbNjEwQe1-pduF0Enqs',
   authDomain: 'philgo-64b1a.firebaseapp.com',
@@ -28,7 +29,7 @@ firebase.initializeApp(firebaseConfig);
   entryComponents: [],
   imports: [
     BrowserModule, IonicModule.forRoot(), AppRoutingModule,
-    PhilGoApiModule
+    HttpClientModule
   ],
   providers: [
     StatusBar,

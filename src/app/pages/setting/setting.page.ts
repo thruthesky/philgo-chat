@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../../providers/app.service';
-import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.module';
 import { Platform } from '@ionic/angular';
+import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
+
 
 @Component({
   selector: 'app-setting',

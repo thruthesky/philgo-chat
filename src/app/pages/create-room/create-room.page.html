@@ -14,6 +14,6 @@
 
 <ion-content padding>
 
-  <app-create-room-component (cancel)=" onCancelCreateRoom() "></app-create-room-component>
+  <app-chat-create-room-component (cancel)=" a.openHome() " (error)=" a.toast( $event ) "></app-chat-create-room-component>
 
 </ion-content>

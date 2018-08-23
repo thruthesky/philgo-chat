@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.module';
-import { ApiProfileUpdateRequest, ApiErrorFileNotSelected, ApiErrorFileUploadError } from '../../modules/philgo-api/philgo-api.service';
 import { ToastController } from '@ionic/angular';
 import { AppService } from '../../providers/app.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
 
 @Component({
   selector: 'app-register',
