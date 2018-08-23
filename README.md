@@ -2,8 +2,13 @@
 
 ## Documents and Resources
 
-* [PhilGo Api Example](https://github.com/thruthesky/philgo-api-example)
+* Philgo Chat App is using these git modules.
+  * [PhilGo Api](https://github.com/thruthesky/philgo-api)
+  * [Angular Library](https://github.com/thruthesky/angular-library)
+  * [Language Translate](https://github.com/thruthesky/language-translate)
+  * [PhilGo Api Component](https://github.com/thruthesky/components)
 
+* [PhilGo Api Example](https://github.com/thruthesky/philgo-api-example)
 * [PhilGo API v4 Document](https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#)
 
 ## 목표
