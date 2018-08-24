@@ -1,16 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ title }}
-      <ion-badge color="danger" *ngIf=" philgo.noOfNewMessageInMyRoom ">{{ philgo.noOfNewMessageInMyRoom }}</ion-badge>
+    <ion-title>
+      {{ title }}
+      <ion-badge class="pointer" (click)=" sortRoomsByNewMessage() " color="danger" *ngIf=" philgo.noOfNewMessageInMyRoom ">{{ philgo.noOfNewMessageInMyRoom }}</ion-badge>
+      <ion-icon class="pointer" (click)=" sortRoomsByNewMessage() " name="arrow-round-down" *ngIf=" philgo.noOfNewMessageInMyRoom "></ion-icon>
     </ion-title>
 
     <ion-buttons slot="end">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
-  <app-chat-my-rooms-component [share]=" share " (error)=" a.toast( $event ) "></app-chat-my-rooms-component>
+  <app-chat-my-rooms-component (error)=" a.toast( $event ) "></app-chat-my-rooms-component>
 </ion-content>

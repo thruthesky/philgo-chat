@@ -11,9 +11,8 @@ import { LanguageTranslate } from '../../modules/language-translate/language-tra
 export class MyRoomsPage implements OnInit {
 
   title = 'Loading...';
-  share = {
-    totalNoOfNewMessages: 0
-  };
+
+  sortByMessage = false;
   constructor(
     public a: AppService,
     public philgo: PhilGoApiService,
@@ -30,4 +29,13 @@ export class MyRoomsPage implements OnInit {
   ngOnInit() {
   }
 
+  sortRoomsByNewMessage() {
+    if (this.sortByMessage) {
+      this.sortByMessage = false;
+      this.philgo.sortMyRooms();
+    } else {
+      this.sortByMessage = true;
+      this.philgo.sortMyRoomsByMessage();
+    }
+  }
 }

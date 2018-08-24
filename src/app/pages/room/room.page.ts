@@ -6,6 +6,7 @@ import {
 import { Router } from '@angular/router';
 import { ActionSheetController, AlertController } from '@ionic/angular';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
+import { ChatRoomMessagesComponent } from '../../modules/components/chat-room-messages/chat-room-messages.component';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { LanguageTranslate } from '../../modules/language-translate/language-tra
   styleUrls: ['./room.page.scss']
 })
 export class RoomPage implements OnInit {
+  @ViewChild('messagesComponent') messagesComponent: ChatRoomMessagesComponent;
   countMessageSent = 0;
   form: ApiChatMessage = <any>{};
   constructor(
@@ -99,18 +101,26 @@ export class RoomPage implements OnInit {
           if (this.philgo.currentRoom.favorite === 'Y') {
             this.philgo.chatUnfavorite(this.philgo.currentRoom.idx).subscribe(res => {
               // console.log('un-favorite:', res);
-              this.a.toast( this.tr.t({ko: '즐겨찾기에 삭제되었습니다.', en: 'This room has removed as favorite'}) );
+              this.a.toast(this.tr.t({ ko: '즐겨찾기에 삭제되었습니다.', en: 'This room has removed as favorite' }));
               this.philgo.currentRoom.favorite = '';
             }, e => this.a.toast(e));
           } else {
             this.philgo.chatFavorite(this.philgo.currentRoom.idx).subscribe(res => {
               // console.log('favorite:', res);
-              this.a.toast( this.tr.t({ko: '즐겨찾기에 추가되었습니다.', en: 'This room has added as favorite'}) );
+              this.a.toast(this.tr.t({ ko: '즐겨찾기에 추가되었습니다.', en: 'This room has added as favorite' }));
               this.philgo.currentRoom.favorite = 'Y';
             }, e => this.a.toast(e));
           }
         }
       }, {
+        text: this.a.tr.t({ ko: '방 인원 목록', en: 'Room user list' }),
+        role: 'users',
+        icon: 'people',
+        handler: () => {
+          this.displayUsers();
+        }
+      },
+      {
         text: this.a.tr.t({ ko: '닫기', en: 'Cancel' }),
         icon: 'close',
         role: 'cancel',
@@ -143,6 +153,13 @@ export class RoomPage implements OnInit {
       this.a.toast(e);
     }
     this.router.navigateByUrl('/');
+  }
+
+  displayUsers() {
+    this.philgo.chatRoomUsers(this.philgo.currentRoomNo).subscribe(re => {
+      console.log(re);
+      this.messagesComponent.displayUsers(re);
+    }, e => this.a.toast(e));
   }
 }
 

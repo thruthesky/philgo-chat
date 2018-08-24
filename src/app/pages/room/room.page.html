@@ -5,13 +5,13 @@
         <ion-icon name="arrow-round-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    
+
     <ion-title>
       <ion-spinner *ngIf=" ! philgo.currentRoom "></ion-spinner>
       <ng-container *ngIf=" philgo.currentRoom?.name ">
         {{ philgo.currentRoom?.name }}
       </ng-container>
-      <ion-badge *ngIf=" philgo.currentRoom?.name " color="danger">{{ philgo.currentRoom?.no_of_member }}</ion-badge>
+      <ion-badge class="pointer" (click)=" displayUsers() " *ngIf=" philgo.currentRoom?.name " color="danger">{{ philgo.currentRoom?.no_of_member }}</ion-badge>
     </ion-title>
 
     <ion-buttons slot="end" *ngIf=" philgo.currentRoom ">
@@ -23,12 +23,12 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <app-chat-room-messages-component #messages (error)=" onChatMessageDisplayError( $event ) "></app-chat-room-messages-component>
+  <app-chat-room-messages-component #messagesComponent (error)=" onChatMessageDisplayError( $event ) "></app-chat-room-messages-component>
 </ion-content>
 
 <ion-footer>
   <app-chat-room-input-component
-    (send)=" messages.sendNewMessage( $event ) "
-    (removeMessageByRetvar)=" messages.removeMessageByRetvar( $event ) "
+    (send)=" messagesComponent.sendNewMessage( $event ) "
+    (removeMessageByRetvar)=" messagesComponent.removeMessageByRetvar( $event ) "
   ></app-chat-room-input-component>
 </ion-footer>
