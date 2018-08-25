@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from '../../providers/app.service';
 import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-rooms',
@@ -16,8 +17,14 @@ export class MyRoomsPage implements OnInit {
   constructor(
     public a: AppService,
     public philgo: PhilGoApiService,
-    public tr: LanguageTranslate
+    public tr: LanguageTranslate,
+    private router: Router
   ) {
+
+    if (this.philgo.isLoggedOut()) {
+      this.router.navigateByUrl('/all-rooms');
+    }
+
     a.myRoomsPageVisited = true;
     const name = philgo.name();
     this.title = tr.t({
@@ -25,8 +32,8 @@ export class MyRoomsPage implements OnInit {
       en: `Chat rooms of ${name}`
     });
   }
-
   ngOnInit() {
+
   }
 
   sortRoomsByNewMessage() {

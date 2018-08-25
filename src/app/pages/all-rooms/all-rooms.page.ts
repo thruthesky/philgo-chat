@@ -11,7 +11,9 @@ export class AllRoomsPage implements OnInit {
 
   constructor(
     public a: AppService
-  ) {}
+  ) {
+    console.log('AllRoomsPage::constructor()');
+  }
 
   ngOnInit() {
   }
