@@ -69,6 +69,7 @@ export class RoomPage implements OnInit {
                 role: 'yes',
                 handler: () => {
                   // console.log('Confirm Okay');
+                  this.reloadMyRoom();
                 }
               }
             ]
@@ -137,10 +138,18 @@ export class RoomPage implements OnInit {
     this.philgo.currentRoom = null;
     if (this.a.myRoomsPageVisited) {
       this.router.navigateByUrl('/');
+      this.reloadMyRoom();
     } else {
       location.href = '/';
     }
     return false;
+  }
+
+  reloadMyRoom() {
+    this.philgo.chatloadMyRooms().subscribe(res => {
+      console.log('room page::releoadMyRoom()', res);
+    })
+
   }
 
   async onChatMessageDisplayError(e) {
