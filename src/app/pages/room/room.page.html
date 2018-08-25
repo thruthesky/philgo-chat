@@ -23,7 +23,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <app-chat-room-messages-component #messagesComponent (error)=" onChatMessageDisplayError( $event ) "></app-chat-room-messages-component>
+  <app-chat-room-messages-component #messagesComponent (scroll)=" onScroll() " (error)=" onChatMessageDisplayError( $event ) "></app-chat-room-messages-component>
 </ion-content>
 
 <ion-footer>

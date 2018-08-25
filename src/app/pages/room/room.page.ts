@@ -4,7 +4,7 @@ import {
   ApiChatMessage, ERROR_CHAT_NOT_IN_THAT_ROOM, ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM, PhilGoApiService
 } from '../../modules/philgo-api/philgo-api.service';
 import { Router } from '@angular/router';
-import { ActionSheetController, AlertController } from '@ionic/angular';
+import { ActionSheetController, AlertController, Content } from '@ionic/angular';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
 import { ChatRoomMessagesComponent } from '../../modules/components/chat-room-messages/chat-room-messages.component';
 
@@ -15,6 +15,7 @@ import { ChatRoomMessagesComponent } from '../../modules/components/chat-room-me
   styleUrls: ['./room.page.scss']
 })
 export class RoomPage implements OnInit {
+  @ViewChild(Content) ionContent: Content;
   @ViewChild('messagesComponent') messagesComponent: ChatRoomMessagesComponent;
   countMessageSent = 0;
   form: ApiChatMessage = <any>{};
@@ -160,6 +161,13 @@ export class RoomPage implements OnInit {
       console.log(re);
       this.messagesComponent.displayUsers(re);
     }, e => this.a.toast(e));
+  }
+
+  onScroll() {
+    this.a.render(20, () => {
+      this.ionContent.scrollToBottom(30);
+      this.a.render(10);
+    });
   }
 }
 
