@@ -26,7 +26,7 @@ export class RoomPage implements OnInit {
     public philgo: PhilGoApiService,
     public tr: LanguageTranslate
   ) {
-
+    philgo.chatResetRoom();
   }
 
   ngOnInit() {
