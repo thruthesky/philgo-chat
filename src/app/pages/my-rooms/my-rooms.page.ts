@@ -29,7 +29,9 @@ export class MyRoomsPage implements OnInit {
     const name = philgo.name();
     this.title = tr.t({
       ko: `${name}님의 대화방 목록`,
-      en: `Chat rooms of ${name}`
+      en: `Chat room list of ${name}`,
+      ch: `${name}的聊天室列表`,
+      jp: `${name}のチャットルームリスト`
     });
   }
   ngOnInit() {

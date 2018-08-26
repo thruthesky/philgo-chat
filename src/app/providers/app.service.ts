@@ -105,17 +105,17 @@ export class AppService {
         setTimeout(() => this.counter = 0, 500);
       } else {
         const alert = await this.alertController.create({
-          header: this.tr.t({ ko: '채팅앱 종료', en: 'Exit Chat App!' }),
-          message: this.tr.t({ ko: '채팅앱을 종료하시겠습니까?', en: 'Do you want to exist App?' }),
+          header: this.tr.t({ ko: '채팅앱 종료', en: 'Exit App!', ch: '退出App！', jp: '終了アプリ！' }),
+          message: this.tr.t({ ko: '채팅앱을 종료하시겠습니까?', en: 'Do you want to exist App?', ch: '你想存在App吗？', jp: 'あなたはAppを存在させたいですか？' }),
           buttons: [
             {
-              text: this.tr.t({ ko: '아니오', en: 'No' }),
+              text: this.tr.t({ ko: '아니오', en: 'No', ch: '没有', jp: 'いいえ' }),
               role: 'cancel',
               cssClass: 'secondary',
               handler: (blah) => {
               }
             }, {
-              text: this.tr.t({ ko: '예', en: 'Yes' }),
+              text: this.tr.t({ ko: '예', en: 'Yes', ch: '是', jp: 'はい' }),
               handler: () => {
                 navigator['app'].exitApp();
               }
@@ -271,7 +271,7 @@ export class AppService {
       };
     }
     if (o.closeButtonText === void 0) {
-      o.closeButtonText = this.tr.t({ ko: '닫기', en: 'Close' });
+      o.closeButtonText = this.tr.t({ ko: '닫기', en: 'Close', jp: '閉じる', ch: '关' });
     }
     if (o.duration === void 0) {
       o.duration = 10000;
