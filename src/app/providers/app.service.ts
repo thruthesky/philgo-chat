@@ -395,4 +395,18 @@ export class AppService {
     this.router.navigateByUrl('/');
   }
 
+  /**
+   * 현재 방에 입장해 있는 경우만 방 번호 없이 호출 가능.
+   */
+  openRoomSettings() {
+    this.router.navigateByUrl('/room/' + this.philgo.currentRoom.idx + '/setting');
+  }
+
+  /**
+   * 방 번호를 입력받아 해당 방으로 이동
+   */
+  openRoom(idx_chat_room) {
+    this.router.navigateByUrl('/room/' + idx_chat_room);
+  }
+
 }

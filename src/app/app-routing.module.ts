@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'all-rooms', loadChildren: './pages/all-rooms/all-rooms.module#AllRoomsPageModule' },
   { path: 'setting-dev-info', loadChildren: './pages/setting-dev-info/setting-dev-info.module#SettingDevInfoPageModule' },
   { path: 'setting-language', loadChildren: './pages/setting-language/setting-language.module#SettingLanguagePageModule' },
+  { path: 'room/:idx_chat_room/setting', loadChildren: './pages/setting-room/setting-room.module#SettingRoomPageModule' },
 ];
 
 @NgModule({

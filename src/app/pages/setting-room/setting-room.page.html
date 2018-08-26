@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)=" onClickBack() ">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ a.tr.t({ ko: '방 설정', en: 'Room Settings'}) }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+
+    <ion-item>
+      <ion-label>방 이름</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="form.name" placeholder="{{ a.tr.t({ko: '방 이름 입력해주세요.', en: 'Input room name.'}) }}"></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>방 설명</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="form.description" placeholder="{{ a.tr.t({ko: '방 설명을 입력해주세요.', en: 'Input room description.'}) }}"></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>공지사항</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-textarea [(ngModel)]="form.reminder" placeholder="{{ a.tr.t({ko: '공지사항을 입력해주세요.', en: 'Input reminders.'}) }}"></ion-textarea>
+    </ion-item>
+
+  </ion-list>
+  <ion-button color="primary" expand="block" (click)="onClickSave()">
+    {{ a.tr.t({ko: '저장하기', en: 'Submit'}) }}
+    <ion-icon slot="end" name="checkmark"></ion-icon>
+  </ion-button>
+</ion-content>

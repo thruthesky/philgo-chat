@@ -121,6 +121,13 @@ export class RoomPage implements OnInit {
         handler: () => {
           this.displayUsers();
         }
+      }, {
+        text: this.a.tr.t({ ko: '방 설정', en: 'Room settings' }),
+        role: 'setting',
+        icon: 'settings',
+        handler: () => {
+          this.a.openRoomSettings();
+        }
       },
       {
         text: this.a.tr.t({ ko: '닫기', en: 'Cancel' }),
@@ -166,7 +173,7 @@ export class RoomPage implements OnInit {
   }
 
   displayUsers() {
-    this.philgo.chatRoomUsers(this.philgo.currentRoomNo).subscribe(re => {
+    this.philgo.chatRoomUsers(this.philgo.currentRoom.idx).subscribe(re => {
       console.log(re);
       this.messagesComponent.displayUsers(re);
     }, e => this.a.toast(e));
