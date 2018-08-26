@@ -24,7 +24,7 @@ export class AppComponent {
     public tr: LanguageTranslate
   ) {
     this.initializeApp();
-    this.tr.languageCode = 'ko';
+    // this.tr.languageCode = 'ko';
   }
 
   initializeApp() {

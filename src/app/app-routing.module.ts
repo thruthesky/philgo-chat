@@ -14,6 +14,8 @@ const routes: Routes = [
   { path: 'setting', loadChildren: './pages/setting/setting.module#SettingPageModule' },
   { path: 'my-rooms', loadChildren: './pages/my-rooms/my-rooms.module#MyRoomsPageModule' },
   { path: 'all-rooms', loadChildren: './pages/all-rooms/all-rooms.module#AllRoomsPageModule' },
+  { path: 'setting-dev-info', loadChildren: './pages/setting-dev-info/setting-dev-info.module#SettingDevInfoPageModule' },
+  { path: 'setting-language', loadChildren: './pages/setting-language/setting-language.module#SettingLanguagePageModule' },
 ];
 
 @NgModule({

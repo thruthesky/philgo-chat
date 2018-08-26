@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button routerLink="/setting">
+          <ion-icon name="arrow-round-back"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>{{ a.tr.t({ ko: '언어 선택', en: 'Language Selection'}) }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-list>
+        <ion-radio-group>
+          <ion-list-header>
+            <ion-label>{{ a.tr.t({ ko: '앱에서 사용할 언어를 선택해주세요.', en: 'Please choose your language.'}) }}</ion-label>
+          </ion-list-header>
+      
+          <ion-item>
+            <ion-label>English</ion-label>
+            <ion-radio slot="start" value="en" [checked]=" philgo.ln == 'en' " (ionSelect)=" onIonSelect($event) "></ion-radio>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label>한국어</ion-label>
+            <ion-radio slot="start" value="ko" [checked]=" philgo.ln == 'ko' " (ionSelect)=" onIonSelect($event) "></ion-radio>
+          </ion-item>
+      
+          <ion-item>
+              <ion-label>中文</ion-label>
+              <ion-radio slot="start" value="ch" [checked]=" philgo.ln == 'ch' " (ionSelect)=" onIonSelect($event) "></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>日本語</ion-label>
+              <ion-radio slot="start" value="jp" [checked]=" philgo.ln == 'jp' " (ionSelect)=" onIonSelect($event) "></ion-radio>
+            </ion-item>
+        </ion-radio-group>
+      </ion-list>
+
+</ion-content>

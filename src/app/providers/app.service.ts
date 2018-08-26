@@ -96,6 +96,8 @@ export class AppService {
     window['triggerToastMessageClick'] = this.onClickToastMessage.bind(this);
     // console.log('isPushNotificationRequested: ', this.isPushNotificationPermissionRequested());
 
+    this.tr.languageCode = AngularLibrary.getUserLanguage();
+    console.log('lang: ', this.tr.languageCode);
     this.p.backButton.subscribe(async () => {
       this.router.navigateByUrl('/');
       if (this.counter === 0) {

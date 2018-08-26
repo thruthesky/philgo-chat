@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-button routerLink="/setting">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ a.tr.t({ ko: '소프트웨어 정보', en: 'Software Information'}) }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  
+    <ion-list>
+
+    
+        <ion-item>
+          <ion-label>Client Platform</ion-label>
+          <ion-text> {{ a.platform }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>is Cordova?</ion-label>
+          <ion-text> {{ isCordova }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Server URL</ion-label>
+          <ion-text> {{ philgo.getServerUrl() }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Token</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text>{{ philgo.pushToken }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>App Protocol</ion-label>
+          <ion-text>{{ protocol }}</ion-text>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>Production</ion-label>
+          <ion-text> {{ a.environment.production }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>HMR</ion-label>
+          <ion-text> {{ a.environment.hmr }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Client Version</ion-label>
+          <ion-text> {{ a.version }}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-label>Server Version</ion-label>
+          <ion-text>{{ philgo.info?.chat_version }}</ion-text>
+        </ion-item>
+    
+      </ion-list>
+
+      
+</ion-content>

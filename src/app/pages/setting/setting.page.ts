@@ -11,17 +11,11 @@ import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
 })
 export class SettingPage implements OnInit {
 
-  isCordova = false;
-  locationHref = '';
   constructor(
     public a: AppService,
     public philgo: PhilGoApiService,
     public platform: Platform
   ) {
-    this.locationHref = location.href;
-    this.platform.ready().then(() => {
-      this.isCordova = this.platform.is('cordova');
-    });
   }
 
   ngOnInit() {
