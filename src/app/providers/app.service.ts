@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, Output, EventEmitter } from '@angular/core';
 import { ToastController, Platform, AlertController } from '@ionic/angular';
 import * as firebase from 'firebase/app';
 // import 'firebase/database';
@@ -41,6 +41,8 @@ declare let FCMPlugin;
   providedIn: 'root'
 })
 export class AppService {
+
+  @Output() chatRoomReminderClose = new EventEmitter();
 
   version = 2018081413;
   // info: ApiChatInfo = null;

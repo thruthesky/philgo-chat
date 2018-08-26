@@ -1,41 +1,139 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { AppService } from '../../providers/app.service';
 import {
   ApiChatMessage, ERROR_CHAT_NOT_IN_THAT_ROOM, ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM, PhilGoApiService
 } from '../../modules/philgo-api/philgo-api.service';
-import { Router } from '@angular/router';
-import { ActionSheetController, AlertController, Content } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ActionSheetController, AlertController, Content, PopoverController } from '@ionic/angular';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
 import { ChatRoomMessagesComponent } from '../../modules/components/chat-room-messages/chat-room-messages.component';
+import { ReminderPopoverComponent } from './reminder-popover/reminder-popover.component';
+import { AngularLibrary } from '../../modules/angular-library/angular-library';
 
+const REMINDER_KEY = 'room-reminder';
+const NO_REMINDER_FROM_KEY = 'no-room-reminder-from';
 
 @Component({
   selector: 'app-room',
   templateUrl: './room.page.html',
   styleUrls: ['./room.page.scss']
 })
-export class RoomPage implements OnInit {
+export class RoomPage implements OnInit, AfterViewInit {
   @ViewChild(Content) ionContent: Content;
   @ViewChild('messagesComponent') messagesComponent: ChatRoomMessagesComponent;
   countMessageSent = 0;
   form: ApiChatMessage = <any>{};
+
+  // reminderPopover: HTMLIonPopoverElement = null;
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     public actionSheetController: ActionSheetController,
     private alertController: AlertController,
     public a: AppService,
     public philgo: PhilGoApiService,
-    public tr: LanguageTranslate
+    public tr: LanguageTranslate,
+    public popoverController: PopoverController
   ) {
     philgo.chatResetRoom();
+    a.chatRoomReminderClose.subscribe( async () => {
+      console.log('chat room closed');
+      // this.reminderPopover.dism
+      await this.popoverController.dismiss();
+
+
+      AngularLibrary.set(REMINDER_KEY, this.philgo.currentRoom.stamp_update);
+      const d = new Date();
+      AngularLibrary.set(NO_REMINDER_FROM_KEY, d.getTime());
+
+    });
+  }
+
+
+  async presentPopover(ev: any) {
+    const p = await this.popoverController.create({
+      component: ReminderPopoverComponent,
+      event: event,
+      translucent: true
+    });
+    return await p.present();
   }
 
   ngOnInit() {
   }
 
+
+  ngAfterViewInit() {
+    // it has changed after checked.
+    setTimeout(() => this.enterRoom(), 100);
+  }
   ionViewDidEnter() {
   }
   ionViewWillLeave() {
+  }
+
+  enterRoom() {
+    const mc = this.messagesComponent;
+    this.activatedRoute.paramMap.subscribe(params => {
+      const idx = params.get('idx_chat_room');
+      if (idx) {
+        this.philgo.chatResetNoOfNewMessageOfRoom(idx);
+        /**
+         * idx_chat_room in route may be string.
+         */
+        //   this.form.idx_chat_room = idx;
+        // this.philgo.currentRoom.idx = idx;
+        // this.a.currentRoomNo = parseInt(this.form.idx_chat_room, 10);
+        this.philgo.chatEnterRoom({ idx: idx }, { cacheCallback: res => mc.arrangeRoomEnter(res) }).subscribe(res => {
+          mc.show.status.loadingLatestMessages = false;
+          /**
+           * 새로 방에 입장했으면, 전체 방 목록을 다시 로드한다.
+           */
+          if (res.just_entered === 'Y') {
+            this.philgo.chatLoadMyRooms().subscribe(res => {
+              console.log('ChatAllRoomsComponent::onClickRoom()', res);
+            });
+          }
+          mc.arrangeRoomEnter(res);
+          this.showReminder();
+        }, e => {
+          console.log(e.code);
+          this.a.toast(e);
+        });
+      } else {
+        // this error will not happens.
+        // this.a.toast('Chat room number was not provided.');
+        console.error('Chat room number was not provided in route.');
+      }
+    });
+  }
+
+  showReminder() {
+    let re = false;
+    const update = AngularLibrary.get(REMINDER_KEY);
+    console.log('reminder key: ', update);
+    console.log('stamp update: ', this.philgo.currentRoom.stamp_update);
+    if (update !== this.philgo.currentRoom.stamp_update) {
+      console.log('Reminder has been changed. show now');
+      re = true;
+    }
+    let t = AngularLibrary.get(NO_REMINDER_FROM_KEY);
+    t += 60 * 60 * 24 * 7 * 1000; // 7 days.
+    const n = (new Date).getTime(); // now
+    console.log('no reminder from: ', t);
+    console.log('..time right now: ', n);
+
+    // d.setDate(d.getDate() + 7);
+    // console.log(d.toLocaleDateString());
+
+    if (t < n) {
+      console.log('No reminder period has been passed. show now');
+      re = true;
+    }
+
+    if (re) {
+      setTimeout(() => this.presentPopover(null), 100);
+    }
   }
 
   async presentRoomOptions() {

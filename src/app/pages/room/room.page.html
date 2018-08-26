@@ -12,6 +12,8 @@
         {{ philgo.currentRoom?.name }}
       </ng-container>
       <ion-badge class="pointer" (click)=" displayUsers() " *ngIf=" philgo.currentRoom?.name " color="danger">{{ philgo.currentRoom?.no_of_member }}</ion-badge>
+
+      <ion-text class="ml-3" (click)=" presentPopover() ">공지사항</ion-text>
     </ion-title>
 
     <ion-buttons slot="end" *ngIf=" philgo.currentRoom ">
