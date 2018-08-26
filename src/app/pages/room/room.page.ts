@@ -146,7 +146,7 @@ export class RoomPage implements OnInit {
   }
 
   reloadMyRoom() {
-    this.philgo.chatloadMyRooms().subscribe(res => {
+    this.philgo.chatLoadMyRooms().subscribe(res => {
       console.log('room page::releoadMyRoom()', res);
     })
 
