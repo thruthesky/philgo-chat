@@ -222,12 +222,14 @@ export class AppService {
    * 로그인을 하면 항상 이곳이 호출된다.
    */
   onLogin() {
+    this.philgo.chatLoadMyRooms().subscribe(() => {});
     this.philgo.updateWebPushToken();
   }
   /**
    * 회원 가입을 하면 항상 이 함수가 호출된다.
    */
   onRegister() {
+    this.philgo.chatLoadMyRooms().subscribe(() => {});
     this.philgo.updateWebPushToken();
   }
   /**
@@ -395,6 +397,9 @@ export class AppService {
 
   openHome() {
     this.router.navigateByUrl('/');
+  }
+  openAllRooms() {
+    this.router.navigateByUrl('/all-rooms');
   }
 
   /**

@@ -18,7 +18,6 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private readonly router: Router,
     public readonly philgo: PhilGoApiService,
     public a: AppService,
     public tr: LanguageTranslate
@@ -36,8 +35,9 @@ export class AppComponent {
 
   onClickLogout() {
     this.philgo.logout();
+    this.philgo.chatResetMyRooms();
     this.a.onLogout();
-    this.router.navigateByUrl('/');
+    this.a.openAllRooms();
   }
 
 }

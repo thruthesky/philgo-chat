@@ -21,21 +21,27 @@ export class MyRoomsPage implements OnInit {
     private router: Router
   ) {
 
-    if (this.philgo.isLoggedOut()) {
-      this.router.navigateByUrl('/all-rooms');
-    }
 
     a.myRoomsPageVisited = true;
-    const name = philgo.name();
-    this.title = tr.t({
+  }
+
+
+  ngOnInit() {
+  }
+
+  ionViewDidEnter() {
+
+    const name = this.philgo.name();
+    this.title = this.tr.t({
       ko: `${name}님의 대화방 목록`,
       en: `Chat room list of ${name}`,
       ch: `${name}的聊天室列表`,
       jp: `${name}のチャットルームリスト`
     });
-  }
-  ngOnInit() {
 
+    if (this.philgo.isLoggedOut()) {
+      this.a.openAllRooms();
+    }
   }
 
   sortRoomsByNewMessage() {

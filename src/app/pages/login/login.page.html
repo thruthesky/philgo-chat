@@ -15,5 +15,5 @@
 </ion-header>
 
 <ion-content padding>
-  <app-login-component (login)="a.openHome()" (error)=" a.toast( $event ) "></app-login-component>
+  <app-login-component (login)=" onLogin() " (error)=" a.toast( $event ) "></app-login-component>
 </ion-content>

@@ -50,7 +50,7 @@ export class RoomPage implements OnInit, AfterViewInit {
   }
 
 
-  async presentPopover(ev: any) {
+  async presentPopover(event: any) {
     const p = await this.popoverController.create({
       component: ReminderPopoverComponent,
       event: event,
@@ -109,6 +109,9 @@ export class RoomPage implements OnInit, AfterViewInit {
   }
 
   showReminder() {
+    if ( ! this.philgo.currentRoom.reminder.trim()  ) {
+      return false;
+    }
     let re = false;
     const update = AngularLibrary.get(REMINDER_KEY);
     console.log('reminder key: ', update);
