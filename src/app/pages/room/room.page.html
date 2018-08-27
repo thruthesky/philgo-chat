@@ -21,7 +21,7 @@
 
     <ion-buttons slot="end" *ngIf=" philgo.currentRoom ">
       <ion-button (click)="alarm.checked = !alarm.checked">
-        <ion-toggle #alarm [checked]=" philgo.currentRoom?.disable_alarm == 'Y' " color="primary" (ionChange)=" onChangeAlarm( alarm ) "></ion-toggle>
+        <ion-toggle #alarm [checked]=" philgo.currentRoom?.disable_alarm != 'Y' " color="primary" (ionChange)=" onChangeAlarm( alarm ) "></ion-toggle>
       </ion-button>
 
 

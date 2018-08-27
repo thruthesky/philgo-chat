@@ -86,8 +86,8 @@ export class RoomPage implements OnInit, AfterViewInit {
            * 새로 방에 입장했으면, 전체 방 목록을 다시 로드한다.
            */
           if (res.just_entered === 'Y') {
-            this.philgo.chatLoadMyRooms().subscribe(res => {
-              console.log('ChatAllRoomsComponent::onClickRoom()', res);
+            this.philgo.chatLoadMyRooms().subscribe(_res => {
+              console.log('ChatAllRoomsComponent::onClickRoom()', _res);
             });
           }
           mc.arrangeRoomEnter(res);
@@ -105,7 +105,7 @@ export class RoomPage implements OnInit, AfterViewInit {
   }
 
   showReminder() {
-    if (!this.philgo.currentRoom.reminder.trim()) {
+    if ( this.philgo.currentRoom || !this.philgo.currentRoom.reminder || !this.philgo.currentRoom.reminder.trim()) {
       return false;
     }
     let re = false;
@@ -252,7 +252,7 @@ export class RoomPage implements OnInit, AfterViewInit {
   reloadMyRoom() {
     this.philgo.chatLoadMyRooms().subscribe(res => {
       console.log('room page::releoadMyRoom()', res);
-    })
+    });
 
   }
 

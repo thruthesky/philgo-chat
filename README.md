@@ -2,6 +2,7 @@
 
 ## Documents and Resources
 
+* Ionic v4 핵심가이드 참고.
 * Philgo Chat App is using these git modules.
   * [PhilGo Api](https://github.com/thruthesky/philgo-api)
   * [Angular Library](https://github.com/thruthesky/angular-library)
@@ -99,6 +100,7 @@
 * 카톡처럼
   채팅 창 옆에 [+] 를 누르면 사진선택, 카메라, 이모티콘, 게시판, 파일 전송 등을 먼저 보여주고, 다음 옵션을 진행하도록 한다.
 
+* URL 은 새 창으로 열기를 한다.
 
 * 채팅방 채팅 메세지 검색. ==> 채팅 방안에 보여주지 말고, 별도의 창을 열어서 검색 결과를 보여준다. 사용자 아이디별 검색 가능하도록 할 것.
 * 이전 채팅 글 보기. ==> 채팅 방안에 보여주지 말고, 별도의 창을 열어서 보여 줄 것. ( 두번, 세번 생각했음. 그냥 새창에 이전 내용 보여 줄 것. )
@@ -372,7 +374,8 @@
 
 ## 실행
 
-$ ionic s ; 웹 serve. HMR 이 기본 동작한다.
+$ ionic s ; 웹 serve. HMR 이 기본 동작한다. 기본적으로 사무실 서버 office.philgo.com 의 테스트 서버로 이용한다.
+$ sl ; 웹 serve. HMR 이 기본 동작한다. 로컬 컴퓨터 깔리 philgo 작업 서버를 사용한다. 내부 IP 192.168.0.254 를 이용하여 모바일에서 접속 가능하게 한다.
 $ ionic cordova run android -l ; 앱 serve. ionic serve 동시에 실행을 해도 된다.
 $ node doctor.js ; 에러 체크. 번역이 안된 부분 등을 체크한다. 빌드전에 한번 실행을 해야 한다.
 
@@ -406,7 +409,7 @@ npm run cordova:build:install
 npm run cordova:build:install
 ````
 
-## 개발 환경, 정보 및 각종 서버 환경 및 정보
+## 개발 환경, 정보 및 각종 서버 환경 및 정보 Development Environment
 
 * [Ionic Pro 의 philgo-chat 프로젝트](https://dashboard.ionicframework.com/app/1c4a1ca7/deploy/builds)에서 앱 빌드 및 Deploy.
 * 웹은 chat.philgo.com 에 배포. v8.philgo.com 과 동일한 서버이다.
