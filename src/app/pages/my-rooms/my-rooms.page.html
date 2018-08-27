@@ -2,10 +2,11 @@
   <ion-toolbar>
     <ion-title>
       {{ title }}
-      <ion-badge class="pointer" (click)=" sortRoomsByNewMessage() " color="danger" *ngIf=" philgo.noOfNewMessageInMyRoom ">{{ philgo.noOfNewMessageInMyRoom }}</ion-badge>
-      <ion-icon class="pointer" (click)=" sortRoomsByNewMessage() " name="arrow-round-down" *ngIf=" philgo.noOfNewMessageInMyRoom "></ion-icon>
-    </ion-title>
-
+      <div class="icons">
+          <ion-badge class="pointer" (click)=" sortRoomsByNewMessage() " color="danger" *ngIf=" philgo.noOfNewMessageInMyRoom ">{{ philgo.noOfNewMessageInMyRoom }}</ion-badge>
+          <ion-icon class="pointer" (click)=" sortRoomsByNewMessage() " name="arrow-round-down" *ngIf=" philgo.noOfNewMessageInMyRoom "></ion-icon>
+      </div>
+   </ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
