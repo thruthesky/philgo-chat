@@ -4,7 +4,7 @@ import * as firebase from 'firebase/app';
 // import 'firebase/database';
 import 'firebase/messaging';
 import {
-  ApiChatRoom, ApiChatMessage, PhilGoApiService, CHAT_STATUS_ENTER, CHAT_STATUS_LEAVE, ERROR_WRONG_SESSION_ID,
+  ApiChatMessage, PhilGoApiService, CHAT_STATUS_ENTER, CHAT_STATUS_LEAVE, ERROR_WRONG_SESSION_ID,
   ERROR_WRONG_IDX_MEMBER,
   ApiUserInformation
 } from '../modules/philgo-api/philgo-api.service';
@@ -182,7 +182,7 @@ export class AppService {
 
     philgo.newMessageFromOtherRoom.subscribe(message => {
       this.toastMessage(message);
-      this.philgo.chatIncreaseNoOfNewMessage( message.idx_chat_room );
+      this.philgo.chatIncreaseNoOfNewMessage(message.idx_chat_room);
     });
   }
 
@@ -222,14 +222,14 @@ export class AppService {
    * 로그인을 하면 항상 이곳이 호출된다.
    */
   onLogin() {
-    this.philgo.chatLoadMyRooms().subscribe(() => {});
+    this.philgo.chatLoadMyRooms().subscribe(() => { });
     this.philgo.updateWebPushToken();
   }
   /**
    * 회원 가입을 하면 항상 이 함수가 호출된다.
    */
   onRegister() {
-    this.philgo.chatLoadMyRooms().subscribe(() => {});
+    this.philgo.chatLoadMyRooms().subscribe(() => { });
     this.philgo.updateWebPushToken();
   }
   /**

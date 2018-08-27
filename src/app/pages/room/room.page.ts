@@ -24,6 +24,7 @@ export class RoomPage implements OnInit, AfterViewInit {
   countMessageSent = 0;
   form: ApiChatMessage = <any>{};
 
+  popover = null; // save last popover
   // reminderPopover: HTMLIonPopoverElement = null;
   constructor(
     private router: Router,
@@ -36,27 +37,22 @@ export class RoomPage implements OnInit, AfterViewInit {
     public popoverController: PopoverController
   ) {
     philgo.chatResetRoom();
-    a.chatRoomReminderClose.subscribe( async () => {
-      console.log('chat room closed');
-      // this.reminderPopover.dism
-      await this.popoverController.dismiss();
-
-
+    a.chatRoomReminderClose.subscribe(async () => {
+      await this.popover.dismiss();
       AngularLibrary.set(REMINDER_KEY, this.philgo.currentRoom.stamp_update);
       const d = new Date();
       AngularLibrary.set(NO_REMINDER_FROM_KEY, d.getTime());
-
     });
   }
 
-
   async presentPopover(event: any) {
-    const p = await this.popoverController.create({
+    this.popover = await this.popoverController.create({
       component: ReminderPopoverComponent,
       event: event,
       translucent: true
     });
-    return await p.present();
+    await this.popover.present();
+    console.log('presentPopover() presented.');
   }
 
   ngOnInit() {
@@ -109,7 +105,7 @@ export class RoomPage implements OnInit, AfterViewInit {
   }
 
   showReminder() {
-    if ( ! this.philgo.currentRoom.reminder.trim()  ) {
+    if (!this.philgo.currentRoom.reminder.trim()) {
       return false;
     }
     let re = false;
@@ -285,6 +281,18 @@ export class RoomPage implements OnInit, AfterViewInit {
       this.ionContent.scrollToBottom(30);
       this.a.render(10);
     });
+  }
+
+  // onChangeAlarm(event: Event) {
+  //   console.log(event.target.value);
+  // }
+
+  onChangeAlarm(alarm: HTMLIonToggleElement) {
+    console.log(alarm.checked);
+    const disable = alarm.checked ? 'Y' : '';
+    this.philgo.chatDisableAlarm({ idx: this.philgo.currentRoom.idx, disable: disable }).subscribe(res => {
+      console.log('diable: ', res);
+    }, e => this.a.toast(e));
   }
 }
 

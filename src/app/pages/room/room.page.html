@@ -8,20 +8,29 @@
 
     <ion-title>
       <ion-spinner *ngIf=" ! philgo.currentRoom "></ion-spinner>
-      <ng-container *ngIf=" philgo.currentRoom?.name ">
-        {{ philgo.currentRoom?.name }}
-      </ng-container>
-      <ion-badge class="pointer" (click)=" displayUsers() " *ngIf=" philgo.currentRoom?.name " color="danger">{{ philgo.currentRoom?.no_of_member }}</ion-badge>
 
-      <ion-text class="ml-3" (click)=" presentPopover() ">공지사항</ion-text>
+      <ion-text *ngIf=" philgo.currentRoom?.name ">
+        {{ philgo.currentRoom?.name }}
+      </ion-text>
+
+      <ion-badge class="pointer" (click)=" displayUsers() " *ngIf=" philgo.currentRoom?.name " color="danger">{{ philgo.currentRoom?.no_of_member
+        }}
+      </ion-badge>
+      <ion-text class="ml-3" (click)=" presentPopover() " *ngIf=" philgo.currentRoom?.reminder ">공지사항</ion-text>
     </ion-title>
 
     <ion-buttons slot="end" *ngIf=" philgo.currentRoom ">
+      <ion-button (click)="alarm.checked = !alarm.checked">
+        <ion-toggle #alarm [checked]=" philgo.currentRoom?.disable_alarm == 'Y' " color="primary" (ionChange)=" onChangeAlarm( alarm ) "></ion-toggle>
+      </ion-button>
+
+
       <ion-button (click)="presentRoomOptions()">
         <ion-icon name="settings"></ion-icon>
       </ion-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -29,8 +38,5 @@
 </ion-content>
 
 <ion-footer>
-  <app-chat-room-input-component
-    (send)=" messagesComponent.sendNewMessage( $event ) "
-    (removeMessageByRetvar)=" messagesComponent.removeMessageByRetvar( $event ) "
-  ></app-chat-room-input-component>
+  <app-chat-room-input-component (send)=" messagesComponent.sendNewMessage( $event ) " (removeMessageByRetvar)=" messagesComponent.removeMessageByRetvar( $event ) "></app-chat-room-input-component>
 </ion-footer>
