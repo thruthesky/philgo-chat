@@ -289,8 +289,8 @@ export class RoomPage implements OnInit, AfterViewInit {
 
   onChangeAlarm(alarm: HTMLIonToggleElement) {
     console.log(alarm.checked);
-    const disable = alarm.checked ? 'Y' : '';
-    this.philgo.chatDisableAlarm({ idx: this.philgo.currentRoom.idx, disable: disable }).subscribe(res => {
+    const disable = alarm.checked ? '' : 'Y';
+    this.philgo.chatDisableAlarm({ idx_chat_room: this.philgo.currentRoom.idx, disable: disable }).subscribe(res => {
       console.log('diable: ', res);
     }, e => this.a.toast(e));
   }
