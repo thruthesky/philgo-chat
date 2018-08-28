@@ -16,15 +16,11 @@
 
 @import "node_modules/bootstrap/scss/utilities";
 
+@import "./theme/base";
 @import "./theme/utilities";
 @import "./theme/theme";
 @import "./theme/mixins";
 @import "./theme/modules/index";
 
-// @import "./app/components/create-room/create-room.component.scss";
-// @import "./app/pages/room/room.page.scss";
-// @import "./app/components/rooms/rooms.component.scss";
-// @import "./app/pages/register/register.page.scss";
-// @import "./app/pages/login/login.page.scss";
-// @import "./app/pages/setting/setting.page.scss";
-// @import "./app/components/show-file/show-file.component.scss";
+
+
