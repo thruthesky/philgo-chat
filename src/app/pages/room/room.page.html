@@ -9,14 +9,12 @@
     <ion-title>
       <ion-spinner *ngIf=" ! philgo.currentRoom "></ion-spinner>
 
-      <ion-text *ngIf=" philgo.currentRoom?.name ">
-        {{ philgo.currentRoom?.name }}
-      </ion-text>
+      <div class="d-flex align-items-center"  *ngIf=" philgo.currentRoom?.name ">
+        <ion-text>{{ philgo.currentRoom?.name }}</ion-text>
+        <ion-badge class="border-radius-45px pointer ml-2" (click)=" displayUsers() " *ngIf=" philgo.currentRoom?.name " color="danger">{{ philgo.currentRoom?.no_of_member}}</ion-badge>
+        <ion-text class="ml-3" (click)=" presentPopover() " *ngIf=" philgo.currentRoom?.reminder ">공지사항</ion-text>
+      </div>
 
-      <ion-badge class="pointer" (click)=" displayUsers() " *ngIf=" philgo.currentRoom?.name " color="danger">{{ philgo.currentRoom?.no_of_member
-        }}
-      </ion-badge>
-      <ion-text class="ml-3" (click)=" presentPopover() " *ngIf=" philgo.currentRoom?.reminder ">공지사항</ion-text>
     </ion-title>
 
     <ion-buttons slot="end" *ngIf=" philgo.currentRoom ">

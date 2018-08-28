@@ -1,9 +1,5 @@
-@import "../../../theme/breakpoints";
-ion-list {
-    margin-bottom: 3rem;
-}
 
-#profile-photo-update {
+.profile-photo-upload {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,9 +52,4 @@ ion-list {
         }
     }
 
-}
-
-.register-submit-button {
-    margin-top: 2em;
-    --height: 3.5em;
 }
