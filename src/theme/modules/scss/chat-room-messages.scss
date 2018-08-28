@@ -7,8 +7,8 @@
         @media (min-width: map-get($grid-breakpoints, "md")) {
             font-size: .9rem;
         }
-
         .message{
+            word-break: break-all !important;
             .other {
                 display: flex;
                 margin-right: auto;
@@ -27,40 +27,6 @@
                         }
                     }
                 }
-            }
-            .my {
-                display: flex;
-                justify-content: flex-end;
-                margin-left: auto;
-                margin-top: .25rem;
-                max-width: 93%;
-                .content {
-                    display: flex;
-                    align-items: center;
-                    padding: .5rem 1rem;
-                    @media (min-width: map-get($grid-breakpoints, "md")) {
-                        padding: .75rem 1rem;
-                    }
-                    border-radius: 5px;
-                    border-bottom-right-radius: 0;
-                    background: rgb(247, 222, 0);
-                    font-size: .9em;
-                    line-height: 1.4em;
-                    text-align: left;
-                    ion-spinner {
-                        margin-right: .5em;
-                    }
-                }
-            }
-            &.file {
-                .content {
-                    padding: 0 !important;
-                    background-color: transparent !important;
-                }
-            }
-            .text {
-                width: auto;
-                word-break: break-all !important;
                 .meta {
                     display: flex;
                     justify-content: space-between;
@@ -85,6 +51,30 @@
                     background: #fff;
                     font-size: .9em;
                     line-height: 1.3rem;
+                }
+            }
+            .my {
+                display: flex;
+                justify-content: flex-end;
+                margin-left: auto;
+                margin-top: .25rem;
+                max-width: 93%;
+                .content {
+                    display: flex;
+                    align-items: center;
+                    padding: .5rem 1rem;
+                    @media (min-width: map-get($grid-breakpoints, "md")) {
+                        padding: .75rem 1rem;
+                    }
+                    border-radius: 5px;
+                    border-bottom-right-radius: 0;
+                    background: rgb(247, 222, 0);
+                    font-size: .9em;
+                    line-height: 1.4em;
+                    text-align: left;
+                    ion-spinner {
+                        margin-right: .5em;
+                    }
                 }
             }
         }
