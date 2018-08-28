@@ -95,6 +95,9 @@ export class RoomPage implements OnInit, AfterViewInit {
         }, e => {
           console.log(e.code);
           this.a.toast(e);
+          if (e.code == ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM) {
+            this.a.openAllRooms();
+          }
         });
       } else {
         // this error will not happens.
@@ -105,7 +108,7 @@ export class RoomPage implements OnInit, AfterViewInit {
   }
 
   showReminder() {
-    if ( this.philgo.currentRoom || !this.philgo.currentRoom.reminder || !this.philgo.currentRoom.reminder.trim()) {
+    if (this.philgo.currentRoom || !this.philgo.currentRoom.reminder || !this.philgo.currentRoom.reminder.trim()) {
       return false;
     }
     let re = false;
