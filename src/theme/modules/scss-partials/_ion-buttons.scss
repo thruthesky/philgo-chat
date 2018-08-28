@@ -1,14 +1,12 @@
-.loader{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5rem;
-    ion-spinner{
-        margin-right: 1rem;
-    }
+.ion-btn-large {
+    --height: 4em;
 }
 
-.mobileWeb-install-button{
+.ion-btn-normal{
+    --height: 3em;
+}
+
+.playstore-button{
     display: flex;
     align-items: center;
     justify-content: center;

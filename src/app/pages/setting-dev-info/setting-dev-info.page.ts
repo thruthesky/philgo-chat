@@ -5,8 +5,7 @@ import { AngularLibrary } from '../../modules/angular-library/angular-library';
 
 @Component({
   selector: 'app-setting-dev-info',
-  templateUrl: './setting-dev-info.page.html',
-  styleUrls: ['./setting-dev-info.page.scss'],
+  templateUrl: './setting-dev-info.page.html'
 })
 export class SettingDevInfoPage implements OnInit {
 

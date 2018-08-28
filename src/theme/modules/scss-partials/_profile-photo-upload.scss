@@ -1,9 +1,5 @@
-@import "../../../theme/breakpoints";
-ion-list {
-    margin-bottom: 3rem;
-}
 
-#profile-photo-update {
+.profile-photo-upload {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -13,7 +9,7 @@ ion-list {
             margin: 1rem 0;
             height: 80px;
             width: 80px;
-            @media (min-width: $md) {
+            @media (min-width: map-get($grid-breakpoints, "md" )) {
                 height: 100px;
                 width: 100px;
             }
@@ -41,10 +37,8 @@ ion-list {
                 align-items: center;
                 margin-bottom: .5rem;
                 padding: .5rem 1rem;
-                border-radius: 2px;
                 background: var(--ion-color-primary);
                 color: var(--ion-color-primary-contrast);
-                font-size: .75rem;
                 box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
                 cursor: pointer;
                 ion-icon {
@@ -56,9 +50,4 @@ ion-list {
         }
     }
 
-}
-
-.register-submit-button {
-    margin-top: 2em;
-    --height: 3.5em;
 }

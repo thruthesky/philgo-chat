@@ -5,8 +5,7 @@ import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss']
+  templateUrl: './login.page.html'
 })
 export class LoginPage implements OnInit {
 
