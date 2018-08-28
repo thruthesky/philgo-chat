@@ -7,6 +7,12 @@
         @media (min-width: map-get($grid-breakpoints, "md")) {
             font-size: .9rem;
         }
+        &.file {
+            .content {
+                padding: 0 !important;
+                background-color: transparent !important;
+            }
+        }
         .message{
             word-break: break-all !important;
             .other {
