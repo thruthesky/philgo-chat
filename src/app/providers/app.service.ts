@@ -286,6 +286,8 @@ export class AppService {
        */
       if (o.code === ERROR_WRONG_SESSION_ID || o.code === ERROR_WRONG_IDX_MEMBER) {
         this.philgo.logout();
+        this.openAllRooms();
+        this.philgo.chatResetMyRooms();
       }
       o.cssClass = `error error${o.code}`;
     }
