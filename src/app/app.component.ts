@@ -7,6 +7,7 @@ import { Router } from '../../node_modules/@angular/router';
 import { AppService } from './providers/app.service';
 import { LanguageTranslate } from './modules/language-translate/language-translate';
 import { PhilGoApiService } from './modules/philgo-api/philgo-api.service';
+import { PhilGoApiTestService } from './modules/philgo-api/philgo-api.test';
 
 
 @Component({
@@ -20,10 +21,13 @@ export class AppComponent {
     private statusBar: StatusBar,
     public readonly philgo: PhilGoApiService,
     public a: AppService,
-    public tr: LanguageTranslate
+    public tr: LanguageTranslate,
+    private t: PhilGoApiTestService
   ) {
     this.initializeApp();
-    // this.tr.languageCode = 'ko';
+    
+
+    t.postSearch();
   }
 
   initializeApp() {
