@@ -17,10 +17,3 @@ ion-toast {
         }
     }
 }
-
-ion-title {
-    font-size: .9rem;
-    @media (min-width: map-get($grid-breakpoints, "md")) {
-        font-size: 1rem;
-    }
-}

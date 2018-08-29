@@ -22,6 +22,8 @@
 
 ## TODO
 
+* See [Philgo Chat Git Issues](https://github.com/thruthesky/philgo-chat#issue-sh-boards)
+
 * 2018년 9월 1일 업데이트 발표
   * @done 모든 컴포넌트를 components, philgo-api-chat-component git repo 에 저장하고, subtree 로 작업을 한다.
     로그인, 로그아웃, 회원 정보, 회원 탈퇴, 각종 채팅 페이지 등등.
@@ -110,11 +112,13 @@
 
   * 필고 메인 모바일/데스크톱 메뉴에 채팅방 메뉴 추가
 
-* 구글 플레이 스토어 앱 정보 업데이트 할 것.
+* 구글 플레이 스토어 앱 정보 좀 더 보기 좋게 업데이트 할 것.
 
 * 발표
 
 ### 2018년 9월 10일 업데이트 뱔표
+
+* 백버튼을 클릭하면 이전페이지로 갈 것. 지금은 임의로 /my-rooms 로 가게 했는데, 사실 이것이 필요 없는 것 같다.
 
 
 * 채팅 목록 및 검색 페이지.

@@ -1,0 +1,35 @@
+@mixin content($bgcolor: #fff) {
+    padding: .5rem 1rem;
+
+    @media (min-width: $md) {
+        padding: .75rem 1rem;
+    }
+    border-radius: 5px;
+    line-height: 1.4rem;
+    background-color: $bgcolor;
+    font-size: .9em;
+    word-break: break-all !important;
+}
+
+.chat-room-message-other {
+    display: flex;
+    margin-right: auto;
+    margin-top: .5rem;
+    max-width: 93%;
+}
+
+.chat-room-message-my {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+    margin-top: .4rem;
+    max-width: 93%;
+}
+
+.other-message-content {
+    @include content();
+}
+
+.my-message-content {
+    @include content(rgb(247, 222, 0));
+}
