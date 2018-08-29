@@ -1,11 +1,12 @@
+@import 'scss/breakpoints';
+@import 'scss/utilities';
 @import 'scss/ion-buttons';
 @import 'scss/new-chat-message';
-@import 'scss/info-list';
+@import 'scss/help';
 @import 'scss/chat-room-input';
-@import 'scss/profile-photo-upload';
-@import 'scss/utilities';
-@import 'scss/chat-room-messages';
+@import 'scss/register';
 @import 'scss/chat-room-message-profile-photo';
 @import 'scss/chat-room-message-meta';
+@import 'scss/chat-room-message-loader';
+@import 'scss/chat-room-messages';
 @import 'scss/chat-room-message';
-
