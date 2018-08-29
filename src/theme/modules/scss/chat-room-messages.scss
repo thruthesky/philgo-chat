@@ -1,87 +1,9 @@
-
-    .messages {
-        padding: 1rem;
-        min-height: 100%;
-        background: #99C0D9;
-        font-size: .85rem;
-        @media (min-width: map-get($grid-breakpoints, "md")) {
-            font-size: .9rem;
-        }
-        &.file {
-            .content {
-                padding: 0 !important;
-                background-color: transparent !important;
-            }
-        }
-        .message{
-            word-break: break-all !important;
-            .other {
-                display: flex;
-                margin-right: auto;
-                padding: .5rem 0;
-                max-width: 93%;
-                .photo {
-                    padding: .25rem .75rem 0 0;
-                    ion-thumbnail {
-                        height: 35px;
-                        width: 35px;
-                        border-radius: 5%;
-                        overflow: hidden;
-                        @media (min-width: map-get($grid-breakpoints, "md")) {
-                            height: 45px;
-                            width: 45px;
-                        }
-                    }
-                }
-                .meta {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: flex-end;
-                    margin: 0 4px .35rem 2px;
-                    .name {
-                        font-weight: 400;
-                        font-size: .95em;
-                    }
-                    .date {
-                        margin-left: 2rem;
-                        color: #447899; 
-                    }
-                }
-                .content {
-                    padding: .5rem 1rem;
-                    @media (min-width: map-get($grid-breakpoints, "md")) {
-                        padding: .75rem 1rem;
-                    }
-                    border-radius: 5px;
-                    border-top-left-radius: 0;
-                    background: #fff;
-                    font-size: .9em;
-                    line-height: 1.3rem;
-                }
-            }
-            .my {
-                display: flex;
-                justify-content: flex-end;
-                margin-left: auto;
-                margin-top: .25rem;
-                max-width: 93%;
-                .content {
-                    display: flex;
-                    align-items: center;
-                    padding: .5rem 1rem;
-                    @media (min-width: map-get($grid-breakpoints, "md")) {
-                        padding: .75rem 1rem;
-                    }
-                    border-radius: 5px;
-                    border-bottom-right-radius: 0;
-                    background: rgb(247, 222, 0);
-                    font-size: .9em;
-                    line-height: 1.4em;
-                    text-align: left;
-                    ion-spinner {
-                        margin-right: .5em;
-                    }
-                }
-            }
-        }
+.messages {
+    padding: 1rem;
+    min-height: 100%;
+    background: #99C0D9;
+    font-size: .85rem;
+    @media (min-width: map-get($grid-breakpoints, "md")) {
+        font-size: .9rem;
     }
+}
