@@ -1,13 +1,5 @@
 
-.register-profile-photo {
-    height: 80px;
-    width: 80px;
-    @media (min-width: $md) {
-        height: 100px;
-        width: 100px;
-    }
-    overflow: hidden;
-}
+
 .register-delete-button {
     position: absolute;
     top: -.78rem;
