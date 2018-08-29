@@ -4,8 +4,7 @@ import { AppService } from '../../../providers/app.service';
 
 @Component({
   selector: 'app-reminder-popover',
-  templateUrl: './reminder-popover.component.html',
-  styleUrls: ['./reminder-popover.component.scss']
+  templateUrl: './reminder-popover.component.html'
 })
 export class ReminderPopoverComponent implements OnInit {
 
