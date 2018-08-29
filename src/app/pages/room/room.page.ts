@@ -4,7 +4,7 @@ import {
   ApiChatMessage, ERROR_CHAT_NOT_IN_THAT_ROOM, ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM, PhilGoApiService
 } from '../../modules/philgo-api/philgo-api.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ActionSheetController, AlertController, Content, PopoverController } from '@ionic/angular';
+import { ActionSheetController, AlertController, Content, PopoverController, InfiniteScroll } from '@ionic/angular';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
 import { ChatRoomMessagesComponent } from '../../modules/components/chat-room-messages/chat-room-messages.component';
 import { ReminderPopoverComponent } from './reminder-popover/reminder-popover.component';
@@ -26,6 +26,8 @@ export class RoomPage implements OnInit, AfterViewInit {
 
   popover = null; // save last popover
   // reminderPopover: HTMLIonPopoverElement = null;
+
+  enableLoadOldMessage = false;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -92,10 +94,11 @@ export class RoomPage implements OnInit, AfterViewInit {
           }
           mc.arrangeRoomEnter(res);
           this.showReminder();
+          this.enableLoadOldMessage = true;
         }, e => {
           console.log(e.code);
           this.a.toast(e);
-          if (e.code == ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM) {
+          if (e.code === ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM) {
             this.a.openAllRooms();
           }
         });
@@ -263,6 +266,7 @@ export class RoomPage implements OnInit, AfterViewInit {
 
     if (e.code === ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM) {
       await (await this.alertController.create({
+        header: this.a.tr.t({ ko: '로그인 필요', en: 'Login Required' }),
         message: e.message,
         buttons: [this.a.tr.t({ ko: '닫기', en: 'Close' })]
       })).present();
@@ -281,7 +285,7 @@ export class RoomPage implements OnInit, AfterViewInit {
 
   onScroll() {
     this.a.render(20, () => {
-      this.ionContent.scrollToBottom(30);
+      this.ionContent.scrollToBottom();
       this.a.render(10);
     });
   }
@@ -296,6 +300,24 @@ export class RoomPage implements OnInit, AfterViewInit {
     this.philgo.chatDisableAlarm({ idx_chat_room: this.philgo.currentRoom.idx, disable: disable }).subscribe(res => {
       console.log('diable: ', res);
     }, e => this.a.toast(e));
+  }
+
+  loadData(event: Event) {
+    for (let i = 0; i < 10; i++) {
+      const message: ApiChatMessage = {
+        idx: '1',
+        idx_chat_room: this.philgo.currentRoom.idx,
+        idx_member: '1',
+        name: 'name',
+        photoUrl: '',
+        message: (new Date).getTime().toString(),
+        stamp: '1',
+        status: ''
+      };
+      this.messagesComponent.messages.unshift(message);
+    }
+    (<InfiniteScroll><any>event.target).complete();
+    this.ionContent.scrollToPoint(0, 300);
   }
 }
 
