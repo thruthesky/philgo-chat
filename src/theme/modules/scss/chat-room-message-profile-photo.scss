@@ -6,7 +6,7 @@ $size-md: 45px;
     min-width: $size-sm;
     border-radius: 5%;
 
-    @media (min-width: map-get($grid-breakpoints, "md")) {
+    @media (min-width: $md) {
         height: $size-md;
         width: $size-md;
         min-width: $size-md;

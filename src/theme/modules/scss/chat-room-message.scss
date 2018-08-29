@@ -1,7 +1,7 @@
 @mixin content($bgcolor: #fff) {
     padding: .5rem 1rem;
 
-    @media (min-width: map-get($grid-breakpoints, "md")) {
+    @media (min-width: $md) {
         padding: .75rem 1rem;
     }
 
