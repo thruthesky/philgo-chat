@@ -22,6 +22,8 @@
 
 ## TODO
 
+* See [Philgo Chat Git Issues](https://github.com/thruthesky/philgo-chat#issue-sh-boards)
+
 * 2018년 9월 1일 업데이트 발표
   * @done 모든 컴포넌트를 components, philgo-api-chat-component git repo 에 저장하고, subtree 로 작업을 한다.
     로그인, 로그아웃, 회원 정보, 회원 탈퇴, 각종 채팅 페이지 등등.
