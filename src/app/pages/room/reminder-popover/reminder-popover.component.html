@@ -1,5 +1,8 @@
-<p>
+<p class="p-3 mb-0">
   {{ philgo.currentRoom.reminder }}
 </p>
 
-<ion-button (click)=" a.chatRoomReminderClose.emit() ">{{ a.tr.t({ko: '일주일 동안 열지 않기', en: "Don't open for 1 week"}) }}</ion-button>
+<ion-button class="w-100 mb-3" (click)=" a.chatRoomReminderClose.emit() ">
+  {{ a.tr.t({ko: '일주일 동안 열지 않기', en: "Don't open for 1 week"}) }}
+  <ion-icon slot="end" name="eye-off"></ion-icon>
+</ion-button>
