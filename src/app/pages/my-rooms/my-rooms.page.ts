@@ -19,7 +19,7 @@ export class MyRoomsPage implements OnInit {
     public tr: LanguageTranslate,
     private router: Router
   ) {
-
+    
 
     a.myRoomsPageVisited = true;
   }

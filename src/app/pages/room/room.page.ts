@@ -302,19 +302,23 @@ export class RoomPage implements OnInit, AfterViewInit {
   }
 
   loadData(event: Event) {
-    for (let i = 0; i < 10; i++) {
-      const message: ApiChatMessage = {
-        idx: '1',
-        idx_chat_room: this.philgo.currentRoom.idx,
-        idx_member: '1',
-        name: 'name',
-        photoUrl: '',
-        message: (new Date).getTime().toString(),
-        stamp: '1',
-        status: ''
-      };
-      this.messagesComponent.messages.unshift(message);
-    }
+
+    this.philgo.chat
+
+
+    // for (let i = 0; i < 10; i++) {
+    //   const message: ApiChatMessage = {
+    //     idx: '1',
+    //     idx_chat_room: this.philgo.currentRoom.idx,
+    //     idx_member: '1',
+    //     name: 'name',
+    //     photoUrl: '',
+    //     message: (new Date).getTime().toString(),
+    //     stamp: '1',
+    //     status: ''
+    //   };
+    //   this.messagesComponent.messages.unshift(message);
+    // }
     (<InfiniteScroll><any>event.target).complete();
     this.ionContent.scrollToPoint(0, 300);
   }

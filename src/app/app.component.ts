@@ -22,12 +22,12 @@ export class AppComponent {
     public readonly philgo: PhilGoApiService,
     public a: AppService,
     public tr: LanguageTranslate,
-    private t: PhilGoApiTestService
+    // private t: PhilGoApiTestService
   ) {
     this.initializeApp();
-    
 
-    t.postSearch();
+    // t.postSearch();
+
   }
 
   initializeApp() {
