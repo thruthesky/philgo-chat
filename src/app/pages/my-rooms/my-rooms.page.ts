@@ -19,7 +19,10 @@ export class MyRoomsPage implements OnInit {
     public tr: LanguageTranslate,
     private router: Router
   ) {
-    
+
+    // philgo.chatSearch().subscribe(res => {
+    //   console.log('search res => ', res);
+    // }, e => a.toast(e));
 
     a.myRoomsPageVisited = true;
   }

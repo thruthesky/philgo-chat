@@ -32,7 +32,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-infinite-scroll position="top" threshold="10px" (ionInfinite)="loadData($event)" *ngIf=" enableLoadOldMessage ">
+  <ion-infinite-scroll class="mt-5" position="top" threshold="10px" (ionInfinite)="loadData($event)" *ngIf=" enableLoadOldMessage ">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>

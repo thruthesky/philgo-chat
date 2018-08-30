@@ -27,6 +27,9 @@ export class RoomPage implements OnInit, AfterViewInit {
   // reminderPopover: HTMLIonPopoverElement = null;
 
   enableLoadOldMessage = false;
+
+  page = 1;
+  noMoreChatMessages = false;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -262,7 +265,6 @@ export class RoomPage implements OnInit, AfterViewInit {
   }
 
   async onChatMessageDisplayError(e) {
-
     if (e.code === ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM) {
       await (await this.alertController.create({
         header: this.a.tr.t({ ko: '로그인 필요', en: 'Login Required' }),
@@ -302,25 +304,29 @@ export class RoomPage implements OnInit, AfterViewInit {
   }
 
   loadData(event: Event) {
+    if (this.noMoreChatMessages) {
+      return;
+    }
+    this.page++;
+    const scroll = (<InfiniteScroll><any>event.target);
+    const limit = 100;
+    this.philgo.chatSearch({ idx_chat_room: this.philgo.currentRoom.idx, page_no: this.page, limit: limit }).subscribe(messages => {
+      console.log('search messages => ', messages);
+      for (const message of messages) {
+        this.messagesComponent.messages.unshift(message);
+      }
+      if (messages.length < 100) {
+        this.noMoreChatMessages = true;
+        scroll.disabled = true;
+        this.a.toast(this.a.tr.t({ ko: '더 이상 채팅 메시지가 없습니다.', en: 'No more chat messages.' }));
+      }
+      scroll.complete();
+      setTimeout(() => this.ionContent.scrollToPoint(0, 300), 100);
+    }, e => {
+      scroll.complete();
+      this.a.toast(e);
+    });
 
-    this.philgo.chat
-
-
-    // for (let i = 0; i < 10; i++) {
-    //   const message: ApiChatMessage = {
-    //     idx: '1',
-    //     idx_chat_room: this.philgo.currentRoom.idx,
-    //     idx_member: '1',
-    //     name: 'name',
-    //     photoUrl: '',
-    //     message: (new Date).getTime().toString(),
-    //     stamp: '1',
-    //     status: ''
-    //   };
-    //   this.messagesComponent.messages.unshift(message);
-    // }
-    (<InfiniteScroll><any>event.target).complete();
-    this.ionContent.scrollToPoint(0, 300);
   }
 }
 
