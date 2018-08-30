@@ -1,3 +1,5 @@
+
+// applicable only in real <ion-button>
 .ion-btn-large {
     --height: 4em;
 }
@@ -6,17 +8,16 @@
     --height: 3em;
 }
 
-.playstore-button{
+/**
+ *  make <div>, <a>, etc...  look like ion-button
+ **/
+.imitate-ion-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
-    background-color: #17a2b8;
+    background: var(--ion-color-primary);
+    color: var(--ion-color-primary-contrast);
     text-decoration: none;
-    color: #fff;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),0 3px 1px -2px rgba(0, 0, 0, 0.2),0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    ion-icon{
-        margin-left: .5rem;
-        font-size: 1.5rem;
-    }
+    cursor: pointer;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
