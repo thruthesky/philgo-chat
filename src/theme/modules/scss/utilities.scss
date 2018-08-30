@@ -2,6 +2,50 @@
     border-radius: 45px
 }
 
+.pointer {
+    cursor: pointer;
+}
+
+.desc-small {
+    font-size: 0.75rem !important;
+}
+
+.flex-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fw-light{
+    font-weight: 200!important;
+}
+.mw-200px {
+    max-width: 200px !important;
+}
+.mw-300px {
+    max-width: 300px !important;
+}
+
+.fs-xs {
+    font-size: .5em;
+}
+
+.fs-sm {
+    font-size: .75em;
+}
+
+.fs-md{
+    font-size: .95rem!important;
+}
+
+.fs-lg{
+    font-size: 1.2rem!important;
+}
+
+.fs-xl{
+    font-size: 2.2rem!important;
+}
+
 .w-100px {
     width: 100px;
 }
@@ -16,7 +60,7 @@
     height: 32px !important;
 }
 
-.size-md-120px {
+.size-120px{
     height: 120px;
     width: 120px;
 }
@@ -37,4 +81,33 @@
     position: absolute !important;
     top: 0 !important;
     right: 0 !important;
+}
+
+.input-hidden {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+}
+
+.z-index-1{
+    z-index: 1;
+}
+
+.icon-size{
+    width: 24px;
+    height: 24px;
+}
+
+
+
+//STATES
+@media (min-width:$md) {
+
+    .w-md-50{
+        width: 50%;   
+    }
+
+    .mt-md-5{
+        margin-top: 3rem !important;
+    }
 }
