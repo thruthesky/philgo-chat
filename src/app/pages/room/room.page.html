@@ -36,7 +36,7 @@
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
-  <app-chat-room-messages-component #messagesComponent (scroll)=" onScroll( $event ) " (error)=" onChatMessageDisplayError( $event ) "></app-chat-room-messages-component>
+  <app-chat-room-messages-component #messagesComponent (scroll)=" onScroll() " (error)=" onChatMessageDisplayError( $event ) "></app-chat-room-messages-component>
 </ion-content>
 
 <ion-footer>
