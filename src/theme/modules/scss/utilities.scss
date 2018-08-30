@@ -10,6 +10,15 @@
     font-size: 0.75rem !important;
 }
 
+.flex-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fw-light{
+    font-weight: 200!important;
+}
 .mw-200px {
     max-width: 200px !important;
 }
@@ -17,7 +26,7 @@
     max-width: 300px !important;
 }
 
-.fs-xl {
+.fs-xs {
     font-size: .5em;
 }
 
@@ -31,6 +40,11 @@
 
 .fs-lg{
     font-size: 1.2rem!important;
+}
+
+.fs-xl{
+    font-size: 2.2rem!important;
+    font-weight: bold
 }
 
 
@@ -49,7 +63,7 @@
     height: 32px !important;
 }
 
-.size-md-120px {
+.size-120px{
     height: 120px;
     width: 120px;
 }
@@ -85,4 +99,18 @@
 .icon-size{
     width: 24px;
     height: 24px;
+}
+
+
+
+//STATES
+@media (min-width:$md) {
+
+    .w-md-50{
+        width: 50%;   
+    }
+
+    .mt-md-5{
+        margin-top: 3rem !important;
+    }
 }
