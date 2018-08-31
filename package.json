@@ -11,10 +11,11 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "s": "ionic s --no-open -- --disable-host-check",
+    "serve:office": "ionic s --configuration=office -- --disable-host-check",
+    "serve:local": "ionic serve --disable-host-check --configuration=local",
     "bt": "ng build --prod --named-chunks=true",
     "publish": "ionic build --prod && npm run scp",
     "scp": "cd www && scp -r * chat@v8.philgo.com:./www",
-    "serve:local": "ionic serve --disable-host-check --configuration=local",
     "cordova:build": "rm -f philgo-chat.apk && ionic cordova build android --prod --release && printf 'asdf99' | jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore com.sonub.chat.keystore platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk sonubchat && /Users/thruthesky/tools//android-sdk/build-tools/26.0.3/zipalign -v 4 platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk philgo-chat.apk",
     "cordova:build:install": "adb uninstall com.sonub.chat && npm run cordova:build && adb install philgo-chat.apk"
   },
