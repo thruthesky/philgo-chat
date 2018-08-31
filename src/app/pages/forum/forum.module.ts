@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ForumPage } from './forum.page';
-import { PostListComponent } from '../../modules/components/post-list/post-list.component';
+import { PostListModule } from '../../modules/components/forum/post-list/post-list.component.module';
 
 const routes: Routes = [
   {
@@ -20,8 +20,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    PostListModule
   ],
-  declarations: [ForumPage, PostListComponent]
+  declarations: [ForumPage]
 })
-export class ForumPageModule {}
+export class ForumPageModule { }
