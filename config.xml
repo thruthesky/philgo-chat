@@ -92,5 +92,5 @@
     <allow-navigation href="http://59.30.59.82:8102" />
     <allow-navigation href="http://59.30.59.162:8101" />
     <allow-navigation href="http://59.30.59.162:8100" />
-    <engine name="android" spec="~7.1.0" />
+    <engine name="android" spec="~7.0.0" />
 </widget>
