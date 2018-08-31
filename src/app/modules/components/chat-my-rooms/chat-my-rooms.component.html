@@ -16,17 +16,17 @@
                         <span>{{ tr.t({ ko: '총 인원: ', en: 'No of users: ' }) }}{{ room.no_of_member }}</span>
                     </p>
                 </ion-label>
-                <ion-icon color="tertiary" name="ribbon" *ngIf=" room.idx_owner && room.idx_owner == philgo.myIdx() "></ion-icon>
+                <ion-icon color="dark" name="ribbon" *ngIf="room.idx_owner && room.idx_owner == philgo.myIdx() "></ion-icon>
                 <ion-icon color="primary" name="heart" *ngIf=" room.favorite == 'Y' "></ion-icon>
-                <ion-icon name="notifications" *ngIf=" room.disable_alarm != 'Y' "></ion-icon>
+                <ion-icon color="tertiary" name="notifications" *ngIf=" room.disable_alarm != 'Y' "></ion-icon>
                 <ion-badge class="border-radius-45px" slot="end" color="danger" *ngIf=" room.no_of_unread_messages != '0' ">{{ room.no_of_unread_messages }}</ion-badge>
             </ion-item>
         </ng-container>
     </ion-list>
 
 
-    <div class="d-flex flex-column justify-content-center mx-5" text-center routerLink="/all-rooms" *ngIf=" ! philgo.myRooms.length ">
-        <ion-img class="mt-5 mx-5 px-5 mw-300px align-self-center" src="/assets/img/chat-icon.png"></ion-img>
+    <div class="flex-center flex-column mx-5" text-center routerLink="/all-rooms" *ngIf=" ! philgo.myRooms.length ">
+        <ion-img class="mt-5 mx-5 px-5 mw-300px" src="/assets/img/chat-icon.png"></ion-img>
         <ion-text class="my-2" color="danger">{{ tr.t({ko: '앗 ...?!', en: 'Oops ... ?!'}) }}</ion-text>
         <ion-text>{{ tr.t({ko: '회원님이 참여한 채팅 방이 없네요.', en: 'You do not have any philgo.myRooms.'}) }}</ion-text>
         <ion-text>{{ tr.t({ko: '전체 채팅방 목록 메뉴에서 채팅방에 참여해보세요.', en: 'Please join a room under All Chat Room List menu.'}) }}</ion-text>
@@ -38,8 +38,8 @@
     
 </ng-template>
 
-<a class="playstore-button" *ngIf=" isMobileWeb " href="https://play.google.com/store/apps/details?id=com.sonub.chat"
+<a class="imitate-ion-button p-3" *ngIf=" isMobileWeb " href="https://play.google.com/store/apps/details?id=com.sonub.chat"
     target="_blank">
     <span>{{ tr.t({ko: '채팅앱 이용하기', en: 'Use chat app'})}}</span>
-    <ion-icon name="appstore"></ion-icon>
+    <ion-icon class="icon-size ml-2" name="appstore"></ion-icon>
 </a>

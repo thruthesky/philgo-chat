@@ -243,7 +243,7 @@ export interface ApiComment {
 
 /**
  * Post data structure for list/create/update etc.
- * 
+ *
  * @desc Do not use this. Use ApiPost
  */
 export interface ApiPostData {
@@ -406,7 +406,8 @@ export interface ApiPostSearch {
     category?: string;          // category. the same value will be return from server.
     fields?: string;            // fields to select. the same value will be return from server.
     type?: string;              // post type. the same value will be return from server.
-    comment?: '' | '0';         // whether to get comments of posts or not. '0' mean don't get it. the same value will be return from server.
+    comment?: '' | '0';         // whether to get comments of posts or not. '0' mean don't get it.
+    // the same value will be return from server.
     limit_comment?: number;     // limit no of comments to get.  the same value will be return from server.
     page_no?: number;           // page no.  the same value will be return from server.
     limit?: number;             // limit no of posts.  the same value will be return from server.
@@ -507,6 +508,15 @@ export interface ApiChatDisableAlarm {
     disable: 'Y' | '';
     result?: 'on' | 'off'; // This is only available on the response from the server.
 }
+
+export interface ApiChatSearch {
+    idx_chat_room?: any;
+    idx_member?: any;
+    page_no?: number;
+    limit?: number;
+}
+
+
 
 
 import * as firebase from 'firebase/app';
@@ -1155,7 +1165,7 @@ export class PhilGoApiService {
 
 
     /**
-     * New File Upload
+     * New File Upload Method with New File Server.
      *
      * @since 2018-08-03 새로운 파일 서버에 파일을 업로드한다.
      * 이 파일 서버는 Philgo API 와는 상관이 없는 파일 서버이다.
@@ -1223,14 +1233,6 @@ export class PhilGoApiService {
 
     }
 
-    // fileInfo(url: string): Observable<any> {
-    //     return this.http.get( url ).pipe(
-    //         map( res => {
-    //             console.log('info: ', res);
-    //         })
-    //     );
-    // }
-
 
 
     /**
@@ -1258,6 +1260,10 @@ export class PhilGoApiService {
         return this.queryVersion2({ action: 'data_delete_submit', idx: idx });
     }
 
+    /**
+     * returns a forum page
+     * @param option options
+     */
     forumPage(option: ApiForumPageRequest): Observable<ApiForumPageResponse> {
         return this.query<ApiForumPageRequest, ApiForumPageResponse>('forumPage', option)
             .pipe(
@@ -1818,6 +1824,10 @@ export class PhilGoApiService {
         return this.query('chat.disableAlarm', data);
     }
 
+    chatSearch(data: ApiChatSearch = {}): Observable<Array<ApiChatMessage>> {
+        return this.query('chat.search', data);
+    }
+
     /**
      * It listens new messages of my rooms.
      *
@@ -2127,8 +2137,8 @@ export class PhilGoApiService {
     }
 
     /**
-     * 
-     * @param url 
+     *
+     * @param url
      */
     getFileInfo(url: string): { name: string, size: string } {
         const re = {
@@ -2149,6 +2159,15 @@ export class PhilGoApiService {
     }
 
 
+    ///
+    ///
+    /// NEW POST APIS
+    ///
+    ///
+    /**
+     *
+     * @param data post search condition.
+     */
     postSearch(data: ApiPostSearch = {}): Observable<ApiPostSearch> {
         return this.query('post.search', data);
     }
