@@ -386,12 +386,12 @@ export class AngularLibrary {
             ) {
                 // Window resize handler.
                 _.windowResize().subscribe((event: Event) => {
-                    console.log('resize event: ', event);
+                    // console.log('resize event: ', event);
                 });
 
                 // This one is for re-drawing the page after window has been resized.
                 _.windowResize(3000).subscribe((event: Event) => {
-                    console.log('resize event handler for redrawing : ', event);
+                    // console.log('resize event handler for redrawing : ', event);
                     this.render();
                 });
             }
@@ -425,4 +425,112 @@ export class AngularLibrary {
         }
     }
 
+    /**
+     * Returns true if the platform is Cordova.
+     */
+    static isCordova(): boolean {
+        const win = window as any;
+        return !!(win['cordova'] || win['phonegap'] || win['PhoneGap']);
+    }
+
+    /**
+     * Returns true if the platform is mobile web. not cordova.
+     */
+    static isMobileWeb(): boolean {
+        if (AngularLibrary.isCordova()) {
+            return false;
+        }
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns cookie value
+     * @param name cookie name
+     */
+    static getCookie(name: string) {
+        const ca: Array<string> = document.cookie.split(';');
+        const cookieName = name + '=';
+        let c: string;
+
+        for (let i = 0; i < ca.length; i += 1) {
+            if (ca[i].indexOf(name, 0) > -1) {
+                c = ca[i].substring(cookieName.length + 1, ca[i].length);
+                // console.log('valore cookie: ' + c);
+                return c;
+            }
+        }
+        return '';
+    }
+
+
+    /**
+     * Returns number from string.
+     *
+     * @param v value of number
+     *  number on success
+     *  0 if the input cannot be converted into number.
+     */
+    static parseNumber(v): number {
+        if (v) {
+            if (isNaN(v)) {
+                return 0;
+            } else {
+                return parseInt(v, 10);
+            }
+        } else {
+            return 0;
+        }
+    }
+
+
+    static isPushPermissionRequested() {
+        // Let's check if the browser supports notifications
+        if (!('Notification' in window) || Notification === void 0 || Notification['permission'] === void 0) {
+            // console.log('This browser does not support desktop notification');
+            return false;
+        }
+        // console.log(`Notification['permission']`, Notification['permission']);
+        return Notification['permission'] !== 'default';
+    }
+    static isPushPermissionDenied() {
+        if (AngularLibrary.isPushPermissionRequested()) {
+            return Notification['permission'] === 'denied';
+        } else {
+            return false;
+        }
+    }
+    static isPushPermissionGranted() {
+        if (AngularLibrary.isPushPermissionRequested()) {
+            return Notification['permission'] === 'granted';
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * returns the last element of array or undefined if there is no value.
+     * @param arr array
+     */
+    static last( arr ) {
+        if ( arr && arr.length ) {
+            return arr[ arr.length - 1];
+        }
+    }
+
+    /**
+     * Returns true if the mime type is for image.
+     * @param type Mime type
+     */
+    static isImageType( type: string ): boolean {
+        if ( type === void 0 || ! type || typeof type !== 'string' ) {
+            return false;
+        }
+        if ( type.indexOf('image') !== 0 ) {
+            return false;
+        }
+        return true;
+    }
 }
