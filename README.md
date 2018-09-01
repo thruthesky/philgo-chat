@@ -22,6 +22,7 @@
 
 ## TODO
 
+* Follow [Philgo Chat Git Issues](https://github.com/thruthesky/philgo-chat#issue-sh-boards) 
 * See [Philgo Chat Git Issues](https://github.com/thruthesky/philgo-chat#issue-sh-boards)
 
 * 2018년 9월 1일 업데이트 발표
