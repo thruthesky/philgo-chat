@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest, HttpResponse, HttpHeaderResponse, HttpEventType } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject, of } from 'rxjs';
 import { map, catchError, filter } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -18,6 +18,9 @@ export const CHAT_STATUS_LEAVE = 'L';
 export const ERROR_CHAT_NOT_IN_THAT_ROOM = -530;
 export const ERROR_WRONG_SESSION_ID = -290;
 export const ERROR_WRONG_IDX_MEMBER = -280;
+export const ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM = -640;
+
+export const CACHE_CHAT_MY_ROOM = 'cache-chat-my-room';
 
 interface ApiOptionalRequest {
     method?: string;
@@ -149,7 +152,11 @@ export interface ApiFileUploadResponse extends ApiResponse {
 export const ApiErrorFileNotSelected = 'file-not-selected';
 export const ApiErrorFileUploadError = -50020;
 export const ApiErrorUrlNotSet = -50030;
+export const ApiErrorJsonParse = -50040;
 export const ApiErrorMessageInternetOrServer = 'Please check your internet or connection to server.';
+export const ApiErrorEmptyUid = -1100;
+export const ApiErrorEmptyPassword = -1110;
+
 
 
 
@@ -399,23 +406,28 @@ export interface ApiCommentEditResponse extends ApiVersion2Response {
  */
 
 export interface ApiChatRoom {
-    idx: string;                // always api_chat_room.idx
+    idx: string;                // always api_chat_room.idx. This value is same as idx_chat_room and idx_room
     idx_member: string;         // is the owner of the chat room.
     idx_owner?: string;         // is the owner of the chat room.
     no_of_member: string;
     name: string;
     description: string;
+    reminder: string;
     stamp_create: string;
+    stamp_update: string;
     idx_room?: string;          // api_chat_room.idx
     idx_my_room?: string;       // api_chat_my_room.idx
     idx_chat_room?: string;     // api_chat_room.idx
     favorite?: 'Y' | '';          // 'Y' | '' if it's in favorite list.
+    disable_alarm?: 'Y' | '';       // disable chat alarm
     idx_message_last_read?: string;     // api_chat_message.idx which lastly read by the user for that chat room.
     no_of_unread_messages?: string;     // no of unread messages for this room.
+    messages?: Array<ApiChatMessage>;   // 내 방 입장한 경우 또는 내 방 목록인 경우에만 이 값이 존재한다.
+    just_entered?: 'Y' | '';            //
 }
 
 export interface ApiChatRooms {
-    info: ApiChatInfo;
+    info: ApiInfo;
     rooms: Array<ApiChatRoom>;
 }
 
@@ -456,25 +468,121 @@ export interface ApiChatRoomEnter extends ApiChatRoom {
     messages: Array<ApiChatMessage>;
 }
 
-export interface ApiChatInfo {
-    version: string;
+export interface ApiInfo {
+    sonub_version: string;
+    chat_version: string;
+}
+export interface ApiChatRoomUser {
+    idx: string;
+    nickname: string;
+}
+export type ApiChatRoomUsers = Array<ApiChatRoomUser>;
+
+export interface ApiChatRoomUpdate {
+    idx: string;
+    name: string;
+    description: string;
+    reminder: string;
 }
 
+export interface ApiChatDisableAlarm {
+    idx_member?: string;
+    idx_chat_room: string;
+    disable: 'Y' | '';
+    result?: 'on' | 'off'; // This is only available on the response from the server.
+}
+
+
+import * as firebase from 'firebase/app';
+import 'firebase/database';
+import { AngularLibrary } from '../angular-library/angular-library';
 /**
  * PhilGoApiService
  */
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class PhilGoApiService {
     static serverUrl = '';
     static fileServerUrl = '';
     static newFileServerUrl = '';
 
+    firebaseApp: firebase.app.App;
+    db: firebase.database.Reference;
 
+
+    /**
+     * Api information. This is not an information of a one app. It is Api information.
+     */
+    info: ApiInfo = null;
+    private firebaseEvent: firebase.database.EventType = 'value';
+
+    /**
+     * Push notification token. for both web/app.
+     */
+    pushToken = '';
+
+    /**
+     * Chat variables
+     */
+    /**
+     * currentRoomNo is the same as currentRoom.
+     */
+    // currentRoomNo = 0;
+    currentRoom: ApiChatRoomEnter = null;
+    listeningRooms: Array<ApiChatRoom> = [];
+    newMessageOnCurrentRoom = new Subject<ApiChatMessage>();
+    newMessageFromOtherRoom = new Subject<ApiChatMessage>();
+
+    /**
+     * myRooms 는 내 방 목록 리스를 담고 있다.
+     *      - 새로운 채팅 메시지가 있으면, 새 메시지 수
+     *      - 즐겨찾기 추가/삭제
+     * 등을 업데이트 할 수 있다.
+     */
+    myRooms: Array<ApiChatRoom> = [];
+    /**
+     * 내 방들의 새로운 메시지 총 합. 내 방 목록 페이지에서 새 메시지 개 수로 보여주면된다.
+     */
+    noOfNewMessageInMyRoom = 0;
+    roomsBackup: Array<ApiChatRoom> = [];
+
+
+    /**
+     * Philgo Api user language.
+     * Get cached ln code or web browser ln code.
+     *
+     * localStorage 에 저장된(또는 웹브라우저의) lang code 를 앱이 사작할 때 (또는 PhilgoApiService 가 inject 될 때) 로드를 한다.
+     * 그리고 클라이언트에서 philgo.setLanguage().subscribe() 를 하면,
+     *  1. 서버에 lang code 를 저장하고
+     *  2. localStorage 에 저장하고
+     *  3. 이 변수에 업데이트를 한다.
+     * 즉, 별도로 코딩은 필요하지 않고, philgo.setLanguage('ko').subscribe() 만 하면 된다.
+     * 만약, LanguageTranslate 를 사용하면 LanguageTranslate.languageCode 을 업데이트하면 된다.
+     */
+    ln = AngularLibrary.getUserLanguage();
+
+    /**
+     *
+     * @param sanitizer
+     * @param http
+     */
     constructor(
         private sanitizer: DomSanitizer,
         public http: HttpClient
     ) {
         // console.log('PhilGoApiService::constructor');
+
+        this.updateWebPushToken();
+    }
+
+    /**
+     * Sets firebase app
+     * @param firebaseApp firebase initialized app
+     */
+    setFirebaseApp(firebaseApp) {
+        this.firebaseApp = firebaseApp;
+        this.db = this.firebaseApp.database().ref('/');
     }
 
     setServerUrl(url: string) {
@@ -519,10 +627,20 @@ export class PhilGoApiService {
 
     private validatePost(data) {
         const q = this.httpBuildQuery(data);
-        // console.log('PhilGoApiService::post() url: ', this.getServerUrl() + '?' + q);
+        console.log('PhilGoApiService::post() url: ', this.getServerUrl() + '?' + q);
         if (!this.getServerUrl()) {
             // console.error(`Error. Server URL is not set.`);
         }
+    }
+
+    /**
+     * Returns error object
+     *
+     * @param code error code
+     * @param message error message
+     */
+    error(code: number, message: string): ApiErrorResponse {
+        return { code: code, message: message };
     }
     /**
      * 서버로 POST request 를 전송하고 결과를 받아서 데이터를 Observable 로 리턴하거나
@@ -542,7 +660,7 @@ export class PhilGoApiService {
     post(data): Observable<any> {
         this.validatePost(data);
         if (!this.getServerUrl()) {
-            return throwError({ code: ApiErrorUrlNotSet, message: 'Server url is not set. Set it on App Module constructor().' });
+            return throwError(this.error(ApiErrorUrlNotSet, 'Server url is not set. Set it on App Module constructor().'));
         }
         return this.http.post(this.getServerUrl(), data).pipe(
             map((res: ApiResponse) => {
@@ -923,6 +1041,12 @@ export class PhilGoApiService {
     nickname(): string {
         return localStorage.getItem(NICKNAME);
     }
+    /**
+     * alias of nickname
+     */
+    name(): string {
+        return this.nickname();
+    }
 
     uploadPrimaryPhotoWeb(files: FileList) {
         return this.fileUploadOnWeb(files, {
@@ -972,15 +1096,16 @@ export class PhilGoApiService {
             responseType: 'json'
         });
 
-        // console.log('file upload: ', this.getFileServerUrl());
+        console.log('file upload: ', this.getFileServerUrl());
         return this.http.request(req).pipe(
             map(e => {
+                // console.log('map: ', e);
                 if (e instanceof HttpResponse) { // success event.
                     if (e.status === 200) {
                         if (e.body) {
                             // upload success now.
-                            // console.log('success: ', e);
-                            // console.log('e.body.data', e.body['data']);
+                            console.log('success: ', e);
+                            console.log('e.body.data', e.body['data']);
                             if (e.body['data']['result'] === 0) {
                                 return e.body['data'];
                             } else {
@@ -1002,6 +1127,11 @@ export class PhilGoApiService {
                     }
                 }
                 return e; // other events
+            }),
+            catchError(e => {
+                console.log('catchError : ', e);
+                // return of( e );
+                throw { code: ApiErrorJsonParse, message: e.body };
             })
         );
 
@@ -1013,6 +1143,8 @@ export class PhilGoApiService {
      *
      * @since 2018-08-03 새로운 파일 서버에 파일을 업로드한다.
      * 이 파일 서버는 Philgo API 와는 상관이 없는 파일 서버이다.
+     *
+     * @desc This upload file into a new server.
      *
      */
     fileUpload(files: FileList, options: ApiNewFileServerUploadOptions): Observable<ApiNewFileServerUpload> {
@@ -1074,6 +1206,15 @@ export class PhilGoApiService {
         );
 
     }
+
+    // fileInfo(url: string): Observable<any> {
+    //     return this.http.get( url ).pipe(
+    //         map( res => {
+    //             console.log('info: ', res);
+    //         })
+    //     );
+    // }
+
 
 
     /**
@@ -1339,8 +1480,8 @@ export class PhilGoApiService {
     /**
      * Create a chat room
      */
-    chatRoomCreate(option: ApiChatRoomCreateRequest): Observable<ApiChatRoomCreateResponse> {
-        return this.query('chat.createRoom', option);
+    chatRoomCreate(options: ApiChatRoomCreateRequest): Observable<ApiChatRoomCreateResponse> {
+        return this.query('chat.createRoom', options);
     }
 
     /**
@@ -1349,15 +1490,226 @@ export class PhilGoApiService {
     chatOtherRooms(): Observable<ApiChatRooms> {
         return this.query('chat.otherRooms');
     }
-    chatMyRooms(): Observable<ApiChatRooms> {
-        return this.query('chat.myRooms');
+
+    /**
+     *
+     * @param options
+     *  'cacheCallback' - if cacheCallback is set, then it will cache and return it with the callback.
+     * @desc there are not simple ways to return twice or emit twice for the observables. so, it simply uses callback.
+     * @see readme#chat room cache
+     *
+     */
+    chatMyRooms(options: { cacheCallback: (res: ApiChatRooms) => void; } = <any>{}): Observable<ApiChatRooms> {
+        let cache = false;
+        if (options.cacheCallback) {
+            cache = true;
+            options.cacheCallback(AngularLibrary.get(CACHE_CHAT_MY_ROOM));
+        }
+        return this.query<ApiChatRooms>('chat.myRooms').pipe(
+            map(res => {
+                // this.info = res.info; // 이것은 arrangeMyRooms() 에서 됨.
+                if (cache) {
+                    AngularLibrary.set(CACHE_CHAT_MY_ROOM, res);
+                }
+                return res;
+            })
+        );
+    }
+
+    /**
+     * 내 방 목록을 하고,
+     * chatMyRooms() 는 내 방 목록을 그냥 리턴하는데,
+     * chatDoMyRooms() 는 내 방 목록을 읽어, 정렬하고, 새로운 메시지 수를 세고,
+     * 등등 ... 필요한 작업을 하고, philgo api 객체에 저장을 한다.
+     *
+     * @todo 여기서부터 chatMyRooms() 를 업데이트해서, 마지막 글 30개를 가져오도록 한다.
+     */
+    chatLoadMyRooms(): Observable<ApiChatRooms> {
+        return this.chatMyRooms({
+            cacheCallback: res => {
+                console.log('cache callback; res: ', res);
+                if (res) {
+                    this.chatArrangeMyRooms(res);
+                    return res;
+                }
+            }
+        }).pipe(
+            map(res => {
+                console.log('chatLoadMyRooms() server data: ', res);
+                this.chatArrangeMyRooms(res);
+                return res;
+            })
+        );
+    }
+
+
+    /**
+     * 나의 채팅 방을 일고 나서, 방 정보를 전달 받아, 잘 보여 줄 수 있도록 각종 처리 작업을 한다.
+     *
+     *      - 정렬을 하고
+     *      - 새 메시지 수를 구하고
+     *      - 방을 listen 한다.
+     *
+     * @param res ApiChatRooms
+     */
+    chatArrangeMyRooms(res: ApiChatRooms) {
+        /**
+         * Save api information
+         */
+        this.info = res.info;
+        if (res.rooms && res.rooms.length) {
+            this.myRooms = res.rooms;
+            this.sortMyRooms();
+            this.chatCountNoOfNewMessages();
+            this.listenMyRooms(this.myRooms).then(() => { });
+        }
+    }
+
+    sortMyRooms() {
+        if (!this.myRooms && !this.myRooms.length) {
+            return;
+        }
+        /**
+         * Sort of rooms by
+         *  - favorite first.
+         *  - Alphabet list for others.
+         */
+        this.myRooms.sort((a, b) => {
+            if (a.favorite === 'Y' && b.favorite === 'Y') {
+                return 0;
+            } else if (a.favorite === 'Y') {
+                return -1;
+            } else if (b.favorite === 'Y') {
+                return 1;
+            } else {
+                const nameA = a.name.toUpperCase();
+                const nameB = b.name.toUpperCase();
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+    }
+    sortMyRoomsByMessage() {
+        if (!this.myRooms && !this.myRooms.length) {
+            return;
+        }
+        this.myRooms.sort((a, b) => {
+            const aNo = this.parseNumber(a.no_of_unread_messages);
+            const bNo = this.parseNumber(b.no_of_unread_messages);
+            if (aNo < bNo) {
+                return 1;
+            } else {
+                return -1;
+            }
+        });
+    }
+
+    /**
+     * 로딩된 내 방목록에서 새 메시지를 하나 증가한다.
+     * @param idx_chat_room
+     */
+    chatIncreaseNoOfNewMessage(idx_chat_room) {
+        this.myRooms.map(room => {
+            if (room.idx_chat_room === idx_chat_room) {
+                console.log('parseNumber: ', this.parseNumber(room.no_of_unread_messages));
+                room.no_of_unread_messages = (this.parseNumber(room.no_of_unread_messages) + 1).toString();
+                this.noOfNewMessageInMyRoom += 1;
+            }
+        });
+    }
+
+    /**
+     *
+     * 메모리에 있는 내방 myRooms 목록에서 특정 방의 새 메시지 수를 0으로 한다.
+     *
+     * 특정 방의 새 메시지 수를 0 으로 만들고, 전체 새 메시지 갯수에서 해당 방의 새 메시지 개 수 만큼 차감을 한다.
+     *
+     * 즉, 특정 방에 들어갈 때, 그 방의 새메시지 수를 0 으로 하는 것이다.
+     *
+     * @example 특정 방에 들어가 할 때, 이 함수를 사용하면 된다.
+     *
+     * @param idx_chat_room room idx
+     */
+    chatResetNoOfNewMessageOfRoom(idx_chat_room) {
+        this.myRooms.map(room => {
+            if (room.idx_chat_room === idx_chat_room) {
+                const no = this.parseNumber(room.no_of_unread_messages);
+                this.noOfNewMessageInMyRoom -= no;
+                room.no_of_unread_messages = '';
+            }
+        });
+    }
+
+
+    /**
+     * 내 방목록의 새 메시지 수를 카운트한다.
+     *
+     *  - 방 목록을 하거나, 방에 입장을 하거나 할 때, 이 함수를 사용하여 총 메시지 수를 조정하면 된다.
+     */
+    chatCountNoOfNewMessages() {
+        this.noOfNewMessageInMyRoom = 0;
+        for (const room of this.myRooms) {
+            this.noOfNewMessageInMyRoom += this.parseNumber(room.no_of_unread_messages);
+        }
     }
     /**
-     * Get a chat room info. Only 1.
+     * Enters into a chat room and get the room info.
+     * @param options
+     *      'cacheCallback' - if it is set, then it does cache saving and cache callbacks.
+     *
+     *
+     * @see philao api v4 readme#chat cache 캐시 이용의 고려 할 점.
+     *
      */
-    chatEnterRoom(data: ApiChatRoomEnterRequest): Observable<ApiChatRoomEnter> {
-        return this.query('chat.enterRoom', data);
+    chatEnterRoom(data: ApiChatRoomEnterRequest,
+        options: { cacheCallback: (res: ApiChatRoomEnter) => void } = <any>{}): Observable<ApiChatRoomEnter> {
+
+        if (options.cacheCallback) {
+            const rooms: ApiChatRooms = AngularLibrary.get(CACHE_CHAT_MY_ROOM);
+            if (rooms && rooms.rooms.length) {
+                const res = rooms.rooms.find(room => room.idx_room === data.idx);
+                if (res) {
+                    options.cacheCallback(<ApiChatRoomEnter>res);
+                }
+            }
+        }
+        return this.query('chat.enterRoom', data).pipe(
+            map(res => {
+                // if (cache) {
+                //     AngularLibrary.set(cacheKey, res);
+                // }
+                return res;
+            })
+        );
     }
+
+    /**
+     * 내 방 목록들을 가져와 캐시한다.
+     */
+    // chatLoadMyRooms(): Observable<Array<ApiChatRoomEnter>> {
+    //     const cacheKeyPrefix = 'chatRoom';
+    //     return this.query('chat.loadMyRooms').pipe(
+    //         map((res: Array<ApiChatRoomEnter>) => {
+    //             if (res && res.length) {
+    //                 for (const room of res) {
+    //                     const key = cacheKeyPrefix + room.idx_chat_room;
+    //                     AngularLibrary.set(key, room);
+    //                 }
+    //             }
+    //             return res;
+    //         })
+    //     );
+    // }
+
+    // chatRoomCacheKey(idx) {
+    //     return 'chatRoom' + idx;
+    // }
+
     chatLeaveRoom(idx: string): Observable<ApiChatRoom> {
         const data: ApiChatRoomLeaveRequest = {
             idx: idx
@@ -1400,11 +1752,11 @@ export class PhilGoApiService {
     }
     /**
      * Returns true if the input 'message' is belong to the room that I am in right now.
-     * @param currentRoomNo currentRoomNo
+     * @param idx_chat_room currentRoomNo
      * @param message chat message
      */
-    isMyCurrentChatRoomMessage(currentRoomNo: number, message: ApiChatMessage) {
-        return message && message.idx_chat_room && message.idx_chat_room === currentRoomNo.toString();
+    isMyCurrentChatRoomMessage(idx_chat_room, message: ApiChatMessage) {
+        return message && message.idx_chat_room && message.idx_chat_room === idx_chat_room;
     }
 
 
@@ -1414,6 +1766,346 @@ export class PhilGoApiService {
      */
     chatSaveToken(data: { token: string, domain?: string }) {
         return this.query('chat.saveToken', data);
+    }
+
+    chatRoomUsers(idx_chat_room: any): Observable<ApiChatRoomUsers> {
+        return this.query('chat.roomUsers', { idx_chat_room: idx_chat_room });
+    }
+
+    /**
+     * Reset ( init ) to enter a room. 새로운 방에 들어가기 위해서 방에서 사용되는 정보들을 리셋한다.
+     *
+     * @use just before entering a new room.
+     */
+    chatResetRoom() {
+        // this.currentRoomNo = 0;
+        this.currentRoom = null;
+    }
+
+    /**
+     * 로그아웃 등을 하면 이 함수를 통해서 채팅 정보를 리셋한다.
+     */
+    chatResetMyRooms() {
+        this.chatResetRoom();
+        this.myRooms = [];
+        AngularLibrary.set(CACHE_CHAT_MY_ROOM, null);
+    }
+
+    chatUpdateRoomSetting(form: ApiChatRoomUpdate): Observable<number> {
+        return this.query('chat.updateRoomSetting', form);
+    }
+    chatGetRoomSetting(idx: string): Observable<ApiChatRoom> {
+        return this.query('chat.getRoomSetting', { idx: idx });
+    }
+
+    chatDisableAlarm(data: ApiChatDisableAlarm): Observable<ApiChatDisableAlarm> {
+        return this.query('chat.disableAlarm', data);
+    }
+
+    /**
+     * It listens new messages of my rooms.
+     *
+     * @logic
+     *      - Unsubscribe all subscribed rooms.
+     *      - Subscribe rooms again.
+     *
+     *
+     * @description This may be called in many ways.
+     *    - When user first visit my rooms page after app booted.
+     *        Which means, my rooms page is at the bottom of navigation stack.
+     *        In this case, when user visit all rooms page and visit back to my rooms page, this method will be called.
+     *    - Whenever user visit my rooms page when my rooms page is not on the bottom of navigation stack.
+     *        It needs to delete all my room and add new ones.
+     *
+     * @param rooms my rooms
+     */
+    async listenMyRooms(rooms: Array<ApiChatRoom>) {
+        if (!rooms) {
+            return;
+        }
+        /**
+         * Off(remove) all the event of old listening rooms.
+         */
+        for (const room of this.listeningRooms) {
+            // console.log('Off: ', room.name);
+            await this.db.child(`/chat/rooms/${room.idx}/last-message`).off(this.firebaseEvent, room['off']);
+        }
+        this.listeningRooms = [];
+        /**
+         * listen to my rooms
+         */
+        for (const room of rooms) {
+            this.listenRoom(room);
+        }
+    }
+
+
+    /**
+     * Listens a room.
+     *
+     * 비 회원인 경우, 모든 방을 listen 하지 않는다.
+     * 비 회원이 방에 들어가는 경우, listenMyRoomsIfNotListenning() 를 통해서 listen 하지도 않는다.
+     *
+     * If the room is already in listening, it double listens. and this is not good.
+     *
+     * So, do not use this method direcly. use this.addRoomToListen() which does not listen when the room is already listend.
+     *
+     * You can call any room to listen. Even if it's not your room.
+     *
+     * @param room chat room
+     *
+     * @desc 방의 새 메시지를 listen 할 때, 새 메시지가 있으면 philgo.myRooms 의 메시지 목록에 추가를 해 준다.
+     *      이 것은 앱에서 방의 마지막 메시지를 표현하고자 할 때 도움이된다.
+     */
+    listenRoom(room: ApiChatRoom) {
+        // console.log('On: ', room.name);
+        room['off'] = this.db.child(`/chat/rooms/${room.idx}/last-message`).on(this.firebaseEvent, snapshot => {
+            const message: ApiChatMessage = snapshot.val();
+
+            // console.log('listenRoom() => got listen: data: ', message);
+            /**
+             * Don't toast if I am opening rooms page ( or running app or listening the room ) for the first time of app running.
+             * If 'firstOpenning' is undefined, it is first message. define it and return it.
+             */
+            if (room['firstOpenning'] === void 0) {
+                // console.log(`First time visiting on listening the room. Do not toast for the first message only. room: ${room.name}.`);
+                room['firstOpenning'] = true;
+                return;
+            }
+
+            if (!message) { // no chage message yet.
+                // console.log('No chat message in the chat room. just return');
+                return;
+            }
+
+            /**
+             * Update last message on myRooms.room.messages.
+             */
+            // console.log(message);
+            if (message.idx_chat_room && this.myRooms && this.myRooms.length) {
+                this.myRooms.map(_room => {
+                    if (_room.idx_chat_room === message.idx_chat_room) {
+                        if (!_room.messages || !_room.messages.length) {
+                            _room.messages = [];
+                        }
+                        _room.messages.unshift(message);
+                    }
+                });
+            }
+
+            // console.log(`AppService::listennMyRooms() got message in ${room.name} : `, message, ' at ', snapshot.ref.parent.key);
+
+            /**
+             * Don't toast if it's my message.
+             */
+            if (this.isMyChatMessage(message)) {
+                return;
+            }
+            /**
+             * Don't toast if I am in the same room of the message since it will be displayed on chat messgae box.
+             */
+            if ( this.currentRoom && this.isMyCurrentChatRoomMessage(this.currentRoom.idx, message)) {
+                // console.log('AppService::listenMyRooms():: got current room No. ', this.currentRoomNo, 'message. next()', message);
+                this.newMessageOnCurrentRoom.next(message);
+                return;
+            }
+
+            /**
+             * 2018년 8월 6일. Firebase 로 방 입장/출장이 오지만 푸시는 되지 않는다.
+             * If the message is one of my rooms' message and If I am not in the room, show it as a toast except
+             *    If the message is not for enter or leave.
+             */
+            if (message.status === CHAT_STATUS_ENTER || message.status === CHAT_STATUS_LEAVE) {
+                // console.log('User is entering or leaving. No toast!!');
+                return;
+            }
+            // this.toastMessage(message);
+            this.newMessageFromOtherRoom.next(message);
+        });
+        this.listeningRooms.push(room);
+    }
+
+    /**
+     * 방에 들어가는 경우, 그 방을 listen 한다.이것은 로그인 회원이든 비 로그인 회원이든 그 방을 listen 한다.
+     * 이미 listen 중에 있으면, 두번 listen 하지 않는다.
+     *
+     * It adds a room for listening new message.
+     *
+     * since it simply don't do anything if the room is already added,
+     *    it is harmless you try to listen a room that is already by listened.
+     *
+     * @description It is needed when a user enters a room that is not his room.
+     * For instance,
+     * Case 1) when a user enters a new room, it needs to listen for new message for that room
+     * but the room is not being listened because it is not listed on my rooms page(in which page, it will listen all the user's rooms )
+     * so, it needs to call this method to add listener for that new room.
+     *
+     * Case 2) when a user directly enters a room without visiting rooms page.
+     * WARNING: in this case, the user only can listen the entered room since he didn't visit my room page.
+     * This is not happening in normal case and not a big problem any way.
+     * This usually happens only on testing.
+     *
+     * @param room chat room
+     */
+    addRoomToListen(room: ApiChatRoom) {
+        const i = this.listeningRooms.findIndex(v => v.idx === room.idx);
+        if (i === -1) { // Not in the listeners array? This may be a new room for the user. Listen it!!
+            // console.log('Going to listen a room: ', room.name);
+            this.listenRoom(room);
+        } else { // the room is already being listened.
+            // console.log('The room is already listened. Maybe it is his old room.');
+        }
+    }
+
+
+
+
+
+    /**
+     * If the user is not listening his rooms, he can call this method.
+     *
+     * 로그인을 한 사용자가, 전체 자기방을 Listen 하지 않았으면, 전체 listen 한다.
+     *
+     * User can call this method when he first access chat room page instead of chat rooms list page.
+     *
+     * If the user has visited before calling this method, then it simply don't listen his rooms.
+     * If the user visits again on room list page, then, app will remove all the listeners and listens again for the user's room.
+     */
+    listenMyRoomsIfNotListenning() {
+        if (this.isLoggedIn()) {
+            if (this.listeningRooms.length === 0) {
+                // console.log('No rooms are listened, I am going to listen my rooms.');
+                this.chatMyRooms().subscribe(res => {
+                    this.listenMyRooms(res.rooms).then(() => {
+                    });
+                });
+            } else {
+                // console.log('My rooms are already listened.');
+            }
+        }
+    }
+
+    /**
+     *
+     * 앱 또는 웹 토큰을 실제로 서버에 저장한다.
+     *
+     * 앱이든 웹이든 반드시 실행을 하면 이 함수가 호출된다.
+     *
+     * 그냥 매우 간단하게 !!!! 접속 할 때 마다 항상 서버에 저장한다.
+     *
+     * 맨 처음 접속할 때, 로그인을 한 다음에 접속하는 것이 좋다.
+     *
+     * @param token push notification token
+     *
+     * @todo domain 옵션을 수정 할 수 있도록 한다.
+     */
+    updatePusTokenToServer(token) {
+        this.pushToken = token; // Cordova 는 이미 값이 있지만, 웹에는 적용을 해 준다.
+        console.log('      updatePusTokenToServer(): ', token);
+        if (!token) {
+            // console.log('token empty. return.');
+            return;
+        }
+        this.chatSaveToken({ token: token, domain: 'chat' }).subscribe(res => {
+            // console.log('chat.saveToken', res);
+        }, e => {
+            // console.log('Error on chat.saveToken(): If the token exists, just ignore. It is not an error. ', e);
+        });
+    }
+
+
+    /**
+     * 이 함수는 앱 실행 시( 또는 consturctor() )에서 또는 필요할 때 매번 실행을 하면 된다.
+     *
+     * @desc 푸시 퍼미션이 허용되었는지 물어보고, 허용되었으면 토큰을 업데이트한다.
+     *  이 함수는 앱 처음 실행시 한번만 실행되어야 하며, 기본적으로 PhilGoApi::constructor() 에서 실행되므로 따로 신경 쓰지 않아도 된다.
+     */
+    updateWebPushToken() {
+        console.log('  ()updateWebPushToken ==>');
+        if (!AngularLibrary.isCordova() && AngularLibrary.isPushPermissionGranted()) {
+            this.requestWebPushPermission();
+        }
+    }
+
+    /**
+     * 이 함수는 물어보고 웹 푸시 토큰을 서버에 저장한다.
+     */
+    requestWebPushPermission() {
+        console.log('      ()requestWebPushPermission ==>');
+        const messaging = firebase.messaging();
+        // console.log('requestPushNotificationPermission()');
+        messaging.requestPermission().then(() => {
+            // console.log('   ===> Notification permission granted.');
+            // TODO(developer): Retrieve an Instance ID token for use with FCM.
+            // Callback fired if Instance ID token is updated.
+
+            messaging.getToken().then(token => this.updatePusTokenToServer(token))
+                .catch((err) => {
+                    // console.log('getToken() error: ', err);
+                });
+            messaging.onTokenRefresh(() => {
+                messaging.getToken().then((token => this.updatePusTokenToServer(token)))
+                    .catch((err) => {
+                        // console.log('Unable to retrieve refreshed token ', err);
+                        // showToken('Unable to retrieve refreshed token ', err);
+                    });
+            });
+        }).catch((err) => {
+            // console.log('Unable to get permission to notify. User may have denied permission!', err);
+        });
+    }
+
+
+    /**
+     * 방의 마지막 메시지를 리턴한다.
+     *
+     * @desc 방 메시지는 역순으로 정렬되어져 있다.
+     *
+     * @param room 방 정보
+     */
+    lastMessage(room: ApiChatRoom) {
+        if (room && room.messages && room.messages.length) {
+            return room.messages[0].message;
+        }
+    }
+
+
+    /**
+     * Returns number from string.
+     * @param v value of number
+     */
+    parseNumber(v) {
+        return AngularLibrary.parseNumber(v);
+    }
+
+
+    /**
+     * Saves user language code into philgo server.
+     *
+     * @desc 서버에 저장하고
+     *      - 자동으로 캐시하고
+     *      - this.ln 을 업데이트한다.
+     *
+     * 즉, 클라이언트에서 많은 코딩을 하지 않도록 한다. 실제로 클라이언트 코딩에서 별도로 할 것이 없다. 그냥 subscribe() 정도만 하면된다.
+     *
+     * @param ln 2 letter language code
+     */
+    setLanguage(ln) {
+        return this.query('setLanguage', { ln: ln }).pipe(
+            map(res => {
+                AngularLibrary.setUserLanguage(ln);
+                this.ln = ln;
+                return res;
+            })
+        );
+    }
+
+    /**
+     * @see AngularLibrary.isImageType
+     * @param type Mime type
+     */
+    isImageType( type ) {
+        return AngularLibrary.isImageType( type );
     }
 }
 
