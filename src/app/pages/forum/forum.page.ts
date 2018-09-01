@@ -12,4 +12,7 @@ export class ForumPage implements OnInit {
   ngOnInit() {
   }
 
+  ionViewDidEnter() {
+    console.log('ionview did enter');
+  }
 }

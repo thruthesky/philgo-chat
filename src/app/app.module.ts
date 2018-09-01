@@ -29,7 +29,8 @@ firebase.initializeApp(firebaseConfig);
   entryComponents: [],
   imports: [
     BrowserModule, IonicModule.forRoot(), AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   providers: [
     StatusBar,
