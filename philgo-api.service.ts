@@ -61,6 +61,9 @@ export interface ApiErrorResponse {
     code: number;
     message?: string;
 }
+export interface ApiError extends ApiErrorResponse {
+    code: number;
+}
 interface ApiVersionResponse {
     version: string;
 }
@@ -90,6 +93,9 @@ export interface ApiProfileResponse extends ApiResponse {
 export interface ApiRegisterResponse extends ApiProfileResponse {
     session_id: string;
 }
+export interface ApiProfile extends ApiProfileResponse {
+    session_id: string;
+}
 export interface ApiLoginResponse extends ApiRegisterResponse {
     session_id: string;
 }
@@ -98,10 +104,11 @@ export interface ApiUserInformation extends ApiRegisterResponse {
 }
 
 interface ApiThumbnailOption {
+    idx?: string;   // data.idx
+    path?: string;
     height?: number;
     width?: number;
-    path: string;
-    percentage: number;
+    percentage?: number;
     quality?: number;
     type?: 'adaptive' | 'crop';
 }
@@ -242,8 +249,9 @@ export interface ApiComment {
 
 
 /**
- * Post data structure for create/update
- * @deprecated. Do not use this. Use ApiPost
+ * Post data structure for list/create/update etc.
+ *
+ * @desc Do not use this. Use ApiPost
  */
 export interface ApiPostData {
     module?: string; // for crate/update
@@ -345,15 +353,19 @@ export interface ApiPostData {
 
     comments: Array<ApiComment>;
     member?: ApiMember;
-    config_subject: string; // forum name. 게시판 이름.
+    config_subject: string; // forum name. 게시판 이름. 쿼리를 할 때, post_id 를 fields 에 기록해야 이 값을 얻을 수 있다.
 }
 
 /**
  * Rename ApiPostData
  */
-export interface ApiPost extends ApiPostData {
-    idx?: string;
+export type ApiPost = ApiPostData;
+
+export interface ApiPostDelete {
+    idx: string | number;
+    user_password?: string;
 }
+
 
 interface ApiBanner {
     src: string; // banner image url
@@ -399,6 +411,35 @@ export interface ApiCommentEditResponse extends ApiVersion2Response {
     parents: Array<number>;
     post: ApiComment;
 }
+
+export interface ApiPostSearch {
+
+    // Input conditions for searching.
+    // These input will be returned as it was from server.
+    post_id?: string;           // post_id. it can be '', 'id1,id2,id3'
+    category?: string;          // category.
+    fields?: string;            // fields to select.
+    type?: string;              // post type.
+    comment?: '' | '0';         // whether to get comments of posts or not. '0' mean don't get it.
+    //
+    limit_comment?: number;     // limit no of comments to get. 
+    page_no?: number;           // page no. 
+    limit?: number;             // limit no of posts. 
+    uid?: string;               // user id, nickname, email. to search posts of the user.
+    order_by?: string;          // to order the result. default 'stamp DESC'.
+
+
+
+    // Below are only available on server response.
+    forum_name?: string;        // forum name. @note only if one 'post_id' is given as input, this will be availble.
+    posts?: Array<ApiPost>;
+
+}
+
+// alias of ApiPostSearch
+export type ApiForum = ApiPostSearch;
+
+
 
 /**
  * Chat interface
@@ -492,10 +533,21 @@ export interface ApiChatDisableAlarm {
     result?: 'on' | 'off'; // This is only available on the response from the server.
 }
 
+export interface ApiChatSearch {
+    idx_chat_room?: any;
+    idx_member?: any;
+    page_no?: number;
+    limit?: number;
+}
+
+
+
 
 import * as firebase from 'firebase/app';
 import 'firebase/database';
+import 'firebase/messaging';
 import { AngularLibrary } from '../angular-library/angular-library';
+import { LanguageTranslate, LanguageText } from '../language-translate/language-translate';
 /**
  * PhilGoApiService
  */
@@ -562,6 +614,10 @@ export class PhilGoApiService {
      */
     ln = AngularLibrary.getUserLanguage();
 
+
+
+
+
     /**
      *
      * @param sanitizer
@@ -569,7 +625,8 @@ export class PhilGoApiService {
      */
     constructor(
         private sanitizer: DomSanitizer,
-        public http: HttpClient
+        public http: HttpClient,
+        public tr: LanguageTranslate
     ) {
         // console.log('PhilGoApiService::constructor');
 
@@ -1139,7 +1196,7 @@ export class PhilGoApiService {
 
 
     /**
-     * New File Upload
+     * New File Upload Method with New File Server.
      *
      * @since 2018-08-03 새로운 파일 서버에 파일을 업로드한다.
      * 이 파일 서버는 Philgo API 와는 상관이 없는 파일 서버이다.
@@ -1217,11 +1274,16 @@ export class PhilGoApiService {
 
 
 
+
     /**
      * Returns thumbnail URL of the photo
      * @see sapcms_1_2/etc/resize_image.php for detail.
      * @example
      *  <img src="{{ api.thumbnailUrl({ width: 100, height: 100, path: form.url_profile_photo }) }}" *ngIf=" form.url_profile_photo ">
+     *  <img src="{{ api.thumbnailUrl({ width: 100, height: 100, idx: 1234 }) }}" *ngIf=" form.data.idx ">
+     * 
+     * @example
+     *  this.thumbnailUrl({ idx: idx, width: 64, height: 64 });
      */
     thumbnailUrl(option: ApiThumbnailOption): string {
         let url = this.getFileServerUrl().replace('index.php', '');
@@ -1229,7 +1291,13 @@ export class PhilGoApiService {
         if (option.type) {
             type = option.type;
         }
-        const path = '../' + option.path.substr(option.path.indexOf('data/upload'));
+        let path = '';
+        if (option.idx !== void 0 && option.idx) {
+            const d = option.idx.split('').pop();
+            path = `../data/upload/${d}/${option.idx}`;
+        } else {
+            path = '../' + option.path.substr(option.path.indexOf('data/upload'));
+        }
         let quality = 100;
         if (option.quality) {
             quality = option.quality;
@@ -1242,6 +1310,10 @@ export class PhilGoApiService {
         return this.queryVersion2({ action: 'data_delete_submit', idx: idx });
     }
 
+    /**
+     * returns a forum page
+     * @param option options
+     */
     forumPage(option: ApiForumPageRequest): Observable<ApiForumPageResponse> {
         return this.query<ApiForumPageRequest, ApiForumPageResponse>('forumPage', option)
             .pipe(
@@ -1341,15 +1413,16 @@ export class PhilGoApiService {
     }
 
 
-    postWrite(req: ApiPostEditRequest): Observable<ApiPostEditResponse> {
+    postWriteV2(req: ApiPostEditRequest): Observable<ApiPostEditResponse> {
         req.action = 'post_write_submit';
         return this.queryVersion2(req);
     }
-    postEdit(req: ApiPostEditRequest): Observable<ApiPostEditResponse> {
+
+    postEditV2(req: ApiPostEditRequest): Observable<ApiPostEditResponse> {
         req.action = 'post_edit_submit';
         return this.queryVersion2(req);
     }
-    postDelete(idx: string): Observable<ApiPostEditResponse> {
+    postDeleteV2(idx: string): Observable<ApiPostEditResponse> {
         const req = {
             action: 'post_delete_submit',
             idx: parseInt(idx, 10)
@@ -1365,7 +1438,7 @@ export class PhilGoApiService {
         post.content_original = DELETED;
         post.deleted = '1';
     }
-    commentWrite(req: ApiCommentEditRequest): Observable<ApiCommentEditResponse> {
+    commentWriteV2(req: ApiCommentEditRequest): Observable<ApiCommentEditResponse> {
         req.action = 'comment_write_submit';
         return this.queryVersion2(req);
     }
@@ -1657,6 +1730,7 @@ export class PhilGoApiService {
             this.noOfNewMessageInMyRoom += this.parseNumber(room.no_of_unread_messages);
         }
     }
+
     /**
      * Enters into a chat room and get the room info.
      * @param options
@@ -1802,6 +1876,10 @@ export class PhilGoApiService {
         return this.query('chat.disableAlarm', data);
     }
 
+    chatSearch(data: ApiChatSearch = {}): Observable<Array<ApiChatMessage>> {
+        return this.query('chat.search', data);
+    }
+
     /**
      * It listens new messages of my rooms.
      *
@@ -1904,7 +1982,7 @@ export class PhilGoApiService {
             /**
              * Don't toast if I am in the same room of the message since it will be displayed on chat messgae box.
              */
-            if ( this.currentRoom && this.isMyCurrentChatRoomMessage(this.currentRoom.idx, message)) {
+            if (this.currentRoom && this.isMyCurrentChatRoomMessage(this.currentRoom.idx, message)) {
                 // console.log('AppService::listenMyRooms():: got current room No. ', this.currentRoomNo, 'message. next()', message);
                 this.newMessageOnCurrentRoom.next(message);
                 return;
@@ -2065,7 +2143,8 @@ export class PhilGoApiService {
      */
     lastMessage(room: ApiChatRoom) {
         if (room && room.messages && room.messages.length) {
-            return room.messages[0].message;
+            const message = room.messages[0].message;
+            return AngularLibrary.stripTags(message);
         }
     }
 
@@ -2101,12 +2180,103 @@ export class PhilGoApiService {
     }
 
     /**
+     * MIME 타입의 값을 바탕으로 이미지 파일인지 아니지 검사한다.
      * @see AngularLibrary.isImageType
      * @param type Mime type
      */
-    isImageType( type ) {
-        return AngularLibrary.isImageType( type );
+    isImageType(type) {
+        return AngularLibrary.isImageType(type);
     }
+
+    /**
+     *
+     * @param url
+     */
+    getFileInfo(url: string): { name: string, size: string } {
+        const re = {
+            name: '',
+            size: ''
+        };
+        if (url) {
+            const filename = url.split('/').pop().split('-').pop();
+            const li = filename.lastIndexOf('.');
+            const v = filename.substr(0, li);
+            if (v) {
+                re.name = v.substr(0, v.lastIndexOf(' '));
+                re.size = AngularLibrary.humanFileSize(v.substr(v.lastIndexOf(' ') + 1));
+                console.log('info name: ', re);
+            }
+        }
+        return re;
+    }
+
+    t(code: LanguageText, info?: any): string {
+        return this.tr.t(code, info);
+    }
+
+    ///
+    ///
+    /// NEW POST APIS
+    ///
+    ///
+    /**
+     *
+     * @param data post search condition.
+     */
+    postSearch(data: ApiPostSearch = {}): Observable<ApiPostSearch> {
+        return this.query('post.search', data);
+    }
+
+    postCreate(post: ApiPost): Observable<ApiPost> {
+        return this.query('post.create', post);
+    }
+    postEdit(post: ApiPost): Observable<ApiPost> {
+        return this.query('post.edit', post);
+    }
+    postDelete(data: ApiPostDelete): Observable<ApiPostDelete> {
+        return this.query('post.delete', data);
+    }
+
+
+
+    forumName(post_id) {
+        switch (post_id) {
+            case 'freetalk': return this.tr.t({ en: 'Discussion', ko: 'Freetalk' });
+            case 'qna': return this.tr.t({ en: 'QnA', ko: '질문과답변' });
+            default: return '';
+        }
+    }
+    textDeleted() {
+        return this.t({
+            en: 'Deleted',
+            ko: '삭제되었습니다.'
+        });
+    }
+
+    /**
+     * Returns user photo URL or default photo url.
+     * @param idx data.idx for the user's primary photo
+     * 
+     * @example <img [src]="philgo.primaryPhotoUrl( post?.member?.idx_primary_photo )">
+     */
+    primaryPhotoUrl(idx): string {
+        if (idx) {
+            return this.thumbnailUrl({ idx: idx, width: 64, height: 64 });
+        }
+        else {
+            return this.anonymousPhotoURL;
+        }
+    }
+
+
+    /**
+     * 
+     */
+    get anonymousPhotoURL(): string {
+        return this.getServerUrl().replace('api.php', '') + 'etc/img/anonymous.gif';
+    }
+
+
 }
 
 // EOF

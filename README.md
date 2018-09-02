@@ -4,12 +4,6 @@
 
 ## TODO
 
-* 새로운 글목록과 글 쓰기/수정 페이지를 만든다.
-  * 글 쓰기(수정)를 버튼을 클릭하면, 모달 팝업창을 띄워서 한다.
-    * 코멘트 쓰기나, 코멘트 수정은 글 목록 페이지에서 모달 팝업창을 띄워서 한다.
-  * 완료 또는 취소를 하면, 목록페이지로 이동해서 맨 처음 부터 다시 로드한다. 중간에 끼워 넣지 않는다.
-  * 중요: 꼭 ... 하나의 페이지에서 이것 저것 다 하려고 하다 보면, 문제가 복잡해 진다.
-
 * capsulate locations of Philipines.
   * Make it class.
 * Message functionality.
@@ -55,46 +49,54 @@ tail -f ~/tmp/sapcms_debug.log
 
 ### Adding PhilGo API as subtree
 
-* You can add philgo-api as submodule of any angualr/ionic project under src/app/module/philgo-api.
+* You can add philgo-api as subtree of any angualr/ionic project under src/app/module/philgo-api.
+* You need to install `angular-library` and `language-translate` as dependencies.
+* And you will need firebase by default.
 
 ```` sh
 git submodule add https://github.com/thruthesky/philgo-api src/app/modules/philgo-api
+git submodule add https://github.com/thruthesky/angular-library src/app/modules/angular-library
+git submodule add https://github.com/thruthesky/language-translate src/app/modules/language-translate
+npm i firebase
 ````
 
-### External Dependency
 
-* It needs
-  * Bootstrap v4 utilities.
-  * Defaut CSS code
-  ```` css
-    .mw-200px { max-width: 200px!important; }
-    .mw-300px { max-width: 300px!important; }
-  ````
+* import `HttpClientModule` in app.module.ts
 
-### Initializing Philgo Api
-
-* You can inject `PhilGoApiService` without module importing because it is providedIn root.
+* Initialize `Firebase` and `PhilGoApiService` in app.module.ts
 
 ```` typescript
+import * as firebase from 'firebase/app';
+const firebaseConfig = {
+  apiKey: 'AIzaSyA1X3vpzSpUk_JHCbNjEwQe1-pduF0Enqs',
+  authDomain: 'philgo-64b1a.firebaseapp.com',
+  databaseURL: 'https://philgo-64b1a.firebaseio.com',
+  projectId: 'philgo-64b1a',
+  storageBucket: 'philgo-64b1a.appspot.com',
+  messagingSenderId: '675064809117'
+};
+firebase.initializeApp(firebaseConfig);
+
 export class AppModule {
   constructor(philgo: PhilGoApiService) {
-    /** Example 1 */
-    // philgo.setServerUrl('http://59.30.59.162/sapcms_1_2/api.php');
-    // philgo.setFileServerUrl('http://59.30.59.162/sapcms_1_2/index.php'); // Philgo API file server url. Must end with 'indx.php'.
-    // philgo.setNewFileServerUrl('http://59.30.59.162/file-server/index.php');
-  
-    /** Example 2 */
-    philgo.setServerUrl('https://local.philgo.com/api.php');
-    philgo.setFileServerUrl('https://local.philgo.com/index.php');
-    philgo.setNewFileServerUrl('http://work.org/file-server/index.php');
-
-    /** Example 3 */
-    // philgoServerUrl: 'https://www.philgo.com/api.php',
-    // philgoFileServerUrl: 'https://file.philgo.com/index.php',
-    // newFileServerUrl: 'https://file.philgo.com/~file_server/index.php'
+    philgo.setServerUrl('http://192.168.0.254/sapcms_1_2/api.php');
+    philgo.setFileServerUrl('http://192.168.0.254/sapcms_1_2/index.php');
+    philgo.setNewFileServerUrl('http://192.168.0.254/file-server/index.php');
   }
 }
 ````
+
+### Adding PhilGo Api Components
+
+* It needs `philgo-api`, `angular-library`, 
+
+```` sh
+git submodule add https://github.com/thruthesky/components src/app/modules/components
+ionic cordova plugin add cordova-plugin-camera
+npm install --save @ionic-native/camera
+````
+
+
 
 ## TEST
 
