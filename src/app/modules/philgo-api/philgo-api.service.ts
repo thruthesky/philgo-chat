@@ -2254,14 +2254,30 @@ export class PhilGoApiService {
     }
 
     /**
+     * @deprecated use profilePhotoUrl()
+     *
      * Returns user photo URL or default photo url.
      * @param idx data.idx for the user's primary photo
      * 
      * @example <img [src]="philgo.primaryPhotoUrl( post?.member?.idx_primary_photo )">
      */
     primaryPhotoUrl(idx): string {
-        if (idx) {
-            return this.thumbnailUrl({ idx: idx, width: 64, height: 64 });
+        return this.profilePhotoUrl(idx);
+    }
+    /**
+     * Returns user profile photo URL or anonymous photo url if the user don't have it.
+     * @param idx_path data.idx or photo path
+     * @param width width for resizing
+     * @param height height for resizing
+     */
+    profilePhotoUrl(idx_path, width = 64, height = 64) {
+        if (idx_path) {
+            const data = { idx: idx_path, width: width, height: height };
+            if (isNaN(idx_path)) {
+                delete data.idx;
+                data['path'] = idx_path;
+            }
+            return this.thumbnailUrl(data);
         }
         else {
             return this.anonymousPhotoURL;

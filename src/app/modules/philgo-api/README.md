@@ -463,3 +463,66 @@ philgo.newMessageFromOtherRoom.subscribe(message => {
   예를 들어, 방 A 에서 ==> 내방 목록 ==> 방 B 로 가면, 최근 메시지가 보인다.
   하지만, 방 A 에서 ==> 방 B 로 바로 가면 내 방 목록이 보이지 않는다. ( 방 A 를 나가면 다시 방 목록을 캐시하는데, 캐시하기 전에 방 B 로 먼저 들어가 버리기 때문. )
   이 정도는 괜찮다. 전반적으로 매우 빨라졌으며 만족할만하다.
+
+## Login
+
+* `app-login-component` emits `error` event. so, you can simply toast it.
+
+```` html
+<app-login-component (error)=" a.toast( $event ) "></app-login-component>
+````
+
+```` scss
+ion-toast {
+    &.error {
+        .toast-container {
+            background-color: rgb(141, 0, 0);
+        }
+    }
+}
+````
+
+```` ts
+/**
+ * Toast on app.
+ * @param o string or object.
+ *  if it is an object,
+ *    {
+ *      code: number,   // if code is not 0, it means, error.
+ *      message: string,
+ *      closeButtonText: string   // customize close button text.
+ *      duration: number          // ms. default is 10000(10s). you can put it big number for test.
+ *    }
+ * @example
+    e.duration = 100000;
+    this.a.toast(e);
+  * @description If the toast is an error toast
+  *    <ion-toast class="error errorNO"> will be added in class.
+  *    Normally error code is like -1234, so, the error class will be 'error error-1324'
+  */
+async toast(o: any) {
+  if (typeof o === 'string') {
+    o = {
+      message: o
+    };
+  }
+  if (o.closeButtonText === void 0) {
+    o.closeButtonText = this.tr.t({ ko: '닫기', en: 'Close', jp: '閉じる', ch: '关' });
+  }
+  if (o.duration === void 0) {
+    o.duration = 10000;
+  }
+  if (typeof o.code !== void 0 && o.code) {
+    /**
+     * If session id is invalid, let the user log out.
+     */
+    if (o.code === ERROR_WRONG_SESSION_ID || o.code === ERROR_WRONG_IDX_MEMBER) {
+      this.philgo.logout();
+    }
+    o.cssClass = `error error${o.code}`;
+  }
+  o.showCloseButton = true;
+  const toast = await this.toastController.create(o);
+  toast.present();
+}
+````
