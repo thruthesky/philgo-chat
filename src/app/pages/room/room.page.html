@@ -40,5 +40,9 @@
 </ion-content>
 
 <ion-footer>
-  <app-chat-room-input-component (send)=" messagesComponent.sendNewMessage( $event ) " (removeMessageByRetvar)=" messagesComponent.removeMessageByRetvar( $event ) "></app-chat-room-input-component>
+  <app-chat-room-input-component
+    (send)=" messagesComponent.sendNewMessage( $event ) "
+    (removeMessageByRetvar)=" messagesComponent.removeMessageByRetvar( $event ) "
+    (error)=" a.toast( $event ) "
+  ></app-chat-room-input-component>
 </ion-footer>

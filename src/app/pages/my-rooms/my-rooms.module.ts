@@ -6,8 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { MyRoomsPage } from './my-rooms.page';
-import { ChatMyRoomsComponentModule } from '../../modules/components/chat-my-rooms/chat-my-rooms.component.module';
-import { ChatUpdateComponentModule } from '../../modules/components/chat-update/chat-update.component.module';
+import { ChatMyRoomsComponentModule } from '../../modules/components/chat/chat-my-rooms/chat-my-rooms.component.module';
+import { ChatUpdateComponentModule } from '../../modules/components/chat/chat-update/chat-update.component.module';
 
 const routes: Routes = [
   {

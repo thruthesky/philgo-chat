@@ -6,7 +6,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { ActionSheetController, AlertController, Content, PopoverController, InfiniteScroll } from '@ionic/angular';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
-import { ChatRoomMessagesComponent } from '../../modules/components/chat-room-messages/chat-room-messages.component';
+import { ChatRoomMessagesComponent } from '../../modules/components/chat/chat-room-messages/chat-room-messages.component';
 import { ReminderPopoverComponent } from './reminder-popover/reminder-popover.component';
 import { AngularLibrary } from '../../modules/angular-library/angular-library';
 
