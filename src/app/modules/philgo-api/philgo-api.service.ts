@@ -545,6 +545,7 @@ export interface ApiChatSearch {
 
 import * as firebase from 'firebase/app';
 import 'firebase/database';
+import 'firebase/messaging';
 import { AngularLibrary } from '../angular-library/angular-library';
 import { LanguageTranslate, LanguageText } from '../language-translate/language-translate';
 /**
