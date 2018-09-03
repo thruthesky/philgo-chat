@@ -372,6 +372,12 @@ export interface ApiVote {
     result?: string;        // only exist on server response. this is new value after voting.
 }
 
+export interface ApiReport {
+    idx: string;
+    result: 'Y';
+}
+
+
 interface ApiBanner {
     src: string; // banner image url
     idx_file: number; // banner image idx
@@ -2263,6 +2269,10 @@ export class PhilGoApiService {
 
     postLike(data: ApiVote): Observable<ApiVote> {
         return this.query('post.vote', data);
+    }
+
+    postReport(idx: string): Observable<ApiReport> {
+        return this.query('post.report', {idx: idx});
     }
 
 
