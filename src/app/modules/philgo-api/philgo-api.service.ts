@@ -371,15 +371,12 @@ export interface ApiVote {
     mode?: 'good' | 'bad';  // voting for 'good' or 'bad'. it's like or dislike.
     result?: string;        // only exist on server response. this is new value after voting.
 }
-<<<<<<< HEAD
 
 export interface ApiReport {
     idx: string;
     result: 'Y';
 }
 
-=======
->>>>>>> 67788794c4cb67258b1369cdfb0eac9c0c169c3d
 
 interface ApiBanner {
     src: string; // banner image url
