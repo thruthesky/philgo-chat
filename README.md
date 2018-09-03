@@ -4,15 +4,30 @@
 
 ## TODO
 
-* 새로운 글목록과 글 쓰기/수정 페이지를 만든다.
-  * 글 쓰기(수정)를 버튼을 클릭하면, 모달 팝업창을 띄워서 한다.
-    * 코멘트 쓰기나, 코멘트 수정은 글 목록 페이지에서 모달 팝업창을 띄워서 한다.
-  * 완료 또는 취소를 하면, 목록페이지로 이동해서 맨 처음 부터 다시 로드한다. 중간에 끼워 넣지 않는다.
-  * 중요: 꼭 ... 하나의 페이지에서 이것 저것 다 하려고 하다 보면, 문제가 복잡해 진다.
-
 * capsulate locations of Philipines.
   * Make it class.
 * Message functionality.
+
+## Environment
+
+* PhilGo Api is an opinionated service for PhilGo.COM. It uses
+  * PhilGo Database.
+  * PhilGo Firebase Project.
+  * PhilGo push notification system.
+
+* To see PhilGo Api log file on Macbook
+
+```` sh
+tail -f ~/tmp/sapcms_debug.log
+````
+
+### Firebase
+
+* `firebsae` node module must be installed and initialized correctly on philgo-api.service.ts
+
+### Ionic
+
+* philgo api components will only work with ionic.
 
 ## Document
 
@@ -21,68 +36,67 @@
 * [PhilGo API](https://docs.google.com/document/d/1DbGXezNIVoOgFmjhnnZBZjrsx9vEwSVv-BzSJHB3C2s/edit#heading=h.wuw5os21mdy)
 * [PhilGo Family Github](https://github.com/thruthesky/philgo-family) which uses this project.
 
+## Examples
+
+* [PhilGo Chat App Example](https://github.com/thruthesky/philgo-chat/tree/philgo-api-chat-example)
+
 * [Examples of PhilGo API](https://github.com/thruthesky/philgo-api-old)
   * [Components example of PhilGo API](https://github.com/thruthesky/philgo-api-old/tree/master/components)
 
 * Old version of [PhilGo API v2](https://github.com/thruthesky/philgo-api/tree/8bcd9b53d06e6acec2bb80f2aa0bfbe59f61b881)
 
-## Work Environment
-
-* To see PhilGo Api log file on Macbook
-
-```` sh
-tail -f ~/tmp/sapcms_debug.log
-````
-
 ## Install
 
-### Adding PhilGo API as submodule
+### Adding PhilGo API as subtree
 
-* You can add philgo-api as submodule of any angualr/ionic project under src/app/module/philgo-api.
+* You can add philgo-api as subtree of any angualr/ionic project under src/app/module/philgo-api.
+* You need to install `angular-library` and `language-translate` as dependencies.
+* And you will need firebase by default.
 
 ```` sh
 git submodule add https://github.com/thruthesky/philgo-api src/app/modules/philgo-api
+git submodule add https://github.com/thruthesky/angular-library src/app/modules/angular-library
+git submodule add https://github.com/thruthesky/language-translate src/app/modules/language-translate
+npm i firebase
 ````
 
-### Initializing Philgo Api
 
-* You need to import `PhilGoApiModule` to use Philgo Api.
-* Consider not to import `PhilGoApiComponentModule` since it is only holding exmaples of components. Or you may update it and use it in production.
+* import `HttpClientModule` in app.module.ts
 
-```` typescript
-import { PhilGoApiModule, PhilGoApiService } from './module/philgo-api/philgo-api.module';
-
-@NgModule({
-  imports: [
-    PhilGoApiModule
-  ],
-})
-export class AppModule { }
-
-````
-
-* And then, you will need to set philgo site api URL and file server url.
+* Initialize `Firebase` and `PhilGoApiService` in app.module.ts
 
 ```` typescript
+import * as firebase from 'firebase/app';
+const firebaseConfig = {
+  apiKey: 'AIzaSyA1X3vpzSpUk_JHCbNjEwQe1-pduF0Enqs',
+  authDomain: 'philgo-64b1a.firebaseapp.com',
+  databaseURL: 'https://philgo-64b1a.firebaseio.com',
+  projectId: 'philgo-64b1a',
+  storageBucket: 'philgo-64b1a.appspot.com',
+  messagingSenderId: '675064809117'
+};
+firebase.initializeApp(firebaseConfig);
+
 export class AppModule {
   constructor(philgo: PhilGoApiService) {
-    /** Example 1 */
-    // philgo.setServerUrl('http://59.30.59.162/sapcms_1_2/api.php');
-    // philgo.setFileServerUrl('http://59.30.59.162/sapcms_1_2/index.php'); // Philgo API file server url. Must end with 'indx.php'.
-    // philgo.setNewFileServerUrl('http://59.30.59.162/file-server/index.php');
-  
-    /** Example 2 */
-    philgo.setServerUrl('https://local.philgo.com/api.php');
-    philgo.setFileServerUrl('https://local.philgo.com/index.php');
-    philgo.setNewFileServerUrl('http://work.org/file-server/index.php');
-
-    /** Example 3 */
-    // philgoServerUrl: 'https://www.philgo.com/api.php',
-    // philgoFileServerUrl: 'https://file.philgo.com/index.php',
-    // newFileServerUrl: 'https://file.philgo.com/~file_server/index.php'
+    philgo.setServerUrl('http://192.168.0.254/sapcms_1_2/api.php');
+    philgo.setFileServerUrl('http://192.168.0.254/sapcms_1_2/index.php');
+    philgo.setNewFileServerUrl('http://192.168.0.254/file-server/index.php');
   }
 }
 ````
+
+### Adding PhilGo Api Components
+
+* It needs `philgo-api`, `angular-library`, 
+
+```` sh
+git submodule add https://github.com/thruthesky/components src/app/modules/components
+ionic cordova plugin add cordova-plugin-camera
+npm install --save @ionic-native/camera
+````
+
+
 
 ## TEST
 
@@ -400,5 +414,115 @@ main {
       flex-basis: $sidebar-width;
     }
   }
+}
+````
+
+## Chat
+
+* Simply use `app-chat-all-rooms` component selector and it will begin chat app.
+
+### Chat Room Route
+
+* When chat room is clicked/created, it will navigate to `/room/:idx`.
+  So, the app must have chat room page on `/room/:idx` route.
+
+### New Chat Message from other room
+
+* 현재 방이 아닌 다른 방의 새 채팅 메세지는 토스트로 보여주면 된다.
+* 다른 방의 채팅 메시지를 들으려면 먼저 내 방 목록을 listen 해야 한다. 내 방 목록 listen 은 내 방 목록 페이지와 아무 방이나 들어가면 할 수 있도록 한다.
+
+```` typescript
+philgo.newMessageFromOtherRoom.subscribe(message => {
+  this.toastMessage(message);
+});
+````
+
+### Loading my rooms
+
+* 내 방 목록을 읽으면 philgo api service 내부적으로 처리를 한다.
+  따라서 방 목록 페이지 보기, 방 입장, 방 나가기 등 방 목록에 변화가 있을 때 마다 한번씩 호출하면 된다.
+
+* 내 방 목록을 할 때, 내부적으로 캐시를 하도록 callback 을 호출한다.
+  이렇게 하면 내 방 목록을 할 때 마다 자동 캐시를 하는 것이다.
+
+
+### Chat room cache
+
+* 복잡한 캐시는 프로그램 코드 관리를 어렵게 한다.
+
+* 방 목록 또는 방 입장을 할 때, Philgo api server 에서 firebase fcm 과 realtime data 를 위해서 접속을 하므로 속도가 많이 느리다.
+
+* 따라서 캐시를 하는데, 내 방 목록만 캐시를 한다.
+  캐시를 할 때, 마지막 30개 메시지도 같이 캐시를 하므로,
+  방 입장을 할 때, 내방 목록에서 캐시한 마지막 30개 메시지를 먼저 보여준다. 그럼 매우 빠르게 보인다.
+    그리고 나서, 실제 서버로 방 입장 정보를 전달 받고, 그 방 입장 정보에는 최근 100 개의 메시지가 있는 데 그 100개 메시지를 보여준다.
+
+* 방 나가기 또는 메인으로 내 방 목록으로 이동 할 때, 다시 내방 목록을 한다.
+
+* 이렇게 하는 경우, 대충 괜찮아 보인다.
+  예를 들어, 방 A 에서 ==> 내방 목록 ==> 방 B 로 가면, 최근 메시지가 보인다.
+  하지만, 방 A 에서 ==> 방 B 로 바로 가면 내 방 목록이 보이지 않는다. ( 방 A 를 나가면 다시 방 목록을 캐시하는데, 캐시하기 전에 방 B 로 먼저 들어가 버리기 때문. )
+  이 정도는 괜찮다. 전반적으로 매우 빨라졌으며 만족할만하다.
+
+## Login
+
+* `app-login-component` emits `error` event. so, you can simply toast it.
+
+```` html
+<app-login-component (error)=" a.toast( $event ) "></app-login-component>
+````
+
+```` scss
+ion-toast {
+    &.error {
+        .toast-container {
+            background-color: rgb(141, 0, 0);
+        }
+    }
+}
+````
+
+```` ts
+/**
+ * Toast on app.
+ * @param o string or object.
+ *  if it is an object,
+ *    {
+ *      code: number,   // if code is not 0, it means, error.
+ *      message: string,
+ *      closeButtonText: string   // customize close button text.
+ *      duration: number          // ms. default is 10000(10s). you can put it big number for test.
+ *    }
+ * @example
+    e.duration = 100000;
+    this.a.toast(e);
+  * @description If the toast is an error toast
+  *    <ion-toast class="error errorNO"> will be added in class.
+  *    Normally error code is like -1234, so, the error class will be 'error error-1324'
+  */
+async toast(o: any) {
+  if (typeof o === 'string') {
+    o = {
+      message: o
+    };
+  }
+  if (o.closeButtonText === void 0) {
+    o.closeButtonText = this.tr.t({ ko: '닫기', en: 'Close', jp: '閉じる', ch: '关' });
+  }
+  if (o.duration === void 0) {
+    o.duration = 10000;
+  }
+  if (typeof o.code !== void 0 && o.code) {
+    /**
+     * If session id is invalid, let the user log out.
+     */
+    if (o.code === ERROR_WRONG_SESSION_ID || o.code === ERROR_WRONG_IDX_MEMBER) {
+      this.philgo.logout();
+    }
+    o.cssClass = `error error${o.code}`;
+  }
+  o.showCloseButton = true;
+  const toast = await this.toastController.create(o);
+  toast.present();
 }
 ````
