@@ -12,7 +12,8 @@
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/mixins";
 @import "node_modules/bootstrap/scss/utilities";
+@import "./theme/vars";
 @import "./theme/base";
 @import "./theme/theme";
-@import "./theme/modules/index";
+@import "./theme/new-chat-message";
 
