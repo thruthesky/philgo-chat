@@ -4,7 +4,11 @@
  */
 import { Injectable } from '@angular/core';
 
+<<<<<<< HEAD
 interface LanguageText {
+=======
+export interface LanguageText {
+>>>>>>> 899d4cb614fdc0c8387b4daa59d3e5375a8369bc
     ko?: string;
     en?: string;
     ch?: string;
