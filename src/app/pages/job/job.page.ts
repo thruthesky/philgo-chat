@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
 
 @Component({
-  selector: 'app-housemaid',
-  templateUrl: './housemaid.page.html',
-  styleUrls: ['./housemaid.page.scss'],
+  selector: 'app-job',
+  templateUrl: './job.page.html',
+  styleUrls: ['./job.page.scss'],
 })
-export class HousemaidPage implements OnInit {
+export class JobPage implements OnInit {
 
   constructor(
     public philgo: PhilGoApiService
@@ -16,3 +16,4 @@ export class HousemaidPage implements OnInit {
   }
 
 }
+

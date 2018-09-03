@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.sonub.chat" version="1.1.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.sonub.chat" version="1.1.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>필리핀단톡방</name>
     <description>필리핀 단체 톡방, 마닐라, 앙헬레스, 세부, 알라방, 보니파시오 등 필리핀 여러 지역별 채팅방이 있습니다.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.0.254:8101" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -93,4 +93,5 @@
     <allow-navigation href="http://59.30.59.162:8101" />
     <allow-navigation href="http://59.30.59.162:8100" />
     <engine name="android" spec="~7.0.0" />
+    <allow-navigation href="http://192.168.0.254:8101" sessionid="00e67b41" />
 </widget>

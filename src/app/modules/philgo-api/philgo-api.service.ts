@@ -200,7 +200,7 @@ export interface ApiMember {
     nickname: string;
     stamp: string;
     level: string;
-    idx_promiary_photo: string;
+    idx_primary_photo: string;
 }
 
 
@@ -366,6 +366,11 @@ export interface ApiPostDelete {
     user_password?: string;
 }
 
+export interface ApiVote {
+    idx: string | number;   // vote for which post or comment?
+    mode?: 'good' | 'bad';  // voting for 'good' or 'bad'. it's like or dislike.
+    result?: string;        // only exist on server response. this is new value after voting.
+}
 
 interface ApiBanner {
     src: string; // banner image url
@@ -2256,6 +2261,9 @@ export class PhilGoApiService {
         return this.query('post.delete', data);
     }
 
+    postLike(data: ApiVote): Observable<ApiVote> {
+        return this.query('post.vote', data);
+    }
 
 
     forumName(post_id) {
