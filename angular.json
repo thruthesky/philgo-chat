@@ -65,6 +65,12 @@
                 "replace": "src/environments/environment.ts",
                 "with": "src/environments/environment.local.ts"
               }]
+            },
+            "office": {
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.office.ts"
+              }]
             }
           }
         },
@@ -80,6 +86,9 @@
             },
             "local": {
               "browserTarget": "app:build:local"
+            },
+            "office": {
+              "browserTarget": "app:build:office"
             }
           }
         },

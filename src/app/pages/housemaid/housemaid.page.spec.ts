@@ -1,20 +1,22 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SendFileComponent } from './send-file.component';
+import { HousemaidPage } from './housemaid.page';
 
-describe('SendFileComponent', () => {
-  let component: SendFileComponent;
-  let fixture: ComponentFixture<SendFileComponent>;
+describe('HousemaidPage', () => {
+  let component: HousemaidPage;
+  let fixture: ComponentFixture<HousemaidPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SendFileComponent ]
+      declarations: [ HousemaidPage ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SendFileComponent);
+    fixture = TestBed.createComponent(HousemaidPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

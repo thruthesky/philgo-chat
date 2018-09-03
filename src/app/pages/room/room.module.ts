@@ -6,8 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { RoomPage } from './room.page';
-import { ChatRoomMessagesComponentModule } from '../../modules/components/chat-room-messages/chat-room-messages.component.module';
-import { ChatRoomInputComponentModule } from '../../modules/components/chat-room-input/chat-room-input.component.module';
+import { ChatRoomMessagesComponentModule } from '../../modules/components/chat/chat-room-messages/chat-room-messages.component.module';
+import { ChatRoomInputComponentModule } from '../../modules/components/chat/chat-room-input/chat-room-input.component.module';
 import { ReminderPopoverComponent } from './reminder-popover/reminder-popover.component';
 
 const routes: Routes = [

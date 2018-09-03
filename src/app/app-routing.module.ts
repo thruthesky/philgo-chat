@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: 'setting-language', loadChildren: './pages/setting-language/setting-language.module#SettingLanguagePageModule' },
   { path: 'room/:idx_chat_room/setting', loadChildren: './pages/setting-room/setting-room.module#SettingRoomPageModule' },
   { path: 'forum/:post_id', loadChildren: './pages/forum/forum.module#ForumPageModule' },
+  { path: 'housemaid', loadChildren: './pages/housemaid/housemaid.module#HousemaidPageModule' },
 ];
 
 @NgModule({

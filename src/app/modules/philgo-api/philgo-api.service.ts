@@ -574,8 +574,6 @@ import 'firebase/database';
 import 'firebase/messaging';
 import { AngularLibrary } from '../angular-library/angular-library';
 import { LanguageTranslate, LanguageText } from '../language-translate/language-translate';
-
-
 /**
  * PhilGoApiService
  */
@@ -641,6 +639,10 @@ export class PhilGoApiService {
      * 만약, LanguageTranslate 를 사용하면 LanguageTranslate.languageCode 을 업데이트하면 된다.
      */
     ln = AngularLibrary.getUserLanguage();
+
+
+
+
 
     /**
      *
@@ -1288,20 +1290,11 @@ export class PhilGoApiService {
 
     }
 
-    // fileInfo(url: string): Observable<any> {
-    //     return this.http.get( url ).pipe(
-    //         map( res => {
-    //             console.log('info: ', res);
-    //         })
-    //     );
-    // }
-
-
-
 
 
     /**
      * Returns thumbnail URL of the photo
+     * @param option options
      * @see sapcms_1_2/etc/resize_image.php for detail.
      * @example
      *  <img src="{{ api.thumbnailUrl({ width: 100, height: 100, path: form.url_profile_photo }) }}" *ngIf=" form.url_profile_photo ">

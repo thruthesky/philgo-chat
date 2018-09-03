@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { CreateRoomPage } from './create-room.page';
-import { ChatCreateRoomComponentModule } from '../../modules/components/chat-create-room/chat-create-room.component.module';
+import { ChatCreateRoomComponentModule } from '../../modules/components/chat/chat-create-room/chat-create-room.component.module';
 
 
 const routes: Routes = [

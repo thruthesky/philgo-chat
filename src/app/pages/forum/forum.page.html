@@ -1,9 +1,21 @@
 <ion-header>
   <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-button routerLink="/">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
     <ion-title>forum</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-<app-post-list></app-post-list>
+
+  <app-forum-basic-list-component></app-forum-basic-list-component>
+
 </ion-content>
