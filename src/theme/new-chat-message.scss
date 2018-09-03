@@ -1,0 +1,12 @@
+.new-chat-message {
+    .toast-message {
+        padding: 0;
+        .custom-message {
+            display: flex;
+            padding: .5em;
+            span {
+                margin: .4em .5em .5em 1em;
+            }
+        }
+    }
+}
