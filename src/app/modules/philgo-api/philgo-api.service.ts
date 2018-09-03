@@ -61,6 +61,9 @@ export interface ApiErrorResponse {
     code: number;
     message?: string;
 }
+export interface ApiError extends ApiErrorResponse {
+    code: number;
+}
 interface ApiVersionResponse {
     version: string;
 }
@@ -90,6 +93,9 @@ export interface ApiProfileResponse extends ApiResponse {
 export interface ApiRegisterResponse extends ApiProfileResponse {
     session_id: string;
 }
+export interface ApiProfile extends ApiProfileResponse {
+    session_id: string;
+}
 export interface ApiLoginResponse extends ApiRegisterResponse {
     session_id: string;
 }
@@ -98,10 +104,11 @@ export interface ApiUserInformation extends ApiRegisterResponse {
 }
 
 interface ApiThumbnailOption {
+    idx?: string;   // data.idx
+    path?: string;
     height?: number;
     width?: number;
-    path: string;
-    percentage: number;
+    percentage?: number;
     quality?: number;
     type?: 'adaptive' | 'crop';
 }
@@ -352,9 +359,13 @@ export interface ApiPostData {
 /**
  * Rename ApiPostData
  */
-export interface ApiPost extends ApiPostData {
-    idx?: string;
+export type ApiPost = ApiPostData;
+
+export interface ApiPostDelete {
+    idx: string | number;
+    user_password?: string;
 }
+
 
 interface ApiBanner {
     src: string; // banner image url
@@ -402,18 +413,31 @@ export interface ApiCommentEditResponse extends ApiVersion2Response {
 }
 
 export interface ApiPostSearch {
-    post_id?: string;           // post_id. the same value will be returned from server. it can be '', 'id1,id2,id3'
-    category?: string;          // category. the same value will be return from server.
-    fields?: string;            // fields to select. the same value will be return from server.
-    type?: string;              // post type. the same value will be return from server.
+
+    // Input conditions for searching.
+    // These input will be returned as it was from server.
+    post_id?: string;           // post_id. it can be '', 'id1,id2,id3'
+    category?: string;          // category.
+    fields?: string;            // fields to select.
+    type?: string;              // post type.
     comment?: '' | '0';         // whether to get comments of posts or not. '0' mean don't get it.
-    // the same value will be return from server.
-    limit_comment?: number;     // limit no of comments to get.  the same value will be return from server.
-    page_no?: number;           // page no.  the same value will be return from server.
-    limit?: number;             // limit no of posts.  the same value will be return from server.
-    uid?: string;               // user id, nickname, email. to search posts of the user. the same value will be return from server.
+    //
+    limit_comment?: number;     // limit no of comments to get.
+    page_no?: number;           // page no.
+    limit?: number;             // limit no of posts.
+    uid?: string;               // user id, nickname, email. to search posts of the user.
+    order_by?: string;          // to order the result. default 'stamp DESC'.
+
+
+
+    // Below are only available on server response.
+    forum_name?: string;        // forum name. @note only if one 'post_id' is given as input, this will be availble.
     posts?: Array<ApiPost>;
+
 }
+
+// alias of ApiPostSearch
+export type ApiForum = ApiPostSearch;
 
 
 
@@ -515,13 +539,43 @@ export interface ApiChatSearch {
     page_no?: number;
     limit?: number;
 }
+export interface ApiChatRoomUser {
+    idx: string;
+    nickname: string;
+}
+// export type ApiChatRoomUsers = Array<ApiChatRoomUser>;
+
+export interface ApiChatRoomUpdate {
+    idx: string;
+    name: string;
+    description: string;
+    reminder: string;
+}
+
+export interface ApiChatDisableAlarm {
+    idx_member?: string;
+    idx_chat_room: string;
+    disable: 'Y' | '';
+    result?: 'on' | 'off'; // This is only available on the response from the server.
+}
+
+export interface ApiChatSearch {
+    idx_chat_room?: any;
+    idx_member?: any;
+    page_no?: number;
+    limit?: number;
+}
 
 
 
 
 import * as firebase from 'firebase/app';
 import 'firebase/database';
+import 'firebase/messaging';
 import { AngularLibrary } from '../angular-library/angular-library';
+import { LanguageTranslate, LanguageText } from '../language-translate/language-translate';
+
+
 /**
  * PhilGoApiService
  */
@@ -595,7 +649,8 @@ export class PhilGoApiService {
      */
     constructor(
         private sanitizer: DomSanitizer,
-        public http: HttpClient
+        public http: HttpClient,
+        public tr: LanguageTranslate
     ) {
         // console.log('PhilGoApiService::constructor');
 
@@ -1233,6 +1288,16 @@ export class PhilGoApiService {
 
     }
 
+    // fileInfo(url: string): Observable<any> {
+    //     return this.http.get( url ).pipe(
+    //         map( res => {
+    //             console.log('info: ', res);
+    //         })
+    //     );
+    // }
+
+
+
 
 
     /**
@@ -1240,6 +1305,10 @@ export class PhilGoApiService {
      * @see sapcms_1_2/etc/resize_image.php for detail.
      * @example
      *  <img src="{{ api.thumbnailUrl({ width: 100, height: 100, path: form.url_profile_photo }) }}" *ngIf=" form.url_profile_photo ">
+     *  <img src="{{ api.thumbnailUrl({ width: 100, height: 100, idx: 1234 }) }}" *ngIf=" form.data.idx ">
+     *
+     * @example
+     *  this.thumbnailUrl({ idx: idx, width: 64, height: 64 });
      */
     thumbnailUrl(option: ApiThumbnailOption): string {
         let url = this.getFileServerUrl().replace('index.php', '');
@@ -1247,7 +1316,13 @@ export class PhilGoApiService {
         if (option.type) {
             type = option.type;
         }
-        const path = '../' + option.path.substr(option.path.indexOf('data/upload'));
+        let path = '';
+        if (option.idx !== void 0 && option.idx) {
+            const d = option.idx.split('').pop();
+            path = `../data/upload/${d}/${option.idx}`;
+        } else {
+            path = '../' + option.path.substr(option.path.indexOf('data/upload'));
+        }
         let quality = 100;
         if (option.quality) {
             quality = option.quality;
@@ -1363,15 +1438,16 @@ export class PhilGoApiService {
     }
 
 
-    postWrite(req: ApiPostEditRequest): Observable<ApiPostEditResponse> {
+    postWriteV2(req: ApiPostEditRequest): Observable<ApiPostEditResponse> {
         req.action = 'post_write_submit';
         return this.queryVersion2(req);
     }
-    postEdit(req: ApiPostEditRequest): Observable<ApiPostEditResponse> {
+
+    postEditV2(req: ApiPostEditRequest): Observable<ApiPostEditResponse> {
         req.action = 'post_edit_submit';
         return this.queryVersion2(req);
     }
-    postDelete(idx: string): Observable<ApiPostEditResponse> {
+    postDeleteV2(idx: string): Observable<ApiPostEditResponse> {
         const req = {
             action: 'post_delete_submit',
             idx: parseInt(idx, 10)
@@ -1387,7 +1463,7 @@ export class PhilGoApiService {
         post.content_original = DELETED;
         post.deleted = '1';
     }
-    commentWrite(req: ApiCommentEditRequest): Observable<ApiCommentEditResponse> {
+    commentWriteV2(req: ApiCommentEditRequest): Observable<ApiCommentEditResponse> {
         req.action = 'comment_write_submit';
         return this.queryVersion2(req);
     }
@@ -1679,6 +1755,7 @@ export class PhilGoApiService {
             this.noOfNewMessageInMyRoom += this.parseNumber(room.no_of_unread_messages);
         }
     }
+
     /**
      * Enters into a chat room and get the room info.
      * @param options
@@ -2158,6 +2235,9 @@ export class PhilGoApiService {
         return re;
     }
 
+    t(code: LanguageText, info?: any): string {
+        return this.tr.t(code, info);
+    }
 
     ///
     ///
@@ -2171,6 +2251,72 @@ export class PhilGoApiService {
     postSearch(data: ApiPostSearch = {}): Observable<ApiPostSearch> {
         return this.query('post.search', data);
     }
+
+    postCreate(post: ApiPost): Observable<ApiPost> {
+        return this.query('post.create', post);
+    }
+    postEdit(post: ApiPost): Observable<ApiPost> {
+        return this.query('post.edit', post);
+    }
+    postDelete(data: ApiPostDelete): Observable<ApiPostDelete> {
+        return this.query('post.delete', data);
+    }
+
+
+
+    forumName(post_id) {
+        switch (post_id) {
+            case 'freetalk': return this.tr.t({ en: 'Discussion', ko: 'Freetalk' });
+            case 'qna': return this.tr.t({ en: 'QnA', ko: '질문과답변' });
+            default: return '';
+        }
+    }
+    textDeleted() {
+        return this.t({
+            en: 'Deleted',
+            ko: '삭제되었습니다.'
+        });
+    }
+
+    /**
+     * @deprecated use profilePhotoUrl()
+     *
+     * Returns user photo URL or default photo url.
+     * @param idx data.idx for the user's primary photo
+     *
+     * @example <img [src]="philgo.primaryPhotoUrl( post?.member?.idx_primary_photo )">
+     */
+    primaryPhotoUrl(idx): string {
+        return this.profilePhotoUrl(idx);
+    }
+    /**
+     * Returns user profile photo URL or anonymous photo url if the user don't have it.
+     * @param idx_path data.idx or photo path
+     * @param width width for resizing
+     * @param height height for resizing
+     */
+    profilePhotoUrl(idx_path, width = 64, height = 64) {
+        if (idx_path) {
+            const data = { idx: idx_path, width: width, height: height };
+            if (isNaN(idx_path)) {
+                delete data.idx;
+                data['path'] = idx_path;
+            }
+            return this.thumbnailUrl(data);
+        } else {
+            return this.anonymousPhotoURL;
+        }
+    }
+
+
+    /**
+     *
+     */
+    get anonymousPhotoURL(): string {
+        return this.getServerUrl().replace('api.php', '') + 'etc/img/anonymous.gif';
+    }
+
+
 }
 
 // EOF

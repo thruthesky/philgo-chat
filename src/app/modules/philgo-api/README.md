@@ -4,12 +4,6 @@
 
 ## TODO
 
-* 새로운 글목록과 글 쓰기/수정 페이지를 만든다.
-  * 글 쓰기(수정)를 버튼을 클릭하면, 모달 팝업창을 띄워서 한다.
-    * 코멘트 쓰기나, 코멘트 수정은 글 목록 페이지에서 모달 팝업창을 띄워서 한다.
-  * 완료 또는 취소를 하면, 목록페이지로 이동해서 맨 처음 부터 다시 로드한다. 중간에 끼워 넣지 않는다.
-  * 중요: 꼭 ... 하나의 페이지에서 이것 저것 다 하려고 하다 보면, 문제가 복잡해 진다.
-
 * capsulate locations of Philipines.
   * Make it class.
 * Message functionality.
@@ -55,46 +49,54 @@ tail -f ~/tmp/sapcms_debug.log
 
 ### Adding PhilGo API as subtree
 
-* You can add philgo-api as submodule of any angualr/ionic project under src/app/module/philgo-api.
+* You can add philgo-api as subtree of any angualr/ionic project under src/app/module/philgo-api.
+* You need to install `angular-library` and `language-translate` as dependencies.
+* And you will need firebase by default.
 
 ```` sh
 git submodule add https://github.com/thruthesky/philgo-api src/app/modules/philgo-api
+git submodule add https://github.com/thruthesky/angular-library src/app/modules/angular-library
+git submodule add https://github.com/thruthesky/language-translate src/app/modules/language-translate
+npm i firebase
 ````
 
-### External Dependency
 
-* It needs
-  * Bootstrap v4 utilities.
-  * Defaut CSS code
-  ```` css
-    .mw-200px { max-width: 200px!important; }
-    .mw-300px { max-width: 300px!important; }
-  ````
+* import `HttpClientModule` in app.module.ts
 
-### Initializing Philgo Api
-
-* You can inject `PhilGoApiService` without module importing because it is providedIn root.
+* Initialize `Firebase` and `PhilGoApiService` in app.module.ts
 
 ```` typescript
+import * as firebase from 'firebase/app';
+const firebaseConfig = {
+  apiKey: 'AIzaSyA1X3vpzSpUk_JHCbNjEwQe1-pduF0Enqs',
+  authDomain: 'philgo-64b1a.firebaseapp.com',
+  databaseURL: 'https://philgo-64b1a.firebaseio.com',
+  projectId: 'philgo-64b1a',
+  storageBucket: 'philgo-64b1a.appspot.com',
+  messagingSenderId: '675064809117'
+};
+firebase.initializeApp(firebaseConfig);
+
 export class AppModule {
   constructor(philgo: PhilGoApiService) {
-    /** Example 1 */
-    // philgo.setServerUrl('http://59.30.59.162/sapcms_1_2/api.php');
-    // philgo.setFileServerUrl('http://59.30.59.162/sapcms_1_2/index.php'); // Philgo API file server url. Must end with 'indx.php'.
-    // philgo.setNewFileServerUrl('http://59.30.59.162/file-server/index.php');
-  
-    /** Example 2 */
-    philgo.setServerUrl('https://local.philgo.com/api.php');
-    philgo.setFileServerUrl('https://local.philgo.com/index.php');
-    philgo.setNewFileServerUrl('http://work.org/file-server/index.php');
-
-    /** Example 3 */
-    // philgoServerUrl: 'https://www.philgo.com/api.php',
-    // philgoFileServerUrl: 'https://file.philgo.com/index.php',
-    // newFileServerUrl: 'https://file.philgo.com/~file_server/index.php'
+    philgo.setServerUrl('http://192.168.0.254/sapcms_1_2/api.php');
+    philgo.setFileServerUrl('http://192.168.0.254/sapcms_1_2/index.php');
+    philgo.setNewFileServerUrl('http://192.168.0.254/file-server/index.php');
   }
 }
 ````
+
+### Adding PhilGo Api Components
+
+* It needs `philgo-api`, `angular-library`, 
+
+```` sh
+git submodule add https://github.com/thruthesky/components src/app/modules/components
+ionic cordova plugin add cordova-plugin-camera
+npm install --save @ionic-native/camera
+````
+
+
 
 ## TEST
 
@@ -461,3 +463,66 @@ philgo.newMessageFromOtherRoom.subscribe(message => {
   예를 들어, 방 A 에서 ==> 내방 목록 ==> 방 B 로 가면, 최근 메시지가 보인다.
   하지만, 방 A 에서 ==> 방 B 로 바로 가면 내 방 목록이 보이지 않는다. ( 방 A 를 나가면 다시 방 목록을 캐시하는데, 캐시하기 전에 방 B 로 먼저 들어가 버리기 때문. )
   이 정도는 괜찮다. 전반적으로 매우 빨라졌으며 만족할만하다.
+
+## Login
+
+* `app-login-component` emits `error` event. so, you can simply toast it.
+
+```` html
+<app-login-component (error)=" a.toast( $event ) "></app-login-component>
+````
+
+```` scss
+ion-toast {
+    &.error {
+        .toast-container {
+            background-color: rgb(141, 0, 0);
+        }
+    }
+}
+````
+
+```` ts
+/**
+ * Toast on app.
+ * @param o string or object.
+ *  if it is an object,
+ *    {
+ *      code: number,   // if code is not 0, it means, error.
+ *      message: string,
+ *      closeButtonText: string   // customize close button text.
+ *      duration: number          // ms. default is 10000(10s). you can put it big number for test.
+ *    }
+ * @example
+    e.duration = 100000;
+    this.a.toast(e);
+  * @description If the toast is an error toast
+  *    <ion-toast class="error errorNO"> will be added in class.
+  *    Normally error code is like -1234, so, the error class will be 'error error-1324'
+  */
+async toast(o: any) {
+  if (typeof o === 'string') {
+    o = {
+      message: o
+    };
+  }
+  if (o.closeButtonText === void 0) {
+    o.closeButtonText = this.tr.t({ ko: '닫기', en: 'Close', jp: '閉じる', ch: '关' });
+  }
+  if (o.duration === void 0) {
+    o.duration = 10000;
+  }
+  if (typeof o.code !== void 0 && o.code) {
+    /**
+     * If session id is invalid, let the user log out.
+     */
+    if (o.code === ERROR_WRONG_SESSION_ID || o.code === ERROR_WRONG_IDX_MEMBER) {
+      this.philgo.logout();
+    }
+    o.cssClass = `error error${o.code}`;
+  }
+  o.showCloseButton = true;
+  const toast = await this.toastController.create(o);
+  toast.present();
+}
+````
