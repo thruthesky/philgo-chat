@@ -486,6 +486,7 @@ export interface ApiChatMessage {
     percentage?: number;                // used only in client.
     type?: string;                      // to determine the message type.
     url?: string;                       // the url of the file.
+    failed?: boolean;                   // This will be set true only if the message failed to be sent.
 }
 export interface ApiChatRoomCreateRequest extends ApiRequest {
     name: string;
