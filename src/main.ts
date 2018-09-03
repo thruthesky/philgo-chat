@@ -11,7 +11,7 @@
 // platformBrowserDynamic().bootstrapModule(AppModule)
 //   .catch(err => console.log(err));
 
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, ViewEncapsulation } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
@@ -23,7 +23,11 @@ if (environment.production) {
   enableProdMode();
 }
 
-const bootstrap = () => platformBrowserDynamic().bootstrapModule(AppModule);
+const bootstrap = () => platformBrowserDynamic().bootstrapModule(AppModule, [
+  {
+    defaultEncapsulation: ViewEncapsulation.None
+  }
+]);
 
 if (environment.hmr) {
   if (module['hot']) {
