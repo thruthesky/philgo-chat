@@ -174,7 +174,7 @@ export const ApiErrorEmptyPassword = -1110;
  */
 export interface ApiFileUploadOptions {
     gid?: string;
-    login?: 'pass';
+    user_password?: string;
     finish?: '1';
     code?: string;
     module_name?: string;
@@ -182,7 +182,9 @@ export interface ApiFileUploadOptions {
 
 
 /**
- * since v4.
+ * Type for file upload.
+ *
+ * @since PhilGo API v4
  */
 export interface ApiFileUpload {
     gid: string;
@@ -221,12 +223,40 @@ export interface ApiMember {
 }
 
 
-export interface ApiPhoto {
-    idx: number;
+/**
+ * Type for the return of file upload resopnse.
+ *
+ * @since 2018-09-04. The return format is same as the response of file upload.
+ */
+export interface ApiFile {
+    idx: string;
+    idx_member: string;
+    module: string;
+    gid: string;
+    code: string;
+    stamp: string;
+    path: string;
     name: string;
-    url?: string;
-    url_thumbnail?: string;
+    type: string;
+    size: string;
+    finished: string;
+    delete: string;
+    md5: string;
+    src: string;                    // url of original photo if the upload is a photo.
+    src_thumbnail: string;          // thumbnail url of the photo if the upload is a photo.
+    url_download: string;           // download url of the upload if the upload is not a photo or may be a photo.
+    info: string;                   // file name with size in KB.
 }
+
+/**
+ * Type of file delete response.
+ */
+export interface ApiFileDelete {
+    idx: string;
+    gid?: string;
+    user_password?: string;
+}
+
 
 export interface ApiForumPageRequest extends ApiOptionalRequest {
 
@@ -256,7 +286,7 @@ export interface ApiComment {
     idx_root?: string;
     int_10?: string;
     member?: ApiMember;
-    photos?: Array<ApiPhoto>;
+    file?: Array<ApiFile>;
     post_id?: string;
     stamp?: string;
     date?: string;
@@ -266,6 +296,8 @@ export interface ApiComment {
 
 
 /**
+ * Post data structure for v4.
+ * 
  * Post data structure for list/create/update etc.
  *
  * @desc Do not use this. Use ApiPost
@@ -314,7 +346,7 @@ export interface ApiPostData {
     bad?: string;
     access_code?: string;
     region?: string;
-    photos?: Array<ApiPhoto>;
+    files?: Array<ApiFile>;
     int_1?: string;
     int_2?: string;
     int_3?: string;
@@ -1171,93 +1203,95 @@ export class PhilGoApiService {
     }
 
     uploadPrimaryPhotoWeb(files: FileList) {
-        return this.fileUploadOnWeb(files, {
-            gid: this.getMemberId(),
+        return this.fileUpload(files, {
+            gid: this.myIdx(),
             code: 'primary_photo',
             finish: '1'
         });
     }
 
     /**
+     * @deprecated
      * 카메라 업로드가 아닌, HTML FORM 파일 선택을 통해서 파일 업로드를 한다.
      * @param files HTML FORM type='file' event.target.files
      * @param option Optoins for requesting file upload to the server
      */
-    fileUploadOnWeb(files: FileList, option: ApiFileUploadOptions = {}): Observable<ApiFileUploadResponse> {
-        if (files === void 0 || !files.length || files[0] === void 0) {
-            return throwError(ApiErrorFileNotSelected);
-        }
-        const file = files[0];
 
-        const formData = new FormData();
-        formData.append('file', file, file.name);
-        formData.append('module', 'ajax');
-        formData.append('action', 'file_upload_submit');
-        // console.log('option: ', option);
-        if (option.gid) {
-            formData.append('gid', option.gid);
-        }
-        if (option.finish) {
-            formData.append('finish', option.finish);
-        }
-        if (option.login === 'pass') {
-            formData.append('login', option.login);
-        } else {
-            formData.append('idx_member', this.getIdxMember().toString());
-            formData.append('session_id', this.getSessionId());
-        }
-        if (option.module_name) {
-            formData.append('module_name', option.module_name);
-        }
-        if (option.code) {
-            formData.append('varname', option.code);
-        }
+    // fileUploadOnWeb(files: FileList, option: ApiFileUploadOptions = {}): Observable<ApiFileUploadResponse> {
+    //     if (files === void 0 || !files.length || files[0] === void 0) {
+    //         return throwError(ApiErrorFileNotSelected);
+    //     }
+    //     const file = files[0];
 
-        const req = new HttpRequest('POST', this.getFileServerUrl(), formData, {
-            reportProgress: true,
-            responseType: 'json'
-        });
+    //     const formData = new FormData();
+    //     formData.append('file', file, file.name);
+    //     formData.append('module', 'ajax');
+    //     formData.append('action', 'file_upload_submit');
+    //     // console.log('option: ', option);
+    //     if (option.gid) {
+    //         formData.append('gid', option.gid);
+    //     }
+    //     if (option.finish) {
+    //         formData.append('finish', option.finish);
+    //     }
+    //     if (option.login === 'pass') {
+    //         formData.append('login', option.login);
+    //     } else {
+    //         formData.append('idx_member', this.getIdxMember().toString());
+    //         formData.append('session_id', this.getSessionId());
+    //     }
+    //     if (option.module_name) {
+    //         formData.append('module_name', option.module_name);
+    //     }
+    //     if (option.code) {
+    //         formData.append('varname', option.code);
+    //     }
 
-        console.log('file upload: ', this.getFileServerUrl());
-        return this.http.request(req).pipe(
-            map(e => {
-                // console.log('map: ', e);
-                if (e instanceof HttpResponse) { // success event.
-                    if (e.status === 200) {
-                        if (e.body) {
-                            // upload success now.
-                            console.log('success: ', e);
-                            console.log('e.body.data', e.body['data']);
-                            if (e.body['data']['result'] === 0) {
-                                return e.body['data'];
-                            } else {
-                                throw { code: ApiErrorFileUploadError, message: e.body['data']['error'] };
-                            }
-                        } else {
-                            return e.body; // Return Server error
-                        }
-                    }
-                } else if (e instanceof HttpHeaderResponse) { // header event
-                    return e;
-                } else if (e.type === HttpEventType.UploadProgress) { // progress event
-                    const precentage = Math.round(100 * e.loaded / e.total);
-                    if (isNaN(precentage)) {
-                        // console.log('file upload error. percentage is not number');
-                    } else {
-                        // console.log('upload percentage: ', precentage);
-                        return precentage;
-                    }
-                }
-                return e; // other events
-            }),
-            catchError(e => {
-                console.log('catchError : ', e);
-                // return of( e );
-                throw { code: ApiErrorJsonParse, message: e.body };
-            })
-        );
+    //     const req = new HttpRequest('POST', this.getFileServerUrl(), formData, {
+    //         reportProgress: true,
+    //         responseType: 'json'
+    //     });
 
-    }
+    //     console.log('file upload: ', this.getFileServerUrl());
+    //     return this.http.request(req).pipe(
+    //         map(e => {
+    //             // console.log('map: ', e);
+    //             if (e instanceof HttpResponse) { // success event.
+    //                 if (e.status === 200) {
+    //                     if (e.body) {
+    //                         // upload success now.
+    //                         console.log('success: ', e);
+    //                         console.log('e.body.data', e.body['data']);
+    //                         if (e.body['data']['result'] === 0) {
+    //                             return e.body['data'];
+    //                         } else {
+    //                             throw { code: ApiErrorFileUploadError, message: e.body['data']['error'] };
+    //                         }
+    //                     } else {
+    //                         return e.body; // Return Server error
+    //                     }
+    //                 }
+    //             } else if (e instanceof HttpHeaderResponse) { // header event
+    //                 return e;
+    //             } else if (e.type === HttpEventType.UploadProgress) { // progress event
+    //                 const precentage = Math.round(100 * e.loaded / e.total);
+    //                 if (isNaN(precentage)) {
+    //                     // console.log('file upload error. percentage is not number');
+    //                 } else {
+    //                     // console.log('upload percentage: ', precentage);
+    //                     return precentage;
+    //                 }
+    //             }
+    //             return e; // other events
+    //         }),
+    //         catchError(e => {
+    //             console.log('catchError : ', e);
+    //             // return of( e );
+    //             throw { code: ApiErrorJsonParse, message: e.body };
+    //         })
+    //     );
+
+    // }
 
 
     /**
@@ -1267,7 +1301,7 @@ export class PhilGoApiService {
      * 
      * @example README.md ## File Upload
      */
-    fileUpload(files: FileList, options: ApiFileUploadOptions) {
+    fileUpload(files: FileList, options: ApiFileUploadOptions): Observable<any> {
         if (files === void 0 || !files.length || files[0] === void 0) {
             return throwError(ApiErrorFileNotSelected);
         }
@@ -1279,6 +1313,9 @@ export class PhilGoApiService {
         formData.append('method', 'file.upload');
         if (options.gid) {
             formData.append('gid', options.gid);
+        }
+        if (options.user_password) {
+            formData.append('user_password', options.user_password);
         }
         if (options.finish) {
             formData.append('finish', options.finish);
@@ -1298,7 +1335,7 @@ export class PhilGoApiService {
             reportProgress: true,
             responseType: 'json'
         });
-        
+
         // console.log('file upload: ', this.getNewFileServerUrl());
         return this.http.request(req).pipe(
             map(e => {
@@ -1306,7 +1343,7 @@ export class PhilGoApiService {
                     if (e.body !== void 0 && e.body['code'] !== void 0) {
                         if (e.body['code'] === 0) {
                             console.log('file upload success:', e);
-                            e.body['data']['url'] = this.getNewFileServerUrl().replace('index.php', e.body['data']['path']);
+                            // e.body['data']['url'] = this.getNewFileServerUrl().replace('index.php', e.body['data']['path']);
                             return e.body['data'];
                         } else {
                             throw { code: e.body['code'], message: e.body['message'] };
@@ -1338,6 +1375,9 @@ export class PhilGoApiService {
 
     }
 
+    fileDelete(data: ApiFileDelete): Observable<ApiFileDelete> {
+        return this.query('file.delete', data);
+    }
 
     /**
      * New File Upload Method with New File Server.
