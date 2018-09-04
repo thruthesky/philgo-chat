@@ -53,7 +53,7 @@
             </ion-item>
 
             <ion-item routerLink="/forum/qna">
-              <ion-icon slot="start" color="medium" name="paper"></ion-icon>
+              <ion-icon slot="start" color="medium" name="help-buoy"></ion-icon>
               <ion-label>
                 <ion-text>
                   {{ tr.t({ ko: '질문과답변', en: 'QnA', ch: '', jp: ''})}}
@@ -71,7 +71,7 @@
             </ion-item>
 
             <ion-item routerLink="/job/housemaid">
-              <ion-icon slot="start" color="medium" name="paper"></ion-icon>
+              <ion-icon slot="start" color="medium" name="person"></ion-icon>
               <ion-label>
                 <ion-text>
                   {{ tr.t({ ko: '하우스메이드', en: 'Housemaid', ch: '', jp: ''})}}
@@ -80,7 +80,7 @@
             </ion-item>
 
             <ion-item routerLink="/job/driver">
-              <ion-icon slot="start" color="medium" name="paper"></ion-icon>
+              <ion-icon slot="start" color="medium" name="car"></ion-icon>
               <ion-label>
                 <ion-text>
                   {{ tr.t({ ko: '운전기사', en: 'Drivers', ch: '', jp: ''})}}
@@ -122,14 +122,6 @@
                 </ion-text>
               </ion-label>
             </ion-item>
-            <ion-item (click)="onClickLogout()" *ngIf=" philgo.isLoggedIn() ">
-              <ion-icon slot="start" color="medium" name="log-out"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t({ ko: '로그아웃', en: 'Logout', ch: '登出', jp: 'ログアウト' }) }}
-                </ion-text>
-              </ion-label>
-            </ion-item>
 
             <ion-item routerLink="/setting">
               <ion-icon slot="start" color="medium" name="settings"></ion-icon>
@@ -139,6 +131,15 @@
                 </ion-text>
               </ion-label>
             </ion-item>
+
+            <ion-item (click)="onClickLogout()" *ngIf=" philgo.isLoggedIn() ">
+                <ion-icon slot="start" color="medium" name="log-out"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ tr.t({ ko: '로그아웃', en: 'Logout', ch: '登出', jp: 'ログアウト' }) }}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
 
             <ion-item class="d-sm-none pointer">
               <ion-icon slot="start" color="medium" name="close-circle"></ion-icon>
