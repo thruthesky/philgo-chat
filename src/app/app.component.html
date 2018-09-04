@@ -20,7 +20,7 @@
               <ion-icon slot="start" color="medium" name="albums"></ion-icon>
               <ion-label>
                 <ion-text>
-                    {{ tr.t({'en': 'My Chat Room List', 'ko': '나의 채팅방 목록', ch: '我的聊天室列表', jp: '私のチャットルームリスト'}, {}) }}
+                  {{ tr.t({'en': 'My Chat Room List', 'ko': '나의 채팅방 목록', ch: '我的聊天室列表', jp: '私のチャットルームリスト'}, {}) }}
                 </ion-text>
               </ion-label>
             </ion-item>
@@ -61,7 +61,16 @@
               </ion-label>
             </ion-item>
 
-            <ion-item routerLink="/housemaid">
+            <ion-item routerLink="/forum/buyandsell">
+              <ion-icon slot="start" color="medium" name="happy"></ion-icon>
+              <ion-label>
+                <ion-text>
+                  {{ tr.t({ ko: '회원장터', en: 'Buyandsell', ch: '', jp: ''})}}
+                </ion-text>
+              </ion-label>
+            </ion-item>
+
+            <ion-item routerLink="/job/housemaid">
               <ion-icon slot="start" color="medium" name="paper"></ion-icon>
               <ion-label>
                 <ion-text>
@@ -70,12 +79,21 @@
               </ion-label>
             </ion-item>
 
+            <ion-item routerLink="/job/driver">
+              <ion-icon slot="start" color="medium" name="paper"></ion-icon>
+              <ion-label>
+                <ion-text>
+                  {{ tr.t({ ko: '운전기사', en: 'Drivers', ch: '', jp: ''})}}
+                </ion-text>
+              </ion-label>
+            </ion-item>
 
             <ion-item routerLink="/register">
               <ion-icon slot="start" color="medium" name="create"></ion-icon>
               <ion-label>
                 <ion-text>
-                  {{ philgo.isLoggedIn() ? tr.t({ ko: '회원 정보 수정', en: 'Profile Update', ch: '资料更新', jp: 'プロフィールの更新'}) : tr.t({ ko: '회원 가입', en: 'Register', ch: '会员注册', jp: '会員登録'}) }}
+                  {{ philgo.isLoggedIn() ? tr.t({ ko: '회원 정보 수정', en: 'Profile Update', ch: '资料更新', jp: 'プロフィールの更新'}) :
+                  tr.t({ ko: '회원 가입', en: 'Register', ch: '会员注册', jp: '会員登録'}) }}
                 </ion-text>
               </ion-label>
             </ion-item>
@@ -83,7 +101,7 @@
               <ion-icon slot="start" color="medium" name="help-circle-outline"></ion-icon>
               <ion-label>
                 <ion-text>
-                    {{ tr.t({ ko: '도움말', en: 'Help', ch: '帮帮我', jp: '助けて'}) }}
+                  {{ tr.t({ ko: '도움말', en: 'Help', ch: '帮帮我', jp: '助けて'}) }}
                 </ion-text>
               </ion-label>
             </ion-item>
@@ -91,7 +109,7 @@
               <ion-icon slot="start" color="medium" name="log-in"></ion-icon>
               <ion-label>
                 <ion-text>
-                    {{ tr.t({ ko: '로그인', en: 'Login', ch: '登录', jp: 'ログイン'}) }}
+                  {{ tr.t({ ko: '로그인', en: 'Login', ch: '登录', jp: 'ログイン'}) }}
                 </ion-text>
               </ion-label>
             </ion-item>
@@ -99,16 +117,16 @@
               <ion-icon slot="start" color="medium" name="log-out"></ion-icon>
               <ion-label>
                 <ion-text>
-                    {{ tr.t({ ko: '로그아웃', en: 'Logout', ch: '登出', jp: 'ログアウト' }) }}
+                  {{ tr.t({ ko: '로그아웃', en: 'Logout', ch: '登出', jp: 'ログアウト' }) }}
                 </ion-text>
               </ion-label>
             </ion-item>
-            
+
             <ion-item routerLink="/setting">
               <ion-icon slot="start" color="medium" name="settings"></ion-icon>
               <ion-label>
                 <ion-text>
-                    {{ a.tr.t({ko: '설정', en: 'Setting', ch: '设置', jp: '設定'}) }}
+                  {{ a.tr.t({ko: '설정', en: 'Setting', ch: '设置', jp: '設定'}) }}
                 </ion-text>
               </ion-label>
             </ion-item>
@@ -117,7 +135,7 @@
               <ion-icon slot="start" color="medium" name="close-circle"></ion-icon>
               <ion-label>
                 <ion-text>
-                    {{ tr.t({ ko: '메뉴 닫기', en: 'Close', ch: '关', jp: '閉じる'}) }}
+                  {{ tr.t({ ko: '메뉴 닫기', en: 'Close', ch: '关', jp: '閉じる'}) }}
                 </ion-text>
               </ion-label>
             </ion-item>
