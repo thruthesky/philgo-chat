@@ -525,4 +525,8 @@ async toast(o: any) {
   const toast = await this.toastController.create(o);
   toast.present();
 }
+<<<<<<< HEAD
 ````
+=======
+````
+>>>>>>> 8ea7a7a42ba453e9faf2cbc73402222f38c0f0c5

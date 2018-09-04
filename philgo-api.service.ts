@@ -200,7 +200,7 @@ export interface ApiMember {
     nickname: string;
     stamp: string;
     level: string;
-    idx_promiary_photo: string;
+    idx_primary_photo: string;
 }
 
 
@@ -366,6 +366,17 @@ export interface ApiPostDelete {
     user_password?: string;
 }
 
+export interface ApiVote {
+    idx: string | number;   // vote for which post or comment?
+    mode?: 'good' | 'bad';  // voting for 'good' or 'bad'. it's like or dislike.
+    result?: string;        // only exist on server response. this is new value after voting.
+}
+
+export interface ApiReport {
+    idx: string;
+    result: 'Y';
+}
+
 
 interface ApiBanner {
     src: string; // banner image url
@@ -422,9 +433,9 @@ export interface ApiPostSearch {
     type?: string;              // post type.
     comment?: '' | '0';         // whether to get comments of posts or not. '0' mean don't get it.
     //
-    limit_comment?: number;     // limit no of comments to get. 
-    page_no?: number;           // page no. 
-    limit?: number;             // limit no of posts. 
+    limit_comment?: number;     // limit no of comments to get.
+    page_no?: number;           // page no.
+    limit?: number;             // limit no of posts.
     uid?: string;               // user id, nickname, email. to search posts of the user.
     order_by?: string;          // to order the result. default 'stamp DESC'.
 
@@ -486,6 +497,7 @@ export interface ApiChatMessage {
     percentage?: number;                // used only in client.
     type?: string;                      // to determine the message type.
     url?: string;                       // the url of the file.
+    failed?: boolean;                   // This will be set true only if the message failed to be sent.
 }
 export interface ApiChatRoomCreateRequest extends ApiRequest {
     name: string;
@@ -518,6 +530,32 @@ export interface ApiChatRoomUser {
     nickname: string;
 }
 export type ApiChatRoomUsers = Array<ApiChatRoomUser>;
+
+export interface ApiChatRoomUpdate {
+    idx: string;
+    name: string;
+    description: string;
+    reminder: string;
+}
+
+export interface ApiChatDisableAlarm {
+    idx_member?: string;
+    idx_chat_room: string;
+    disable: 'Y' | '';
+    result?: 'on' | 'off'; // This is only available on the response from the server.
+}
+
+export interface ApiChatSearch {
+    idx_chat_room?: any;
+    idx_member?: any;
+    page_no?: number;
+    limit?: number;
+}
+export interface ApiChatRoomUser {
+    idx: string;
+    nickname: string;
+}
+// export type ApiChatRoomUsers = Array<ApiChatRoomUser>;
 
 export interface ApiChatRoomUpdate {
     idx: string;
@@ -1264,24 +1302,16 @@ export class PhilGoApiService {
 
     }
 
-    // fileInfo(url: string): Observable<any> {
-    //     return this.http.get( url ).pipe(
-    //         map( res => {
-    //             console.log('info: ', res);
-    //         })
-    //     );
-    // }
-
-
 
 
     /**
      * Returns thumbnail URL of the photo
+     * @param option options
      * @see sapcms_1_2/etc/resize_image.php for detail.
      * @example
      *  <img src="{{ api.thumbnailUrl({ width: 100, height: 100, path: form.url_profile_photo }) }}" *ngIf=" form.url_profile_photo ">
      *  <img src="{{ api.thumbnailUrl({ width: 100, height: 100, idx: 1234 }) }}" *ngIf=" form.data.idx ">
-     * 
+     *
      * @example
      *  this.thumbnailUrl({ idx: idx, width: 64, height: 64 });
      */
@@ -2237,6 +2267,13 @@ export class PhilGoApiService {
         return this.query('post.delete', data);
     }
 
+    postLike(data: ApiVote): Observable<ApiVote> {
+        return this.query('post.vote', data);
+    }
+
+    postReport(idx: string): Observable<ApiReport> {
+        return this.query('post.report', {idx: idx});
+    }
 
 
     forumName(post_id) {
@@ -2258,7 +2295,7 @@ export class PhilGoApiService {
      *
      * Returns user photo URL or default photo url.
      * @param idx data.idx for the user's primary photo
-     * 
+     *
      * @example <img [src]="philgo.primaryPhotoUrl( post?.member?.idx_primary_photo )">
      */
     primaryPhotoUrl(idx): string {
@@ -2278,15 +2315,14 @@ export class PhilGoApiService {
                 data['path'] = idx_path;
             }
             return this.thumbnailUrl(data);
-        }
-        else {
+        } else {
             return this.anonymousPhotoURL;
         }
     }
 
 
     /**
-     * 
+     *
      */
     get anonymousPhotoURL(): string {
         return this.getServerUrl().replace('api.php', '') + 'etc/img/anonymous.gif';
