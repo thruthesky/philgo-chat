@@ -54,7 +54,6 @@ export class AppModule {
     //  */
     // philgo.setNewFileServerUrl('http://192.168.0.182/file-server/index.php');
 
-
     philgo.setServerUrl(environment.philgoServerUrl);
     /**
      * Philgo API file server url. Must end with 'indx.php'.
@@ -63,5 +62,8 @@ export class AppModule {
     philgo.setNewFileServerUrl(environment.newFileServerUrl);
     // philgo.db = firebase.database().ref('/');
     philgo.setFirebaseApp(firebase);
+    philgo.postLoadConfigs().subscribe(res => {
+      console.log('post.loadConfigs()', res);
+    });
   }
 }

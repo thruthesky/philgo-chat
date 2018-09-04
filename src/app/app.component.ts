@@ -8,7 +8,6 @@ import { LanguageTranslate } from './modules/language-translate/language-transla
 import { PhilGoApiService } from './modules/philgo-api/philgo-api.service';
 
 
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'

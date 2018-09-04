@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest, HttpResponse, HttpHeaderResponse, HttpEventType } from '@angular/common/http';
 import { Observable, throwError, Subject, of } from 'rxjs';
-import { map, catchError, filter } from 'rxjs/operators';
+import { map, catchError, filter, tap } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
+
+import postConfigs from './philgo-post-configs';
 
 
 
@@ -600,6 +602,11 @@ export class PhilGoApiService {
     firebaseApp: firebase.app.App;
     db: firebase.database.Reference;
 
+    /**
+     * Post configurations. When app boots it statically loaded and you can update it dynamically.
+     * @see https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#heading=h.42un1kwuv7s8 [Forum Configurations]
+     */
+    configs = postConfigs;
 
     /**
      * Api information. This is not an information of a one app. It is Api information.
@@ -2272,7 +2279,16 @@ export class PhilGoApiService {
     }
 
     postReport(idx: string): Observable<ApiReport> {
-        return this.query('post.report', {idx: idx});
+        return this.query('post.report', { idx: idx });
+    }
+
+    postLoadConfigs() {
+        return this.query('post.loadConfigs').pipe(
+            tap(configs => {
+                this.configs = configs;
+                console.log('confis: ', this.configs);
+            })
+        );
     }
 
 
@@ -2327,6 +2343,8 @@ export class PhilGoApiService {
     get anonymousPhotoURL(): string {
         return this.getServerUrl().replace('api.php', '') + 'etc/img/anonymous.gif';
     }
+
+
 
 
 }
