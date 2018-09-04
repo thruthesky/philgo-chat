@@ -62,8 +62,6 @@ export class AppModule {
     philgo.setNewFileServerUrl(environment.newFileServerUrl);
     // philgo.db = firebase.database().ref('/');
     philgo.setFirebaseApp(firebase);
-    philgo.postLoadConfigs().subscribe(res => {
-      console.log('post.loadConfigs()', res);
-    });
+    philgo.postConfigs().subscribe(res => {});
   }
 }

@@ -2282,8 +2282,8 @@ export class PhilGoApiService {
         return this.query('post.report', { idx: idx });
     }
 
-    postLoadConfigs() {
-        return this.query('post.loadConfigs').pipe(
+    postConfigs() {
+        return this.query('post.configs').pipe(
             tap(configs => {
                 this.configs = configs;
                 console.log('confis: ', this.configs);
