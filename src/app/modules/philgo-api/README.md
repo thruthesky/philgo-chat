@@ -530,3 +530,26 @@ async toast(o: any) {
   const toast = await this.toastController.create(o);
   toast.present();
 }
+````
+
+
+## File Upload
+
+```` typescript
+  onChangeFile(event: Event) {
+    if (AngularLibrary.isCordova()) {
+      return;
+    }
+    const files = event.target['files'];
+    if (files === void 0 || !files.length || files[0] === void 0) {
+      this.error = { code: -1, message: this.philgo.t({ en: 'Please select a file', ko: '업로드 할 팔일을 선택해주세요.' }) };
+    }
+    this.philgo.fileUpload(files, { gid: this.form.gid }).subscribe(res => {
+      if (typeof res === 'number') {
+        console.log('percentage: ', res);
+      } else {
+        console.log('file success: ', res);
+      }
+    }, e => console.error(e));
+  }
+````

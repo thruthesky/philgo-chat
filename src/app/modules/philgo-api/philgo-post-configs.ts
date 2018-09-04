@@ -18,12 +18,16 @@ const configs = {
         },
         category: {
             housemaid: {
-                en: 'Housemaid',
+                en: 'House Helpers',
                 ko: '하우스메이드'
             },
             driver: {
-                en: 'Driver',
+                en: 'Drivers',
                 ko: '운전기사'
+            },
+            english_tutor: {
+                en: 'English Tutors',
+                ko: '영어 튜터'
             }
         }
     }

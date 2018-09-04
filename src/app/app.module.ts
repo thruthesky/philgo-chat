@@ -43,7 +43,7 @@ firebase.initializeApp(firebaseConfig);
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(philgo: PhilGoApiService) {
+  constructor(private philgo: PhilGoApiService) {
     // philgo.setServerUrl('http://192.168.0.182/sapcms_1_2/api.php');
     // /**
     //  * Philgo API file server url. Must end with 'indx.php'.
@@ -62,6 +62,12 @@ export class AppModule {
     philgo.setNewFileServerUrl(environment.newFileServerUrl);
     // philgo.db = firebase.database().ref('/');
     philgo.setFirebaseApp(firebase);
-    philgo.postConfigs().subscribe(res => {});
+    // philgo.loadPostConfigs().subscribe(res => { });
+    philgo.appConfigs('philgo-chat').subscribe(res => {
+      this.philgo.app = res;
+      if ( res.postConfigs ) {
+        this.philgo.postConfigs = res.postConfigs;
+      }
+    }, e => {});
   }
 }

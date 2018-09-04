@@ -15,7 +15,7 @@ export class JobPage implements OnInit, AfterViewInit {
     public philgo: PhilGoApiService
   ) {
     activatedRoute.paramMap.subscribe( params => this.category = params.get('category') );
-    console.log( philgo.configs );
+    console.log( philgo.postConfigs );
   }
 
   ngOnInit() {

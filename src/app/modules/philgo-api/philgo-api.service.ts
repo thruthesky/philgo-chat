@@ -169,6 +169,9 @@ export const ApiErrorEmptyPassword = -1110;
 
 
 
+/**
+ * before v4.
+ */
 export interface ApiFileUploadOptions {
     gid?: string;
     login?: 'pass';
@@ -176,6 +179,18 @@ export interface ApiFileUploadOptions {
     code?: string;
     module_name?: string;
 }
+
+
+/**
+ * since v4.
+ */
+export interface ApiFileUpload {
+    gid: string;
+    finish?: '1';
+    code?: string;
+    module_name?: string;
+}
+
 
 export interface ApiNewFileServerUploadOptions {
     uid: string;
@@ -602,11 +617,16 @@ export class PhilGoApiService {
     firebaseApp: firebase.app.App;
     db: firebase.database.Reference;
 
+
+    /**
+     * @see https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#heading=h.odwylmdcu2i8
+     */
+    app;
     /**
      * Post configurations. When app boots it statically loaded and you can update it dynamically.
      * @see https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#heading=h.42un1kwuv7s8 [Forum Configurations]
      */
-    configs = postConfigs;
+    postConfigs = postConfigs;
 
     /**
      * Api information. This is not an information of a one app. It is Api information.
@@ -1241,6 +1261,85 @@ export class PhilGoApiService {
 
 
     /**
+     * Uploads a file using PhilGo Api v4
+     * @param files HTML FileList
+     * @param options Options to upload file
+     * 
+     * @example README.md ## File Upload
+     */
+    fileUpload(files: FileList, options: ApiFileUploadOptions) {
+        if (files === void 0 || !files.length || files[0] === void 0) {
+            return throwError(ApiErrorFileNotSelected);
+        }
+        const file = files[0];
+
+
+        const formData = new FormData();
+        formData.append('file', file, file.name);
+        formData.append('method', 'file.upload');
+        if (options.gid) {
+            formData.append('gid', options.gid);
+        }
+        if (options.finish) {
+            formData.append('finish', options.finish);
+        }
+
+        formData.append('idx_member', this.myIdx());
+        formData.append('session_id', this.getSessionId());
+
+        if (options.module_name) {
+            formData.append('module_name', options.module_name);
+        }
+        if (options.code) {
+            formData.append('varname', options.code);
+        }
+
+        const req = new HttpRequest('POST', this.getServerUrl(), formData, {
+            reportProgress: true,
+            responseType: 'json'
+        });
+        
+        // console.log('file upload: ', this.getNewFileServerUrl());
+        return this.http.request(req).pipe(
+            map(e => {
+                if (e instanceof HttpResponse) { // success event. upload finished.
+                    if (e.body !== void 0 && e.body['code'] !== void 0) {
+                        if (e.body['code'] === 0) {
+                            console.log('file upload success:', e);
+                            e.body['data']['url'] = this.getNewFileServerUrl().replace('index.php', e.body['data']['path']);
+                            return e.body['data'];
+                        } else {
+                            throw { code: e.body['code'], message: e.body['message'] };
+                        }
+                    } else {
+                        // may php error string?
+                        return e.body;
+                    }
+                } else if (e instanceof HttpHeaderResponse) { // header event. It may be a header part from the server response.
+                    // don't return anything about header.
+                    // return e;
+                } else if (e.type === HttpEventType.UploadProgress) { // progress event
+                    const precentage = Math.round(100 * e.loaded / e.total);
+                    if (isNaN(precentage)) {
+                        // don't do here anything. this will never happens.
+                        // console.log('file upload error. percentage is not number');
+                        return <any>0;
+                    } else {
+                        // console.log('upload percentage: ', precentage);
+                        return <any>precentage;
+                    }
+                } else {
+                    // don't return other events.
+                    // return e; // other events
+                }
+            }),
+            filter(e => e)
+        );
+
+    }
+
+
+    /**
      * New File Upload Method with New File Server.
      *
      * @since 2018-08-03 새로운 파일 서버에 파일을 업로드한다.
@@ -1249,7 +1348,7 @@ export class PhilGoApiService {
      * @desc This upload file into a new server.
      *
      */
-    fileUpload(files: FileList, options: ApiNewFileServerUploadOptions): Observable<ApiNewFileServerUpload> {
+    newFileUpload(files: FileList, options: ApiNewFileServerUploadOptions): Observable<ApiNewFileServerUpload> {
         if (files === void 0 || !files.length || files[0] === void 0) {
             return throwError(ApiErrorFileNotSelected);
         }
@@ -2251,6 +2350,15 @@ export class PhilGoApiService {
         return this.tr.t(code, info);
     }
 
+
+    ///
+    /// App methods
+    ///
+    appConfigs(name: string): Observable<any> {
+        return this.query('app.configs', { name: name });
+    }
+
+
     ///
     ///
     /// NEW POST APIS
@@ -2282,11 +2390,14 @@ export class PhilGoApiService {
         return this.query('post.report', { idx: idx });
     }
 
-    postConfigs() {
+    /**
+     * @see https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#heading=h.42un1kwuv7s8
+     */
+    loadPostConfigs() {
         return this.query('post.configs').pipe(
             tap(configs => {
-                this.configs = configs;
-                console.log('confis: ', this.configs);
+                this.postConfigs = configs;
+                // console.log('confis: ', this.postConfigs);
             })
         );
     }
