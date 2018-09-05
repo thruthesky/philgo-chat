@@ -18,6 +18,9 @@ type LanguageCode = string;
 })
 export class LanguageTranslate {
 
+    /**
+     * This can be changed lively.
+     */
     languageCode: LanguageCode = 'en';
     constructor(
 
@@ -92,6 +95,9 @@ export class LanguageTranslate {
      */
     translate(code: LanguageText, info?): string {
         // console.log('lang: ', this.languageCode);
+        if ( ! code ) {
+            return 'CODE_EMPTY';
+        }
         const ln = this.correctLanguageCode(this.languageCode);
         let str = code[ln];
         if ( ! str ) {

@@ -82,6 +82,11 @@ export class AppModule {
     philgo.setServerUrl('http://192.168.0.254/sapcms_1_2/api.php');
     philgo.setFileServerUrl('http://192.168.0.254/sapcms_1_2/index.php');
     philgo.setNewFileServerUrl('http://192.168.0.254/file-server/index.php');
+    /**
+     * Call 'postConfigs()' to load post_config table configurations from server.
+     * @see https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#heading=h.42un1kwuv7s8
+     */
+    philgo.postConfigs().subscribe(res => {});
   }
 }
 ````
@@ -525,8 +530,26 @@ async toast(o: any) {
   const toast = await this.toastController.create(o);
   toast.present();
 }
-<<<<<<< HEAD
 ````
-=======
+
+
+## File Upload
+
+```` typescript
+  onChangeFile(event: Event) {
+    if (AngularLibrary.isCordova()) {
+      return;
+    }
+    const files = event.target['files'];
+    if (files === void 0 || !files.length || files[0] === void 0) {
+      this.error = { code: -1, message: this.philgo.t({ en: 'Please select a file', ko: '업로드 할 팔일을 선택해주세요.' }) };
+    }
+    this.philgo.fileUpload(files, { gid: this.form.gid }).subscribe(res => {
+      if (typeof res === 'number') {
+        console.log('percentage: ', res);
+      } else {
+        console.log('file success: ', res);
+      }
+    }, e => console.error(e));
+  }
 ````
->>>>>>> 8ea7a7a42ba453e9faf2cbc73402222f38c0f0c5

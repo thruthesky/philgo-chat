@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>housemaid</ion-title>
+    <ion-title>{{ philgo.t( philgo.postConfigs.jobs.category[ category ] ) }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
 
-  <app-job-list-component [title]=" philgo.t({ ko: '하우스메이드', en: 'Housemaid' }) " [category]=" 'housemaid' " ></app-job-list-component>
+  <app-job-list-component [category]=" category " ></app-job-list-component>
 
 </ion-content>
