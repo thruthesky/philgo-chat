@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button routerLink="/">
-        <ion-icon name="arrow-round-back"></ion-icon>
-      </ion-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>{{ a.tr.t({ko: '설정', en: 'Setting', ch: '设置', jp: '設定'}) }}</ion-title>
 
@@ -20,11 +18,11 @@
 
     <ion-item routerLink="/setting-language">
       <ion-label>
-          {{ a.tr.t({ ko: '언어 선택', en: 'Language Selection', ch: '语言选择', jp: '言語選択'}) }}
+        {{ a.tr.t({ ko: '언어 선택', en: 'Language Selection', ch: '语言选择', jp: '言語選択'}) }}
       </ion-label>
     </ion-item>
 
-    
+
     <ion-item routerLink="/setting-dev-info">
       <ion-label>
         {{ a.tr.t({ko: '소프트웨어 정보', en: 'Software Information', ch: '软件信息', jp: 'ソフトウェア情報' }) }}

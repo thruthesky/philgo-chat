@@ -40,6 +40,7 @@ export class RoomPage implements OnInit, AfterViewInit {
     public tr: LanguageTranslate,
     public popoverController: PopoverController
   ) {
+    console.log('RoomPage::constructor()');
     philgo.chatResetRoom();
     a.chatRoomReminderClose.subscribe(async () => {
       await this.popover.dismiss();
@@ -173,8 +174,7 @@ export class RoomPage implements OnInit, AfterViewInit {
                 text: this.a.tr.t({ ko: '예', en: 'Yes' }),
                 role: 'yes',
                 handler: () => {
-                  // console.log('Confirm Okay');
-                  this.reloadMyRoom();
+                  console.log('Confirm Okay');
                 }
               }
             ]
@@ -188,8 +188,9 @@ export class RoomPage implements OnInit, AfterViewInit {
           }
 
           this.philgo.chatLeaveRoom(this.philgo.currentRoom.idx).subscribe(res => {
-            // console.log('You have successfully left the room: ', res.name);
-            this.router.navigateByUrl('/my-rooms');
+            console.log('You have successfully left the room: ', res.name);
+            // this.router.navigateByUrl('/my-rooms');
+            this.onClickLeaveButton();
           }, e => {
             if (e.code !== void 0 && e.code === ERROR_CHAT_NOT_IN_THAT_ROOM) {
               this.router.navigateByUrl('/my-rooms');
@@ -247,22 +248,26 @@ export class RoomPage implements OnInit, AfterViewInit {
   }
 
   onClickLeaveButton() {
+    console.log('onClickLeaveButton');
     this.philgo.currentRoom = null;
-    if (this.a.myRoomsPageVisited) {
-      this.router.navigateByUrl('/');
-      this.reloadMyRoom();
-    } else {
-      location.href = '/';
-    }
-    return false;
+    this.a.setRoot(this.a.home());
+
+
+    // if (this.a.myRoomsPageVisited) {
+    //   this.router.navigateByUrl('/');
+    //   this.reloadMyRoom();
+    // } else {
+    //   location.href = '/';
+    // }
+    // return false;
   }
 
-  reloadMyRoom() {
-    this.philgo.chatLoadMyRooms().subscribe(res => {
-      console.log('room page::releoadMyRoom()', res);
-    });
+  // reloadMyRoom() {
+  //   this.philgo.chatLoadMyRooms().subscribe(res => {
+  //     console.log('room page::releoadMyRoom()', res);
+  //   });
 
-  }
+  // }
 
   async onChatMessageDisplayError(e) {
     if (e.code === ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM) {

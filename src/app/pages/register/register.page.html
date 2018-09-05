@@ -2,9 +2,7 @@
   <ion-toolbar>
 
     <ion-buttons slot="start">
-      <ion-button routerLink="/">
-        <ion-icon name="arrow-round-back"></ion-icon>
-      </ion-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
 
     <ion-title *ngIf=" philgo.isLoggedOut() ">{{ a.tr.t({ko: '회원 가입', en: 'Register' }) }}</ion-title>
@@ -16,10 +14,6 @@
 </ion-header>
 
 <ion-content padding>
-  <app-register-component
-    class="d-block mt-3 mx-auto w-md-50" 
-    (register)=" onRegister( $event ) "
-    (update)=" onUpdate( $event ) "
-    (error)=" a.toast( $event ) "
-  ></app-register-component>
+  <app-register-component class="d-block mt-3 mx-auto w-md-50" (register)=" onRegister( $event ) " (update)=" onUpdate( $event ) "
+    (error)=" a.toast( $event ) "></app-register-component>
 </ion-content>

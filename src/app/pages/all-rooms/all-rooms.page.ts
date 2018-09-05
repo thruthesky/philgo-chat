@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../../providers/app.service';
+import { MyRoomsPage } from '../my-rooms/my-rooms.page';
 
 
 @Component({
@@ -17,4 +18,7 @@ export class AllRoomsPage implements OnInit {
   ngOnInit() {
   }
 
+  onClickGoBack() {
+    this.a.setRoot( this.a.home() );
+  }
 }

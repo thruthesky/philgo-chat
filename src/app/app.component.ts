@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -8,11 +8,13 @@ import { LanguageTranslate } from './modules/language-translate/language-transla
 import { PhilGoApiService } from './modules/philgo-api/philgo-api.service';
 
 
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
+  
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -26,6 +28,10 @@ export class AppComponent {
 
     // t.postSearch();
 
+  }
+
+  ngAfterViewInit() {
+    
   }
 
   initializeApp() {
