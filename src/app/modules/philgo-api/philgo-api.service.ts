@@ -297,7 +297,7 @@ export interface ApiComment {
 
 /**
  * Post data structure for v4.
- * 
+ *
  * Post data structure for list/create/update etc.
  *
  * @desc Do not use this. Use ApiPost
@@ -656,7 +656,8 @@ export class PhilGoApiService {
     app;
     /**
      * Post configurations. When app boots it statically loaded and you can update it dynamically.
-     * @see https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#heading=h.42un1kwuv7s8 [Forum Configurations]
+     * @see https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#heading=h.42un1kwuv7s8
+     * [Forum Configurations]
      */
     postConfigs = postConfigs;
 
@@ -1298,7 +1299,7 @@ export class PhilGoApiService {
      * Uploads a file using PhilGo Api v4
      * @param files HTML FileList
      * @param options Options to upload file
-     * 
+     *
      * @example README.md ## File Upload
      */
     fileUpload(files: FileList, options: ApiFileUploadOptions): Observable<any> {
@@ -2429,6 +2430,45 @@ export class PhilGoApiService {
     postReport(idx: string): Observable<ApiReport> {
         return this.query('post.report', { idx: idx });
     }
+
+    postCheckPassword(req: { idx: string, user_password: string }): Observable<string> {
+        // return throwError('');
+        // return of('hello password');
+        return this.query('post.checkPassword', req);
+    }
+
+    /**
+     * Return true if the post is belong to logged in user.
+     * For anonymous, it returns false.
+     * @param post post
+     */
+    isMyPost(post: ApiPost): boolean {
+        if (!post || !post.idx_member) {
+            return false;
+        }
+        if (post.idx_member === '0') {
+            return false;
+        }
+        if (this.isLoggedOut()) {
+            return false;
+        }
+
+        return post.idx_member === this.myIdx();
+    }
+    /**
+     * Returns true if the post is owned by anonymous.
+     * @param post post
+     */
+    isAnonymousPost(post: ApiPost) {
+        if (!post || post.idx_member === void 0) {
+            return false;
+        }
+        if (post.idx_member === '0') {
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * @see https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#heading=h.42un1kwuv7s8
