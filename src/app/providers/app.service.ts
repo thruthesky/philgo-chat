@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { LanguageTranslate } from '../modules/language-translate/language-translate';
 import { environment } from '../../environments/environment';
 import { AngularLibrary } from '../modules/angular-library/angular-library';
+import { AlertOptions } from '@ionic/core';
 
 
 interface Environment {
@@ -432,4 +433,21 @@ export class AppService {
     this.router.navigateByUrl('/room/' + idx_chat_room);
   }
 
+  
+  async alert(options: AlertOptions) {
+    if (!options) {
+      return;
+    }
+
+    if (!options.buttons) {
+      options.buttons = [this.philgo.t({ en: 'OK', ko: '확인' })];
+    }
+
+    const alert = await this.alertController.create(options);
+    await alert.present();
+  }
+
+  t(o, i) {
+    return this.tr.t(o, i);
+  }
 }
