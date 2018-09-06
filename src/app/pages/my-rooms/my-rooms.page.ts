@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AppService } from '../../providers/app.service';
-import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
+import { PhilGoApiService, ApiError } from '../../modules/philgo-api/philgo-api.service';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-my-rooms',
@@ -13,39 +13,14 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
   title = 'Loading...';
 
   sortByMessage = false;
-  // componentCreated = false;
   constructor(
     public a: AppService,
     public philgo: PhilGoApiService,
-    public tr: LanguageTranslate,
-    private router: Router
+    public tr: LanguageTranslate
   ) {
-
-    // philgo.chatSearch().subscribe(res => {
-    //   console.log('search res => ', res);
-    // }, e => a.toast(e));
-
     console.log('MyRoomsPage::constructor()');
-    // a.myRoomsPageVisited = true;
 
-    if (this.philgo.isLoggedOut()) {
-      this.a.openAllRooms();
-    } else {
-    }
   }
-
-  /**
-   * This method is being invoked only 1 time of each appearance to view.
-   * @description
-   *    (1) When component is created, it is being called from Angular Life Cycle of ngAfterViewInit()
-   *    (2) When component is viewed by Ionic Nav Pop of above page in nav stack,
-   *        this method is being called from Ionic Life Cycle of 'ionViewDidEnter()'
-   */
-  // onOnceEveryEnter() {
-  //   console.log('MyRoomsPage::onOnceEveryEnter()');
-  //   console.log('componentCreated: ', this.componentCreated);
-
-  // }
 
   ngOnInit() {
     console.log('MyRoomsPage::onInit()');
@@ -70,10 +45,8 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
         jp: `${name}のチャットルームリスト`
       });
     } else {
-      this.a.openAllRooms();
+
     }
-
-
   }
 
   sortRoomsByNewMessage() {
@@ -84,5 +57,9 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
       this.sortByMessage = true;
       this.philgo.sortMyRoomsByMessage();
     }
+  }
+
+  onChatMyRoomsComponentError(error: ApiError) {
+    this.a.toast(error);
   }
 }

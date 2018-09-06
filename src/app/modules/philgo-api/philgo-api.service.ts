@@ -2121,11 +2121,11 @@ export class PhilGoApiService {
      *      이 것은 앱에서 방의 마지막 메시지를 표현하고자 할 때 도움이된다.
      */
     listenRoom(room: ApiChatRoom) {
-        // console.log('On: ', room.name);
+        console.log('On: ', room.name);
         room['off'] = this.db.child(`/chat/rooms/${room.idx}/last-message`).on(this.firebaseEvent, snapshot => {
             const message: ApiChatMessage = snapshot.val();
 
-            // console.log('listenRoom() => got listen: data: ', message);
+            console.log('listenRoom() => got listen: data: ', message);
             /**
              * Don't toast if I am opening rooms page ( or running app or listening the room ) for the first time of app running.
              * If 'firstOpenning' is undefined, it is first message. define it and return it.
@@ -2162,6 +2162,7 @@ export class PhilGoApiService {
              * Don't toast if it's my message.
              */
             if (this.isMyChatMessage(message)) {
+                console.log('isMyChatMessage => yes => just return')
                 return;
             }
             /**

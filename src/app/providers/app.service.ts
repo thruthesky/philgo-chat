@@ -184,6 +184,7 @@ export class AppService {
 
 
     philgo.newMessageFromOtherRoom.subscribe(message => {
+      console.log('philgo.comnewMessageFromOtherRoom', message);
       this.toastMessage(message);
       this.philgo.chatIncreaseNoOfNewMessage(message.idx_chat_room);
     });
@@ -400,6 +401,9 @@ export class AppService {
 
   openHome() {
     this.router.navigateByUrl(this.home());
+  }
+  openMyRooms() {
+    this.setRoot('/my-rooms');
   }
   openAllRooms() {
     this.router.navigateByUrl(this.allRooms());
