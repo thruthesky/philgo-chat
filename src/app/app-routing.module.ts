@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'setting-language', loadChildren: './pages/setting-language/setting-language.module#SettingLanguagePageModule' },
   { path: 'room/:idx_chat_room/setting', loadChildren: './pages/setting-room/setting-room.module#SettingRoomPageModule' },
   { path: 'forum/:post_id', loadChildren: './pages/forum/forum.module#ForumPageModule' },
+  { path: 'forum/:post_id/:idx', loadChildren: './pages/forum/forum.module#ForumPageModule' },
   { path: 'job/:category', loadChildren: './pages/job/job.module#JobPageModule' },
 ];
 
