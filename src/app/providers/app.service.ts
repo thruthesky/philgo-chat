@@ -1,10 +1,10 @@
 import { Injectable, NgZone, Output, EventEmitter } from '@angular/core';
-import { ToastController, Platform, AlertController } from '@ionic/angular';
+import { ToastController, Platform, AlertController, NavController } from '@ionic/angular';
 import * as firebase from 'firebase/app';
 // import 'firebase/database';
 import 'firebase/messaging';
 import {
-  ApiChatMessage, PhilGoApiService, CHAT_STATUS_ENTER, CHAT_STATUS_LEAVE, ERROR_WRONG_SESSION_ID,
+  ApiChatMessage, PhilGoApiService, ERROR_WRONG_SESSION_ID,
   ERROR_WRONG_IDX_MEMBER,
   ApiUserInformation
 } from '../modules/philgo-api/philgo-api.service';
@@ -44,6 +44,7 @@ export class AppService {
 
   @Output() chatRoomReminderClose = new EventEmitter();
 
+
   version = 2018081413;
   // info: ApiChatInfo = null;
 
@@ -82,7 +83,7 @@ export class AppService {
    *  the app needs to reload the site into rooms page when the user leave the room to completely remove the page
    *  from the bottom of the nativation stack.
    */
-  myRoomsPageVisited = false;
+  // myRoomsPageVisited = false;
   counter = 0;
   //
   constructor(
@@ -91,6 +92,7 @@ export class AppService {
     private readonly router: Router,
     private readonly toastController: ToastController,
     private readonly alertController: AlertController,
+    private readonly navController: NavController,
     private readonly philgo: PhilGoApiService,
     public readonly tr: LanguageTranslate,
     private p: Platform
@@ -395,13 +397,25 @@ export class AppService {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
 
-
-
   openHome() {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl(this.home());
   }
   openAllRooms() {
-    this.router.navigateByUrl('/all-rooms');
+    this.router.navigateByUrl(this.allRooms());
+  }
+
+
+
+  home(): string {
+    return '/';
+  }
+  allRooms(): string {
+    return '/all-rooms';
+  }
+
+  setRoot( path: string ) {
+    console.log('AppService::setRoot() ', path);
+    this.navController.navigateRoot( path );
   }
 
   /**

@@ -1,11 +1,14 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>{{ philgo.t( philgo.postConfigs.jobs.category[ category ] ) }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
 
-  <app-job-list-component [category]=" category " ></app-job-list-component>
+  <app-job-list-component [category]=" category "></app-job-list-component>
 
 </ion-content>

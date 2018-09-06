@@ -1767,17 +1767,25 @@ export class PhilGoApiService {
     }
 
     /**
-     * 내 방 목록을 하고,
+     *
      * chatMyRooms() 는 내 방 목록을 그냥 리턴하는데,
-     * chatDoMyRooms() 는 내 방 목록을 읽어, 정렬하고, 새로운 메시지 수를 세고,
+     * chatDoMyRooms() 는 내
+     *  방 목록을 읽어,
+     *  정렬하고,
+     *  새메시지 이벤트 listener 를 등록하고,
+     *  새로운 메시지 수를 세고,
+     * 
      * 등등 ... 필요한 작업을 하고, philgo api 객체에 저장을 한다.
      *
-     * @todo 여기서부터 chatMyRooms() 를 업데이트해서, 마지막 글 30개를 가져오도록 한다.
+     * @desc 이 함수는 여러고 곳에서 호출된다.
+     *      로그인 할 때,
+     *      방 입장 할 때 등,
+     *      내 방 목록 페이지에서 맨 처음 전체 방을 읽어서 목록 할 때 등
      */
     chatLoadMyRooms(): Observable<ApiChatRooms> {
         return this.chatMyRooms({
             cacheCallback: res => {
-                console.log('cache callback; res: ', res);
+                console.log('PhilGoApiService::chatLoadMyRooms() ==> cache callback; res: ', res);
                 if (res) {
                     this.chatArrangeMyRooms(res);
                     return res;
@@ -1785,7 +1793,7 @@ export class PhilGoApiService {
             }
         }).pipe(
             map(res => {
-                console.log('chatLoadMyRooms() server data: ', res);
+                console.log('PhilGoApiService::chatLoadMyRooms() ==>  server data: ', res);
                 this.chatArrangeMyRooms(res);
                 return res;
             })
