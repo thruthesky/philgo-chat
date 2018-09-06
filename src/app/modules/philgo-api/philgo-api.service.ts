@@ -21,6 +21,8 @@ export const ERROR_CHAT_NOT_IN_THAT_ROOM = -530;
 export const ERROR_WRONG_SESSION_ID = -290;
 export const ERROR_WRONG_IDX_MEMBER = -280;
 export const ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM = -640;
+export const ERROR_LOGIN_FIRST = -300;
+
 
 export const CACHE_CHAT_MY_ROOM = 'cache-chat-my-room';
 
@@ -1782,16 +1784,20 @@ export class PhilGoApiService {
      *      방 입장 할 때 등,
      *      내 방 목록 페이지에서 맨 처음 전체 방을 읽어서 목록 할 때 등
      */
-    chatLoadMyRooms(): Observable<ApiChatRooms> {
-        return this.chatMyRooms({
-            cacheCallback: res => {
+    chatLoadMyRooms(cache = true): Observable<ApiChatRooms> {
+        const options = {
+            cacheCallback: null
+        };
+        if (cache) {
+            options.cacheCallback = res => {
                 console.log('PhilGoApiService::chatLoadMyRooms() ==> cache callback; res: ', res);
                 if (res) {
                     this.chatArrangeMyRooms(res);
                     return res;
                 }
-            }
-        }).pipe(
+            };
+        }
+        return this.chatMyRooms(options).pipe(
             map(res => {
                 console.log('PhilGoApiService::chatLoadMyRooms() ==>  server data: ', res);
                 this.chatArrangeMyRooms(res);

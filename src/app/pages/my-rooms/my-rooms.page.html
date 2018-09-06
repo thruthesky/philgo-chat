@@ -3,8 +3,9 @@
     <ion-title>
       <div class="d-flex align-items-center pointer">
         <ion-text>{{ a.t({ en: 'PhilGo Social Hub', ko: '필고 소셜 허브' }) }}</ion-text>
-        <ion-badge class="border-radius-45px ml-2" (click)=" sortRoomsByNewMessage() " color="danger" *ngIf=" philgo.noOfNewMessageInMyRoom ">{{ philgo.noOfNewMessageInMyRoom }}</ion-badge>
-        <ion-icon class="ml-2" (click)=" sortRoomsByNewMessage() " name="arrow-round-down" *ngIf=" philgo.noOfNewMessageInMyRoom "></ion-icon>    
+        <ion-badge class="border-radius-45px ml-2" (click)=" sortRoomsByNewMessage() " color="danger" *ngIf=" philgo.noOfNewMessageInMyRoom ">{{
+          philgo.noOfNewMessageInMyRoom }}</ion-badge>
+        <ion-icon class="ml-2" (click)=" sortRoomsByNewMessage() " name="arrow-round-down" *ngIf=" philgo.noOfNewMessageInMyRoom "></ion-icon>
       </div>
     </ion-title>
     <ion-buttons slot="end">
@@ -13,12 +14,77 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
-    <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
+  <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
 
-    필리핀 단톡방 : 마닐라, 세부, 앙헬레스/클락 등.<br>
-    카톡 화상영어 : 월 1만원. 전세계 최저가, 최고 품격! https://www.katalkenglish.com/post/6706 이 링크의 내용으로 광고 페이지 만들 것.<br>
-  
+  <div *ngIf="showHomeContent">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+        <ion-card-title>Card Title</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        Keep close to Nature's heart... and break clear away, once in awhile, and climb a mountain or spend a week in the woods.
+        Wash your spirit clean.
+      </ion-card-content>
+    </ion-card>
+
+    필리핀 단톡방 : 마닐라, 세부, 앙헬레스/클락 등.<br> 카톡 화상영어 : 월 1만원. 전세계 최저가, 최고 품격! https://www.katalkenglish.com/post/6706 이 링크의 내용으로
+    광고 페이지 만들 것.<br>
+  </div>
+
   <app-chat-my-rooms-component (error)=" onChatMyRoomsComponentError( $event ) "></app-chat-my-rooms-component>
+
+
 </ion-content>
+
+<ion-footer padding>
+
+  <div class="menus row text-center text-normal pointers">
+
+    <div class="menu col" (click)=" showHomeContent = false ">
+      <ion-icon class="size-24px" name="chatbubbles"></ion-icon>
+      <div class="text">단톡방</div>
+    </div>
+
+    <div class="menu col">
+        <ion-icon class="size-24px" name="people"></ion-icon>
+        <div class="text">질문답변</div>
+      </div>
+
+    <div class="menu col d-none d-md-block">
+      <ion-icon class="size-24px" name="people"></ion-icon>
+      <div class="text">자유토론</div>
+    </div>
+    <div class="menu col d-none d-md-block">
+      <ion-icon class="size-24px" name="people"></ion-icon>
+      <div class="text">회원장터</div>
+    </div>
+    <div class="menu col d-none d-md-block">
+      <ion-icon class="size-24px" name="people"></ion-icon>
+      <div class="text">하우스헬퍼</div>
+    </div>
+
+
+    <a class="menu col" href="https://www.philgo.com" target="_blank">
+      <svg class="size-24px" version="1.0" xmlns="http://www.w3.org/2000/svg" width="101.000000pt" height="102.000000pt" viewBox="0 0 101.000000 102.000000"
+        preserveAspectRatio="xMidYMid meet">
+        <g transform="translate(0.000000,102.000000) scale(0.100000,-0.100000)" fill="#ac0000" stroke="none">
+          <path d="M545 1001 c-96 -34 -188 -92 -313 -195 -151 -124 -232 -251 -232
+               -364 0 -79 17 -118 76 -182 125 -133 434 -260 634 -260 96 0 139 11 188 47 80
+               60 112 151 112 323 0 309 -96 568 -235 631 -53 24 -163 24 -230 0z" />
+        </g>
+      </svg>
+      <div class="text">필고</div>
+    </a>
+
+    <div class="menu col" (click)=" a.openHelp() ">
+      <ion-icon class="size-24px" name="help-circle"></ion-icon>
+      <div class="text">도움말</div>
+    </div>
+
+  </div>
+
+</ion-footer>

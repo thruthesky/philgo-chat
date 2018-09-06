@@ -402,6 +402,9 @@ export class AppService {
   openHome() {
     this.router.navigateByUrl(this.home());
   }
+  openHelp() {
+    this.router.navigateByUrl(this.help());
+  }
   openMyRooms() {
     this.setRoot('/my-rooms');
   }
@@ -413,6 +416,9 @@ export class AppService {
 
   home(): string {
     return '/';
+  }
+  help(): string {
+    return '/help';
   }
   allRooms(): string {
     return '/all-rooms';

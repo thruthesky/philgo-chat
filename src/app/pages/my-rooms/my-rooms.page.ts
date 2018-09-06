@@ -1,7 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AppService } from '../../providers/app.service';
-import { PhilGoApiService, ApiError } from '../../modules/philgo-api/philgo-api.service';
+import { PhilGoApiService, ApiError, ERROR_LOGIN_FIRST } from '../../modules/philgo-api/philgo-api.service';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
+import { NavController } from '@ionic/angular';
 
 
 @Component({
@@ -13,10 +14,13 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
   title = 'Loading...';
 
   sortByMessage = false;
+  showHomeContent = true;
+  countChatRoomLoad = 0;
   constructor(
     public a: AppService,
     public philgo: PhilGoApiService,
-    public tr: LanguageTranslate
+    public tr: LanguageTranslate,
+    private navController: NavController
   ) {
     console.log('MyRoomsPage::constructor()');
 
@@ -32,8 +36,13 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
   ionViewDidEnter() {
     console.log('MyRoomsPage::ionViewDidEnter()');
 
+    // this.navController.navigateRoot('/');
+
+
+    this.showHomeContent = true;
     if (this.philgo.isLoggedIn()) {
-      this.philgo.chatLoadMyRooms().subscribe(res => {
+      this.philgo.chatLoadMyRooms(!this.countChatRoomLoad).subscribe(res => {
+        this.countChatRoomLoad++;
       }, e => {
         console.error('failed to load my rooms information');
       });
@@ -59,7 +68,12 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
     }
   }
 
-  onChatMyRoomsComponentError(error: ApiError) {
-    this.a.toast(error);
+  onChatMyRoomsComponentError(e: ApiError) {
+    // console.log(e);
+    if (e.code === ERROR_LOGIN_FIRST) {
+
+    } else {
+      this.a.toast(e);
+    }
   }
 }
