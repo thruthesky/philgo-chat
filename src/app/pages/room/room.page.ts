@@ -26,6 +26,9 @@ export class RoomPage implements OnInit, AfterViewInit {
   popover = null; // save last popover
   // reminderPopover: HTMLIonPopoverElement = null;
 
+  /**
+   * It blocks to scroll up to get previous messages until it becomes true.
+   */
   enableLoadOldMessage = false;
 
   page = 1;
@@ -89,11 +92,12 @@ export class RoomPage implements OnInit, AfterViewInit {
           mc.show.status.loadingLatestMessages = false;
           /**
            * 새로 방에 입장했으면, 전체 방 목록을 다시 로드한다.
+           * 이렇게 하는 이유는??? 모르겠다. 그래서 comment out 한다.
            */
           if (res.just_entered === 'Y') {
-            this.philgo.chatLoadMyRooms().subscribe(_res => {
-              console.log('ChatAllRoomsComponent::onClickRoom()', _res);
-            });
+            // this.philgo.chatLoadMyRooms().subscribe(_res => {
+            //   console.log('ChatAllRoomsComponent::onClickRoom()', _res);
+            // });
           }
           mc.arrangeRoomEnter(res);
           this.showReminder();
@@ -251,23 +255,7 @@ export class RoomPage implements OnInit, AfterViewInit {
     console.log('onClickLeaveButton');
     this.philgo.currentRoom = null;
     this.a.setRoot(this.a.home());
-
-
-    // if (this.a.myRoomsPageVisited) {
-    //   this.router.navigateByUrl('/');
-    //   this.reloadMyRoom();
-    // } else {
-    //   location.href = '/';
-    // }
-    // return false;
   }
-
-  // reloadMyRoom() {
-  //   this.philgo.chatLoadMyRooms().subscribe(res => {
-  //     console.log('room page::releoadMyRoom()', res);
-  //   });
-
-  // }
 
   async onChatMessageDisplayError(e) {
     if (e.code === ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM) {

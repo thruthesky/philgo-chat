@@ -414,6 +414,7 @@ export class AppService {
   }
 
   setRoot( path: string ) {
+    console.log('AppService::setRoot() ', path);
     this.navController.navigateRoot( path );
   }
 

@@ -1785,7 +1785,7 @@ export class PhilGoApiService {
     chatLoadMyRooms(): Observable<ApiChatRooms> {
         return this.chatMyRooms({
             cacheCallback: res => {
-                console.log('cache callback; res: ', res);
+                console.log('PhilGoApiService::chatLoadMyRooms() ==> cache callback; res: ', res);
                 if (res) {
                     this.chatArrangeMyRooms(res);
                     return res;
@@ -1793,7 +1793,7 @@ export class PhilGoApiService {
             }
         }).pipe(
             map(res => {
-                console.log('chatLoadMyRooms() server data: ', res);
+                console.log('PhilGoApiService::chatLoadMyRooms() ==>  server data: ', res);
                 this.chatArrangeMyRooms(res);
                 return res;
             })
