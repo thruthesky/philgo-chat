@@ -10,16 +10,16 @@
         <ion-list>
           <ion-menu-toggle auto-hide="false">
 
-            <ion-item (click)=" a.setRoot('/') ">
+            <!-- <ion-item (click)=" a.setRoot('/') ">
               <ion-icon slot="start" color="medium" name="home"></ion-icon>
               <ion-label>
                 <ion-text>
                   {{ a.t({ en: 'Home', ko: '홈' }) }}
                 </ion-text>
               </ion-label>
-            </ion-item>
+            </ion-item> -->
 
-            <ion-item (click)=" a.setRoot('/my-rooms') ">
+            <ion-item (click)=" a.openMyRooms() ">
               <ion-icon slot="start" color="medium" name="albums"></ion-icon>
               <ion-label>
                 <ion-text>
@@ -27,7 +27,7 @@
                 </ion-text>
               </ion-label>
             </ion-item>
-            <ion-item routerLink="/all-rooms">
+            <ion-item (click)=" a.openAllRooms() ">
               <ion-icon slot="start" color="medium" name="chatbubbles"></ion-icon>
               <ion-label>
                 <ion-text>
