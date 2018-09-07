@@ -18,9 +18,9 @@
 
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
 
-  <div class="px-3 py-4" *ngIf="showHomeContent">
-    <ion-card>
-      <ion-card-header>
+  <div class="bg-banner py-2 px-3" *ngIf="showHomeContent">
+    <ion-card class="bg-white mx-0 no-shadow fs-md">
+      <ion-card-header class="pb-0">
         <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
         <ion-card-title>Card Title</ion-card-title>
       </ion-card-header>
@@ -31,8 +31,10 @@
       </ion-card-content>
     </ion-card>
 
-    필리핀 단톡방 : 마닐라, 세부, 앙헬레스/클락 등.<br> 카톡 화상영어 : 월 1만원. 전세계 최저가, 최고 품격! https://www.katalkenglish.com/post/6706 이 링크의 내용으로
-    광고 페이지 만들 것.<br>
+    <div class="white">
+      <p>필리핀 단톡방 : 마닐라, 세부, 앙헬레스/클락 등.</p>
+      <p>카톡 화상영어 : 월 1만원. 전세계 최저가, 최고 품격! https://www.katalkenglish.com/post/6706 이 링크의 내용으로 광고 페이지 만들 것.</p>
+    </div>
   </div>
 
   <app-chat-my-rooms-component (error)=" onChatMyRoomsComponentError( $event ) "></app-chat-my-rooms-component>
