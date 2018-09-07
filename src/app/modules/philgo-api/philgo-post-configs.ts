@@ -11,7 +11,7 @@ const configs = {
             ko: '질문과답변'
         }
     },
-    jobs: {
+    wanted: {
         subject: {
             en: 'Jobs',
             ko: '구인구직'
