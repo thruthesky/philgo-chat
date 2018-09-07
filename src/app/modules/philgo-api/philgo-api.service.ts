@@ -2428,6 +2428,10 @@ export class PhilGoApiService {
         return this.query('post.search', data);
     }
 
+    postQuery(req: {fields?: string, where: string, limit?: string}): Observable<Array<ApiPost>> {
+        return this.query('post.query', req);
+    }
+
     postCreate(post: ApiPost): Observable<ApiPost> {
         return this.query('post.create', post);
     }

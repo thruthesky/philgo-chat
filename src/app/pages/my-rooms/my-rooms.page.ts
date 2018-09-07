@@ -2,8 +2,6 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AppService } from '../../providers/app.service';
 import { PhilGoApiService, ApiError, ERROR_LOGIN_FIRST } from '../../modules/philgo-api/philgo-api.service';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
-import { NavController } from '@ionic/angular';
-
 
 @Component({
   selector: 'app-my-rooms',
@@ -20,10 +18,13 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
   constructor(
     public a: AppService,
     public philgo: PhilGoApiService,
-    public tr: LanguageTranslate,
-    private navController: NavController
+    public tr: LanguageTranslate
   ) {
     console.log('MyRoomsPage::constructor()');
+
+    this.philgo.postQuery({}).subscribe( res => {
+
+    }, e => console.error(e));
 
   }
 
