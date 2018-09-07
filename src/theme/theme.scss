@@ -23,8 +23,22 @@ ion-toast {
     height: 24px !important;
 }
 
+@mixin size-22px {
+    width: 22px !important;
+    height: 22px !important;
+}
+
 .size-24px {
     @include size-24px();
+}
+.size-22px {
+    @include size-22px();
+}
+.pt-3px {
+    padding-top: 3px !important;
+}
+.pl-3px {
+    padding-left: 3px !important;
 }
 
 .text-normal {
