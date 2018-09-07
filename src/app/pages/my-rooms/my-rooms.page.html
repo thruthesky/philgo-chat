@@ -37,7 +37,7 @@
     </div>
   </div>
 
-  <app-chat-my-rooms-component (error)=" onChatMyRoomsComponentError( $event ) "></app-chat-my-rooms-component>
+  <app-chat-my-rooms-component class="d-block p-2" (error)=" onChatMyRoomsComponentError( $event ) "></app-chat-my-rooms-component>
 
 
 </ion-content>
@@ -51,7 +51,7 @@
       <div class="text">단톡방</div>
     </div>
 
-    <div class="menu col">
+    <div class="menu col" routerLink="/forum/qna">
         <ion-icon class="size-24px" name="help-circle"></ion-icon>
         <div class="text">질문답변</div>
       </div>
