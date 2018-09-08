@@ -23,6 +23,7 @@ const routes: Routes = [
   { path: 'forum/:post_id/:idx', loadChildren: './pages/forum/forum.module#ForumPageModule' },
   { path: 'job/:category', loadChildren: './pages/job/job.module#JobPageModule' },
   { path: 'hub', loadChildren: './pages/hub/hub.module#HubPageModule' },
+  { path: 'ads', loadChildren: './pages/ads/ads.module#AdsPageModule' },
 ];
 
 @NgModule({

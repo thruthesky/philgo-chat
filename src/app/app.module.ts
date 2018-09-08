@@ -49,6 +49,6 @@ export class AppModule {
     philgo.setNewFileServerUrl(environment.newFileServerUrl);
     philgo.setFirebaseApp(firebase);
     // philgo.loadPostConfigs().subscribe(res => { });
-    philgo.app('philgo-chat.config').subscribe( res => philgo.config = res );
+    philgo.app('philgo-chat.config').subscribe( res => philgo.mergeConfig(res) );
   }
 }

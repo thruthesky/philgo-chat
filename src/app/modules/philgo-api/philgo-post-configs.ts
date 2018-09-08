@@ -1,4 +1,10 @@
 const configs = {
+    ads: {
+        subject: {
+            en: 'Advertiseemnt',
+            ko: '광고'
+        }
+    },
     freetalk: {
         subject: {
             en: 'Discussion',
