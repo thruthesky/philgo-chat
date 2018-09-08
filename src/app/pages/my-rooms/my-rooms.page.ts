@@ -11,7 +11,7 @@ import { LanguageTranslate } from '../../modules/language-translate/language-tra
 export class MyRoomsPage implements OnInit, AfterViewInit {
 
   title = 'Loading...';
-
+  frontPage;
   sortByMessage = false;
   showHomeContent = true;
   countChatRoomLoad = 0;
@@ -20,23 +20,24 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
     public philgo: PhilGoApiService,
     public tr: LanguageTranslate
   ) {
-    console.log('MyRoomsPage::constructor()');
+    // console.log('MyRoomsPage::constructor()');
 
-    this.philgo.postQuery({}).subscribe( res => {
-
+    philgo.app('philgo-chat.frontPage', { news: true }).subscribe(res => {
+      console.log('app: ', res);
+      this.frontPage = res;
     }, e => console.error(e));
 
   }
 
   ngOnInit() {
-    console.log('MyRoomsPage::onInit()');
+    // console.log('MyRoomsPage::onInit()');
   }
 
   ngAfterViewInit() {
-    console.log('MyRoomsPage::ngAfterViewInit()');
+    // console.log('MyRoomsPage::ngAfterViewInit()');
   }
   ionViewDidEnter() {
-    console.log('MyRoomsPage::ionViewDidEnter()');
+    // console.log('MyRoomsPage::ionViewDidEnter()');
 
     // this.navController.navigateRoot('/');
 

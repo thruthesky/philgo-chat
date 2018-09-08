@@ -31,12 +31,15 @@ ion-toast {
 .size-24px {
     @include size-24px();
 }
+
 .size-22px {
     @include size-22px();
 }
+
 .pt-3px {
     padding-top: 3px !important;
 }
+
 .pl-3px {
     padding-left: 3px !important;
 }
@@ -61,5 +64,51 @@ ion-toast {
     p,
     li {
         cursor: pointer;
+    }
+}
+
+.fs-xs {
+    font-size: .7em !important;
+}
+
+.fs-sm {
+    font-size: .85em !important;
+}
+
+.fs-md {
+    font-size: 1em !important;
+}
+
+.fs-lg {
+    font-size: 1.5em !important;
+}
+
+.fs-xl {
+    font-size: 2em !important;
+}
+
+.truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+    >.col,
+    >[class*="col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+.gutters-sm {
+    margin-right: 0;
+    margin-left: 0;
+    >.col,
+    >[class*="col-"] {
+        padding-right: .1em;
+        padding-left: .1em;
     }
 }

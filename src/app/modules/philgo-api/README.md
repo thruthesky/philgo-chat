@@ -91,6 +91,20 @@ export class AppModule {
 }
 ````
 
+* Another example of initialization
+
+```` typescript
+  constructor(private philgo: PhilGoApiService) {
+    philgo.setServerUrl(environment.philgoServerUrl);
+    philgo.setFileServerUrl(environment.philgoFileServerUrl);
+    philgo.setNewFileServerUrl(environment.newFileServerUrl);
+    philgo.setFirebaseApp(firebase);
+    // philgo.loadPostConfigs().subscribe(res => { });
+    philgo.app('abc.config').subscribe( res => philgo.config = res );
+  }
+````
+
+
 ### Adding PhilGo Api Components
 
 * It needs `philgo-api`, `angular-library`, 
@@ -530,6 +544,47 @@ async toast(o: any) {
   const toast = await this.toastController.create(o);
   toast.present();
 }
+````
+
+
+## POST API
+
+### POST Query
+
+* 필고 데이터베이스에 서버에 게시글 질의를 바로 한다.
+
+아래의 예제는 `플러스친구` 카테고리의 소식만 가져오는 것이다.
+
+```` typescript
+this.philgo.postQuery({
+  where: `post_id='freetalk' AND category='플러스친구'`
+}).subscribe( res => {
+  console.log('postQuery: ', res);
+}, e => console.error(e));
+````
+
+* 활용) 특정 코드에 맞는 글만 가져오기.
+
+예를 들어 각 앱/웹의 메인에 표시해도 좋을 뉴스를 코드 `main-news-YYYYMMDDHH` 와 같이 표현을 한다면, 아래와 같이 `access_code` 쿼리를 해서, 가장 마지막 뉴스 코드를 하나 가져 올 수 있다.
+
+```` typescript
+this.philgo.postQuery({
+  where: `access_code LIKE 'main-news%'`,
+  orderby: `access_code DESC`,
+  limit: 1
+}).subscribe( res => {
+  console.log('postQuery: ', res);
+}, e => console.error(e));
+````
+
+* 하지만 일반적으로 메인 페이지에 정보를 가져오는 것이라면, 메인페이지에 필요한 모든 정보를 한번에 가져오는 것이 낳다.
+
+아래의 예제 처럼, front page 의 필요한 모든 정보를 한번에 가져와서 처리를 한다. 최근 글, 뉴스 글, 공지 글 등을 한번에 가져온다.
+
+```` typescript
+  philgo.app('philgo-chat.frontPage', { news: true }).subscribe(res => {
+    console.log('app: ', res);
+  }, e => console.error(e));
 ````
 
 

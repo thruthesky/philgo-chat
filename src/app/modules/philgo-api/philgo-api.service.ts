@@ -24,6 +24,11 @@ export const ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM = -640;
 export const ERROR_LOGIN_FIRST = -300;
 
 
+export const NO_FORUM_NAME = 'NO_FORUM_NAME';
+export const NO_CATEGORY_NAME = 'NO_CATEGORY_NAME';
+
+
+
 export const CACHE_CHAT_MY_ROOM = 'cache-chat-my-room';
 
 interface ApiOptionalRequest {
@@ -655,14 +660,20 @@ export class PhilGoApiService {
     /**
      * @see https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#heading=h.odwylmdcu2i8
      */
-    app;
+    // app;
     /**
      * Post configurations. When app boots it statically loaded and you can update it dynamically.
      * @see https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#heading=h.42un1kwuv7s8
      * [Forum Configurations]
      */
-    postConfigs = postConfigs;
+    // postConfigs = postConfigs;
 
+    /**
+     * @see https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#heading=h.ay2ukor65xjf
+     */
+    config = {
+        postConfigs: postConfigs
+    }
     /**
      * Api information. This is not an information of a one app. It is Api information.
      */
@@ -732,6 +743,35 @@ export class PhilGoApiService {
 
         this.updateWebPushToken();
     }
+
+    /**
+     * @see https://docs.google.com/document/d/1E_IxnMGDPkjOI0Fl3Hg07RbFwYRjHq89VlfBuESu3BI/edit#heading=h.ay2ukor65xjf
+     */
+    get pc() {
+        if (this.config && this.config.postConfigs) {
+            return this.config.postConfigs;
+        } else {
+            return null;
+        }
+    }
+    forumName(post_id: string, category?: string): string {
+        if (this.pc && this.pc[post_id] !== void 0) {
+            if (category !== void 0) {
+                if (this.pc[post_id]['category'] !== void 0 && this.pc[post_id]['category'][category] !== void 0) {
+                    return this.t(this.pc[post_id]['category'][category]);
+                } else {
+                    return NO_CATEGORY_NAME;
+                }
+            } else {
+                if (this.pc[post_id]['subject'] !== void 0) {
+                    return this.t(this.pc[post_id]['subject']);
+                }
+            }
+        } else {
+            return NO_FORUM_NAME;
+        }
+    }
+
 
     /**
      * Sets firebase app
@@ -1455,13 +1495,14 @@ export class PhilGoApiService {
 
     /**
      * Returns thumbnail URL of the photo
+     *
      * @param option options
+     *
      * @see sapcms_1_2/etc/resize_image.php for detail.
      * @example
-     *  <img src="{{ api.thumbnailUrl({ width: 100, height: 100, path: form.url_profile_photo }) }}" *ngIf=" form.url_profile_photo ">
-     *  <img src="{{ api.thumbnailUrl({ width: 100, height: 100, idx: 1234 }) }}" *ngIf=" form.data.idx ">
+     *  <img src="{{ philgo.thumbnailUrl({ width: 100, height: 100, path: form.url_profile_photo }) }}" *ngIf=" form.url_profile_photo ">
+     *  <img src="{{ philgo.thumbnailUrl({ width: 100, height: 100, idx: 1234 }) }}" *ngIf=" form.data.idx ">
      *
-     * @example
      *  this.thumbnailUrl({ idx: idx, width: 64, height: 64 });
      */
     thumbnailUrl(option: ApiThumbnailOption): string {
@@ -1790,7 +1831,7 @@ export class PhilGoApiService {
         };
         if (cache) {
             options.cacheCallback = res => {
-                console.log('PhilGoApiService::chatLoadMyRooms() ==> cache callback; res: ', res);
+                // console.log('PhilGoApiService::chatLoadMyRooms() ==> cache callback; res: ', res);
                 if (res) {
                     this.chatArrangeMyRooms(res);
                     return res;
@@ -1799,7 +1840,7 @@ export class PhilGoApiService {
         }
         return this.chatMyRooms(options).pipe(
             map(res => {
-                console.log('PhilGoApiService::chatLoadMyRooms() ==>  server data: ', res);
+                // console.log('PhilGoApiService::chatLoadMyRooms() ==>  server data: ', res);
                 this.chatArrangeMyRooms(res);
                 return res;
             })
@@ -2127,11 +2168,11 @@ export class PhilGoApiService {
      *      이 것은 앱에서 방의 마지막 메시지를 표현하고자 할 때 도움이된다.
      */
     listenRoom(room: ApiChatRoom) {
-        console.log('On: ', room.name);
+        // console.log('On: ', room.name);
         room['off'] = this.db.child(`/chat/rooms/${room.idx}/last-message`).on(this.firebaseEvent, snapshot => {
             const message: ApiChatMessage = snapshot.val();
 
-            console.log('listenRoom() => got listen: data: ', message);
+            // console.log('listenRoom() => got listen: data: ', message);
             /**
              * Don't toast if I am opening rooms page ( or running app or listening the room ) for the first time of app running.
              * If 'firstOpenning' is undefined, it is first message. define it and return it.
@@ -2168,7 +2209,7 @@ export class PhilGoApiService {
              * Don't toast if it's my message.
              */
             if (this.isMyChatMessage(message)) {
-                console.log('isMyChatMessage => yes => just return')
+                // console.log('isMyChatMessage => yes => just return')
                 return;
             }
             /**
@@ -2271,7 +2312,7 @@ export class PhilGoApiService {
      */
     updatePusTokenToServer(token) {
         this.pushToken = token; // Cordova 는 이미 값이 있지만, 웹에는 적용을 해 준다.
-        console.log('      updatePusTokenToServer(): ', token);
+        // console.log('      updatePusTokenToServer(): ', token);
         if (!token) {
             // console.log('token empty. return.');
             return;
@@ -2291,7 +2332,7 @@ export class PhilGoApiService {
      *  이 함수는 앱 처음 실행시 한번만 실행되어야 하며, 기본적으로 PhilGoApi::constructor() 에서 실행되므로 따로 신경 쓰지 않아도 된다.
      */
     updateWebPushToken() {
-        console.log('  ()updateWebPushToken ==>');
+        // console.log('  ()updateWebPushToken ==>');
         if (!AngularLibrary.isCordova() && AngularLibrary.isPushPermissionGranted()) {
             this.requestWebPushPermission();
         }
@@ -2301,7 +2342,7 @@ export class PhilGoApiService {
      * 이 함수는 물어보고 웹 푸시 토큰을 서버에 저장한다.
      */
     requestWebPushPermission() {
-        console.log('      ()requestWebPushPermission ==>');
+        // console.log('      ()requestWebPushPermission ==>');
         const messaging = firebase.messaging();
         // console.log('requestPushNotificationPermission()');
         messaging.requestPermission().then(() => {
@@ -2396,7 +2437,7 @@ export class PhilGoApiService {
             if (v) {
                 re.name = v.substr(0, v.lastIndexOf(' '));
                 re.size = AngularLibrary.humanFileSize(v.substr(v.lastIndexOf(' ') + 1));
-                console.log('info name: ', re);
+                // console.log('info name: ', re);
             }
         }
         return re;
@@ -2410,10 +2451,19 @@ export class PhilGoApiService {
     ///
     /// App methods
     ///
-    appConfigs(name: string): Observable<any> {
-        return this.query('app.configs', { name: name });
-    }
+    // appConfigs(name: string): Observable<any> {
+    //     return this.query('app.configs', { name: name });
+    // }
 
+    /**
+     * Runs app method.
+     * @param appMethod app method like 'abc.name', 'abc.config'
+     * @param data data to pass to PHP
+     */
+    app(appMethod: string, data = {}): Observable<any> {
+        data['appMethod'] = appMethod;
+        return this.query('app.runAction', data);
+    }
 
     ///
     ///
@@ -2428,7 +2478,7 @@ export class PhilGoApiService {
         return this.query('post.search', data);
     }
 
-    postQuery(req: {fields?: string, where: string, limit?: string}): Observable<Array<ApiPost>> {
+    postQuery(req: { fields?: string, where: string, orderby?: string, limit?: number }): Observable<Array<ApiPost>> {
         return this.query('post.query', req);
     }
 
@@ -2495,20 +2545,14 @@ export class PhilGoApiService {
     loadPostConfigs() {
         return this.query('post.configs').pipe(
             tap(configs => {
-                this.postConfigs = configs;
+                this.config.postConfigs = configs;
+                // this.postConfigs = configs;
                 // console.log('confis: ', this.postConfigs);
             })
         );
     }
 
 
-    forumName(post_id) {
-        switch (post_id) {
-            case 'freetalk': return this.tr.t({ en: 'Discussion', ko: 'Freetalk' });
-            case 'qna': return this.tr.t({ en: 'QnA', ko: '질문과답변' });
-            default: return '';
-        }
-    }
     textDeleted() {
         return this.t({
             en: 'Deleted',

@@ -44,30 +44,11 @@ firebase.initializeApp(firebaseConfig);
 })
 export class AppModule {
   constructor(private philgo: PhilGoApiService) {
-    // philgo.setServerUrl('http://192.168.0.182/sapcms_1_2/api.php');
-    // /**
-    //  * Philgo API file server url. Must end with 'indx.php'.
-    //  */
-    // philgo.setFileServerUrl('http://192.168.0.182/sapcms_1_2/index.php');
-    // /**
-    //  * New File Server End Ponit
-    //  */
-    // philgo.setNewFileServerUrl('http://192.168.0.182/file-server/index.php');
-
     philgo.setServerUrl(environment.philgoServerUrl);
-    /**
-     * Philgo API file server url. Must end with 'indx.php'.
-     */
     philgo.setFileServerUrl(environment.philgoFileServerUrl);
     philgo.setNewFileServerUrl(environment.newFileServerUrl);
-    // philgo.db = firebase.database().ref('/');
     philgo.setFirebaseApp(firebase);
     // philgo.loadPostConfigs().subscribe(res => { });
-    philgo.appConfigs('philgo-chat').subscribe(res => {
-      this.philgo.app = res;
-      if ( res.postConfigs ) {
-        this.philgo.postConfigs = res.postConfigs;
-      }
-    }, e => {});
+    philgo.app('philgo-chat.config').subscribe( res => philgo.config = res );
   }
 }

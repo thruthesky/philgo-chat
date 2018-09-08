@@ -84,7 +84,7 @@
               <ion-icon slot="start" color="medium" name="cart"></ion-icon>
               <ion-label>
                 <ion-text>
-                  {{ tr.t({ ko: '회원장터', en: 'Buyandsell', ch: '', jp: ''})}}
+                    {{ tr.t( philgo.pc['buyandsell']?.subject )}}
                 </ion-text>
               </ion-label>
             </ion-item>
@@ -93,7 +93,7 @@
               <ion-icon slot="start" color="medium" name="contact"></ion-icon>
               <ion-label>
                 <ion-text>
-                  {{ tr.t({ ko: '하우스메이드', en: 'Housemaid', ch: '', jp: ''})}}
+                  {{ tr.t( philgo.pc?.wanted.category.housemaid )}}
                 </ion-text>
               </ion-label>
             </ion-item>
@@ -111,7 +111,7 @@
               <ion-icon slot="start" color="medium" name="book"></ion-icon>
               <ion-label>
                 <ion-text>
-                  {{ tr.t( philgo.postConfigs.wanted?.category?.english_tutor ) }}
+                  {{ tr.t( philgo.pc?.wanted?.category?.english_tutor ) }}
                 </ion-text>
               </ion-label>
             </ion-item>
@@ -138,6 +138,16 @@
               <ion-label>
                 <ion-text>
                   {{ tr.t({ ko: '로그인', en: 'Login', ch: '登录', jp: 'ログイン'}) }}
+                </ion-text>
+              </ion-label>
+            </ion-item>
+
+
+            <ion-item routerLink="/ads">
+              <ion-icon slot="start" color="medium" name="help-circle"></ion-icon>
+              <ion-label>
+                <ion-text>
+                  {{ tr.t({ ko: '광고등록하기', en: 'Post Advertisement', ch: '', jp: ''})}}
                 </ion-text>
               </ion-label>
             </ion-item>

@@ -18,22 +18,21 @@
 
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
 
-  <div class="bg-banner p-3" *ngIf="showHomeContent">
-    <ion-card class="bg-white m-0 no-shadow fs-md">
-      <ion-card-header class="pb-0">
-        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-        <ion-card-title>Card Title</ion-card-title>
-      </ion-card-header>
-
-      <ion-card-content>
-        Keep close to Nature's heart... and break clear away, once in awhile, and climb a mountain or spend a week in the woods.
-        Wash your spirit clean.
-      </ion-card-content>
-    </ion-card>
-
-    <div class="white p-3">
-      <div>필리핀 단톡방 : 마닐라, 세부, 앙헬레스/클락 등.</div>
-      <div class="mt-2">카톡 화상영어 : 월 1만원. 전세계 최저가, 최고 품격! https://www.katalkenglish.com/post/6706 이 링크의 내용으로 광고 페이지 만들 것.</div>
+  <div class="main-news" *ngIf="showHomeContent && frontPage">
+    <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 360, height: 120, idx: frontPage.mainNews.photo.idx }) }}">
+    <div class="px-2">
+      <div class="main-news-title m-0 p-0 fs-lg truncate">{{ frontPage.mainNews.subject }}</div>
+      <p class="main-news-content m-0 p-0">
+        {{ frontPage.mainNews.content }}
+      </p>
+    </div>
+    <div class="community-posts" *ngIf="frontPage.communityPosts?.length">
+      <div class="row gutters-sm">
+        <div class="col fs-sm" style="max-width: 25%;" *ngFor="let post of frontPage.communityPosts">
+          <img src="{{ philgo.thumbnailUrl({ width: 100, height: 100, idx: post.no_of_first_image }) }}">
+          <div class="truncate">{{ post.subject }}</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -44,7 +43,7 @@
 
 <ion-footer padding>
 
-  <div class="menus row text-center text-normal pointers">
+  <div class="menus row text-center text-normal fs-sm pointers">
 
     <div class="menu col" (click)=" showHomeContent = false ">
       <ion-icon class="size-24px" name="chatbubbles"></ion-icon>
@@ -52,9 +51,9 @@
     </div>
 
     <div class="menu col" routerLink="/forum/qna">
-        <ion-icon class="size-24px" name="help-circle"></ion-icon>
-        <div class="text">질문답변</div>
-      </div>
+      <ion-icon class="size-24px" name="help-circle"></ion-icon>
+      <div class="text">질문답변</div>
+    </div>
 
     <div class="menu col d-none d-md-block">
       <ion-icon class="size-24px" name="quote"></ion-icon>
@@ -71,8 +70,8 @@
 
 
     <div class="menu col" routerLink="/hub">
-      <svg class="pt-1 size-22px" version="1.0" xmlns="http://www.w3.org/2000/svg" width="101.000000pt" height="102.000000pt" viewBox="0 0 101.000000 102.000000"
-        preserveAspectRatio="xMidYMid meet">
+      <svg class="pt-1 size-22px" version="1.0" xmlns="http://www.w3.org/2000/svg" width="101.000000pt" height="102.000000pt"
+        viewBox="0 0 101.000000 102.000000" preserveAspectRatio="xMidYMid meet">
         <g transform="translate(0.000000,102.000000) scale(0.100000,-0.100000)" fill="#ac0000" stroke="none">
           <path d="M545 1001 c-96 -34 -188 -92 -313 -195 -151 -124 -232 -251 -232
                -364 0 -79 17 -118 76 -182 125 -133 434 -260 634 -260 96 0 139 11 188 47 80
