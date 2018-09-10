@@ -18,7 +18,7 @@
 
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
 
-  <div class="main-news container-fluid border-bottom" *ngIf="showHomeContent && frontPage">
+  <div class="main-news border-bottom" *ngIf="showHomeContent && frontPage">
 
     <div class="row no-gutters">
       <div class="col pr-md-2">
@@ -32,7 +32,7 @@
       </div>
       <div class="col pl-md-2">
 
-        <div class="community-posts container-fluid p-0" *ngIf="frontPage.communityPosts?.length">
+        <div class="community-posts" *ngIf="frontPage.communityPosts?.length">
           <div class="row no-gutters">
             <div class="col-3 fs-sm" *ngFor="let post of frontPage.communityPosts">
               <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 100, height: 100, idx: post.no_of_first_image }) }}">
