@@ -6,7 +6,7 @@ import { LanguageTranslate } from '../../modules/language-translate/language-tra
 @Component({
   selector: 'app-my-rooms',
   templateUrl: './my-rooms.page.html',
-  styleUrls: ['./my-rooms.page.scss']
+  styleUrls: ['../../modules/components/scss/index.scss', './my-rooms.page.scss']
 })
 export class MyRoomsPage implements OnInit, AfterViewInit {
 

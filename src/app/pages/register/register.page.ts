@@ -6,7 +6,8 @@ import { PhilGoApiService, ApiProfile } from '../../modules/philgo-api/philgo-ap
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.page.html'
+  templateUrl: './register.page.html',
+  styleUrls: ['./../../modules/components/scss/index.scss', './register.page.scss']
 })
 export class RegisterPage implements OnInit {
 

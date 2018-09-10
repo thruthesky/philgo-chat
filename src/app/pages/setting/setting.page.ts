@@ -6,7 +6,8 @@ import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
 
 @Component({
   selector: 'app-setting',
-  templateUrl: './setting.page.html'
+  templateUrl: './setting.page.html',
+  styleUrls: ['./../../modules/components/scss/index.scss', './setting.page.scss']
 })
 export class SettingPage implements OnInit {
 

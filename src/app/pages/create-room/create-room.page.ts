@@ -4,7 +4,8 @@ import { AppService } from '../../providers/app.service';
 
 @Component({
   selector: 'app-create-room',
-  templateUrl: './create-room.page.html'
+  templateUrl: './create-room.page.html',
+  styleUrls: ['./../../modules/components/scss/index.scss', './create-room.page.scss']
 })
 export class CreateRoomPage implements OnInit {
 
