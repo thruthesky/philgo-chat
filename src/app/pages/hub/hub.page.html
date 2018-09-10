@@ -16,11 +16,11 @@
 
       <div class="row mb-4" *ngIf=" re?.news?.length ">
           <div class="col-3">
-            <img src="{{ philgo.thumbnailUrl({ width: 100, height: 100, idx: newsLeft.no_of_first_image }) }}">
+            <img src="{{ philgo.thumbnailUrl({ width: 140, height: 100, idx: newsLeft.no_of_first_image }) }}">
             <div>{{ newsLeft.subject }}</div>
           </div>
           <div class="col-9">
-            <div *ngFor="let news of newsOthers; first as isFirst">
+            <div class="mb-3" *ngFor="let news of newsOthers; first as isFirst">
               <div class="news" [class.is-first]=" isFirst ">
                 <i>{{ news.subject }}</i>
                 <div *ngIf=" isFirst ">
