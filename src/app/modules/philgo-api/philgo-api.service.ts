@@ -748,9 +748,9 @@ export class PhilGoApiService {
 
     /**
      * 필요 한 부분만 merge 한다. 전체를 다 merge 하기 어렵다.
-     * 
+     *
      * @param config 서버로 부터 응답받은 config
-     * 
+     *
      * @desc Object.assgin() 은 deep clone 을 하지 않는다. 그래서 하위 property 를 따로 assign 한다.
      */
     mergeConfig(config) {
