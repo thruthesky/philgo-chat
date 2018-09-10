@@ -1,13 +1,16 @@
-.main-news{
+.main-news {
     padding: 1em;
-
-    .community-posts{
-        .row{
+    .community-posts {
+        .row {
             margin: 0 -1em;
             padding: 0 .5em;
-            &>div{
+            &>div {
                 padding: 0 .5em;
             }
         }
     }
+}
+
+.menus .menu {
+    padding: .7em .5em .5em;
 }
