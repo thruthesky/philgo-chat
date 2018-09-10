@@ -769,6 +769,13 @@ export class PhilGoApiService {
             return null;
         }
     }
+
+    /**
+     * Returns the forum name or category name
+     *
+     * @param post_id post_id
+     * @param category category
+     */
     forumName(post_id: string, category?: string): string {
         if (this.pc && this.pc[post_id] !== void 0) {
             if (category !== void 0) {
