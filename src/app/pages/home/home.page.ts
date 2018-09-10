@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AppService } from '../providers/app.service';
+import { AppService } from '../../providers/app.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  styleUrls: ['./../../modules/components/scss/index.scss', 'home.page.scss'],
 })
 export class HomePage {
 

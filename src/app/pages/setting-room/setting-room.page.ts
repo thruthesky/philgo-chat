@@ -5,7 +5,8 @@ import { PhilGoApiService, ApiChatRoomUpdate } from '../../modules/philgo-api/ph
 
 @Component({
   selector: 'app-setting-room',
-  templateUrl: './setting-room.page.html'
+  templateUrl: './setting-room.page.html',
+  styleUrls: ['./../../modules/components/scss/index.scss', './setting-room.page.scss']
 })
 export class SettingRoomPage implements OnInit {
 

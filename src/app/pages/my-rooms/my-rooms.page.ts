@@ -1,48 +1,63 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AppService } from '../../providers/app.service';
-import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
+import { PhilGoApiService, ApiError, ERROR_LOGIN_FIRST } from '../../modules/philgo-api/philgo-api.service';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-rooms',
   templateUrl: './my-rooms.page.html',
+  styleUrls: ['../../modules/components/scss/index.scss', './my-rooms.page.scss']
 })
-export class MyRoomsPage implements OnInit {
+export class MyRoomsPage implements OnInit, AfterViewInit {
 
   title = 'Loading...';
-
+  frontPage;
   sortByMessage = false;
+  showHomeContent = true;
+  countChatRoomLoad = 0;
   constructor(
     public a: AppService,
     public philgo: PhilGoApiService,
-    public tr: LanguageTranslate,
-    private router: Router
+    public tr: LanguageTranslate
   ) {
+    // console.log('MyRoomsPage::constructor()');
 
-    // philgo.chatSearch().subscribe(res => {
-    //   console.log('search res => ', res);
-    // }, e => a.toast(e));
+    philgo.app('philgo-chat.frontPage', { news: true }).subscribe(res => {
+      console.log('app: ', res);
+      this.frontPage = res;
+    }, e => console.error(e));
 
-    a.myRoomsPageVisited = true;
   }
-
 
   ngOnInit() {
+    // console.log('MyRoomsPage::onInit()');
   }
 
+  ngAfterViewInit() {
+    // console.log('MyRoomsPage::ngAfterViewInit()');
+  }
   ionViewDidEnter() {
+    // console.log('MyRoomsPage::ionViewDidEnter()');
 
-    const name = this.philgo.name();
-    this.title = this.tr.t({
-      ko: `${name}님의 대화방 목록`,
-      en: `Chat room list of ${name}`,
-      ch: `${name}的聊天室列表`,
-      jp: `${name}のチャットルームリスト`
-    });
+    // this.navController.navigateRoot('/');
 
-    if (this.philgo.isLoggedOut()) {
-      this.a.openAllRooms();
+
+    this.showHomeContent = true;
+    if (this.philgo.isLoggedIn()) {
+      this.philgo.chatLoadMyRooms(!this.countChatRoomLoad).subscribe(res => {
+        this.countChatRoomLoad++;
+      }, e => {
+        console.error('failed to load my rooms information');
+      });
+      const name = this.philgo.name();
+      this.title = this.tr.t({
+        ko: `${name}님의 대화방 목록`,
+        en: `Chat room list of ${name}`,
+        ch: `${name}的聊天室列表`,
+        jp: `${name}のチャットルームリスト`
+      });
+    } else {
+
     }
   }
 
@@ -53,6 +68,15 @@ export class MyRoomsPage implements OnInit {
     } else {
       this.sortByMessage = true;
       this.philgo.sortMyRoomsByMessage();
+    }
+  }
+
+  onChatMyRoomsComponentError(e: ApiError) {
+    // console.log(e);
+    if (e.code === ERROR_LOGIN_FIRST) {
+
+    } else {
+      this.a.toast(e);
     }
   }
 }

@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-job',
   templateUrl: './job.page.html',
-  styleUrls: ['./job.page.scss'],
+  styleUrls: ['../../modules/components/scss/index.scss', './job.page.scss'],
 })
 export class JobPage implements OnInit, AfterViewInit {
 
@@ -15,7 +15,7 @@ export class JobPage implements OnInit, AfterViewInit {
     public philgo: PhilGoApiService
   ) {
     activatedRoute.paramMap.subscribe( params => this.category = params.get('category') );
-    console.log( philgo.postConfigs );
+    // console.log( philgo.pc );
   }
 
   ngOnInit() {

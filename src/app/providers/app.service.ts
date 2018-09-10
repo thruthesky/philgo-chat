@@ -1,10 +1,10 @@
 import { Injectable, NgZone, Output, EventEmitter } from '@angular/core';
-import { ToastController, Platform, AlertController } from '@ionic/angular';
+import { ToastController, Platform, AlertController, NavController } from '@ionic/angular';
 import * as firebase from 'firebase/app';
 // import 'firebase/database';
 import 'firebase/messaging';
 import {
-  ApiChatMessage, PhilGoApiService, CHAT_STATUS_ENTER, CHAT_STATUS_LEAVE, ERROR_WRONG_SESSION_ID,
+  ApiChatMessage, PhilGoApiService, ERROR_WRONG_SESSION_ID,
   ERROR_WRONG_IDX_MEMBER,
   ApiUserInformation
 } from '../modules/philgo-api/philgo-api.service';
@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { LanguageTranslate } from '../modules/language-translate/language-translate';
 import { environment } from '../../environments/environment';
 import { AngularLibrary } from '../modules/angular-library/angular-library';
+import { AlertOptions } from '@ionic/core';
 
 
 interface Environment {
@@ -43,6 +44,8 @@ declare let FCMPlugin;
 export class AppService {
 
   @Output() chatRoomReminderClose = new EventEmitter();
+  @Output() toggleMenu = new EventEmitter();
+
 
   version = 2018081413;
   // info: ApiChatInfo = null;
@@ -82,7 +85,7 @@ export class AppService {
    *  the app needs to reload the site into rooms page when the user leave the room to completely remove the page
    *  from the bottom of the nativation stack.
    */
-  myRoomsPageVisited = false;
+  // myRoomsPageVisited = false;
   counter = 0;
   //
   constructor(
@@ -91,6 +94,7 @@ export class AppService {
     private readonly router: Router,
     private readonly toastController: ToastController,
     private readonly alertController: AlertController,
+    private readonly navController: NavController,
     private readonly philgo: PhilGoApiService,
     public readonly tr: LanguageTranslate,
     private p: Platform
@@ -99,7 +103,7 @@ export class AppService {
     // console.log('isPushNotificationRequested: ', this.isPushNotificationPermissionRequested());
 
     this.tr.languageCode = AngularLibrary.getUserLanguage();
-    console.log('lang: ', this.tr.languageCode);
+    // console.log('lang: ', this.tr.languageCode);
     this.p.backButton.subscribe(async () => {
       this.router.navigateByUrl('/');
       if (this.counter === 0) {
@@ -181,6 +185,7 @@ export class AppService {
 
 
     philgo.newMessageFromOtherRoom.subscribe(message => {
+      console.log('philgo.comnewMessageFromOtherRoom', message);
       this.toastMessage(message);
       this.philgo.chatIncreaseNoOfNewMessage(message.idx_chat_room);
     });
@@ -395,13 +400,34 @@ export class AppService {
     return this.domSanitizer.bypassSecurityTrustUrl(url);
   }
 
-
-
   openHome() {
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl(this.home());
+  }
+  openHelp() {
+    this.router.navigateByUrl(this.help());
+  }
+  openMyRooms() {
+    this.setRoot('/my-rooms');
   }
   openAllRooms() {
-    this.router.navigateByUrl('/all-rooms');
+    this.router.navigateByUrl(this.allRooms());
+  }
+
+
+
+  home(): string {
+    return '/';
+  }
+  help(): string {
+    return '/help';
+  }
+  allRooms(): string {
+    return '/all-rooms';
+  }
+
+  setRoot( path: string ) {
+    console.log('AppService::setRoot() ', path);
+    this.navController.navigateRoot( path );
   }
 
   /**
@@ -418,4 +444,21 @@ export class AppService {
     this.router.navigateByUrl('/room/' + idx_chat_room);
   }
 
+  
+  async alert(options: AlertOptions) {
+    if (!options) {
+      return;
+    }
+
+    if (!options.buttons) {
+      options.buttons = [this.philgo.t({ en: 'OK', ko: '확인' })];
+    }
+
+    const alert = await this.alertController.create(options);
+    await alert.present();
+  }
+
+  t(o, i) {
+    return this.tr.t(o, i);
+  }
 }

@@ -1,4 +1,10 @@
 const configs = {
+    ads: {
+        subject: {
+            en: 'Advertiseemnt',
+            ko: '광고'
+        }
+    },
     freetalk: {
         subject: {
             en: 'Discussion',
@@ -11,7 +17,7 @@ const configs = {
             ko: '질문과답변'
         }
     },
-    jobs: {
+    wanted: {
         subject: {
             en: 'Jobs',
             ko: '구인구직'
