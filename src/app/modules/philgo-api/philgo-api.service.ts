@@ -1613,6 +1613,15 @@ export class PhilGoApiService {
     }
 
     /**
+     * Returns 'Ymd' into 'Y-m-d'
+     * @param Ymd Ymd string
+     */
+    dateYmd(Ymd: string) {
+        if (!Ymd || !Ymd.length || Ymd.length !== 8) return '0000-00-00';
+        return Ymd.substr(0, 4) + '-' + Ymd.substr(4, 2) + '-' + Ymd.substr(6, 2);
+    }
+
+    /**
      * Display short date
      * If it is today, then it dispays YYYY-MM-DD HH:II AP
      * @param stamp unix timestamp
@@ -2614,10 +2623,37 @@ export class PhilGoApiService {
 
 
     /**
-     *
+     * Returns src of anonymous Photo
      */
     get anonymousPhotoURL(): string {
         return this.getServerUrl().replace('api.php', '') + 'etc/img/anonymous.gif';
+    }
+
+
+    /**
+     * Returns a file of code from files array.
+     * @param files files array to search a file of the code
+     * @param code code of the file
+     */
+    getFile(files: Array<ApiFile>, code: string): ApiFile {
+        if (files && files.length) {
+            return files.find(v => v.code === code);
+        }
+    }
+
+    /**
+     * Returns src of the photo
+     * @param files files to search
+     * @param code code
+     */
+    getSrc(files: Array<ApiFile>, code: string): string {
+        if (files && files.length) {
+            const photo = this.getFile(files, code);
+            if (photo) {
+                return photo.src + '?name=' + photo.name;
+            }
+        }
+        return '';
     }
 
 
