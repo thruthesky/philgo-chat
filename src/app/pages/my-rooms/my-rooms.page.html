@@ -5,7 +5,8 @@
         <ion-text>{{ a.t({ en: 'PhilGo Social Hub', ko: '필고 소셜 허브' }) }}</ion-text>
         <ion-badge class="border-radius-45px ml-2" (click)=" sortRoomsByNewMessage() " color="danger" *ngIf=" philgo.noOfNewMessageInMyRoom ">{{
           philgo.noOfNewMessageInMyRoom }}</ion-badge>
-        <ion-icon class="ml-2" (click)=" sortRoomsByNewMessage() " name="arrow-round-down" *ngIf=" philgo.noOfNewMessageInMyRoom "></ion-icon>
+        <ion-icon class="ml-2" (click)=" showHomeContent = !showHomeContent; sortRoomsByNewMessage() " name="arrow-round-down"
+          *ngIf=" philgo.noOfNewMessageInMyRoom "></ion-icon>
       </div>
     </ion-title>
     <ion-buttons slot="end">
@@ -18,10 +19,10 @@
 
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
 
-  <div class="main-news border-bottom" *ngIf="showHomeContent && frontPage">
 
+  <div class="main-news border-bottom" *ngIf="showHomeContent && frontPage?.mainNews?.idx">
     <div class="row no-gutters">
-      <div class="col pr-md-2">
+      <div class="col pr-md-2" routerLink="/forum/{{ frontPage.mainNews.post_id }}/{{ frontPage.mainNews.idx }}">
         <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 360, height: 120, idx: frontPage.mainNews.photo.idx }) }}">
         <div class="p-1 mb-2 mb-md-0">
           <div class="main-news-title fs-lg truncate my-1">{{ frontPage.mainNews.subject }}</div>
@@ -30,13 +31,14 @@
           </p>
         </div>
       </div>
-      <div class="col pl-md-2">
 
+
+      <div class="col pl-md-2">
         <div class="community-posts" *ngIf="frontPage.communityPosts?.length">
           <div class="row no-gutters">
-            <div class="col-3 fs-sm" *ngFor="let post of frontPage.communityPosts">
+            <div class="col-3 fs-sm" *ngFor="let post of frontPage.communityPosts" routerLink="/forum/{{ post.post_id }}/{{ post.idx }}">
               <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 100, height: 100, idx: post.no_of_first_image }) }}">
-              <div class="p-1 truncate whitespace-md-prewrap">{{ post.subject.slice(0,100) }}</div>
+              <div class="p-1 truncate whitespace-md-prewrap" *ngIf=" post.subject ">{{ post.subject.slice(0,100) }}</div>
             </div>
           </div>
         </div>
@@ -54,7 +56,7 @@
 
   <div class="menus row text-center text-normal fs-sm pointers">
 
-    <div class="menu col" (click)=" showHomeContent = false ">
+    <div class="menu col" (click)=" showHomeContent = ! showHomeContent ">
       <ion-icon class="size-24px" name="chatbubbles"></ion-icon>
       <div class="text">단톡방</div>
     </div>
