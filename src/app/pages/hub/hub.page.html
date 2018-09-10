@@ -32,9 +32,9 @@
   </div>
 
   <div class="row" *ngIf=" photos.length ">
-    <div class="col" *ngFor=" let photo of photos ">
+    <div class="col-4 col-md-2" *ngFor=" let photo of photos ">
       <img src="{{ philgo.thumbnailUrl({ width: 100, height: 100, idx: photo.no_of_first_image }) }}">
-      <div>{{ photo.subject }}</div>
+      <div class="fs-sm">{{ photo.subject }}</div>
     </div>
   </div>
 
