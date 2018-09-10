@@ -16,7 +16,7 @@
 
       <div class="row mb-4" *ngIf=" re?.news?.length ">
           <div class="col-3">
-            <img src="{{ philgo.thumbnailUrl({ width: 140, height: 100, idx: newsLeft.no_of_first_image }) }}">
+            <img src="{{ philgo.thumbnailUrl({ width: 155, height: 100, idx: newsLeft.no_of_first_image }) }}">
             <div>{{ newsLeft.subject }}</div>
           </div>
           <div class="col-9">
@@ -31,9 +31,9 @@
           </div>
         </div>
       
-        <div class="row" *ngIf=" photos.length ">
-          <div class="col-4 col-md-2 pb-2" *ngFor=" let photo of photos ">
-            <img src="{{ philgo.thumbnailUrl({ width: 140, height: 100, idx: photo.no_of_first_image }) }}">
+        <div class="row px-2" *ngIf=" photos.length ">
+          <div class="col-4 col-md-2 px-1 pb-2" *ngFor=" let photo of photos ">
+            <img src="{{ philgo.thumbnailUrl({ width: 155, height: 100, idx: photo.no_of_first_image }) }}">
             <div class="p-1 fs-sm">{{ photo.subject }}</div>
           </div>
         </div>
