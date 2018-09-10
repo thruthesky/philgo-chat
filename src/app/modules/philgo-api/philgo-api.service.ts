@@ -485,6 +485,7 @@ export interface ApiPostSearch {
     // These input will be returned as it was from server.
     post_id?: string;           // post_id. it can be '', 'id1,id2,id3'
     category?: string;          // category.
+    // idx_member?: any;           // user idx to search posts of the user.
     fields?: string;            // fields to select.
     type?: string;              // post type.
     comment?: '' | '0';         // whether to get comments of posts or not. '0' mean don't get it.
@@ -492,8 +493,9 @@ export interface ApiPostSearch {
     limit_comment?: number;     // limit no of comments to get.
     page_no?: number;           // page no.
     limit?: number;             // limit no of posts.
-    uid?: string;               // user id, nickname, email. to search posts of the user.
+    uid?: string;               // user id/idx, nickname, email. to search posts of the user.
     order_by?: string;          // to order the result. default 'stamp DESC'.
+    deleted?: 0 | 1;            // 아무값도 지정하지 않으면, 모든 글. 0 을 지정하면 학제 안된 글. 1 을 지정하면 삭제된 글만 추출.
 
 
 
@@ -754,7 +756,7 @@ export class PhilGoApiService {
     mergeConfig(config) {
         const back = Object.assign({}, this.config);
         Object.assign(this.config, config);
-        this.config.postConfigs = Object.assign( back.postConfigs, config.postConfigs );
+        this.config.postConfigs = Object.assign(back.postConfigs, config.postConfigs);
     }
 
     /**
@@ -1357,7 +1359,7 @@ export class PhilGoApiService {
      *
      * @example README.md ## File Upload
      */
-    fileUpload(files: FileList, options: ApiFileUploadOptions): Observable<any> {
+    fileUpload(files: FileList, options: ApiFileUploadOptions): Observable<ApiFile> {
         if (files === void 0 || !files.length || files[0] === void 0) {
             return throwError(ApiErrorFileNotSelected);
         }
@@ -1384,7 +1386,7 @@ export class PhilGoApiService {
             formData.append('module_name', options.module_name);
         }
         if (options.code) {
-            formData.append('varname', options.code);
+            formData.append('code', options.code);
         }
 
         const req = new HttpRequest('POST', this.getServerUrl(), formData, {
@@ -2491,7 +2493,7 @@ export class PhilGoApiService {
         return this.query('post.search', data);
     }
 
-    postQuery(req: { fields?: string, where: string, orderby?: string, limit?: number }): Observable<Array<ApiPost>> {
+    postQuery(req: { fields?: string, where: string, orderby?: string, page_no?: number, limit?: number }): Observable<Array<ApiPost>> {
         return this.query('post.query', req);
     }
 

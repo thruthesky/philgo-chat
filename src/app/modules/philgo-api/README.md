@@ -597,7 +597,7 @@ this.philgo.postQuery({
     }
     const files = event.target['files'];
     if (files === void 0 || !files.length || files[0] === void 0) {
-      this.error = { code: -1, message: this.philgo.t({ en: 'Please select a file', ko: '업로드 할 팔일을 선택해주세요.' }) };
+      this.error = { code: -1, message: this.philgo.t({ en: 'Please select a file', ko: '업로드 할 파일을 선택해주세요.' }) };
     }
     this.philgo.fileUpload(files, { gid: this.form.gid }).subscribe(res => {
       if (typeof res === 'number') {
@@ -607,4 +607,15 @@ this.philgo.postQuery({
       }
     }, e => console.error(e));
   }
+````
+
+
+## Tooltip, Popover Component
+
+* tooltip component is a helper component to display tooltip easily.
+
+```` html
+<ion-item (click)="tooltip.present( $event, {content: '아래의 광고 배너 중 정사각형 배너는 필수입니다. 그 외 두가지는 옵션이며, 광고 배너를 모두 올리면 광고가 더 많이 노출될 확율이 높습니다.'} )">
+  <ion-icon name="help"></ion-icon>
+</ion-item>
 ````
