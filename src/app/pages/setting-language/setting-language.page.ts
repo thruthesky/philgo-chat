@@ -5,7 +5,8 @@ import { Radio } from '@ionic/angular';
 
 @Component({
   selector: 'app-setting-language',
-  templateUrl: './setting-language.page.html'
+  templateUrl: './setting-language.page.html',
+  styleUrls: ['./setting-language.page.scss', './../../modules/components/scss/index.scss']
 })
 export class SettingLanguagePage implements OnInit {
 

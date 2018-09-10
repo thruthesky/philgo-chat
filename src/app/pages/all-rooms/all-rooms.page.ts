@@ -5,7 +5,8 @@ import { MyRoomsPage } from '../my-rooms/my-rooms.page';
 
 @Component({
   selector: 'app-all-rooms',
-  templateUrl: './all-rooms.page.html'
+  templateUrl: './all-rooms.page.html',
+  styleUrls: ['./../../modules/components/scss/index.scss', './all-rooms.page.scss']
 })
 export class AllRoomsPage implements OnInit {
 

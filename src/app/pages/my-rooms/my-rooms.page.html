@@ -18,25 +18,25 @@
 
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
 
-  <div class="main-news" *ngIf="showHomeContent && frontPage">
+  <div class="main-news border-bottom" *ngIf="showHomeContent && frontPage">
 
-    <div class="row">
-      <div class="col">
+    <div class="row no-gutters">
+      <div class="col pr-md-2">
         <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 360, height: 120, idx: frontPage.mainNews.photo.idx }) }}">
-        <div class="px-2">
-          <div class="main-news-title m-0 p-0 fs-lg truncate">{{ frontPage.mainNews.subject }}</div>
-          <p class="main-news-content m-0 p-0">
+        <div class="p-1 mb-2 mb-md-0">
+          <div class="main-news-title fs-lg truncate my-1">{{ frontPage.mainNews.subject }}</div>
+          <p class="main-news-content m-0 fs-md text-muted">
             {{ frontPage.mainNews.content }}
           </p>
         </div>
       </div>
-      <div class="col">
+      <div class="col pl-md-2">
 
         <div class="community-posts" *ngIf="frontPage.communityPosts?.length">
-          <div class="row gutters-sm">
-            <div class="col fs-sm" style="max-width: 25%;" *ngFor="let post of frontPage.communityPosts">
-              <img src="{{ philgo.thumbnailUrl({ width: 100, height: 100, idx: post.no_of_first_image }) }}">
-              <div class="truncate">{{ post.subject }}</div>
+          <div class="row no-gutters">
+            <div class="col-3 fs-sm" *ngFor="let post of frontPage.communityPosts">
+              <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 100, height: 100, idx: post.no_of_first_image }) }}">
+              <div class="p-1 truncate whitespace-md-prewrap">{{ post.subject.slice(0,100) }}</div>
             </div>
           </div>
         </div>

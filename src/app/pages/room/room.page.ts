@@ -15,7 +15,8 @@ const NO_REMINDER_FROM_KEY = 'no-room-reminder-from';
 
 @Component({
   selector: 'app-room',
-  templateUrl: './room.page.html'
+  templateUrl: './room.page.html',
+  styleUrls: ['./../../modules/components/scss/index.scss', './room.page.scss']
 })
 export class RoomPage implements OnInit, AfterViewInit {
   @ViewChild(Content) ionContent: Content;
