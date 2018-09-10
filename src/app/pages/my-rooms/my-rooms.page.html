@@ -90,9 +90,9 @@
       <div class="pt-3px text">{{ a.t({ en: 'Hub', ko: '허브' }) }}</div>
     </div>
 
-    <div class="menu col" (click)=" a.openHelp() ">
-      <ion-icon class="size-24px" name="information-circle"></ion-icon>
-      <div class="text">도움말</div>
+    <div class="menu col" (click)=" a.toggleMenu.emit() ">
+      <ion-icon class="size-24px" name="menu"></ion-icon>
+      <div class="text">메뉴</div>
     </div>
 
   </div>

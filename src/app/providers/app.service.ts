@@ -44,6 +44,7 @@ declare let FCMPlugin;
 export class AppService {
 
   @Output() chatRoomReminderClose = new EventEmitter();
+  @Output() toggleMenu = new EventEmitter();
 
 
   version = 2018081413;
