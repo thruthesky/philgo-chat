@@ -1528,6 +1528,8 @@ export class PhilGoApiService {
      *  this.thumbnailUrl({ idx: idx, width: 64, height: 64 });
      */
     thumbnailUrl(option: ApiThumbnailOption): string {
+        if ((option.idx === void 0 || !option.idx) && (option.path === void 0 || !option.path)) return '';
+
         let url = this.getFileServerUrl().replace('index.php', '');
         let type = 'adaptive';
         if (option.type) {
