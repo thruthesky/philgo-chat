@@ -13,7 +13,7 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
   title = 'Loading...';
   frontPage = {
     mainNews: <ApiPost>{},
-    communityPosts: <Array<ApiPost>>[]
+    communityPosts: <ApiPost[]>[]
   };
   sortByMessage = false;
   showHomeContent = true;

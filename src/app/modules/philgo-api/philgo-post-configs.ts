@@ -11,6 +11,12 @@ const configs = {
             ko: '자유게시판'
         }
     },
+    news: {
+        subject: {
+            en: 'News',
+            ko: '뉴스'
+        }
+    },
     qna: {
         subject: {
             en: 'QnA',

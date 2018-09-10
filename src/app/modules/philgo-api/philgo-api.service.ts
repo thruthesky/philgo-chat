@@ -298,6 +298,7 @@ export interface ApiComment {
     stamp?: string;
     date?: string;
     user_name?: string;
+    files?: Array<ApiFile>;
 }
 
 
@@ -500,7 +501,7 @@ export interface ApiPostSearch {
     // 아래는 속성은 같지만, 요청 값과 응답 값이 서로 다른 값을 가진다.
     // Properties below have different values from sending and receiving.
     view?: ApiPost | string;    // post.idx 값으로, 게시판 목록 맨 위에 보여주고자 하는 글을 입력한다.
-                                // 그러면 응답의 view 속성에는 ApiPost 가 들어온다.
+    // 그러면 응답의 view 속성에는 ApiPost 가 들어온다.
 
 
 
@@ -795,6 +796,7 @@ export class PhilGoApiService {
                 }
             }
         } else {
+            console.log("NO FORUM NAME FOR: ", post_id);
             return NO_FORUM_NAME;
         }
     }

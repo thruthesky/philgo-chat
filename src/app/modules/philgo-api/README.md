@@ -623,16 +623,33 @@ this.philgo.postQuery({
 
 ## URL & Paths
 
-### post view
+
+### 게시판 목록 URL
+
+
+* 일반 게시판 목록은 `/forum/:post_id` 로 통일을 한다.
+
+* 때로는 `job`, `ads` 게시판 등은 URL 의 주소가 중요하므로 route 를 따로 만들수 있다. 예제) `/job/:category`, `/ads`
+
+* 하지만 URL 주소가 중요하지 않은 경우, 그냥 기본 URL 목록을 따른다.
+
+### 게시글 읽기 URL
+
+* 일반적으로 게시글은 게시판 목록 위에 보여준다. 즉, 게시글 읽기 페이지가 따로 존재하지 않는다.
+* 게시글 읽기를 하면, 게시판 목록의 제목 및에 글 내용을 보여주고, push state 만 바꾸어 주면 된다.
+* 만약, SEO 가 필요하면 PHP 단에서 적절히 처리를 하면 된다.
+
+글 읽기 URL 은 글 목록 맨 끝에 `:idx` 를 추가한다.
+예제)
+`/forum/freetalk/:idx`
+`<div routerLink="/forum/{{ post.post_id }}/{{ post.idx }}">`
+`/job/:category/:idx`
+`/ads/idx`
+
+
 
 If a post is clicked on post-list page, it will draw down the content and comments of the post instead of routing into a new page.
-
 Normally, there is no post view page. 
-
 When a route is being access to view a post, then the url of the route should be `.../:idx` to indicate that this needs to display post on top of the post list.
 
-Example of urls
-
-`/forum/freetalk/:idx`
-`/job/:idx`
 

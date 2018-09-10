@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
 
 @Component({
   selector: 'app-forum',
@@ -7,7 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ForumPage implements OnInit {
 
-  constructor() { }
+  post_id;
+  title;
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    public philgo: PhilGoApiService
+  ) {
+    activatedRoute.paramMap.subscribe(params => {
+      this.post_id = params.get('post_id');
+      if (this.post_id) {
+        this.title = this.philgo.forumName(this.post_id);
+      }
+    });
+  }
 
   ngOnInit() {
   }
