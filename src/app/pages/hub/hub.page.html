@@ -14,7 +14,7 @@
 
 <ion-content padding>
 
-      <div class="row" *ngIf=" re?.news?.length ">
+      <div class="row mb-4" *ngIf=" re?.news?.length ">
           <div class="col-3">
             <img src="{{ philgo.thumbnailUrl({ width: 100, height: 100, idx: newsLeft.no_of_first_image }) }}">
             <div>{{ newsLeft.subject }}</div>
@@ -32,9 +32,9 @@
         </div>
       
         <div class="row" *ngIf=" photos.length ">
-          <div class="col-4 col-md-2" *ngFor=" let photo of photos ">
-            <img src="{{ philgo.thumbnailUrl({ width: 100, height: 100, idx: photo.no_of_first_image }) }}">
-            <div class="fs-sm">{{ photo.subject }}</div>
+          <div class="col-4 col-md-2 py-2" *ngFor=" let photo of photos ">
+            <img src="{{ philgo.thumbnailUrl({ width: 140, height: 100, idx: photo.no_of_first_image }) }}">
+            <div class="p-1 fs-sm">{{ photo.subject }}</div>
           </div>
         </div>
 
