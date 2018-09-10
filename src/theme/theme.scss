@@ -18,6 +18,19 @@ ion-toast {
     }
 }
 
+ion-modal {
+    .modal-wrapper {
+        @media (min-width: $md) {
+            width: 80vw !important;
+            height: 90vh !important;
+        }
+        @media (min-width: $lg) {
+            width: 70vw !important;
+            height: 90vh !important;
+        }
+    }
+}
+
 @mixin size-24px {
     width: 24px !important;
     height: 24px !important;
