@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AppService } from '../../providers/app.service';
-import { PhilGoApiService, ApiError, ERROR_LOGIN_FIRST } from '../../modules/philgo-api/philgo-api.service';
+import { PhilGoApiService, ApiError, ERROR_LOGIN_FIRST, ApiPost } from '../../modules/philgo-api/philgo-api.service';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
 
 @Component({
@@ -11,7 +11,10 @@ import { LanguageTranslate } from '../../modules/language-translate/language-tra
 export class MyRoomsPage implements OnInit, AfterViewInit {
 
   title = 'Loading...';
-  frontPage;
+  frontPage = {
+    mainNews: <ApiPost>{},
+    communityPosts: <Array<ApiPost>>[]
+  };
   sortByMessage = false;
   showHomeContent = true;
   countChatRoomLoad = 0;

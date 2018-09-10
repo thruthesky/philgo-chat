@@ -619,3 +619,20 @@ this.philgo.postQuery({
   <ion-icon name="help"></ion-icon>
 </ion-item>
 ````
+
+
+## URL & Paths
+
+### post view
+
+If a post is clicked on post-list page, it will draw down the content and comments of the post instead of routing into a new page.
+
+Normally, there is no post view page. 
+
+When a route is being access to view a post, then the url of the route should be `.../:idx` to indicate that this needs to display post on top of the post list.
+
+Example of urls
+
+`/forum/freetalk/:idx`
+`/job/:idx`
+

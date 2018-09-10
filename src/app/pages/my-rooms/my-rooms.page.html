@@ -19,10 +19,9 @@
 
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
 
-  <div class="main-news border-bottom" *ngIf="showHomeContent && frontPage">
-
+  <div class="main-news border-bottom" *ngIf="showHomeContent && frontPage?.communityPosts?.length">
     <div class="row no-gutters">
-      <div class="col pr-md-2">
+      <div class="col pr-md-2" routerLink="/forum/news/{{ frontPage.mainNews.idx }}">
         <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 360, height: 120, idx: frontPage.mainNews.photo.idx }) }}">
         <div class="p-1 mb-2 mb-md-0">
           <div class="main-news-title fs-lg truncate my-1">{{ frontPage.mainNews.subject }}</div>
@@ -31,8 +30,8 @@
           </p>
         </div>
       </div>
-      <div class="col pl-md-2">
 
+      <div class="col pl-md-2">
         <div class="community-posts" *ngIf="frontPage.communityPosts?.length">
           <div class="row no-gutters">
             <div class="col-3 fs-sm" *ngFor="let post of frontPage.communityPosts">
