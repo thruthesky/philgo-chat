@@ -36,7 +36,7 @@
           <div class="row no-gutters">
             <div class="col-3 fs-sm" *ngFor="let post of frontPage.communityPosts">
               <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 100, height: 100, idx: post.no_of_first_image }) }}">
-              <div class="truncate p-1">{{ post.subject }}</div>
+              <div class="p-1 truncate whitespace-md-prewrap">{{ post.subject }}</div>
             </div>
           </div>
         </div>
