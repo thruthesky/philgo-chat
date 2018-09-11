@@ -5,7 +5,7 @@
         <ion-text>{{ a.t({ en: 'PhilGo Social Hub', ko: '필고 소셜 허브' }) }}</ion-text>
         <ion-badge class="border-radius-45px ml-2" (click)=" sortRoomsByNewMessage() " color="danger" *ngIf=" philgo.noOfNewMessageInMyRoom ">{{
           philgo.noOfNewMessageInMyRoom }}</ion-badge>
-        <ion-icon class="ml-2" (click)=" showHomeContent = !showHomeContent; sortRoomsByNewMessage() " name="arrow-round-down"
+        <ion-icon class="ml-2" (click)=" showHomeContent = false; sortRoomsByNewMessage() " name="arrow-round-down"
           *ngIf=" philgo.noOfNewMessageInMyRoom "></ion-icon>
       </div>
     </ion-title>
@@ -31,7 +31,6 @@
           </p>
         </div>
       </div>
-
 
       <div class="col pl-md-2">
         <div class="community-posts" *ngIf="frontPage.communityPosts?.length">
