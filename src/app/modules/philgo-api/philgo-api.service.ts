@@ -484,6 +484,7 @@ export interface ApiPostSearch {
 
     // Input conditions for searching.
     // These input will be returned as it was from server.
+    idx?: any;                  // 특정 글 하나만 검색한다.
     post_id?: string;           // post_id. it can be '', 'id1,id2,id3'
     category?: string;          // category.
     // idx_member?: any;           // user idx to search posts of the user.
