@@ -1,0 +1,17 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>{{ post?.subject }}</ion-title>
+      <ion-buttons slot="end">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+<ion-content padding>
+  <div *ngIf=" post ">
+    <img src="{{ philgo.getSrc( post.files, 'landing' ) }}">
+  </div>
+</ion-content>
