@@ -2501,6 +2501,9 @@ export class PhilGoApiService {
         return this.query('app.runAction', data);
     }
 
+
+
+
     ///
     ///
     /// NEW POST APIS
@@ -2661,6 +2664,16 @@ export class PhilGoApiService {
         return '';
     }
 
+
+
+
+
+    provinces(): Observable<Array<string>> {
+        return <any>this.http.get(this.getServerUrl().replace('api.php', '') + 'etc/location/philippines/json.php');
+    }
+    cities(province: string): Observable<string[]> {
+        return <any>this.http.get(this.getServerUrl().replace('api.php', '') + 'etc/location/philippines/json.php?province=' + province);
+    }
 
 
 
