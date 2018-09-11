@@ -14,10 +14,10 @@
 
 <ion-content padding>
 
-      <div class="row mb-4" *ngIf=" re?.news?.length ">
+      <div class="row mb-4 fs-md" *ngIf=" re?.news?.length ">
           <div class="col-3">
             <img src="{{ philgo.thumbnailUrl({ width: 155, height: 100, idx: newsLeft.no_of_first_image }) }}">
-            <div>{{ newsLeft.subject }}</div>
+            <div>{{ newsLeft.subject.slice(0,90) }}</div>
           </div>
           <div class="col-9">
             <div class="mb-3" *ngFor="let news of newsOthers; first as isFirst">
