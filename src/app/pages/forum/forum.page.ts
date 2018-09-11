@@ -12,7 +12,7 @@ export class ForumPage implements OnInit {
   post_id;
   title;
   constructor(
-    private activatedRoute: ActivatedRoute,
+    activatedRoute: ActivatedRoute,
     public philgo: PhilGoApiService
   ) {
     activatedRoute.paramMap.subscribe(params => {
