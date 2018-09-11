@@ -61,31 +61,31 @@
 
   <div class="menus row text-center text-normal fs-sm pointers">
 
-    <div class="menu col" (click)=" showHomeContent = ! showHomeContent ">
+    <ion-item class="d-block menu col" (click)=" showHomeContent = ! showHomeContent ">
       <ion-icon class="size-24px" name="chatbubbles"></ion-icon>
       <div class="text">단톡방</div>
-    </div>
+    </ion-item>
 
-    <div class="menu col" routerLink="/forum/qna">
+    <ion-item class="menu col" routerLink="/forum/qna">
       <ion-icon class="size-24px" name="help-circle"></ion-icon>
       <div class="text">질문답변</div>
-    </div>
+    </ion-item>
 
-    <div class="menu col d-none d-md-block" routerLink="/forum/freetalk">
+    <ion-item class="menu col d-none d-md-block" routerLink="/forum/freetalk">
       <ion-icon class="size-24px" name="quote"></ion-icon>
       <div class="text">자유토론</div>
-    </div>
-    <div class="menu col d-none d-md-block" routerLink="/forum/buyandsell">
+    </ion-item>
+    <ion-item class="menu col d-none d-md-block" routerLink="/forum/buyandsell">
       <ion-icon class="size-24px" name="cart"></ion-icon>
       <div class="text">회원장터</div>
-    </div>
-    <div class="menu col d-none d-md-block" routerLink="/job/housemaid">
+    </ion-item>
+    <ion-item class="menu col d-none d-md-block" routerLink="/job/housemaid">
       <ion-icon class="size-24px" name="contact"></ion-icon>
       <div class="text">하우스헬퍼</div>
-    </div>
+    </ion-item>
 
 
-    <div class="menu col" routerLink="/hub">
+    <ion-item class="menu col" routerLink="/hub">
       <svg class="pt-1 size-22px" version="1.0" xmlns="http://www.w3.org/2000/svg" width="101.000000pt" height="102.000000pt"
         viewBox="0 0 101.000000 102.000000" preserveAspectRatio="xMidYMid meet">
         <g transform="translate(0.000000,102.000000) scale(0.100000,-0.100000)" fill="#ac0000" stroke="none">
@@ -95,12 +95,12 @@
         </g>
       </svg>
       <div class="pt-3px text">{{ a.t({ en: 'Hub', ko: '허브' }) }}</div>
-    </div>
+    </ion-item>
 
-    <div class="menu col" (click)=" a.toggleMenu.emit() ">
+    <ion-item class="menu col" (click)=" a.toggleMenu.emit() ">
       <ion-icon class="size-24px" name="menu"></ion-icon>
       <div class="text">메뉴</div>
-    </div>
+    </ion-item>
 
   </div>
 
