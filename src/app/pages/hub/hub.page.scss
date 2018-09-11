@@ -1,3 +1,36 @@
-.is-first{
-    font-weight:bold;
+@import './../../modules/components/scss/vars';
+.news-left,
+.news-others{
+    margin-bottom: 1.5em;
+    height: 145px;
+    overflow: hidden;
+    font-size: .8rem;
+    @media (min-width:$md) {
+        height: auto;
+        font-size: .9rem;   
+    }
+}
+
+.news-others{
+    *{
+        white-space: nowrap;
+        overflow: hidden;
+        @media (min-width:$md) {
+            white-space: normal;
+        }
+    }
+    i{
+        display: block;
+        margin:.2em 1em;
+        color: darkblue;
+    }
+    .is-first{
+        padding: 1em;
+        background: #f8f9fa;
+        i{
+            margin: 0 0 .5em 0;
+            font-weight: bold;
+            color: black;
+        }
+    }
 }
