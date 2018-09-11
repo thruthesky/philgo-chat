@@ -82,4 +82,12 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
       this.a.toast(e);
     }
   }
+
+  urlView(post: ApiPost) {
+    if ( post.post_id === 'ads' ) {
+      return `/${post.post_id}/${post.idx}`;
+    } else {
+      return `/forum/${post.post_id}/${post.idx}`;
+    }
+  }
 }

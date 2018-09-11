@@ -24,7 +24,8 @@ const routes: Routes = [
   { path: 'job/:category', loadChildren: './pages/job/job.module#JobPageModule' },
   { path: 'hub', loadChildren: './pages/hub/hub.module#HubPageModule' },
   { path: 'ads', loadChildren: './pages/ads/ads.module#AdsPageModule' },
-  { path: '**', loadChildren: './pages/page-not-found/page-not-found.module#PageNotFoundPageModule' }
+  { path: 'ads/:idx', loadChildren: './pages/ads-view/ads-view.module#AdsViewPageModule' },
+  { path: '**', loadChildren: './pages/page-not-found/page-not-found.module#PageNotFoundPageModule' },
 ];
 
 @NgModule({
