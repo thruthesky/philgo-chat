@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Help</ion-title>
+    <ion-title>{{ a.t({ en: 'Help', ko: '도움말' }) }}</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -18,47 +18,29 @@
     <li>
       <div class="li-header">
         <ion-icon name="bulb"></ion-icon>
-        <span>필고 챗 안내</span>
+        <span>{{ a.t({ en: 'About PhilGo Chat', ko: '필고 챗 안내' }) }}</span>
       </div>
       <div class="li-content">
-        <div>필고에서 기존의 단톡방을 없애고 직접 개발한 채팅방을 선보입니다.</div>
-        <div>2018년 8월 현재 필고 챗은 채팅 앱으로서 완전한 기능을 가지고 있으나 필리핀 교민들에게 최적화된 채팅 앱을 만들기 위해서 꾸준한 업데이트를 해 나갈 것입니다.</div>
-        <div>문의 사항이 있으면 언제든지 필고 운영자 문의 게시판에 글을 남겨주세요.</div>
+        <div>{{ a.t({ en: 'PhilGo Chat is made for helping communication between PhilGo members and others of PhilGo related sites.', ko: '필고 및 필고와 연관된 커뮤니티들의 소통을 위해서 만들어진 웹/앱입니다.' }) }}</div>
+        <div>{{ a.t({ en: 'You can chat and browse forums like QnA, Buy and Sell, Jobs.', ko: '필리핀에 관심있는 많은 분들과 채팅을 할 수 있으며 각종 게시판 및 하우스메이드, 운전기사 구인구직란을 이용 할 수 있습니다.' }) }}</div>
+        <div>{{ a.t({ en: 'Contact', ko: '문의 사항' }) }} : thruthesky@gmail.com</div>
       </div>
     </li>
+
 
     <li>
       <div class="li-header">
         <ion-icon name="bulb"></ion-icon>
-        <span>사진을 클릭하면 크게 볼 수 있습니다.</span>
+        <span>{{ a.t({ en: 'PhilGo Blog/Homepage', ko: '블로그 및 홈페이지 제공' }) }}</span>
+      </div>
+      <div class="li-content">
+        <div>필고에서는 교민들을 위해서 무료 블로그/홈페이지를 제공합니다.</div>
+        <div>필고에서 제공하는 무료 블로그/홈페이지는 검색엔진에서 노출이 잘 되도록 최적화되어져 있으며, 필고 및 관련 사이트에 보다 많이 노출됩니다.</div>
+        <div>필리핀 관련 사업 또는 서비스를 하신다면 필고에서 제공하는 무료 블로그/홈페이지를 사용하는 것이 탁월한 선택이 될 것입니다.</div>
+        <div>문의 사항이 있으면 언제든지 필고 운영자 문의 게시판에 글을 남겨주세요.</div>
       </div>
     </li>
 
-    <li>
-        <div class="li-header">
-          <ion-icon name="bulb"></ion-icon>
-          <span>로그인을 하지 않고 방에 입장을 하면,</span>
-        </div>
-        <div class="li-content">
-          <div>방에서 채팅하는 내용은 읽을 수 있으나</div>
-          <div>채팅을 할 수 없으며, 사진도 보낼 수 없습니다. 또한 즐겨찾기와 같은 부가 기능을 할 수 없습니다.</div>
-          <div>또한 방에서 나오면, 그 방에서 채팅하는 내용을 실시간 알림 받을 수 없습니다.</div>
-        </div>
-      </li>
-  
-    
-      <li>
-          <div class="li-header">
-            <ion-icon name="bulb"></ion-icon>
-            <span>채팅 알림</span>
-          </div>
-          <div class="li-content">
-            <div>채팅방에 들어가면 자동으로 알림이됩니다.</div>
-            <div>알림을 받지 않기 위해서는 방에서 나와야 합니다.</div>
-            <div>빠른 시간내에 각 방마다 알림끄기 옵션을 제공하여 채팅방을 나오지 않으면서, 알림만 끌 수 있도록 할 것입니다.</div>
-          </div>
-        </li>
-    
-          
+
   </ul>
 </ion-content>
