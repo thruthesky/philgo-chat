@@ -25,7 +25,7 @@
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
 
 
-  <div class="main-news border-bottom" *ngIf="showHomeContent && frontPage?.mainNews?.idx">
+  <div class="main-news bg-light" *ngIf="showHomeContent && frontPage?.mainNews?.idx">
     <div class="row no-gutters">
       <div ion-activable class="col-12 col-md-5 pr-md-2 fs-md" routerLink="/forum/{{ frontPage.mainNews.post_id }}/{{ frontPage.mainNews.idx }}">
           <ion-ripple-effect></ion-ripple-effect>
