@@ -1415,7 +1415,7 @@ export class PhilGoApiService {
                 if (e instanceof HttpResponse) { // success event. upload finished.
                     if (e.body !== void 0 && e.body['code'] !== void 0) {
                         if (e.body['code'] === 0) {
-                            console.log('file upload success:', e);
+                            // console.log('file upload success:', e);
                             // e.body['data']['url'] = this.getNewFileServerUrl().replace('index.php', e.body['data']['path']);
                             return e.body['data'];
                         } else {
@@ -2616,7 +2616,7 @@ export class PhilGoApiService {
      * @param width width for resizing
      * @param height height for resizing
      */
-    profilePhotoUrl(idx_path, width = 64, height = 64) {
+    profilePhotoUrl(idx_path, width = 120, height = 120) {
         if (idx_path) {
             const data = { idx: idx_path, width: width, height: height };
             if (isNaN(idx_path)) {
