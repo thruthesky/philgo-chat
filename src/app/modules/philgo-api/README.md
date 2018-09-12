@@ -653,3 +653,15 @@ Normally, there is no post view page.
 When a route is being access to view a post, then the url of the route should be `.../:idx` to indicate that this needs to display post on top of the post list.
 
 
+
+
+## Provinces and Cities of Philippines
+
+```` typescript
+philgo.provinces().subscribe(res => {
+    console.log('provinces: ', res);
+    philgo.cities( res[1] ).subscribe( cities => {
+        console.log('cities: ', cities);
+    });
+});
+````
