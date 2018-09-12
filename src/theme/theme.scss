@@ -41,6 +41,9 @@ ion-modal {
     height: 22px !important;
 }
 
+.h-24px {
+    height: 24px !important;
+}
 .size-24px {
     @include size-24px();
 }

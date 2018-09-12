@@ -2,8 +2,9 @@
   <ion-toolbar>
     <ion-title>
       <div class="d-flex align-items-center pointer">
-        <ion-text>{{ a.t({ en: 'PhilGo Social Hub', ko: '필고 소셜 허브' }) }}</ion-text>
-        <ion-badge class="border-radius-45px ml-2" (click)=" sortRoomsByNewMessage() " color="danger" *ngIf=" philgo.noOfNewMessageInMyRoom ">{{
+        <img  (click)=" showHomeContent = true " class="mr-3 h-24px" src="/assets/img/sonub-logo.png">
+        <ion-text (click)=" showHomeContent = true ">{{ a.t({ en: 'PhilGo Social Hub', ko: '필고 소셜 허브' }) }}</ion-text>
+        <ion-badge class="border-radius-45px ml-2" (click)=" showHomeContent = false; sortRoomsByNewMessage() " color="danger" *ngIf=" philgo.noOfNewMessageInMyRoom ">{{
           philgo.noOfNewMessageInMyRoom }}</ion-badge>
         <ion-icon class="ml-2" (click)=" showHomeContent = false; sortRoomsByNewMessage() " name="arrow-round-down"
           *ngIf=" philgo.noOfNewMessageInMyRoom "></ion-icon>
@@ -17,13 +18,8 @@
 
 <ion-content>
 
-  <!-- <div ion-activable class="position-relative p-3 bg-primary">
-    <ion-ripple-effect></ion-ripple-effect>
-    ion-ripple-effect
-  </div> -->
 
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
-
 
   <div class="main-news border-bottom" *ngIf="showHomeContent && frontPage?.mainNews?.idx">
     <div class="row no-gutters">
