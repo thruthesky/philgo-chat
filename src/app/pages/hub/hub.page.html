@@ -15,13 +15,15 @@
 <ion-content padding>
 
       <div class="row no-gutters" *ngIf=" re?.news?.length ">
-          <div class="news-left col-4 col-md-3 pr-1" routerLink="/forum/{{ newsLeft.post_id }}/{{ newsLeft.idx }}">
+          <div ion-activable class="news-left col-4 col-md-3 pr-1" routerLink="/forum/{{ newsLeft.post_id }}/{{ newsLeft.idx }}">
+            <ion-ripple-effect></ion-ripple-effect>
             <img src="{{ philgo.thumbnailUrl({ width: 240, height: 135, idx: newsLeft.no_of_first_image }) }}">
             <div class="mt-1">{{ newsLeft.subject }}</div>
           </div>
           <div class="news-others col-8 col-md-9 pl-1">
-            <div class="mb-2" *ngFor="let news of newsOthers; first as isFirst" routerLink="/forum/{{ news.post_id }}/{{ news.idx }}">
-              <div [class.is-first]=" isFirst ">
+            <div ion-activable class="pb-2" *ngFor="let news of newsOthers; first as isFirst" routerLink="/forum/{{ news.post_id }}/{{ news.idx }}">
+              <div class="position-relative" [class.is-first]=" isFirst ">
+                <ion-ripple-effect></ion-ripple-effect>
                 <i>{{ news.subject }}</i>
                 <div class="text-muted" *ngIf=" isFirst ">
                   {{ news.content }}
