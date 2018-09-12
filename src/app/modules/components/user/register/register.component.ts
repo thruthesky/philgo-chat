@@ -5,6 +5,9 @@ import {
     ApiRegisterResponse, ApiProfileResponse, ApiErrorFileNotSelected, ApiErrorFileUploadError, PhilGoApiService
 } from '../../../philgo-api/philgo-api.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AngularLibrary } from '../../../angular-library/angular-library';
+import { AlertController } from '@ionic/angular';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 
 @Component({
@@ -17,6 +20,14 @@ export class RegisterComponent implements OnInit {
     @Output() error = new EventEmitter<ApiErrorResponse>();
     @Output() register = new EventEmitter<ApiRegisterResponse>();
     @Output() update = new EventEmitter<ApiProfileResponse>();
+
+    isCordova = AngularLibrary.isCordova();
+    isWeb = AngularLibrary.isWeb();
+    /**
+     * @Bug This component may created once, but used many times without Angular lifecycle due to Ionic lifecycle.
+     *      And this will lead a bug of not initializing the form.
+     *      If it's a big matter to you, then you may call `loadUserProfile()` again on Ionic life cycle.
+     */
     form;
     loader = {
         profile: false,
@@ -24,13 +35,18 @@ export class RegisterComponent implements OnInit {
     };
     percentage = 0;
     constructor(
+        private alertController: AlertController,
+        private camera: Camera,
         public philgo: PhilGoApiService,
         public tr: LanguageTranslate
     ) {
         this.resetForm();
     }
     ngOnInit() {
+        this.loadUserProfile();
+    }
 
+    loadUserProfile() {
         if (this.philgo.isLoggedIn()) {
             this.loader.profile = true;
             this.philgo.profile().subscribe(user => {
@@ -50,7 +66,8 @@ export class RegisterComponent implements OnInit {
             password: '',
             name: '',
             nickname: '',
-            mobile: ''
+            mobile: '',
+            url_profile_photo: ''
         };
     }
 
@@ -89,19 +106,102 @@ export class RegisterComponent implements OnInit {
     }
 
 
+
+    async onClickCordovaPhotoUpload() {
+
+        if (this.isWeb) {
+            return;
+        }
+
+        /**
+         * Ask first
+         */
+        const alert = await this.alertController.create({
+            header: this.philgo.t({ ko: '사진', en: 'Photo' }),
+            subHeader: this.philgo.t({ ko: '사진 전송을 합니다.', en: 'Sending a photo.' }),
+            message: this.philgo.t({
+                ko: '카메라로 사진을 찍어서 전송 할 수 있으며 갤러리에서 사진을 선택 할 수도 있습니다.',
+                en: 'You can take a picture from Camera or select a photo from gallery.'
+            }),
+            buttons: [
+                { role: 'camera', text: this.philgo.t({ ko: '카메라로 사진 찍기', en: 'Take a photo using Camera' }) },
+                { role: 'gallery', text: this.philgo.t({ ko: '갤러리에서 선택하기', en: 'Select a photo from Gallery' }) },
+                { role: 'cancel', text: this.philgo.t({ ko: '취소', en: 'Cancel' }) }
+            ]
+        });
+
+
+        await alert.present();
+        const re = await alert.onDidDismiss();
+        if (re.role === 'cancel') {
+            return;
+        }
+
+
+        /**
+         * This is camera settings.
+         */
+        const options: CameraOptions = {
+            quality: 100,
+            destinationType: this.camera.DestinationType.DATA_URL,
+            encodingType: this.camera.EncodingType.JPEG,
+            mediaType: this.camera.MediaType.PICTURE,
+            sourceType: this.camera.PictureSourceType.CAMERA
+        };
+        if (re.role === 'gallery') {
+            options.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
+        }
+
+
+        /**
+         * Take photo
+         * Get base64 data of photo.
+         *
+         * 문제의 핵심은 Cordova Camera 로 받은 base64 데이터를 어떻게 <input type='file'> 과 같은 FileList 형의 데이터를 가져오는 것인가이다.
+         * FileList 로 값을 가져오면 그냥 HTML 의 <input type='file'> 과 똑 같은 코드로 Angular 로 업로드하면 되기 때문이다.
+         */
+        const base64 = await this.camera.getPicture(options).then((imageData) => {
+            return imageData;
+        }, (e) => {
+            // console.log('Camera/Gallery cancelled');
+            return '';
+        });
+
+        if (!base64) {
+            // console.log('No data path or base64. just return');
+            return;
+        }
+
+
+        /**
+         * Convert and upload
+         *
+         * File 와 FileList 타입의 변수를 만든다.
+         * 그리고 그냥 일반 HTML FORM <input type='file'> 에서 파일 정보를 받아 업로드하는 것과 똑 같이 하면 된다.
+         */
+        const blob = AngularLibrary.base64toBlob(base64);
+        const name = AngularLibrary.dateString() + '-' + AngularLibrary.randomString(8) + '.jpg';
+        const file = new File([blob], name, { type: 'image/jpeg' });
+        const files: FileList = <any>[file];
+
+        this.onUpload(files);
+    }
     onChangePrimaryPhoto(event: Event) {
-        this.philgo.uploadPrimaryPhotoWeb(event.target['files']).subscribe(re => {
+        this.onUpload(event.target['files']);
+    }
+
+    onUpload(files: FileList) {
+        this.philgo.uploadPrimaryPhotoWeb(files).subscribe(re => {
             // console.log(event);
             if (typeof re === 'number') {
                 // console.log(`File is ${re}% uploaded.`);
                 this.percentage = re;
-
             } else if (re['code'] && re['idx'] === void 0) {
                 // console.log('error: ', re);
             } else if (re['idx'] !== void 0 && re['idx']) {
-                // console.log('file upload success: ', re);
+                console.log('file upload success: ', re);
                 // this.photo = re;
-                this.form.url_profile_photo = re['url'];
+                this.form.url_profile_photo = re['src'];
                 this.percentage = 0;
             }
         }, (e: HttpErrorResponse) => {
@@ -119,11 +219,12 @@ export class RegisterComponent implements OnInit {
                 }
             }
             console.log('file upload failed');
-            this.error.emit( this.philgo.error( ApiErrorFileUploadError, 'File upload failed') );
+            this.error.emit(this.philgo.error(ApiErrorFileUploadError, 'File upload failed'));
         });
     }
 
-    onClickDeletePrimaryPhoto() {
+    onClickDeletePrimaryPhoto(event: Event) {
+        event.stopPropagation();
         const idx = this.form.url_profile_photo.split('/').pop();
         this.philgo.deleteFile(parseInt(idx, 10)).subscribe(res => {
             // console.log('res: ', res);

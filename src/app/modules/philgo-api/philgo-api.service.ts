@@ -501,7 +501,7 @@ export interface ApiPostSearch {
 
     // 아래는 속성은 같지만, 요청 값과 응답 값이 서로 다른 값을 가진다.
     // Properties below have different values from sending and receiving.
-    view?: ApiPost | string;    // post.idx 값으로, 게시판 목록 맨 위에 보여주고자 하는 글을 입력한다.
+    view?: any;    // post.idx 값으로, 게시판 목록 맨 위에 보여주고자 하는 글을 입력한다.
     // 그러면 응답의 view 속성에는 ApiPost 가 들어온다.
 
 
@@ -1415,7 +1415,7 @@ export class PhilGoApiService {
                 if (e instanceof HttpResponse) { // success event. upload finished.
                     if (e.body !== void 0 && e.body['code'] !== void 0) {
                         if (e.body['code'] === 0) {
-                            console.log('file upload success:', e);
+                            // console.log('file upload success:', e);
                             // e.body['data']['url'] = this.getNewFileServerUrl().replace('index.php', e.body['data']['path']);
                             return e.body['data'];
                         } else {
@@ -2616,7 +2616,7 @@ export class PhilGoApiService {
      * @param width width for resizing
      * @param height height for resizing
      */
-    profilePhotoUrl(idx_path, width = 64, height = 64) {
+    profilePhotoUrl(idx_path, width = 120, height = 120) {
         if (idx_path) {
             const data = { idx: idx_path, width: width, height: height };
             if (isNaN(idx_path)) {

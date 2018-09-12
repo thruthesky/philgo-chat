@@ -17,34 +17,34 @@
 
 <ion-content>
 
+  <!-- <div ion-activable class="position-relative p-3 bg-primary">
+    <ion-ripple-effect></ion-ripple-effect>
+    ion-ripple-effect
+  </div> -->
+
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
 
 
   <div class="main-news border-bottom" *ngIf="showHomeContent && frontPage?.mainNews?.idx">
     <div class="row no-gutters">
-      <ion-item class="col-12 col-md-5 pr-md-2" routerLink="/forum/{{ frontPage.mainNews.post_id }}/{{ frontPage.mainNews.idx }}">
-        <div>
-          <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 360, height: 120, idx: frontPage.mainNews.photo.idx }) }}">
-          <div class="p-1 mb-2 mb-md-0">
-            <div class="main-news-title fs-lg truncate my-1">{{ frontPage.mainNews.subject }}</div>
-            <p class="main-news-content m-0 fs-md text-muted">
-              {{ frontPage.mainNews.content }}
-            </p>
+      <div ion-activable class="col-12 col-md-5 pr-md-2 fs-md" routerLink="/forum/{{ frontPage.mainNews.post_id }}/{{ frontPage.mainNews.idx }}">
+          <ion-ripple-effect></ion-ripple-effect>
+          <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 360, height: 119, idx: frontPage.mainNews.photo.idx }) }}">
+          <div class="mb-2 mb-md-0">
+            <div class="main-news-title truncate pt-1 darkblue">{{ frontPage.mainNews.subject }}</div>
+            <div class="main-news-content pt-1 text-muted">{{ frontPage.mainNews.content }}</div>
           </div>
-        </div>
-      </ion-item>
+      </div>
 
-      <div class="col-12 col-md-7 pl-md-2">
+      <div class="col-12 col-md-7 pl-md-2 fs-sm">
         <div class="community-posts" *ngIf="frontPage.communityPosts?.length">
           <div class="row no-gutters">
-            <ion-item class="col-3 fs-sm" *ngFor="let post of frontPage.communityPosts" routerLink="{{ urlView( post ) }}">
-              <div>
-
+            <div ion-activable class="col-3" *ngFor="let post of frontPage.communityPosts" routerLink="{{ urlView( post ) }}">
+                <ion-ripple-effect></ion-ripple-effect>
                 <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 100, height: 100, idx: post.no_of_first_image }) }}">
-                <div class="p-1 truncate whitespace-md-prewrap" *ngIf=" post.subject ">{{ post.subject.slice(0,100) }}</div>
-                <div class="p-1 truncate whitespace-md-prewrap" *ngIf=" post.content ">{{ post.content.slice(0,100) }}</div>
-              </div>
-            </ion-item>
+                <div class="pt-1 truncate" *ngIf=" post.subject ">{{ post.subject }}</div>
+                <div class="pt-1 truncate whitespace-md-prewrap text-muted" *ngIf=" post.content ">{{ post.content | slice: 0 : 65 }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
 
   </div>
 
-  <app-chat-my-rooms-component class="d-block p-2" (error)=" onChatMyRoomsComponentError( $event ) "></app-chat-my-rooms-component>
+  <app-chat-my-rooms-component class="d-block px-2 pt-1" (error)=" onChatMyRoomsComponentError( $event ) "></app-chat-my-rooms-component>
 
 
 </ion-content>
@@ -61,31 +61,37 @@
 
   <div class="menus row text-center text-normal fs-sm pointers">
 
-    <ion-item class="d-block menu col" (click)=" showHomeContent = ! showHomeContent ">
+    <div ion-activable class="menu col" (click)=" showHomeContent = ! showHomeContent ">
+      <ion-ripple-effect></ion-ripple-effect>
       <ion-icon class="size-24px" name="chatbubbles"></ion-icon>
       <div class="text">단톡방</div>
-    </ion-item>
+    </div>
 
-    <ion-item class="menu col" routerLink="/forum/qna">
+    <div ion-activable class="menu col" routerLink="/forum/qna">
+      <ion-ripple-effect></ion-ripple-effect>
       <ion-icon class="size-24px" name="help-circle"></ion-icon>
       <div class="text">질문답변</div>
-    </ion-item>
+    </div>
 
-    <ion-item class="menu col d-none d-md-block" routerLink="/forum/freetalk">
+    <div ion-activable class="menu col d-none d-md-block" routerLink="/forum/freetalk">
+      <ion-ripple-effect></ion-ripple-effect>
       <ion-icon class="size-24px" name="quote"></ion-icon>
       <div class="text">자유토론</div>
-    </ion-item>
-    <ion-item class="menu col d-none d-md-block" routerLink="/forum/buyandsell">
+    </div>
+    <div ion-activable class="menu col d-none d-md-block" routerLink="/forum/buyandsell">
+      <ion-ripple-effect></ion-ripple-effect>
       <ion-icon class="size-24px" name="cart"></ion-icon>
       <div class="text">회원장터</div>
-    </ion-item>
-    <ion-item class="menu col d-none d-md-block" routerLink="/job/housemaid">
+    </div>
+    <div ion-activable class="menu col d-none d-md-block" routerLink="/job/housemaid">
+      <ion-ripple-effect></ion-ripple-effect>
       <ion-icon class="size-24px" name="contact"></ion-icon>
       <div class="text">하우스헬퍼</div>
-    </ion-item>
+    </div>
 
 
-    <ion-item class="menu col" routerLink="/hub">
+    <div ion-activable class="menu col" routerLink="/hub">
+      <ion-ripple-effect></ion-ripple-effect>
       <svg class="pt-1 size-22px" version="1.0" xmlns="http://www.w3.org/2000/svg" width="101.000000pt" height="102.000000pt"
         viewBox="0 0 101.000000 102.000000" preserveAspectRatio="xMidYMid meet">
         <g transform="translate(0.000000,102.000000) scale(0.100000,-0.100000)" fill="#ac0000" stroke="none">
@@ -95,12 +101,13 @@
         </g>
       </svg>
       <div class="pt-3px text">{{ a.t({ en: 'Hub', ko: '허브' }) }}</div>
-    </ion-item>
+    </div>
 
-    <ion-item class="menu col" (click)=" a.toggleMenu.emit() ">
+    <div ion-activable class="menu col" (click)=" a.toggleMenu.emit() ">
+      <ion-ripple-effect></ion-ripple-effect>
       <ion-icon class="size-24px" name="menu"></ion-icon>
       <div class="text">메뉴</div>
-    </ion-item>
+    </div>
 
   </div>
 
