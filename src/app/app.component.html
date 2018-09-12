@@ -3,7 +3,19 @@
     <ion-menu side="end">
       <ion-header>
         <ion-toolbar color="light">
-          <ion-title>{{ tr.t({'en': 'Menu', 'ko': '메뉴', ch: '菜单', jp: 'メニュー'}, {}) }}</ion-title>
+          <ion-title>
+            <div class="d-flex align-items-center">
+              <img class="d-block mr-3 h-24px" src="/assets/img/sonub-logo.png">
+              {{ tr.t({'en': 'Menu', 'ko': '메뉴', ch: '菜单', jp: 'メニュー'}, {}) }}
+            </div>
+          </ion-title>
+          <ion-buttons slot="end">
+            <ion-menu-toggle>
+              <ion-button>
+                <ion-icon class="size-24px" name="close"></ion-icon>
+              </ion-button>
+            </ion-menu-toggle>
+          </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content padding-vertical>
@@ -31,8 +43,8 @@
 
             <ion-item class="" routerLink="/hub">
               <div class="pl-3px">
-                <svg class="pt-1 size-24px" version="1.0" xmlns="http://www.w3.org/2000/svg" width="101.000000pt" height="102.000000pt" viewBox="0 0 101.000000 102.000000"
-                  preserveAspectRatio="xMidYMid meet">
+                <svg class="pt-1 size-24px" version="1.0" xmlns="http://www.w3.org/2000/svg" width="101.000000pt"
+                  height="102.000000pt" viewBox="0 0 101.000000 102.000000" preserveAspectRatio="xMidYMid meet">
                   <g transform="translate(0.000000,102.000000) scale(0.100000,-0.100000)" fill="#ac0000" stroke="none">
                     <path d="M545 1001 c-96 -34 -188 -92 -313 -195 -151 -124 -232 -251 -232
                  -364 0 -79 17 -118 76 -182 125 -133 434 -260 634 -260 96 0 139 11 188 47 80
@@ -84,7 +96,7 @@
               <ion-icon slot="start" color="medium" name="cart"></ion-icon>
               <ion-label>
                 <ion-text>
-                    {{ tr.t( philgo.pc['buyandsell']?.subject )}}
+                  {{ tr.t( philgo.pc['buyandsell']?.subject )}}
                 </ion-text>
               </ion-label>
             </ion-item>
@@ -120,7 +132,8 @@
               <ion-icon slot="start" color="medium" name="person-add"></ion-icon>
               <ion-label>
                 <ion-text>
-                  {{ philgo.isLoggedIn() ? tr.t({ ko: '회원 정보 수정', en: 'Profile Update', ch: '资料更新', jp: 'プロフィールの更新'}) : tr.t({ ko: '회원 가입',
+                  {{ philgo.isLoggedIn() ? tr.t({ ko: '회원 정보 수정', en: 'Profile Update', ch: '资料更新', jp: 'プロフィールの更新'}) :
+                  tr.t({ ko: '회원 가입',
                   en: 'Register', ch: '会员注册', jp: '会員登録'}) }}
                 </ion-text>
               </ion-label>

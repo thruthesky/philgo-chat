@@ -83,11 +83,26 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
     }
   }
 
+
   urlView(post: ApiPost) {
-    if ( post.post_id === 'ads' ) {
-      return `/${post.post_id}/${post.idx}`;
+    if (post.post_id === 'ads') {
+      if (post.link && post.link.trim()) {
+        return post.link.trim();
+      } else {
+        return `/${post.post_id}/${post.idx}`;
+      }
     } else {
       return `/forum/${post.post_id}/${post.idx}`;
     }
+  }
+
+  urlTarget(post: ApiPost): string {
+
+    if (post.post_id === 'ads') {
+      if (post.link && post.link.trim()) {
+        return '_blank';
+      }
+    }
+    return '_self';
   }
 }
