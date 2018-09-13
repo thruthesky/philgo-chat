@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AppService } from '../../providers/app.service';
 import { PhilGoApiService, ApiError, ERROR_LOGIN_FIRST, ApiPost } from '../../modules/philgo-api/philgo-api.service';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-rooms',
@@ -19,6 +20,7 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
   showHomeContent = true;
   countChatRoomLoad = 0;
   constructor(
+    private router: Router,
     public a: AppService,
     public philgo: PhilGoApiService,
     public tr: LanguageTranslate
@@ -105,4 +107,15 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
     }
     return '_self';
   }
+
+  onClickPhoto(event: Event, post: ApiPost) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.urlTarget(post) === '_blank') {
+      window.open(this.urlView(post));
+    } else {
+      this.router.navigateByUrl(this.urlView(post));
+    }
+  }
+
 }
