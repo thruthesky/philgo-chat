@@ -25,9 +25,11 @@
         color: darkblue;
     }
     .is-first{
+        display: block;
         padding: 1em;
         background: #f8f9fa;
         i{
+            display: block;
             margin: 0 0 .5em 0;
             font-weight: bold;
             color: black;
