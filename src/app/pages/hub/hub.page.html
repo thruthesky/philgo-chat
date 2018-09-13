@@ -16,8 +16,8 @@
 
       <div class="row no-gutters" *ngIf=" re?.news?.length ">
 
-          <div class="news-left  col-4 col-md-3">
-            <a ion-activable class=" pr-1" routerLink="/forum/{{ newsLeft.post_id }}/{{ newsLeft.idx }}">
+          <div class="news-left  col-4 col-md-3 pr-1">
+            <a ion-activable routerLink="/forum/{{ newsLeft.post_id }}/{{ newsLeft.idx }}">
               <ion-ripple-effect></ion-ripple-effect>
               <img src="{{ philgo.thumbnailUrl({ width: 240, height: 126, idx: newsLeft.no_of_first_image }) }}">
               <div class="mt-1">{{ newsLeft.subject | slice:  0 : 45 }}</div>
