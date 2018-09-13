@@ -1406,7 +1406,7 @@ export class PhilGoApiService {
             formData.append('code', options.code);
         }
 
-        const req = new HttpRequest('POST', this.getServerUrl(), formData, {
+        const req = new HttpRequest('POST', this.getFileServerUrl(), formData, {
             reportProgress: true,
             responseType: 'json'
         });
@@ -1538,9 +1538,9 @@ export class PhilGoApiService {
      *  this.thumbnailUrl({ idx: idx, width: 64, height: 64 });
      */
     thumbnailUrl(option: ApiThumbnailOption): string {
-        if ((option.idx === void 0 || !option.idx) && (option.path === void 0 || !option.path)) return '';
+        if ((option.idx === void 0 || !option.idx || option.idx === '0' ) && (option.path === void 0 || !option.path)) return '';
 
-        let url = this.getFileServerUrl().replace('index.php', '');
+        let url = this.getFileServerUrl().replace('api.php', '');
         let type = 'adaptive';
         if (option.type) {
             type = option.type;
@@ -2489,14 +2489,14 @@ export class PhilGoApiService {
     ///
     /// App methods
     ///
-    // appConfigs(name: string): Observable<any> {
-    //     return this.query('app.configs', { name: name });
-    // }
-
     /**
      * Runs app method.
      * @param appMethod app method like 'abc.name', 'abc.config'
      * @param data data to pass to PHP
+     * @desc It can cache on localStorage if options.cache is set to true.
+     *  The subscribe will get two subscription by one call.
+     *  first, it will fire event with localStroage data with cache flag
+     *  second, it will fire event with server data.
      */
     app(appMethod: string, data = {}, options: { cache?: boolean } = {}): Observable<any> {
         let key = appMethod;
@@ -2508,9 +2508,7 @@ export class PhilGoApiService {
             }
             const subject = new BehaviorSubject(re);
             this.query('app.runAction', data).subscribe(data => {
-                console.log('Got real data. Going to cache');
                 AngularLibrary.set(key, data);
-                console.log('Firing event with real data.');
                 subject.next(data);
             }, e => subject.error(e));
             return subject;

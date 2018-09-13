@@ -92,7 +92,10 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
   }
 
 
-  urlView(post: ApiPost) {
+  urlView(post: ApiPost): string {
+    if (!post) {
+      return '';
+    }
     if (post.post_id === 'ads') {
       if (post.link && post.link.trim()) {
         return post.link.trim();

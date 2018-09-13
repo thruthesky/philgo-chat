@@ -29,7 +29,7 @@
       <div class="col-12 col-md-5 pr-2">
           <a class="d-block" ion-activable routerLink="/forum/{{ frontPage.mainNews.post_id }}/{{ frontPage.mainNews.idx }}">
             <ion-ripple-effect></ion-ripple-effect>
-            <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 360, height: 114  , idx: frontPage.mainNews.photo.idx }) }}">
+            <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 360, height: 114  , idx: frontPage.mainNews.no_of_first_image }) }}" *ngIf=" frontPage.mainNews.no_of_first_image ">
             <div class="mb-2 mb-md-0">
               <div class="main-news-title truncate pt-1 darkblue">{{ frontPage.mainNews.subject }}</div>
               <div class="main-news-content pt-1 text-muted">{{ frontPage.mainNews.content }}</div>
@@ -37,6 +37,7 @@
           </a>
       </div>
 
+      
       <div class="col-12 col-md-7">
         <div class="community-posts" *ngIf="frontPage.communityPosts?.length">
           <div class="row no-gutters">
