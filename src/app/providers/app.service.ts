@@ -290,8 +290,9 @@ export class AppService {
        * If session id is invalid.
        */
       if (o.code === ERROR_WRONG_SESSION_ID || o.code === ERROR_WRONG_IDX_MEMBER) {
+        console.log('WRONG SESSION ID. Server url may have been changed');
         this.philgo.logout();
-        this.openAllRooms();
+        // this.openAllRooms();
         this.philgo.chatResetMyRooms();
       }
       o.cssClass = `error error${o.code}`;
