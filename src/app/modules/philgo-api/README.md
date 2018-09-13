@@ -549,6 +549,26 @@ async toast(o: any) {
 
 ## POST API
 
+### POST Search
+
+* `post.search` is very similiar to `post.query`. It accepts more sanitized input and output.
+
+```` typescript
+const and = [];
+if (this.form[N.gender]) {
+    and.push(`${N.gender}='${this.form[N.gender]}'`);
+}
+if (this.city) {
+    and.push(`${N.city}='${this.city}'`);
+}
+const req: ApiPostSearch = { post_id: this.post_id, category: this.category, page_no: this.page_no, limit: this.limit, deleted: 0 };
+req.and = and.join(' AND ');
+if (options.view) {
+    req.view = options.view;
+}
+this.philgo.postSearch(req).subscribe(search => {
+````
+
 ### POST Query
 
 * 필고 데이터베이스에 서버에 게시글 질의를 바로 한다.
@@ -665,3 +685,5 @@ philgo.provinces().subscribe(res => {
     });
 });
 ````
+
+
