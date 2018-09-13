@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest, HttpResponse, HttpHeaderResponse, HttpEventType } from '@angular/common/http';
-import { Observable, throwError, Subject, of } from 'rxjs';
+import { Observable, throwError, Subject, of, BehaviorSubject } from 'rxjs';
 import { map, catchError, filter, tap } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -2498,9 +2498,26 @@ export class PhilGoApiService {
      * @param appMethod app method like 'abc.name', 'abc.config'
      * @param data data to pass to PHP
      */
-    app(appMethod: string, data = {}): Observable<any> {
+    app(appMethod: string, data = {}, options: { cache?: boolean } = {}): Observable<any> {
+        let key = appMethod;
         data['appMethod'] = appMethod;
-        return this.query('app.runAction', data);
+        if (options.cache) {
+            const re = AngularLibrary.get(key);
+            if (re) {
+                re['cache'] = true;
+            }
+            const subject = new BehaviorSubject(re);
+            this.query('app.runAction', data).subscribe(data => {
+                console.log('Got real data. Going to cache');
+                AngularLibrary.set(key, data);
+                console.log('Firing event with real data.');
+                subject.next(data);
+            }, e => subject.error(e));
+            return subject;
+        }
+        else {
+            return this.query('app.runAction', data);
+        }
     }
 
 

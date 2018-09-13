@@ -30,10 +30,13 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
   ) {
     // console.log('MyRoomsPage::constructor()');
 
-    philgo.app('philgo-chat.frontPage', { news: true }).subscribe(res => {
+    philgo.app('philgo-chat.frontPage', { news: true }, { cache: true }).subscribe(res => {
       console.log('app: ', res);
       this.frontPage = res;
-    }, e => console.error(e));
+    }, e => {
+      console.log('Got error: ', e);
+      console.error(e);
+    });
 
   }
 
