@@ -507,7 +507,7 @@ export interface ApiPostSearch {
 
 
     // Below are only available on server response.
-    forum_name?: string;        // forum name. @note only if one 'post_id' is given as input, this will be availble.
+    forum_name?: string;        // forum name. @note only if one 'post_id' is given as input, this will be available.
     posts?: Array<ApiPost>;
 
 }
@@ -2664,10 +2664,6 @@ export class PhilGoApiService {
         return '';
     }
 
-
-
-
-
     provinces(): Observable<Array<string>> {
         return <any>this.http.get(this.getServerUrl().replace('api.php', '') + 'etc/location/philippines/json.php');
     }
@@ -2676,6 +2672,27 @@ export class PhilGoApiService {
     }
 
 
+    /**
+     * @see https://www.jstips.co/en/javascript/create-range-0...n-easily-using-one-line/
+     * @see https://jsperf.com/create-1-n-range
+     *
+     * @param n 0...N number to return as array.
+     * @param base default
+     */
+    makeArrayNumber(n: number = 0, base: number = 0): Array<number> {
+        // return Array.apply(null, {length: n}).map((value, index) => index + indexStart);
+        const arr = [];
+        for (let i = 0; i < n; i++) {
+            arr.push(i + base);
+        }
+        return arr;
+    }
+
+    getAge(birthday) {
+        const n = new Date();
+        const year = birthday.substr(0, 4);
+        return n.getFullYear() - parseInt(year, 10);
+    }
 
 }
 
