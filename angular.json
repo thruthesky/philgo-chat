@@ -71,6 +71,12 @@
                 "replace": "src/environments/environment.ts",
                 "with": "src/environments/environment.office.ts"
               }]
+            },
+            "live": {
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.prod.ts"
+              }]
             }
           }
         },
@@ -89,6 +95,9 @@
             },
             "office": {
               "browserTarget": "app:build:office"
+            },
+            "live": {
+              "browserTarget": "app:build:live"
             }
           }
         },

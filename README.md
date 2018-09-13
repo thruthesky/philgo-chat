@@ -391,6 +391,7 @@
 $ ionic s ; 웹 serve. HMR 이 기본 동작한다. 기본적으로 사무실 서버 office.philgo.com 의 테스트 서버로 이용한다.
 
 $ npm run service:office        ; run with office test server.
+$ npm run serve:live            ; run with live server.
 
 $ sl ; 웹 serve. HMR 이 기본 동작한다. 로컬 컴퓨터 깔리 philgo 작업 서버를 사용한다. 내부 IP 192.168.0.254 를 이용하여 모바일에서 접속 가능하게 한다.
 $ ionic cordova run android -l  ; 앱 serve. ionic serve 동시에 실행을 해도 된다.

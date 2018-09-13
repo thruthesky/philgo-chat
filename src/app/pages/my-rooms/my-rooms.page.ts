@@ -3,6 +3,7 @@ import { AppService } from '../../providers/app.service';
 import { PhilGoApiService, ApiError, ERROR_LOGIN_FIRST, ApiPost } from '../../modules/philgo-api/philgo-api.service';
 import { LanguageTranslate } from '../../modules/language-translate/language-translate';
 import { Router } from '@angular/router';
+import { AngularLibrary } from '../../modules/angular-library/angular-library';
 
 @Component({
   selector: 'app-my-rooms',
@@ -19,6 +20,8 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
   sortByMessage = false;
   showHomeContent = true;
   countChatRoomLoad = 0;
+
+  _ = AngularLibrary;
   constructor(
     private router: Router,
     public a: AppService,

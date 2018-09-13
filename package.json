@@ -13,6 +13,7 @@
     "s": "ionic s --no-open -- --disable-host-check",
     "serve:office": "ionic s --configuration=office -- --disable-host-check",
     "serve:local": "ionic serve --disable-host-check --configuration=local",
+    "serve:live": "ionic serve --disable-host-check --configuration=live",
     "bt": "ng build --prod --named-chunks=true",
     "publish": "ionic build --prod && npm run scp",
     "scp": "cd www && scp -r * chat@v8.philgo.com:./www",
