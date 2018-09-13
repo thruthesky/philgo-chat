@@ -23,18 +23,21 @@
 
   <app-chat-update-component [appVersion]=" a.version "></app-chat-update-component>
 
-  <div class="main-news border-bottom" *ngIf="showHomeContent && frontPage?.mainNews?.idx">
+  <div class="main-news p-3 border-bottom fs-md" *ngIf="showHomeContent && frontPage?.mainNews?.idx">
     <div class="row no-gutters">
-      <div ion-activable class="col-12 col-md-5 pr-md-2 fs-md" routerLink="/forum/{{ frontPage.mainNews.post_id }}/{{ frontPage.mainNews.idx }}">
-        <ion-ripple-effect></ion-ripple-effect>
-        <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 360, height: 119, idx: frontPage.mainNews.photo.idx }) }}">
-        <div class="mb-2 mb-md-0">
-          <div class="main-news-title truncate pt-1 darkblue">{{ frontPage.mainNews.subject }}</div>
-          <div class="main-news-content pt-1 text-muted">{{ frontPage.mainNews.content }}</div>
-        </div>
+
+      <div class="col-12 col-md-5 pr-2">
+          <a class="d-block" ion-activable routerLink="/forum/{{ frontPage.mainNews.post_id }}/{{ frontPage.mainNews.idx }}">
+            <ion-ripple-effect></ion-ripple-effect>
+            <img class="w-100" src="{{ philgo.thumbnailUrl({ width: 360, height: 114  , idx: frontPage.mainNews.photo.idx }) }}">
+            <div class="mb-2 mb-md-0">
+              <div class="main-news-title truncate pt-1 darkblue">{{ frontPage.mainNews.subject }}</div>
+              <div class="main-news-content pt-1">{{ frontPage.mainNews.content }}</div>
+            </div>
+          </a>
       </div>
 
-      <div class="col-12 col-md-7 pl-md-2 fs-sm">
+      <div class="col-12 col-md-7">
         <div class="community-posts" *ngIf="frontPage.communityPosts?.length">
           <div class="row no-gutters">
             <a ion-activable class="col-3" *ngFor="let post of frontPage.communityPosts" href="{{ urlView(post) }}" (click)="onClickPhoto( $event, post )">
@@ -47,8 +50,9 @@
           </div>
         </div>
       </div>
-    </div>
 
+
+    </div>
   </div>
 
   <app-chat-my-rooms-component class="d-block px-2 pt-1" (error)=" onChatMyRoomsComponentError( $event ) "></app-chat-my-rooms-component>

@@ -30,167 +30,225 @@
                 </ion-text>
               </ion-label>
             </ion-item> -->
+            <a ion-activable class="d-block position-relative" routerLink="/">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                    <ion-icon slot="start" color="medium" name="albums"></ion-icon>
+                    <ion-label>
+                      <ion-text>
+                        {{ tr.t({'en': 'Home', 'ko': '홈', ch: '我的聊天室列表', jp: '私のチャットルームリスト'}, {}) }}
+                      </ion-text>
+                    </ion-label>
+              </ion-item>
+            </a>
 
-            <ion-item routerLink="/">
-              <ion-icon slot="start" color="medium" name="albums"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t({'en': 'Home', 'ko': '홈', ch: '我的聊天室列表', jp: '私のチャットルームリスト'}, {}) }}
-                </ion-text>
-              </ion-label>
-            </ion-item>
+            <a ion-activable class="d-block position-relative"  routerLink="/hub">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                <div class="pl-3px">
+                  <svg class="pt-1 size-24px" version="1.0" xmlns="http://www.w3.org/2000/svg" width="101.000000pt"
+                    height="102.000000pt" viewBox="0 0 101.000000 102.000000" preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,102.000000) scale(0.100000,-0.100000)" fill="#ac0000" stroke="none">
+                      <path d="M545 1001 c-96 -34 -188 -92 -313 -195 -151 -124 -232 -251 -232
+                  -364 0 -79 17 -118 76 -182 125 -133 434 -260 634 -260 96 0 139 11 188 47 80
+                  60 112 151 112 323 0 309 -96 568 -235 631 -53 24 -163 24 -230 0z" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="pl-2">{{ a.t({ en: 'Hub', ko: '허브' }) }}</div>
+              </ion-item>
+            </a>
 
+            <a ion-activable class="d-block position-relative"  routerLink="/all-rooms">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                <ion-icon slot="start" color="medium" name="chatbubbles"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ tr.t({ ko: '전체 채팅방 목록', en: 'All Chat Room List', ch: '所有聊天室列表', jp: 'すべてのチャットルームリスト'})}}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
 
-            <ion-item class="" routerLink="/hub">
-              <div class="pl-3px">
-                <svg class="pt-1 size-24px" version="1.0" xmlns="http://www.w3.org/2000/svg" width="101.000000pt"
-                  height="102.000000pt" viewBox="0 0 101.000000 102.000000" preserveAspectRatio="xMidYMid meet">
-                  <g transform="translate(0.000000,102.000000) scale(0.100000,-0.100000)" fill="#ac0000" stroke="none">
-                    <path d="M545 1001 c-96 -34 -188 -92 -313 -195 -151 -124 -232 -251 -232
-                 -364 0 -79 17 -118 76 -182 125 -133 434 -260 634 -260 96 0 139 11 188 47 80
-                 60 112 151 112 323 0 309 -96 568 -235 631 -53 24 -163 24 -230 0z" />
-                  </g>
-                </svg>
-              </div>
-              <div class="pl-2">{{ a.t({ en: 'Hub', ko: '허브' }) }}</div>
-            </ion-item>
-
-            <ion-item routerLink="/all-rooms">
-              <ion-icon slot="start" color="medium" name="chatbubbles"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t({ ko: '전체 채팅방 목록', en: 'All Chat Room List', ch: '所有聊天室列表', jp: 'すべてのチャットルームリスト'})}}
-                </ion-text>
-              </ion-label>
-            </ion-item>
-
-            <ion-item routerLink="/create-room">
-              <ion-icon slot="start" color="medium" name="add-circle"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t({ ko: '새로운 채팅방 만들기', en: 'Create New Chat Room', ch: '创建新的聊天室', jp: '新しいチャットルームを作成する'})}}
-                </ion-text>
-              </ion-label>
-            </ion-item>
-
-
-            <ion-item routerLink="/forum/freetalk">
-              <ion-icon slot="start" color="medium" name="quote"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t({ ko: '자유게시판', en: 'Discussion', ch: '', jp: ''})}}
-                </ion-text>
-              </ion-label>
-            </ion-item>
-
-            <ion-item routerLink="/forum/qna">
-              <ion-icon slot="start" color="medium" name="help-circle"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t({ ko: '질문과답변', en: 'QnA', ch: '', jp: ''})}}
-                </ion-text>
-              </ion-label>
-            </ion-item>
-
-            <ion-item routerLink="/forum/buyandsell">
-              <ion-icon slot="start" color="medium" name="cart"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t( philgo.pc['buyandsell']?.subject )}}
-                </ion-text>
-              </ion-label>
-            </ion-item>
-
-            <ion-item routerLink="/job/housemaid">
-              <ion-icon slot="start" color="medium" name="contact"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t( philgo.pc?.wanted.category.housemaid )}}
-                </ion-text>
-              </ion-label>
-            </ion-item>
-
-            <ion-item routerLink="/job/driver">
-              <ion-icon slot="start" color="medium" name="car"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t({ ko: '운전기사', en: 'Drivers', ch: '', jp: ''})}}
-                </ion-text>
-              </ion-label>
-            </ion-item>
-
-            <ion-item routerLink="/job/english_tutor">
-              <ion-icon slot="start" color="medium" name="book"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t( philgo.pc?.wanted?.category?.english_tutor ) }}
-                </ion-text>
-              </ion-label>
-            </ion-item>
-
-            <ion-item routerLink="/register">
-              <ion-icon slot="start" color="medium" name="person-add"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ philgo.isLoggedIn() ? tr.t({ ko: '회원 정보 수정', en: 'Profile Update', ch: '资料更新', jp: 'プロフィールの更新'}) :
-                  tr.t({ ko: '회원 가입',
-                  en: 'Register', ch: '会员注册', jp: '会員登録'}) }}
-                </ion-text>
-              </ion-label>
-            </ion-item>
-            <ion-item routerLink="/help">
-              <ion-icon slot="start" color="medium" name="information-circle"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t({ ko: '도움말', en: 'Help', ch: '帮帮我', jp: '助けて'}) }}
-                </ion-text>
-              </ion-label>
-            </ion-item>
-            <ion-item routerLink="/login" *ngIf=" philgo.isLoggedOut() ">
-              <ion-icon slot="start" color="medium" name="log-in"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t({ ko: '로그인', en: 'Login', ch: '登录', jp: 'ログイン'}) }}
-                </ion-text>
-              </ion-label>
-            </ion-item>
+            <a ion-activable class="d-block position-relative"  routerLink="/create-room">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                <ion-icon slot="start" color="medium" name="add-circle"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ tr.t({ ko: '새로운 채팅방 만들기', en: 'Create New Chat Room', ch: '创建新的聊天室', jp: '新しいチャットルームを作成する'})}}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
 
 
-            <ion-item routerLink="/ads">
-              <ion-icon slot="start" color="medium" name="help-circle"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t({ ko: '광고등록하기', en: 'Post Advertisement', ch: '', jp: ''})}}
-                </ion-text>
-              </ion-label>
-            </ion-item>
+            <a ion-activable class="d-block position-relative"  routerLink="/forum/freetalk">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item >
+                <ion-icon slot="start" color="medium" name="quote"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ tr.t({ ko: '자유게시판', en: 'Discussion', ch: '', jp: ''})}}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
 
-            <ion-item routerLink="/setting">
-              <ion-icon slot="start" color="medium" name="settings"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ a.tr.t({ko: '설정', en: 'Setting', ch: '设置', jp: '設定'}) }}
-                </ion-text>
-              </ion-label>
-            </ion-item>
+            <a ion-activable class="d-block position-relative"  routerLink="/forum/qna">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                <ion-icon slot="start" color="medium" name="help-circle"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ tr.t({ ko: '질문과답변', en: 'QnA', ch: '', jp: ''})}}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
 
-            <ion-item (click)="onClickLogout()" *ngIf=" philgo.isLoggedIn() ">
-              <ion-icon slot="start" color="medium" name="log-out"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t({ ko: '로그아웃', en: 'Logout', ch: '登出', jp: 'ログアウト' }) }}
-                </ion-text>
-              </ion-label>
-            </ion-item>
+            <a ion-activable class="d-block position-relative"  routerLink="/forum/buyandsell">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                <ion-icon slot="start" color="medium" name="cart"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ tr.t( philgo.pc['buyandsell']?.subject )}}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
 
-            <ion-item class="d-sm-none pointer">
-              <ion-icon slot="start" color="medium" name="close-circle"></ion-icon>
-              <ion-label>
-                <ion-text>
-                  {{ tr.t({ ko: '메뉴 닫기', en: 'Close', ch: '关', jp: '閉じる'}) }}
-                </ion-text>
-              </ion-label>
-            </ion-item>
+
+            <a ion-activable class="d-block position-relative" routerLink="/job/housemaid">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                <ion-icon slot="start" color="medium" name="contact"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ tr.t( philgo.pc?.wanted.category.housemaid )}}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
+
+            <a ion-activable class="d-block position-relative" routerLink="/job/driver">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                <ion-icon slot="start" color="medium" name="car"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ tr.t({ ko: '운전기사', en: 'Drivers', ch: '', jp: ''})}}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
+
+            <a ion-activable class="d-block position-relative"  routerLink="/job/english_tutor">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                <ion-icon slot="start" color="medium" name="book"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ tr.t( philgo.pc?.wanted?.category?.english_tutor ) }}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
+
+            <a ion-activable class="d-block position-relative"  routerLink="/register">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                <ion-icon slot="start" color="medium" name="person-add"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ philgo.isLoggedIn() ? tr.t({ ko: '회원 정보 수정', en: 'Profile Update', ch: '资料更新', jp: 'プロフィールの更新'}) :
+                    tr.t({ ko: '회원 가입',
+                    en: 'Register', ch: '会员注册', jp: '会員登録'}) }}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
+
+
+            <a ion-activable class="d-block position-relative"  routerLink="/help">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                <ion-icon slot="start" color="medium" name="information-circle"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ tr.t({ ko: '도움말', en: 'Help', ch: '帮帮我', jp: '助けて'}) }}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
+
+
+            <a ion-activable class="d-block position-relative"  *ngIf=" philgo.isLoggedOut() "  routerLink="/login">
+                <ion-ripple-effect></ion-ripple-effect>
+                <ion-item>
+                  <ion-icon slot="start" color="medium" name="log-in"></ion-icon>
+                  <ion-label>
+                    <ion-text>
+                      {{ tr.t({ ko: '로그인', en: 'Login', ch: '登录', jp: 'ログイン'}) }}
+                    </ion-text>
+                  </ion-label>
+                </ion-item>
+            </a>
+
+
+            <a ion-activable class="d-block position-relative"  routerLink="/ads">
+                <ion-ripple-effect></ion-ripple-effect>
+                <ion-item>
+                  <ion-icon slot="start" color="medium" name="help-circle"></ion-icon>
+                  <ion-label>
+                    <ion-text>
+                      {{ tr.t({ ko: '광고등록하기', en: 'Post Advertisement', ch: '', jp: ''})}}
+                    </ion-text>
+                  </ion-label>
+                </ion-item>
+            </a>
+
+
+            <a ion-activable class="d-block position-relative" routerLink="/setting">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                <ion-icon slot="start" color="medium" name="settings"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ a.tr.t({ko: '설정', en: 'Setting', ch: '设置', jp: '設定'}) }}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
+
+
+            <a ion-activable class="d-block position-relative" (click)="onClickLogout()" *ngIf=" philgo.isLoggedIn() ">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item>
+                <ion-icon slot="start" color="medium" name="log-out"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ tr.t({ ko: '로그아웃', en: 'Logout', ch: '登出', jp: 'ログアウト' }) }}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
+
+
+            <a ion-activable class="d-block position-relative">
+              <ion-ripple-effect></ion-ripple-effect>
+              <ion-item class="d-sm-none pointer">
+                <ion-icon slot="start" color="medium" name="close-circle"></ion-icon>
+                <ion-label>
+                  <ion-text>
+                    {{ tr.t({ ko: '메뉴 닫기', en: 'Close', ch: '关', jp: '閉じる'}) }}
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </a>
+
           </ion-menu-toggle>
         </ion-list>
       </ion-content>
