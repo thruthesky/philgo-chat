@@ -499,6 +499,8 @@ export interface ApiPostSearch {
     order_by?: string;          // to order the result. default 'stamp DESC'.
     deleted?: 0 | 1;            // 아무값도 지정하지 않으면, 모든 글. 0 을 지정하면 학제 안된 글. 1 을 지정하면 삭제된 글만 추출.
 
+    and?: string;               //
+
     // 아래는 속성은 같지만, 요청 값과 응답 값이 서로 다른 값을 가진다.
     // Properties below have different values from sending and receiving.
     view?: any;    // post.idx 값으로, 게시판 목록 맨 위에 보여주고자 하는 글을 입력한다.
@@ -2671,28 +2673,6 @@ export class PhilGoApiService {
         return <any>this.http.get(this.getServerUrl().replace('api.php', '') + 'etc/location/philippines/json.php?province=' + province);
     }
 
-
-    /**
-     * @see https://www.jstips.co/en/javascript/create-range-0...n-easily-using-one-line/
-     * @see https://jsperf.com/create-1-n-range
-     *
-     * @param n 0...N number to return as array.
-     * @param base default
-     */
-    makeArrayNumber(n: number = 0, base: number = 0): Array<number> {
-        // return Array.apply(null, {length: n}).map((value, index) => index + indexStart);
-        const arr = [];
-        for (let i = 0; i < n; i++) {
-            arr.push(i + base);
-        }
-        return arr;
-    }
-
-    getAge(birthday) {
-        const n = new Date();
-        const year = birthday.substr(0, 4);
-        return n.getFullYear() - parseInt(year, 10);
-    }
 
 }
 
