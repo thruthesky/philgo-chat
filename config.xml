@@ -3,7 +3,7 @@
     <name>필리핀단톡방</name>
     <description>필리핀 단체 톡방, 마닐라, 앙헬레스, 세부, 알라방, 보니파시오 등 필리핀 여러 지역별 채팅방이 있습니다.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.0.254:8101" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -92,6 +92,5 @@
     <allow-navigation href="http://59.30.59.82:8102" />
     <allow-navigation href="http://59.30.59.162:8101" />
     <allow-navigation href="http://59.30.59.162:8100" />
-    <allow-navigation href="http://192.168.0.254:8101" sessionid="4158c4dc" />
-    <engine name="android" spec="7.0.0" />
+    <engine name="android" spec="~7.0.0" />
 </widget>
