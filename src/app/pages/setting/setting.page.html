@@ -15,19 +15,23 @@
 
   <ion-list>
 
-
-    <ion-item routerLink="/setting-language">
+  <a ion-activable class="d-block position-relative" routerLink="/setting-language">
+    <ion-ripple-effect></ion-ripple-effect>
+    <ion-item>
       <ion-label>
         {{ a.tr.t({ ko: '언어 선택', en: 'Language Selection', ch: '语言选择', jp: '言語選択'}) }}
       </ion-label>
     </ion-item>
+  </a>
 
-
-    <ion-item routerLink="/setting-dev-info">
+  <a ion-activable class="d-block position-relative" routerLink="/setting-dev-info">
+    <ion-ripple-effect></ion-ripple-effect>
+    <ion-item>
       <ion-label>
         {{ a.tr.t({ko: '소프트웨어 정보', en: 'Software Information', ch: '软件信息', jp: 'ソフトウェア情報' }) }}
       </ion-label>
     </ion-item>
+  </a>
 
 
   </ion-list>
