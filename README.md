@@ -20,6 +20,10 @@
   * 회사 주소가 Withcenter, Inc. Pamapanga 이므로 필리핀 앱이 맞다.
   * 하나의 프로젝트에 multi-app 으로 해서 메인페이지/메뉴만 다르게 해서 여러 웹/앱을 찍어 낸다.
 
+## Bugs
+
+
+
 ## TODO
 
 * Follow [Philgo Chat Git Issues](https://github.com/thruthesky/philgo-chat#issue-sh-boards) 

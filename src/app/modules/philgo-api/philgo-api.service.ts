@@ -863,7 +863,7 @@ export class PhilGoApiService {
 
     private validatePost(data) {
         const q = this.httpBuildQuery(data);
-        console.log('PhilGoApiService::post() url: ', this.getServerUrl() + '?' + q);
+        // console.log('PhilGoApiService::post() url: ', this.getServerUrl() + '?' + q);
         if (!this.getServerUrl()) {
             // console.error(`Error. Server URL is not set.`);
         }
@@ -1914,6 +1914,11 @@ export class PhilGoApiService {
             this.sortMyRooms();
             this.chatCountNoOfNewMessages();
             this.listenMyRooms(this.myRooms).then(() => { });
+        } else {
+            /**
+             * 방을 서버로 부터 로드했는데, 내 방목록이 없다면, 초기화.
+             */
+            this.myRooms = [];
         }
     }
 
@@ -2108,8 +2113,8 @@ export class PhilGoApiService {
      * @param idx_chat_room currentRoomNo
      * @param message chat message
      */
-    isMyCurrentChatRoomMessage(idx_chat_room, message: ApiChatMessage) {
-        return message && message.idx_chat_room && message.idx_chat_room === idx_chat_room;
+    isMyCurrentChatRoomMessage(message: ApiChatMessage) {
+        return message && message.idx_chat_room && message.idx_chat_room === this.currentRoom.idx;
     }
 
 
@@ -2256,14 +2261,14 @@ export class PhilGoApiService {
              * Don't toast if it's my message.
              */
             if (this.isMyChatMessage(message)) {
-                // console.log('isMyChatMessage => yes => just return')
+                console.log('isMyChatMessage() ? => yes, I am in the chat room => just return')
                 return;
             }
             /**
              * Don't toast if I am in the same room of the message since it will be displayed on chat messgae box.
              */
-            if (this.currentRoom && this.isMyCurrentChatRoomMessage(this.currentRoom.idx, message)) {
-                // console.log('AppService::listenMyRooms():: got current room No. ', this.currentRoomNo, 'message. next()', message);
+            if (this.currentRoom && this.isMyCurrentChatRoomMessage(message)) {
+                console.log('AppService::listenMyRooms():: got current room No. ', this.currentRoom.idx, 'message. next()', message);
                 this.newMessageOnCurrentRoom.next(message);
                 return;
             }

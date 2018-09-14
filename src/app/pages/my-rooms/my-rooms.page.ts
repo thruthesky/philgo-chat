@@ -32,10 +32,10 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
     // console.log('MyRoomsPage::constructor()');
 
     philgo.app('philgo-chat.frontPage', { news: true }, { cache: true }).subscribe(res => {
-      console.log('app: ', res);
+      // console.log('app: ', res);
       this.frontPage = res;
     }, e => {
-      console.log('Got error: ', e);
+      // console.log('Got error: ', e);
       console.error(e);
     });
 
@@ -48,12 +48,17 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     // console.log('MyRoomsPage::ngAfterViewInit()');
   }
+
+  /**
+   * User enters my-rooms ( the main page ).
+   */
   ionViewDidEnter() {
     // console.log('MyRoomsPage::ionViewDidEnter()');
 
     // this.navController.navigateRoot('/');
 
 
+    this.philgo.currentRoom = null;
     this.showHomeContent = true;
     if (this.philgo.isLoggedIn()) {
       this.philgo.chatLoadMyRooms(!this.countChatRoomLoad).subscribe(res => {
