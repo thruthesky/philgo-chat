@@ -21,7 +21,7 @@
 
 <ion-content>
   <app-loader *ngIf=" show.loader "></app-loader>
-  <app-forum-basic-list-component #forumBasic [displayHeaderMenu]=" false " [autoViewContent]=" false "
+  <app-forum-basic-list-component class="d-block mt-3" #forumBasic [displayHeaderMenu]=" false " [autoViewContent]=" false "
     (load)=" onLoad( $event ) "
   ></app-forum-basic-list-component>
 
