@@ -22,6 +22,7 @@ export class MyRoomsPage implements OnInit, AfterViewInit {
   countChatRoomLoad = 0;
 
   _ = AngularLibrary;
+
   constructor(
     private router: Router,
     public a: AppService,
