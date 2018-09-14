@@ -459,7 +459,7 @@ export class AppService {
     await alert.present();
   }
 
-  t(o, i) {
+  t(o, i?) {
     return this.tr.t(o, i);
   }
 }
