@@ -104,7 +104,7 @@ export class RoomPage implements OnInit, AfterViewInit {
           this.showReminder();
           this.enableLoadOldMessage = true;
         }, e => {
-          console.log(e.code);
+          // console.log(e.code);
           this.a.toast(e);
           if (e.code === ERROR_CHAT_ANONYMOUS_CANNOT_ENTER_ROOM) {
             this.a.openAllRooms();
@@ -124,8 +124,8 @@ export class RoomPage implements OnInit, AfterViewInit {
     }
     let re = false;
     const update = AngularLibrary.get(REMINDER_KEY);
-    console.log('reminder key: ', update);
-    console.log('stamp update: ', this.philgo.currentRoom.stamp_update);
+    // console.log('reminder key: ', update);
+    // console.log('stamp update: ', this.philgo.currentRoom.stamp_update);
     if (update !== this.philgo.currentRoom.stamp_update) {
       console.log('Reminder has been changed. show now');
       re = true;
@@ -133,14 +133,14 @@ export class RoomPage implements OnInit, AfterViewInit {
     let t = AngularLibrary.get(NO_REMINDER_FROM_KEY);
     t += 60 * 60 * 24 * 7 * 1000; // 7 days.
     const n = (new Date).getTime(); // now
-    console.log('no reminder from: ', t);
-    console.log('..time right now: ', n);
+    // console.log('no reminder from: ', t);
+    // console.log('..time right now: ', n);
 
     // d.setDate(d.getDate() + 7);
     // console.log(d.toLocaleDateString());
 
     if (t < n) {
-      console.log('No reminder period has been passed. show now');
+      // console.log('No reminder period has been passed. show now');
       re = true;
     }
 
@@ -253,7 +253,7 @@ export class RoomPage implements OnInit, AfterViewInit {
   }
 
   onClickLeaveButton() {
-    console.log('onClickLeaveButton');
+    // console.log('onClickLeaveButton');
     this.philgo.currentRoom = null;
     this.a.setRoot(this.a.home());
   }
@@ -273,7 +273,7 @@ export class RoomPage implements OnInit, AfterViewInit {
 
   displayUsers() {
     this.philgo.chatRoomUsers(this.philgo.currentRoom.idx).subscribe(re => {
-      console.log(re);
+      // console.log(re);
       this.messagesComponent.displayUsers(re);
     }, e => this.a.toast(e));
   }
@@ -293,7 +293,7 @@ export class RoomPage implements OnInit, AfterViewInit {
     console.log(alarm.checked);
     const disable = alarm.checked ? '' : 'Y';
     this.philgo.chatDisableAlarm({ idx_chat_room: this.philgo.currentRoom.idx, disable: disable }).subscribe(res => {
-      console.log('diable: ', res);
+      // console.log('diable: ', res);
     }, e => this.a.toast(e));
   }
 
@@ -305,7 +305,7 @@ export class RoomPage implements OnInit, AfterViewInit {
     const scroll = (<InfiniteScroll><any>event.target);
     const limit = 100;
     this.philgo.chatSearch({ idx_chat_room: this.philgo.currentRoom.idx, page_no: this.page, limit: limit }).subscribe(messages => {
-      console.log('search messages => ', messages);
+      // console.log('search messages => ', messages);
       for (const message of messages) {
         this.messagesComponent.messages.unshift(message);
       }

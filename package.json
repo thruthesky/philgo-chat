@@ -19,7 +19,10 @@
     "publish": "ionic build --prod && npm run scp",
     "scp": "cd www && scp -r * chat@v8.philgo.com:./www",
     "cordova:build": "rm -f philgo-chat.apk && ionic cordova build android --prod --release && printf 'asdf99' | jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore com.sonub.chat.keystore platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk sonubchat && /Users/jaehosong/Library/Android/sdk/build-tools/28.0.2/zipalign -v 4 platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk philgo-chat.apk",
-    "cordova:build:install": "adb uninstall com.sonub.chat && npm run cordova:build && adb install philgo-chat.apk && adb shell am start -n com.sonub.chat/com.sonub.chat.MainActivity"
+    "cordova:build:install": "adb uninstall com.sonub.chat && npm run cordova:build && adb install philgo-chat.apk",
+    "cordova:build:install:run": "npm run cordova:build:install && adb shell am start -n com.sonub.chat/com.sonub.chat.MainActivity",
+    "cordova:change:icon": "ionic cordova resources -i && npm run cordova:build:install",
+    "cordova:change:splash": "ionic cordova resources -s && npm run cordova:build:install:run"
   },
   "private": true,
   "dependencies": {
