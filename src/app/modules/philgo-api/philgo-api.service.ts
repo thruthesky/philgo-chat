@@ -1567,6 +1567,8 @@ export class PhilGoApiService {
         return url;
     }
 
+    
+
     deleteFile(idx: number) {
         return this.queryVersion2({ action: 'data_delete_submit', idx: idx });
     }

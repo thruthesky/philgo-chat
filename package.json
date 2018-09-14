@@ -12,14 +12,14 @@
     "e2e": "ng e2e",
     "bt": "ng build --prod --named-chunks=true",
     "s": "ionic s --no-open -- --disable-host-check",
-    "cordova": "ionic cordova run android -l --address 192.168.0.254",
+    "cordova": "ionic cordova run android -l --address 192.168.0.254 --verbose",
     "serve:office": "ionic s --configuration=office -- --disable-host-check",
     "serve:local": "ionic serve --disable-host-check --configuration=local",
     "serve:live": "ionic serve --disable-host-check --configuration=live",
     "publish": "ionic build --prod && npm run scp",
     "scp": "cd www && scp -r * chat@v8.philgo.com:./www",
-    "cordova:build": "rm -f philgo-chat.apk && ionic cordova build android --prod --release && printf 'asdf99' | jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore com.sonub.chat.keystore platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk sonubchat && /Users/thruthesky/tools//android-sdk/build-tools/26.0.3/zipalign -v 4 platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk philgo-chat.apk",
-    "cordova:build:install": "adb uninstall com.sonub.chat && npm run cordova:build && adb install philgo-chat.apk"
+    "cordova:build": "rm -f philgo-chat.apk && ionic cordova build android --prod --release && printf 'asdf99' | jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore com.sonub.chat.keystore platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk sonubchat && /Users/jaehosong/Library/Android/sdk/build-tools/28.0.2/zipalign -v 4 platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk philgo-chat.apk",
+    "cordova:build:install": "adb uninstall com.sonub.chat && npm run cordova:build && adb install philgo-chat.apk && adb shell am start -n com.sonub.chat/com.sonub.chat.MainActivity"
   },
   "private": true,
   "dependencies": {
