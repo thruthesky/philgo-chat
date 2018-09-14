@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PhilGoApiService } from '../../modules/philgo-api/philgo-api.service';
+import { PhilGoApiService, ApiPostSearch } from '../../modules/philgo-api/philgo-api.service';
 
 @Component({
   selector: 'app-forum',
@@ -11,6 +11,9 @@ export class ForumPage implements OnInit {
 
   post_id;
   title;
+  show = {
+    loader: true
+  };
   constructor(
     activatedRoute: ActivatedRoute,
     public philgo: PhilGoApiService
@@ -28,5 +31,9 @@ export class ForumPage implements OnInit {
 
   ionViewDidEnter() {
     console.log('ionview did enter');
+  }
+
+  onLoad(res: ApiPostSearch) {
+    this.show.loader = false;
   }
 }
