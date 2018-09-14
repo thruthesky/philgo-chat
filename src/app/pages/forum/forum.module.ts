@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ForumPage } from './forum.page';
 import { ForumBasicListComponentModule } from '../../modules/components/forum/basic/list/basic-list.component.module';
+import { LoaderComponentModule } from '../../components/loader/loader.component.module';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ForumBasicListComponentModule
+    ForumBasicListComponentModule,
+    LoaderComponentModule
   ],
   declarations: [ForumPage]
 })
