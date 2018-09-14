@@ -415,6 +415,12 @@ npm run publish
 
 ### 앱 빌드 및 배포
 
+* 테스트 실행
+
+```` sh
+ionic cordova run android -l --address 192.168.0.254 ; 또는 짧게 co 또는 npm run cordova
+````
+
 * 아래와 같이 release 바이너리를 빌드하면 philgo-chat.apk 파일이 생성된다. 이 파일을 구글 플레이스토어에 업로드하면된다.
 
 ```` sh

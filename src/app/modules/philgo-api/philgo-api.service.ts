@@ -411,6 +411,13 @@ export interface ApiPostData {
     comments: Array<ApiComment>;
     member?: ApiMember;
     config_subject: string; // forum name. 게시판 이름. 쿼리를 할 때, post_id 를 fields 에 기록해야 이 값을 얻을 수 있다.
+
+    /**
+     * To show or not to show.
+     * This is only available on clientend. If true, show the content of the post.
+     * This variable does not exist on Database nor coming from the server. It is only made in clientend.
+     */
+    show?: boolean;
 }
 
 /**
