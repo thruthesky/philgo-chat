@@ -7,19 +7,12 @@
 
 <ion-content padding>
 
-    <ion-card>
-        <ion-card-header>
-          <ion-card-subtitle>{{ a.t({ en: 'Page not found', ko: '잘못된 접속'}) }}</ion-card-subtitle>
-          <ion-card-title>{{ a.t({ en: 'Oops ...', ko: '앗 ...'}) }}</ion-card-title>
-        </ion-card-header>
-      
-        <ion-card-content>
-            {{ a.t({ en: 'You have accessed wrong route. Please visit main page.', ko: '잘못된 접속 경로 또는 존재하지 않는 경로를 방문하려고 하였습니다. 메인 페이지로 이동을 해 주세요.'}) }}
-        </ion-card-content>
-      </ion-card>
-
-      <ion-button routerLink="{{ a.home() }}">
-        <ion-icon name="home"></ion-icon>
+  <div class="m-5 py-5" text-center>
+      <div class="fs-xl mb-2">{{ a.t({ en: 'Page not found', ko: '잘못된 접속'}) }}</div>
+      <div class="fs-lg text-muted">{{ a.t({ en: 'You have accessed wrong route. Please visit main page.', ko: '잘못된 접속 경로 또는 존재하지 않는 경로를 방문하려고 하였습니다. 메인 페이지로 이동을 해 주세요.'}) }}</div>
+  </div>
+      <ion-button class="m-3 w-200px" size="large" expand="block" class="no-shadow" routerLink="{{ a.home() }}">
+        <ion-icon slot="start" name="home"></ion-icon>
         {{ a.t({en: 'Home', ko: '홈으로'}) }}
       </ion-button>
 

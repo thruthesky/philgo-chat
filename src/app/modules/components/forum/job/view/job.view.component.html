@@ -1,7 +1,7 @@
-<div (click)=" onView.emit( post ) ">
+<div class="h-100" (click)=" onView.emit( post ) ">
 
 
-    <div ion-activable class="position-relative border">
+    <div ion-activable class="position-relative bg-light h-100" *ngIf="!show(post)">
         <ion-ripple-effect></ion-ripple-effect>
         <div class="flex-center w-100 h-150px of-hidden" [class.clicked]="show( post )">
             <img class="w-100" src="{{  philgo.getSrc( post.files, N.profilePhoto )}}">
@@ -18,8 +18,9 @@
 
     <div class="fs-md" *ngIf=" show( post ) ">
 
-            <div class="view-post-content py-2">
-                <div class="flex-center justify-content-around mt-3">
+            <div class="py-2">
+ 
+                <div class="flex-center justify-content-around mt-3  pointer">
                     <div class="img-resizable mr-1">
                         <img class="w-100" src="{{  philgo.getSrc( post.files, N.profilePhoto )}}">
                     </div>
@@ -35,46 +36,61 @@
                 <div class="meta my-4">
                     <div class="container-fluid">
                         <div class="row no-gutters">
-                            <div class="col-3">Name:</div>
+                            <div class="col-4 col-md-3">Name:</div>
                             <div class="col">{{ post[ N.name ] }} </div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-3">Gender:</div>
+                            <div class="col-4 col-md-3">Gender:</div>
                             <div class="col">{{ post[ N.gender ] == 'F' ? philgo.t({ en: 'Female', ko: '여자' }) : post[
                                 N.gender ] == 'M' ? philgo.t({ en: 'Male', ko: '남자' }) : '' }} </div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-3">Age:</div>
+                            <div class="col-4 col-md-3">Age:</div>
                             <div class="col"> {{ _.getAge(post[ N.birthday ]) }}</div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-3">Mobile:</div>
+                            <div class="col-4 col-md-3 d-flex align-items-center">
+                                <ion-icon class="mr-2" name="phone-portrait"></ion-icon>
+                                <span>Mobile:</span>
+                            </div>
                             <div class="col"> {{ post[ N.mobile ] }}</div>
                         </div>
                     </div>
 
                     <div class="container-fluid">
                         <div class="row no-gutters">
-                            <div class="col-3">Email:</div>
+                            <div class="col-4 col-md-3 d-flex align-items-center">
+                                <ion-icon class="mr-2" name="mail"></ion-icon>
+                                <span>Email:</span>
+                            </div>
                             <div class="col">{{ post[ N.email ] }}</div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-3">Province:</div>
+                            <div class="col-4 col-md-3 d-flex align-items-center">
+                                <ion-icon class="mr-2" name="pin"></ion-icon>
+                                <span>Province:</span>
+                            </div>
                             <div class="col">{{ post[ N.province ] }}</div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-3">City:</div>
+                        <div class="col-4 col-md-3 d-flex align-items-center">
+                            <ion-icon class="mr-2" name="pin"></ion-icon>
+                            <span>City:</span>
+                        </div>
                             <div class="col"> {{ post[ N.city ] }}</div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-3">Link:</div>
+                            <div class="col-4 col-md-3 d-flex align-items-center">
+                                <ion-icon class="mr-2" name="at" mode="ios"></ion-icon>
+                                <span>Link:</span>
+                            </div>
                             <div class="col"><a ion-activable href="{{post[ N.link ]}}" (click)="onClickLink($event)">{{
                                     post[ N.link ] }}</a></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-light p-3">{{ post[ N.intro ] }}</div>
+                <div class="bg-light iary p-3">{{ post[ N.intro ] }}</div>
 
             </div>
         </div>
