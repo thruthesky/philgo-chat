@@ -31,7 +31,7 @@
     </ion-item>
     <ion-item>
       <ion-label>{{ philgo.t({ en: 'Gender', ko: '성별' }) }}</ion-label>
-      <ion-select placeholder="{{ philgo.t({ en: 'Gender', ko: '성별' }) }}" [(ngModel)]="form[N.gender]">
+      <ion-select placeholder="{{ philgo.t({ en: 'Gender', ko: '성별' }) }}" [(ngModel)]="form[N.gender]" (ionChange)="onSearch()">
         <ion-select-option value="">{{ philgo.t({ en: 'All', ko: '모든' }) }}</ion-select-option>
         <ion-select-option value="F">{{ philgo.t({ en: 'Female', ko: '여자' }) }}</ion-select-option>
         <ion-select-option value="M">{{ philgo.t({ en: 'Male', ko: '남자' }) }}</ion-select-option>

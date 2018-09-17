@@ -300,6 +300,7 @@ export class JobListComponent implements OnInit, AfterViewInit {
     }
 
     onClickCity() {
+        // this.onSearch();
         console.log(this.city);
     }
 }
