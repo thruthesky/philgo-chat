@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { PhilGoApiService, ApiForum, ApiPost, ApiPostSearch } from '../../../../philgo-api/philgo-api.service';
 import { JobEditService } from '../edit/job-edit.component.service';
-import { InfiniteScroll } from '@ionic/angular';
+import { InfiniteScroll, Select } from '@ionic/angular';
 
 import * as N from '../job.defines';
 import { ComponentService } from '../../../service/component.service';
@@ -27,9 +27,11 @@ export class JobListComponent implements OnInit, AfterViewInit {
     provinces: Array<string> = [];
     cities: Array<string> = [];
     showCities = false;
+    inLoadingCities = false;
 
     province = '';
     city = '';
+    cacheProvince = {};
 
 
 
@@ -55,6 +57,7 @@ export class JobListComponent implements OnInit, AfterViewInit {
 
     _ = AngularLibrary;
 
+    inMost = false;
     /**
      * this will display a loader on initial visit.
      */
@@ -63,9 +66,9 @@ export class JobListComponent implements OnInit, AfterViewInit {
     };
 
     mostSearch = {
-        'Angeles(Pampanga)': {province: 'Pampanga', city: 'Pampanga - Angeles'},
-        'Cebu': {province: 'Cebu', city: 'Cebu'},
-        'Manila(Metro Manila)': {province: 'Metro Manila', city: 'Metro Manila - Manila'},
+        'Manila(Metro Manila)': { province: 'Metro Manila', city: 'Metro Manila - Manila' },
+        'Cebu': { province: 'Cebu', city: 'Cebu' },
+        'Angeles(Clark)': { province: 'Pampanga', city: 'Pampanga - Angeles' },
         // 'Metro Manila': {province: 'Metro Manila', city: 'Metro Manila'},
         // 'Baguio': {province: 'Benguet', city: 'Benguet - Baguio'},
         // 'Pampanga': {province: 'Pampanga', city: 'Pampanga'},
@@ -95,7 +98,7 @@ export class JobListComponent implements OnInit, AfterViewInit {
         this.philgo.provinces().subscribe(provinces => {
             // console.log('provinces:: ', provinces);
             this.provinces = provinces;
-            this.provinces.splice(1, 0, 'Mabalacat', 'Cebu');
+            // this.provinces.splice(1, 0, 'Mabalacat', 'Cebu');
             console.log('provinces: ', this.provinces);
         }, e => {
             this.componentService.alert(e);
@@ -153,7 +156,7 @@ export class JobListComponent implements OnInit, AfterViewInit {
                 return;
             }
 
-            if ( this.postView && this.postView.idx ) {
+            if (this.postView && this.postView.idx) {
                 const pos = search.posts.findIndex(v => v.idx === this.postView.idx);
                 if (pos !== -1) {
                     search.posts.splice(pos, 1);
@@ -252,30 +255,56 @@ export class JobListComponent implements OnInit, AfterViewInit {
     //     this.onSearch();
     // }
 
-    onClickProvince() {
-        console.log('onClickProvince:: ', this.province);
-        if ( this.province ) {
-            if ( this.mostSearch[this.province] ) {
-                this.city = this.mostSearch[this.province].city;
-                this.getCities(this.mostSearch[this.province].province);
-                this.onSearch();
-            } else {
-                this.city = this.province;
-                this.getCities(this.province);
-            }
+    onClickProvince(select: Select) {
+        if (!this.province) {
+            return;
         }
+        // if (this.province === select.value) {
+        //     console.log('this.provice vs select.value', this.province, select.value);
+        //     // return;
+        // }
+
+        const most = this.mostSearch[this.province];
+
+        if (most) {
+            this.inMost = true;
+            this.province = most.province;
+            this.city = most.city;
+            this.onSearch();
+        } else if (!this.inMost) {
+            this.city = this.province;
+            this.inMost = false;
+        } else {
+            this.inMost = false;
+        }
+
+        this.getCities(this.province);
+
     }
 
-    getCities(city) {
+    /**
+     * Caches cities of province
+     * @param province city
+     */
+    getCities(province) {
+        if (this.cacheProvince[province] !== void 0) {
+            this.cities = this.cacheProvince[province];
+            return;
+        }
+        if (this.inLoadingCities) {
+            return;
+        }
+        this.inLoadingCities = true;
         this.showCities = false;
-        this.philgo.cities(city).subscribe(cities => {
-            console.log('getCities:: ', this.city);
-            console.log('getCities:: ', cities);
+        this.philgo.cities(province).subscribe(cities => {
             this.cities = cities;
+            this.cacheProvince[province] = cities;
             this.showCities = true;
+            this.inLoadingCities = false;
         }, e => {
             this.componentService.alert(e);
             this.showCities = false;
+            this.inLoadingCities = false;
         });
     }
 

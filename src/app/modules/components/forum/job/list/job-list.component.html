@@ -8,8 +8,9 @@
   <ng-container *ngIf="showSearch">
     <ion-item>
       <ion-label>{{ philgo.t({ en: 'Province', ko: '주' }) }}</ion-label>
-      <ion-select placeholder="{{ philgo.t({ en: 'Province', ko: '주' }) }}" [(ngModel)]=" province "
-                  (ionChange)="onClickProvince()">
+      <ion-select placeholder="{{ philgo.t({ en: 'Select Region', ko: '지역 선택' }) }}"
+            [(ngModel)]=" province "
+                  (ionChange)="onClickProvince( $event.target )">
         <ion-select-option *ngFor="let k of _.keys(mostSearch)" [value]="k">{{k}}</ion-select-option>
         <ion-select-option *ngFor=" let province of provinces" [value]="province">{{province}}</ion-select-option>
       </ion-select>

@@ -148,13 +148,13 @@ export class JobEditComponent implements OnInit, AfterViewInit {
             en: 'Please input your profile link like facebook URL.' }) });
     }
 
-    if ( this.form[N.link].indexOf('http') !== -1  ) {
+    if ( this.form[N.link].indexOf('http') === 0  ) {
         // link is ok
     } else {
         return this.componentService.alert({
             message: this.philgo.t({
-                ko: '잘못된 URL 링크입니다. 링크는 http://www.myurl.com/profile 또는 https://www.myurl.com/profile과 유사해야합니다.',
-                en: 'Malformed URL link, link should look like http://www.myurl.com/profile or https://www.myurl.com/profile'
+                ko: '잘못된 URL 링크입니다. 링크는 http:// 또는 https:// 로 시작해야합니다.',
+                en: 'Malformed URL link. Link should start with http:// or https://'
             })
         });
     }
