@@ -59,15 +59,15 @@ export class JobListComponent implements OnInit, AfterViewInit {
     };
 
     mostSearch = {
-        'Metro Manila': {province: 'Metro Manila', city: 'Metro Manila'},
-        'Baguio': {province: 'Benguet', city: 'Benguet - Baguio'},
-        'Cebu': {province: 'Cebu', city: 'Cebu'},
-        'Pampanga': {province: 'Pampanga', city: 'Pampanga'},
         'Angeles': {province: 'Pampanga', city: 'Pampanga - Angeles'},
+        'Cebu': {province: 'Cebu', city: 'Cebu'},
         'Manila': {province: 'Metro Manila', city: 'Metro Manila - Manila'},
-        'Quezon': {province: 'Metro Manila', city: 'Metro Manila - Quezon'},
-        'Mandaluyong': {province: 'Metro Manila', city: 'Metro Manila - Mandaluyong'},
-        'Muntinlupa': {province: 'Metro Manila', city: 'Metro Manila - Muntinlupa'},
+        // 'Metro Manila': {province: 'Metro Manila', city: 'Metro Manila'},
+        // 'Baguio': {province: 'Benguet', city: 'Benguet - Baguio'},
+        // 'Pampanga': {province: 'Pampanga', city: 'Pampanga'},
+        // 'Quezon': {province: 'Metro Manila', city: 'Metro Manila - Quezon'},
+        // 'Mandaluyong': {province: 'Metro Manila', city: 'Metro Manila - Mandaluyong'},
+        // 'Muntinlupa': {province: 'Metro Manila', city: 'Metro Manila - Muntinlupa'},
     };
 
     //
