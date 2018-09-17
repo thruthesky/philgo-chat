@@ -233,23 +233,25 @@ export class JobListComponent implements OnInit, AfterViewInit {
         }
     }
 
-    onClickProvince( o?: { province?: string, city?: string } ) {
+    onClickSetLocation(o?: { province?: string, city?: string } ) {
         if ( o && o.province ) {
+            /**
+             * @note this will trigger the ionChange event on ion-select component which will call onClickProvince method.
+             *
+             */
             this.province = o.province;
         }
+        if ( o && o.city ) {
+            this.city = o.city;
+        }
+    }
+
+    onClickProvince() {
         console.log('onClickProvince:: ', this.province);
-        if (this.province) {
-            /**
-             * Select entire province of the province by default by giving province name on city.
-             */
-            if ( o && o.city ) {
-                this.city = o.city;
-            } else {
-                this.city = this.province;
-            }
+        if ( this.province ) {
+            this.city = this.province;
             this.getCities();
         }
-        // }
     }
 
     getCities() {

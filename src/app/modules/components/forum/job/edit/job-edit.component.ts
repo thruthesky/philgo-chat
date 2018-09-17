@@ -94,13 +94,14 @@ export class JobEditComponent implements OnInit, AfterViewInit {
     });
   }
 
-  get subjectInDanger(): string {
-    if (this.form.subject && this.form.subject.length > 10) {
-      return 'danger';
-    } else {
-      return 'dark';
-    }
-  }
+  // get subjectInDanger(): string {
+  //   if (this.form.subject && this.form.subject.length > 10) {
+  //     return 'danger';
+  //   } else {
+  //     return 'dark';
+  //   }
+  // }
+
 
   onSubmit() {
     console.log('data.role: ', this.data.role);
@@ -141,8 +142,21 @@ export class JobEditComponent implements OnInit, AfterViewInit {
     if (!this.form[N.intro]) {
       return this.componentService.alert({ message: this.philgo.t({ ko: '자기 소개를 입력하십시오.', en: 'Please input self introduction.' }) });
     }
+
     if (!this.form[N.link]) {
-      return this.componentService.alert({ message: this.philgo.t({ ko: '프로필 URL (페이스북 등) 을 입력하십시오.', en: 'Please input your profile link like facebook URL.' }) });
+        return this.componentService.alert({ message: this.philgo.t({ ko: '프로필 URL (페이스북 등) 을 입력하십시오.',
+            en: 'Please input your profile link like facebook URL.' }) });
+    }
+
+    if ( this.form[N.link].indexOf('http') !== -1  ) {
+        // link is ok
+    } else {
+        return this.componentService.alert({
+            message: this.philgo.t({
+                ko: '잘못된 URL 링크입니다. 링크는 http://www.myurl.com/profile 또는 https://www.myurl.com/profile과 유사해야합니다.',
+                en: 'Malformed URL link, link should look like http://www.myurl.com/profile or https://www.myurl.com/profile'
+            })
+        });
     }
 
     if (!this.form.files || this.form.files.length < 3) {
