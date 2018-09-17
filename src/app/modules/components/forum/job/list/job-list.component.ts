@@ -258,6 +258,7 @@ export class JobListComponent implements OnInit, AfterViewInit {
             if ( this.mostSearch[this.province] ) {
                 this.city = this.mostSearch[this.province].city;
                 this.getCities(this.mostSearch[this.province].province);
+                this.onSearch();
             } else {
                 this.city = this.province;
                 this.getCities(this.province);
