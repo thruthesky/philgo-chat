@@ -240,30 +240,16 @@ export class JobListComponent implements OnInit, AfterViewInit {
         }
     }
 
-    // onClickSetLocation(o?: { province?: string, city?: string } ) {
-    //     if ( o && o.province ) {
-    //         /**
-    //          * @note this will trigger the ionChange event on ion-select component which will call onClickProvince method.
-    //          *
-    //          */
-    //         this.province = o.province;
-    //     }
-    //     if ( o && o.city ) {
-    //         this.city = o.city;
-    //         this.getCities( this.city );
-    //     }
-    //     this.onSearch();
+    // onClickSetProvince( o?: { province?: string, city?: string }  ) {
+    //     this.province = o.province;
     // }
 
-    onClickProvince(select: Select) {
+    onClickProvince() {
         if (!this.province) {
             return;
         }
-        // if (this.province === select.value) {
-        //     console.log('this.provice vs select.value', this.province, select.value);
-        //     // return;
-        // }
 
+        console.log('this.province:: ', this.province);
         const most = this.mostSearch[this.province];
 
         if (most) {
@@ -287,15 +273,16 @@ export class JobListComponent implements OnInit, AfterViewInit {
      * @param province city
      */
     getCities(province) {
+        this.showCities = false;
         if (this.cacheProvince[province] !== void 0) {
             this.cities = this.cacheProvince[province];
+            setTimeout(  () => this.showCities = true, 100);
             return;
         }
         if (this.inLoadingCities) {
             return;
         }
         this.inLoadingCities = true;
-        this.showCities = false;
         this.philgo.cities(province).subscribe(cities => {
             this.cities = cities;
             this.cacheProvince[province] = cities;
