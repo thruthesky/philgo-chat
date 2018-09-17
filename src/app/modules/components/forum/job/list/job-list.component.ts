@@ -27,8 +27,12 @@ export class JobListComponent implements OnInit, AfterViewInit {
     provinces: Array<string> = [];
     cities: Array<string> = [];
     showCities = false;
+
     province = '';
     city = '';
+
+
+
 
     age_min = 18;
     age_max = 70;
@@ -59,9 +63,9 @@ export class JobListComponent implements OnInit, AfterViewInit {
     };
 
     mostSearch = {
-        'Angeles': {province: 'Pampanga', city: 'Pampanga - Angeles'},
+        'Angeles(Pampanga)': {province: 'Pampanga', city: 'Pampanga - Angeles'},
         'Cebu': {province: 'Cebu', city: 'Cebu'},
-        'Manila': {province: 'Metro Manila', city: 'Metro Manila - Manila'},
+        'Manila(Metro Manila)': {province: 'Metro Manila', city: 'Metro Manila - Manila'},
         // 'Metro Manila': {province: 'Metro Manila', city: 'Metro Manila'},
         // 'Baguio': {province: 'Benguet', city: 'Benguet - Baguio'},
         // 'Pampanga': {province: 'Pampanga', city: 'Pampanga'},
@@ -233,31 +237,39 @@ export class JobListComponent implements OnInit, AfterViewInit {
         }
     }
 
-    onClickSetLocation(o?: { province?: string, city?: string } ) {
-        if ( o && o.province ) {
-            /**
-             * @note this will trigger the ionChange event on ion-select component which will call onClickProvince method.
-             *
-             */
-            this.province = o.province;
-        }
-        if ( o && o.city ) {
-            this.city = o.city;
-        }
-    }
+    // onClickSetLocation(o?: { province?: string, city?: string } ) {
+    //     if ( o && o.province ) {
+    //         /**
+    //          * @note this will trigger the ionChange event on ion-select component which will call onClickProvince method.
+    //          *
+    //          */
+    //         this.province = o.province;
+    //     }
+    //     if ( o && o.city ) {
+    //         this.city = o.city;
+    //         this.getCities( this.city );
+    //     }
+    //     this.onSearch();
+    // }
 
     onClickProvince() {
         console.log('onClickProvince:: ', this.province);
         if ( this.province ) {
-            this.city = this.province;
-            this.getCities();
+            if ( this.mostSearch[this.province] ) {
+                this.city = this.mostSearch[this.province].city;
+                this.getCities(this.mostSearch[this.province].province);
+            } else {
+                this.city = this.province;
+                this.getCities(this.province);
+            }
         }
     }
 
-    getCities() {
+    getCities(city) {
         this.showCities = false;
-        this.philgo.cities(this.province).subscribe(cities => {
+        this.philgo.cities(city).subscribe(cities => {
             console.log('getCities:: ', this.city);
+            console.log('getCities:: ', cities);
             this.cities = cities;
             this.showCities = true;
         }, e => {
