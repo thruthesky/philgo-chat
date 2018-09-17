@@ -3,7 +3,7 @@
 
     <div ion-activable class="position-relative border ">
         <ion-ripple-effect></ion-ripple-effect>
-        <div class="flex-center w-100 h-150px of-hidden">
+        <div class="flex-center w-100 h-150px of-hidden" [class.clicked]="show( post )">
             <img class="w-100" src="{{  philgo.getSrc( post.files, N.profilePhoto )}}">
         </div>
         <div class="px-1 py-2 text-center">
@@ -24,20 +24,20 @@
     <div class="fs-md" *ngIf=" show( post ) ">
 
             <div class="view-post-content py-2">
-                <div class="flex-center justify-content-around">
-                    <div class="img-resizable mr-1">
+                <div class="flex-center justify-content-around mt-3">
+                    <div class="img-resizable mr-1 bg-dark">
                         <img class="w-100" src="{{  philgo.getSrc( post.files, N.profilePhoto )}}">
                     </div>
-                    <div class="img-resizable mx-1">
+                    <div class="img-resizable mx-1 bg-dark">
                         <img class="w-100" src="{{ philgo.getSrc( post.files, N.bodyPhoto ) }}">
                     </div>
-                    <div class="img-resizable ml-1">
+                    <div class="img-resizable ml-1 bg-dark">
                         <img class="w-100" src="{{ philgo.getSrc( post.files, N.idPhoto ) }}">
                     </div>
                 </div>
 
 
-                <div class="meta">
+                <div class="meta my-4">
                     <div class="container-fluid">
                         <div class="row no-gutters">
                             <div class="col-3">Name:</div>
