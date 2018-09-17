@@ -1,7 +1,7 @@
 <div class="h-100" (click)=" onView.emit( post ) ">
 
 
-    <div ion-activable class="border ">
+    <div ion-activable class="position-relative border ">
         <ion-ripple-effect></ion-ripple-effect>
         <div class="flex-center w-100 h-150px of-hidden">
             <img class="w-100" src="{{  philgo.getSrc( post.files, N.profilePhoto )}}">
@@ -14,16 +14,16 @@
         </div>
 
 
-
+        
     </div>
 
 
 
 
 
-    <div class="" *ngIf=" show( post ) ">
+    <div class="fs-md" *ngIf=" show( post ) ">
 
-            <div class="view-post-content py-5">
+            <div class="view-post-content py-2">
                 <div class="flex-center justify-content-around">
                     <div class="img-resizable mr-1">
                         <img class="w-100" src="{{  philgo.getSrc( post.files, N.profilePhoto )}}">
@@ -40,39 +40,39 @@
                 <div class="meta">
                     <div class="container-fluid">
                         <div class="row no-gutters">
-                            <div class="col-4">Name:</div>
+                            <div class="col-3">Name:</div>
                             <div class="col">{{ post[ N.name ] }} </div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-4">Gender:</div>
+                            <div class="col-3">Gender:</div>
                             <div class="col">{{ post[ N.gender ] == 'F' ? philgo.t({ en: 'Female', ko: '여자' }) : post[
                                 N.gender ] == 'M' ? philgo.t({ en: 'Male', ko: '남자' }) : '' }} </div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-4">Age:</div>
+                            <div class="col-3">Age:</div>
                             <div class="col"> {{ _.getAge(post[ N.birthday ]) }}</div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-4">Mobile:</div>
+                            <div class="col-3">Mobile:</div>
                             <div class="col"> {{ post[ N.mobile ] }}</div>
                         </div>
                     </div>
 
                     <div class="container-fluid">
                         <div class="row no-gutters">
-                            <div class="col-4">Email:</div>
+                            <div class="col-3">Email:</div>
                             <div class="col">{{ post[ N.email ] }}</div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-4">Province:</div>
+                            <div class="col-3">Province:</div>
                             <div class="col">{{ post[ N.province ] }}</div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-4">City:</div>
+                            <div class="col-3">City:</div>
                             <div class="col"> {{ post[ N.city ] }}</div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-4">Link:</div>
+                            <div class="col-3">Link:</div>
                             <div class="col"><a ion-activable href="{{post[ N.link ]}}" (click)="onClickLink($event)">{{
                                     post[ N.link ] }}</a></div>
                         </div>
