@@ -162,13 +162,14 @@
       <ion-input [(ngModel)]="form[N.intro]"></ion-input>
     </ion-item>
 
-    <div class="note">10 글자 이내</div>
+    <div class="note">{{ philgo.t( {en: '10 characters minimum' , ko: '10 글자 이내'} ) }}</div>
 
     <ion-item>
       <ion-label position="floating">{{ philgo.t({ en: 'Facebook or other URL', ko: '페이스북 또는 참고 URL 을 입력하세요.' }) }}
       </ion-label>
       <ion-input [(ngModel)]="form[N.link]"></ion-input>
     </ion-item>
+    <div class="note">{{ philgo.t( {en: 'Must starts with http:// or https:// example. https://www.facebook.com/myProfile' , ko: 'http : // 또는 https : //로 시작해야합니다.'} ) }}</div>
 
 
     <ion-item class="pt-4">
