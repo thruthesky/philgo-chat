@@ -26,11 +26,11 @@
     .container-fluid {
         padding: 0;
         .row {
-            // background: #DDE4E9;
-            background: rgba(dodgerblue,0.15);
+            background: #DDE4E9;
+            // background: rgba(dodgerblue,0.15);
             &:nth-child(odd){
-                // background: #F8F9FA;
-                background: rgba(dodgerblue,0.02);
+                background: #F8F9FA;
+                // background: rgba(dodgerblue,0.02);
             }
             div {
                 padding: .5em;
