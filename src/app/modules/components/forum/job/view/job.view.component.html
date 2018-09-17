@@ -1,7 +1,7 @@
 <div class="h-100" (click)=" onView.emit( post ) ">
 
 
-    <div ion-activable class="position-relative border" [class.h-100]="!show(post)">
+    <div ion-activable class="position-relative bg-light h-100" *ngIf="!show(post)">
         <ion-ripple-effect></ion-ripple-effect>
         <div class="flex-center w-100 h-150px of-hidden" [class.clicked]="show( post )">
             <img class="w-100" src="{{  philgo.getSrc( post.files, N.profilePhoto )}}">
@@ -18,8 +18,9 @@
 
     <div class="fs-md" *ngIf=" show( post ) ">
 
-            <div class="view-post-content py-2">
-                <div class="flex-center justify-content-around mt-3">
+            <div class="py-2">
+ 
+                <div class="flex-center justify-content-around mt-3  pointer">
                     <div class="img-resizable mr-1">
                         <img class="w-100" src="{{  philgo.getSrc( post.files, N.profilePhoto )}}">
                     </div>
