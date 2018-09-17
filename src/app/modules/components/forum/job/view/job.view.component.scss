@@ -22,6 +22,7 @@
     @media (min-width: $md) {
         display: flex;
     }
+    font-size: .85rem!important;
     word-break: break-all;
     .container-fluid {
         padding: 0;
@@ -33,7 +34,7 @@
                 // background: rgba(dodgerblue,0.02);
             }
             div {
-                padding: .5em;
+                padding: .5em .75em;
             }
         }
     }
