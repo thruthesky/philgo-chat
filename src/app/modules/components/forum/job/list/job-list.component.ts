@@ -240,9 +240,9 @@ export class JobListComponent implements OnInit, AfterViewInit {
         }
     }
 
-    // onClickSetProvince( o?: { province?: string, city?: string }  ) {
-    //     this.province = o.province;
-    // }
+    onClickSetProvince( key: string ) {
+        this.province = key;
+    }
 
     onClickProvince() {
         if (!this.province) {

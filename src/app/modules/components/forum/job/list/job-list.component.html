@@ -6,14 +6,14 @@
     </ion-button>
   </ion-list-header>
   <ng-container *ngIf="showSearch">
-    <!--<ion-item class="border-bottom py-2">-->
-      <!--<div class="d-flex flex-wrap justify-content-between align-items-center w-100">-->
-        <!--<div class="py-2">Most Search</div>-->
-        <!--<div>-->
-          <!--<ion-badge class="pointer my-1 mr-2" *ngFor="let k of _.keys(mostSearch)" (click)="onClickSetProvince(mostSearch[k])" >{{k}}</ion-badge>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</ion-item>-->
+    <ion-item class="border-bottom py-2">
+      <div class="d-flex flex-wrap justify-content-between align-items-center w-100">
+        <div class="py-2">Most Search</div>
+        <div>
+          <ion-badge class="pointer my-1 mr-2" *ngFor="let k of _.keys(mostSearch)" (click)="onClickSetProvince(k)" >{{k}}</ion-badge>
+        </div>
+      </div>
+    </ion-item>
     <ion-item>
       <ion-label>{{ philgo.t({ en: 'Province', ko: '주' }) }}</ion-label>
       <ion-select placeholder="{{ philgo.t({ en: 'Select Region', ko: '지역 선택' }) }}"
@@ -32,6 +32,7 @@
     <ion-item>
       <ion-label>{{ philgo.t({ en: 'Gender', ko: '성별' }) }}</ion-label>
       <ion-select placeholder="{{ philgo.t({ en: 'Gender', ko: '성별' }) }}" [(ngModel)]="form[N.gender]">
+        <ion-select-option value="">{{ philgo.t({ en: 'All', ko: '모든' }) }}</ion-select-option>
         <ion-select-option value="F">{{ philgo.t({ en: 'Female', ko: '여자' }) }}</ion-select-option>
         <ion-select-option value="M">{{ philgo.t({ en: 'Male', ko: '남자' }) }}</ion-select-option>
       </ion-select>
