@@ -1,7 +1,7 @@
-<div class="h-100" (click)=" onView.emit( post ) ">
+<div (click)=" onView.emit( post ) ">
 
 
-    <div ion-activable class="position-relative border ">
+    <div ion-activable class="position-relative border">
         <ion-ripple-effect></ion-ripple-effect>
         <div class="flex-center w-100 h-150px of-hidden" [class.clicked]="show( post )">
             <img class="w-100" src="{{  philgo.getSrc( post.files, N.profilePhoto )}}">
@@ -12,13 +12,8 @@
                 post[ N.gender ] == 'M' ? philgo.t({ en: 'Male', ko: '남자' }) : '' }} / {{ _.getAge(post[ N.birthday ])
                 }} )</div>
         </div>
-
-
         
     </div>
-
-
-
 
 
     <div class="fs-md" *ngIf=" show( post ) ">
