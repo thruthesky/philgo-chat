@@ -61,12 +61,11 @@
 <div class="px-4">
 
     <ion-item>
-        <ion-label position="floating">{{ philgo.t({ en: 'Input advertisement title', ko: '광고 제목을 입력하세요.' }) }}</ion-label>
-        <ion-input color="{{ subjectInDanger }}" [(ngModel)]="form.subject"></ion-input>
-      </ion-item>
-  
-      <ion-item>
-  
+      <ion-label position="floating">{{ philgo.t({ en: 'Input advertisement title', ko: '광고 제목을 입력하세요.' }) }}</ion-label>
+      <ion-input color="{{ subjectInDanger }}" [(ngModel)]="form.subject"></ion-input>
+    </ion-item>
+
+    <ion-item>
       <ion-text>
         <div class="note">
             {{ philgo.t({en: 'Length should be longer than #min and less than #max letters.', ko: '#min 글자 이상 #max 글자 이내' }, {min: subjectMinLength, max: subjectMaxLength })}}
@@ -76,34 +75,35 @@
             </span>
         </div>
       </ion-text>
+    </ion-item>
   
-      </ion-item>
-  
-      <ion-item>
-        <ion-label position="floating">{{ philgo.t({ en: 'Input URL', ko: 'URL 입력하세요.' }) }}</ion-label>
-        <ion-input [(ngModel)]="form.link"></ion-input>
-      </ion-item>
-  
-      <ion-item class="pt-5">
-        <ion-buttons class="m-auto">
-  
-          <ion-button class="" color="primary" fill="solid" (click)=" onSubmit() ">
-            <ion-icon slot="start" name="paper-plane"></ion-icon>
-            Submit
-          </ion-button>
-  
-          <ion-button color="danger" (click)=" onDelete() ">
-            Delete
-          </ion-button>
-  
-  
-          <ion-button color="light" fill="solid" (click)=" controller.dismiss( null, 'close' ) ">
-            <ion-icon slot="start" name="close"></ion-icon>
-            Close
-          </ion-button>
-  
-        </ion-buttons>
-      </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{ philgo.t({ en: 'Input URL', ko: 'URL 입력하세요.' }) }}</ion-label>
+      <ion-input [(ngModel)]="form.link"></ion-input>
+    </ion-item>
+
+    <ion-item class="pt-5">
+      <ion-buttons class="m-auto">
+
+        <ion-button class="mr-1" color="primary" fill="solid" (click)=" onSubmit() ">
+          <ion-icon slot="start" name="paper-plane"></ion-icon>
+          Submit
+        </ion-button>
+
+        <ion-button class="mx-2" color="light" fill="solid" (click)=" onDelete() " *ngIf="form?.idx">
+          <ion-icon  color="danger" slot="start" name="trash"></ion-icon>
+          Delete
+        </ion-button>
+
+        <ion-button class="ml-1" color="light" fill="solid" (click)=" controller.dismiss( null, 'close' ) ">
+          <ion-icon slot="start" name="close"></ion-icon>
+          Close
+        </ion-button>
+
+      </ion-buttons>
+    </ion-item>
+
+
 </div>
 
 </ion-list>

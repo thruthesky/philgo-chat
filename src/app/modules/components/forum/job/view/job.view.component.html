@@ -1,7 +1,7 @@
-<div class="h-100" (click)=" onView.emit( post ) ">
+<div class="h-100">
 
 
-  <div ion-activable class="position-relative bg-light h-100" *ngIf="!show(post)">
+  <div ion-activable class="position-relative bg-light h-100" *ngIf="!show(post)"  (click)=" onView.emit( post ) ">
     <ion-ripple-effect></ion-ripple-effect>
     <div class="flex-center w-100 h-150px of-hidden" [class.clicked]="show( post )">
       <img class="w-100" src="{{  philgo.getSrc( post.files, N.profilePhoto )}}">
@@ -17,11 +17,11 @@
   </div>
 
 
-  <div *ngIf=" show( post ) ">
-    <ion-icon class="position-top-right size-24px mt-2 mr-2 pointer" name="close-circle"></ion-icon>
+  <div *ngIf=" show( post ) " >
+    <ion-icon class="position-top-right size-24px mt-2 mr-2 pointer" name="close-circle" (click)=" onView.emit( post ) "></ion-icon>
     <div class="pt-2">
 
-      <div class="flex-center justify-content-around my-3  pointer">
+      <div class="flex-center justify-content-around my-3  pointer" (click)=" onView.emit( post ) ">
         <div class="img-resizable mr-1">
           <img class="w-100" src="{{  philgo.getSrc( post.files, N.profilePhoto )}}">
         </div>
@@ -85,7 +85,7 @@
               <ion-icon class="mr-2" name="at" mode="ios"></ion-icon>
               <span>Link:</span>
             </div>
-            <div class="col"><a ion-activable href="{{post[ N.link ]}}" (click)="onClickLink($event)">{{
+            <div class="col"><a href="{{post[ N.link ]}}" (click)="onClickLink($event)">{{
               post[ N.link ] }}</a></div>
           </div>
         </div>

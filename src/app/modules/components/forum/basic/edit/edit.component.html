@@ -28,7 +28,7 @@
     </ion-item>
     <ion-item class="border mt-5" lines="none">
       <ion-label position="floating">{{ philgo.t({ en: 'Please input content', ko: '내용을 입력하세요.' }) }}</ion-label>
-      <ion-textarea [attr.rows]="philgo.isLoggedOut()? '10': '19'" [(ngModel)]="form.content"></ion-textarea>
+      <ion-textarea [attr.rows]="philgo.isLoggedOut()? '9': '19'" [(ngModel)]="form.content"></ion-textarea>
     </ion-item>
 
       <app-files-component class="d-block my-3" [edit]=" true " [post]=" form " [percentage]=" percentage "></app-files-component>
