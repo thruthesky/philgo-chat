@@ -19,7 +19,7 @@
 
   <div *ngIf=" show( post ) ">
     <ion-icon class="position-top-right size-24px mt-2 mr-2 pointer" name="close-circle"></ion-icon>
-    <div class="py-2">
+    <div class="pt-2">
 
       <div class="flex-center justify-content-around my-3  pointer">
         <div class="img-resizable mr-1">
@@ -97,16 +97,18 @@
 
 
     </div>
-    <ion-buttons>
-      <ion-button (click)=" onEdit.emit( post ) " *ngIf="philgo.isMyPost( post )">
-        <ion-icon class="d-none d-md-block" slot="start" color="medium" name="create" mode="ios"></ion-icon>
+
+    <ion-buttons class="pb-4">
+      <ion-button  class="fs-sm ion-btn-small" (click)=" onEdit.emit( post ) " *ngIf="philgo.isMyPost( post )">
+        <ion-icon slot="start" color="medium" name="create" mode="ios"></ion-icon>
         Edit
       </ion-button>
-      <ion-button (click)=" onDelete.emit( post ) " *ngIf="philgo.isMyPost( post )">
-        <ion-icon class="d-none d-md-block" slot="start" color="medium" name="trash" mode="ios"></ion-icon>
+      <ion-button  class="fs-sm ion-btn-small"(click)=" onDelete.emit( post ) " *ngIf="philgo.isMyPost( post )">
+        <ion-icon slot="start" color="medium" name="trash" mode="ios"></ion-icon>
         Delete
       </ion-button>
     </ion-buttons>
+
   </div>
 
 

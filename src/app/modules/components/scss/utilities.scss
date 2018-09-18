@@ -23,6 +23,10 @@
     --height: 3em;
 }
 
+.ion-btn-small {
+    --height: 1rem!important;
+}
+
 @media (min-width:$md) {
     .w-md-50 {
         width: 50%;
