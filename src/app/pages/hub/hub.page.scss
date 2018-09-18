@@ -11,6 +11,10 @@
     }
 }
 
+.news-left{
+    line-height: 1.4rem;
+}
+
 .news-others{
     *{
         white-space: nowrap;
@@ -21,7 +25,7 @@
     }
     i{
         display: block;
-        margin:.25em 1em;
+        margin: .38em 0;
         color: darkblue;
     }
     .is-first{
