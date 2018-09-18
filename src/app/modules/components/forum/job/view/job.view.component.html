@@ -35,20 +35,20 @@
                 <div class="meta">
                     <div class="container-fluid">
                         <div class="row no-gutters">
-                            <div class="col-4 col-md-3">Name:</div>
+                            <div class="col-5 col-md-3">Name:</div>
                             <div class="col">{{ post[ N.name ] }} </div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-4 col-md-3">Gender:</div>
+                            <div class="col-5 col-md-3">Gender:</div>
                             <div class="col">{{ post[ N.gender ] == 'F' ? philgo.t({ en: 'Female', ko: '여자' }) : post[
                                 N.gender ] == 'M' ? philgo.t({ en: 'Male', ko: '남자' }) : '' }} </div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-4 col-md-3">Age:</div>
+                            <div class="col-5 col-md-3">Age:</div>
                             <div class="col"> {{ _.getAge(post[ N.birthday ]) }}</div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-4 col-md-3 d-flex align-items-center">
+                            <div class="col-5 col-md-3 d-flex align-items-center">
                                 <ion-icon class="mr-2" name="phone-portrait"></ion-icon>
                                 <span>Mobile:</span>
                             </div>
@@ -58,28 +58,28 @@
 
                     <div class="container-fluid">
                         <div class="row no-gutters">
-                            <div class="col-4 col-md-3 d-flex align-items-center">
+                            <div class="col-5 col-md-3 d-flex align-items-center">
                                 <ion-icon class="mr-2" name="mail"></ion-icon>
                                 <span>Email:</span>
                             </div>
                             <div class="col">{{ post[ N.email ] }}</div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-4 col-md-3 d-flex align-items-center">
+                            <div class="col-5 col-md-3 d-flex align-items-center">
                                 <ion-icon class="mr-2" name="pin"></ion-icon>
                                 <span>Province:</span>
                             </div>
                             <div class="col">{{ post[ N.province ] }}</div>
                         </div>
                         <div class="row no-gutters">
-                        <div class="col-4 col-md-3 d-flex align-items-center">
+                        <div class="col-5 col-md-3 d-flex align-items-center">
                             <ion-icon class="mr-2" name="pin"></ion-icon>
                             <span>City:</span>
                         </div>
                             <div class="col"> {{ post[ N.city ] }}</div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-4 col-md-3 d-flex align-items-center">
+                            <div class="col-5 col-md-3 d-flex align-items-center">
                                 <ion-icon class="mr-2" name="at" mode="ios"></ion-icon>
                                 <span>Link:</span>
                             </div>
