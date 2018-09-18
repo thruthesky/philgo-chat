@@ -28,14 +28,14 @@
     </ion-item>
     <ion-item class="border mt-5" lines="none">
       <ion-label position="floating">{{ philgo.t({ en: 'Please input content', ko: '내용을 입력하세요.' }) }}</ion-label>
-      <ion-textarea [attr.rows]="philgo.isLoggedOut()? '10': '20'" [(ngModel)]="form.content"></ion-textarea>
+      <ion-textarea [attr.rows]="philgo.isLoggedOut()? '10': '19'" [(ngModel)]="form.content"></ion-textarea>
     </ion-item>
 
       <app-files-component class="d-block my-3" [edit]=" true " [post]=" form " [percentage]=" percentage "></app-files-component>
 
   </ion-list>
 
-  <ion-buttons class="flex-center mt-2 mb-4">
+  <ion-buttons class="flex-center my-4 mt-md-2">
 
       <ion-button  class="w-120px fs-sm"  expand="block"  *ngIf=" isWeb " color="light" fill="solid">
         <ion-icon slot="start" name="attach"></ion-icon>
