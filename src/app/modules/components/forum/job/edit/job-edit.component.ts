@@ -148,7 +148,7 @@ export class JobEditComponent implements OnInit, AfterViewInit {
             en: 'Please input your profile link like facebook URL.' }) });
     }
 
-    if ( this.form[N.link].indexOf('http') === 0  ) {
+    if ( this.form[N.link].indexOf('http://') === 0 || this.form[N.link].indexOf('https://') === 0  ) {
         // link is ok
     } else {
         return this.componentService.alert({
